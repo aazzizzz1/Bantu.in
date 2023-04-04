@@ -1,4 +1,5 @@
 import 'package:bantuin/components/floating_notes.dart';
+import 'package:bantuin/screens/note/notes_form.dart';
 import 'package:flutter/material.dart';
 
 class NoteScreen extends StatefulWidget {
@@ -29,7 +30,7 @@ class _NoteScreenState extends State<NoteScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const NoteScreen()),
+                  MaterialPageRoute(builder: (context) => const NotesForm()),
                 );
               },
             ),
