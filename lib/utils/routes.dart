@@ -12,6 +12,7 @@ class Routes {
   static const String login = '/login';
   static const String register = '/register';
   static const String error = '/error';
+  static const String notes = '/notes';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -23,17 +24,25 @@ class Routes {
         return MaterialPageRoute(builder: (_) => LoginScreen());
       case register:
         return MaterialPageRoute(builder: (_) => RegisterScreen());
+      
       default:
         return MaterialPageRoute(builder: (_) => ErrorScreen());
     }
   }
 }
 
+// cara pemanggilan routes dengan naviagtor push context
+// Navigator.push(
+//   context,
+//   MaterialPageRoute(builder: (context) => const SecondRoute()),
+// );
+
 // cara pemanggilan routes
 // Navigator.pushNamed(context, Routes.home);
 // Navigator.pushNamed(context, Routes.login);
 // Navigator.pushNamed(context, Routes.register);
 // Navigator.pushNamed(context, Routes.error);
+// Navigator.pushNamed(context, Routes.notes);
 
 // cara pemanggilan routes dengan parameter
 // Navigator.pushNamed(context, Routes.detail + '/$id');
