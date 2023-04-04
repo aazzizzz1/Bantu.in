@@ -1,15 +1,14 @@
-import 'package:bantuin/components/floating_home.dart';
-import 'package:bantuin/screens/note/notes_screen.dart';
+import 'package:bantuin/components/floating_notes.dart';
 import 'package:flutter/material.dart';
 
-class HomePages extends StatefulWidget {
-  const HomePages({Key? key}) : super(key: key);
+class NoteScreen extends StatefulWidget {
+  const NoteScreen({super.key});
 
   @override
-  State<HomePages> createState() => _HomePagesState();
+  State<NoteScreen> createState() => _NoteScreenState();
 }
 
-class _HomePagesState extends State<HomePages> {
+class _NoteScreenState extends State<NoteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,9 +23,9 @@ class _HomePagesState extends State<HomePages> {
           ),
           // floating button above bottom navbar
           Positioned(
-            bottom: 80,
+            bottom: 20,
             right: 16.0,
-            child: FloatingButtonHome(
+            child: FloatingButtonNotes(
               onPressed: () {
                 Navigator.push(
                   context,

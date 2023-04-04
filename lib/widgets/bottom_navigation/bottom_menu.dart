@@ -1,4 +1,4 @@
-import 'package:bantuin/screens/note/note_screen.dart';
+import 'package:bantuin/screens/note/notes_screen.dart';
 import 'package:bantuin/widgets/bottom_navigation/list_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
