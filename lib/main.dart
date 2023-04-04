@@ -1,4 +1,5 @@
 import 'package:bantuin/screens/home/home_pages.dart';
+import 'package:bantuin/screens/splash/splash_screen.dart';
 import 'package:bantuin/utils/routes.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePages(),
+      home: const SplashScreen(),
     );
   }
 }

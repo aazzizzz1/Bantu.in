@@ -1,3 +1,5 @@
+import 'package:bantuin/screens/note/note_screen.dart';
+import 'package:bantuin/widgets/bottom_navigation/bottom_menu.dart';
 import 'package:flutter/material.dart';
 
 class HomePages extends StatefulWidget {
@@ -8,14 +10,6 @@ class HomePages extends StatefulWidget {
 }
 
 class _HomePagesState extends State<HomePages> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,17 +24,25 @@ class _HomePagesState extends State<HomePages> {
               'You have pushed the button this many times:',
             ),
             Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+              '0',
+              style: Theme.of(context).textTheme.headline4,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        heroTag: "btn2",
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return BottomMenu(
+              currentTab: 2,
+              currentScreen: NoteScreen(),
+            );
+          }));
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
