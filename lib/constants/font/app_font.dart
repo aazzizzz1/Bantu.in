@@ -81,4 +81,16 @@ class AppFont {
         fontWeight: FontWeight.w400,
         color: Color.fromARGB(255, 168, 168, 168),
       );
+  static TextStyle get titlePoint => GoogleFonts.ibmPlexSans(
+        fontSize: 12,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w500,
+        color: AppColorPrimary.primary6,
+      );
+  static TextStyle get quotaOfNote => GoogleFonts.ibmPlexSans(
+        fontSize: 20,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w400,
+        color: AppColorPrimary.primary6,
+      );
 }
