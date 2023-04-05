@@ -1,5 +1,5 @@
 import 'package:bantuin/components/floating_home.dart';
-import 'package:bantuin/screens/note/notes_screen.dart';
+import 'package:bantuin/screens/note/notes_form.dart';
 import 'package:flutter/material.dart';
 
 class HomePages extends StatefulWidget {
@@ -30,7 +30,7 @@ class _HomePagesState extends State<HomePages> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const NoteScreen()),
+                  MaterialPageRoute(builder: (context) => const NotesForm()),
                 );
               },
             ),
