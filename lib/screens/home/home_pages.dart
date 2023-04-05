@@ -19,6 +19,7 @@ class _HomePagesState extends State<HomePages> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         toolbarHeight: 76,
         titleSpacing: 15,

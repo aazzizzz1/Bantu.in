@@ -93,4 +93,10 @@ class AppFont {
         fontWeight: FontWeight.w400,
         color: AppColorPrimary.primary6,
       );
+  static TextStyle get textInvitation => GoogleFonts.ibmPlexSans(
+        fontSize: 14,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w600,
+        color: AppColorPrimary.primary6,
+      );
 }
