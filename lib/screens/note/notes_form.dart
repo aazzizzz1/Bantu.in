@@ -1,3 +1,8 @@
+import 'package:bantuin/components/date_picker.dart';
+import 'package:bantuin/components/multi_reminder_picker.dart';
+import 'package:bantuin/components/reminder_picker.dart';
+import 'package:bantuin/components/ringtones_picker.dart';
+import 'package:bantuin/components/time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../constants/constant.dart';
@@ -11,6 +16,9 @@ class NotesForm extends StatefulWidget {
 }
 
 class _NotesFormState extends State<NotesForm> {
+  List<DateTime> _selectedDates = [];
+  String? _selectedRingtone;
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -177,6 +185,70 @@ class _NotesFormState extends State<NotesForm> {
                 ),
                 const Divider(
                   thickness: 1,
+                ),
+                Text(
+                  "Tambahkan tanggal",
+                  style: AppFont.labelForm,
+                ),
+                DatePicker(
+                  onChanged: (DateTime value) {
+                    // Do something with the selected date value
+                  },
+                ),
+                // const SizedBox(
+                //   height: 16,
+                // ),
+                // const Divider(
+                //   thickness: 1,
+                // ),
+                // Text(
+                //   "Tambahkan waktu",
+                //   style: AppFont.labelForm,
+                // ),
+                // TimePicker(
+                //   onChanged: (TimeOfDay value) {
+                //     // Do something with the selected time value
+                //   },
+                // ),
+                const SizedBox(
+                  height: 16,
+                ),
+                const Divider(
+                  thickness: 1,
+                ),
+                Text(
+                  "Tambahkan pengingat",
+                  style: AppFont.labelForm,
+                ),
+                MultiReminderPicker(
+                    initialDates: _selectedDates,
+                    onChanged: (List<DateTime> dates) {
+                      setState(() {
+                        _selectedDates = dates;
+                      });
+                    },
+                  ),
+                const SizedBox(
+                  height: 16,
+                ),
+                const Divider(
+                  thickness: 1,
+                ),
+                Text(
+                  "Tambahkan Ringtones",
+                  style: AppFont.labelForm,
+                ),
+                RingtonePickerWidget(
+                  label: 'Ringtone',
+                  initialRingtone: _selectedRingtone,
+                  onChanged: (ringtone) {
+                    setState(() {
+                      _selectedRingtone = ringtone;
+                    });
+                  },
+                ),
+                const SizedBox(
+                  height: 16,
                 ),
                 ElevatedButton(
                   onPressed: () {},
