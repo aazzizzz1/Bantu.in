@@ -45,6 +45,12 @@ class AppFont {
         fontWeight: FontWeight.w400,
         color: Colors.black,
       );
+  static TextStyle get regularprogres12 => GoogleFonts.ibmPlexSans(
+        fontSize: 12,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w400,
+        color: AppColor.textprogresColor,
+      );
   static TextStyle get textDescription => GoogleFonts.ibmPlexSans(
         fontSize: 12,
         fontStyle: FontStyle.normal,
