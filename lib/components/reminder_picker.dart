@@ -49,9 +49,9 @@ class _ReminderPickerState extends State<ReminderPicker> {
           onChanged: _onDateChanged,
         ),
         const SizedBox(height: 16),
-        // TimePicker(
-        //   onChanged: _onTimeChanged,
-        // ),
+        TimePicker(
+          onChanged: _onTimeChanged,
+        ),
       ],
     );
   }
