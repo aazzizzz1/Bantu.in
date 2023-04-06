@@ -110,7 +110,7 @@ class CardInvitation extends StatelessWidget {
                   child: Center(
                     child: Text(
                       'Tolak',
-                      style: AppFont.textOutlineButton,
+                      style: AppFont.textErrorOutlineButton,
                     ),
                   ),
                 ),
@@ -132,7 +132,7 @@ class CardInvitation extends StatelessWidget {
                   child: Center(
                     child: Text(
                       'Terima',
-                      style: AppFont.textFillButton,
+                      style: AppFont.textFillButtonActive,
                     ),
                   ),
                 ),
