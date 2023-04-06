@@ -66,8 +66,26 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
           Stack(
             children: [
               // content of the page
-              Center(
+              Container(
+                padding: const EdgeInsets.all(16.0),
+                child: ListView.builder(
+                  itemCount: 10,
+                  itemBuilder: (context, index) {
+                    return CardIncomingNotes(
+                      title: 'Meeting with client',
+                      description:
+                          'Discuss bantuin project requirements with client',
+                      date: '15',
+                      month: 'Apr',
+                      avatarUrl:
+                          'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
+                      name: 'John Doe',
+                      progress: 0.6,
+                    );
+                  },
+                ),
               ),
+              Center(),
               // floating button above bottom navbar
               Positioned(
                 bottom: 20,
@@ -87,19 +105,21 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
           Container(
             padding: const EdgeInsets.all(16.0),
             child: ListView.builder(
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return CardIncomingNotes(
-                    title: 'Meeting with client',
-                    description: 'Discuss bantuin project requirements with client',
-                    date: '15',
-                    month: 'Apr',
-                    avatarUrl: 'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
-                    name: 'John Doe',
-                    progress: 0.6,
-                  );
-                },
-              ),
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                return CardIncomingNotes(
+                  title: 'Meeting with client',
+                  description:
+                      'Discuss bantuin project requirements with client',
+                  date: '15',
+                  month: 'Apr',
+                  avatarUrl:
+                      'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
+                  name: 'John Doe',
+                  progress: 0.6,
+                );
+              },
+            ),
           ),
         ],
       ),

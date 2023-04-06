@@ -1,3 +1,6 @@
+import 'package:bantuin/constants/color/app_color.dart';
+import 'package:bantuin/constants/font/app_font.dart';
+import 'package:bantuin/screens/note/notes_detail.dart';
 import 'package:flutter/material.dart';
 
 class CardIncomingNotes extends StatelessWidget {
@@ -21,7 +24,16 @@ class CardIncomingNotes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => NotesDetail(),
+          ),
+        );
+      },
+      child: Container(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(16.0),
@@ -37,16 +49,10 @@ class CardIncomingNotes extends StatelessWidget {
               children: [
                 Text(
                   date,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 32.0,
-                  ),
+                  style: AppFont.semiBold20
                 ),
                 Text(month,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0,
-                    )
+                    style: AppFont.semiBold20
                 ),
               ],
             ),
@@ -67,25 +73,18 @@ class CardIncomingNotes extends StatelessWidget {
                     Expanded(
                       child: Text(
                         title,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.0,
-                        ),
+                        style: AppFont.semiBold14
                       ),
                     ),
                     Container(
                       padding: EdgeInsets.all(4.0),
                       decoration: BoxDecoration(
-                        color: Colors.green,
+                        color: AppColor.completeColor,
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: Text(
                         '${(progress * 100).toStringAsFixed(0)}%',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.0,
-                          color: Color.fromARGB(255, 1, 110, 18),
-                        ),
+                        style: AppFont.regularprogres12
                       ),
                     ),
                   ],
@@ -94,12 +93,12 @@ class CardIncomingNotes extends StatelessWidget {
                 LinearProgressIndicator(
                   value: progress,
                   backgroundColor: Colors.grey[300],
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                  valueColor: AlwaysStoppedAnimation<Color>(AppColor.textprogresColor),
                 ),
                 SizedBox(height: 8.0),
                 Text(
                   description,
-                  style: TextStyle(fontSize: 16.0),
+                  style: AppFont.regular12
                 ),
                 SizedBox(height: 8.0),
                 Row(
@@ -108,15 +107,12 @@ class CardIncomingNotes extends StatelessWidget {
                     Icon(
                       Icons.person,
                       size: 20.0,
-                      color: Color.fromARGB(255, 36, 0, 181),
+                      color: AppColorPrimary.primary6,
                       ),
                     SizedBox(width: 8.0),
                     Text(
                       'Personal',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Color.fromARGB(255, 36, 0, 181)
-                        ),
+                      style: AppFont.regular12
                     ),
                     SizedBox(width: 8.0),
                     CircleAvatar(
@@ -126,7 +122,7 @@ class CardIncomingNotes extends StatelessWidget {
                     SizedBox(width: 8.0),
                     Text(
                       name,
-                      style: TextStyle(fontSize: 16.0),
+                      style: AppFont.regular12,
                     ),
                   ],
                 ),
@@ -134,6 +130,7 @@ class CardIncomingNotes extends StatelessWidget {
             ),
           ),
         ],
+      ),
       ),
     );
   }
