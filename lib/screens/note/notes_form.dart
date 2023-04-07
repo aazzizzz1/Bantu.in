@@ -42,7 +42,7 @@ class _NotesFormState extends State<NotesForm> {
               children: [
                 Text(
                   "Buat Catatan",
-                  style: AppFont.semiBold20,
+                  style: AppFont.textTitleScreen,
                 ),
                 const SizedBox(
                   height: 24,
