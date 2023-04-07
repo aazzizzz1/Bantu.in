@@ -140,8 +140,7 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                       'Discuss bantuin project requirements with client',
                   date: '15',
                   month: 'Apr',
-                  avatarUrl:
-                      'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
+                  avatarUrl:'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
                   name: 'John Doe',
                   progress: 0.6,
                 );

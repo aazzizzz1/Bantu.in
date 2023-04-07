@@ -29,7 +29,18 @@ class CardMyNotes extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => NotesDetail(),
+            builder: (context) => NotesDetail(
+              title: 'Meeting with John Doe',
+              description: 'Meeting with John Doe to discuss about the project',
+              avatarUrl:
+                  'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
+              name: 'John Doe',
+              fileUrl: 'https://example.com/notes.pdf',
+              createdBy: 'John Doe',
+              eventDate: '2023-04-08',
+              reminder: '2023-04-07 10:00:00',
+              ringtone: 'default',
+            ),
           ),
         );
       },
@@ -80,12 +91,15 @@ class CardMyNotes extends StatelessWidget {
                       Container(
                         padding: EdgeInsets.all(4.0),
                         decoration: BoxDecoration(
-                          color: isUploaded ? AppColor.completeColor : AppColor.errorColor,
+                          color: isUploaded ? AppColor.completeColor : AppColorRed.red4,
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         child: Text(
                           isUploaded ? 'Sudah selesai' : 'Belum selesai',
-                          style: AppFont.regularprogres12,
+                          style: TextStyle(
+                            fontStyle: FontStyle.normal,
+                            color: isUploaded ? AppColor.textprogresColor : AppColor.errorColor,
+                            ),
                         ),
                       ),
                     ],
