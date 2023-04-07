@@ -1,3 +1,4 @@
+import 'package:bantuin/constants/color/app_color.dart';
 import 'package:bantuin/screens/note/notes_screen.dart';
 import 'package:bantuin/widgets/bottom_navigation/list_menu.dart';
 import 'package:flutter/material.dart';
@@ -85,8 +86,8 @@ class _BottomMenuState extends State<BottomMenu> {
               shape: BoxShape.circle,
               gradient: LinearGradient(
                 colors: [
-                  Colors.tealAccent[700]!,
-                  Colors.tealAccent[400]!,
+                  Color.fromARGB(255, 0, 0, 183)!,
+                  Color.fromARGB(255, 0, 25, 246)!,
                 ],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
@@ -129,14 +130,14 @@ class _BottomMenuState extends State<BottomMenu> {
                             Icon(
                               Icons.home_filled,
                               color: statusLayar.currentTab == 0
-                                  ? Colors.tealAccent[700]
+                                  ? AppColorPrimary.primary6
                                   : Colors.grey,
                             ),
                             Text(
                               'Home',
                               style: TextStyle(
                                 color: statusLayar.currentTab == 0
-                                    ? Colors.tealAccent[700]
+                                    ? AppColorPrimary.primary6
                                     : Colors.grey,
                                 fontFamily: 'Poppins',
                                 fontSize: 10,
@@ -161,14 +162,14 @@ class _BottomMenuState extends State<BottomMenu> {
                             Icon(
                               Icons.group_add_rounded,
                               color: statusLayar.currentTab == 1
-                                  ? Colors.tealAccent[700]
+                                  ? AppColorPrimary.primary6
                                   : Colors.grey,
                             ),
                             Text(
                               'Tim',
                               style: TextStyle(
                                 color: statusLayar.currentTab == 1
-                                    ? Colors.tealAccent[700]
+                                    ? AppColorPrimary.primary6
                                     : Colors.grey,
                                 fontFamily: 'Poppins',
                                 fontSize: 10,
@@ -210,14 +211,14 @@ class _BottomMenuState extends State<BottomMenu> {
                             Icon(
                               Icons.mail_outline_rounded,
                               color: statusLayar.currentTab == 2
-                                  ? Colors.tealAccent[700]
+                                  ? AppColorPrimary.primary6
                                   : Colors.grey,
                             ),
                             Text(
                               'Invitation',
                               style: TextStyle(
                                 color: statusLayar.currentTab == 2
-                                    ? Colors.tealAccent[700]
+                                    ? AppColorPrimary.primary6
                                     : Colors.grey,
                                 fontFamily: 'Poppins',
                                 fontSize: 10,
@@ -243,14 +244,14 @@ class _BottomMenuState extends State<BottomMenu> {
                             Icon(
                               Icons.account_circle,
                               color: statusLayar.currentTab == 3
-                                  ? Colors.tealAccent[700]
+                                  ? AppColorPrimary.primary6
                                   : Colors.grey,
                             ),
                             Text(
                               'Profile',
                               style: TextStyle(
                                 color: statusLayar.currentTab == 3
-                                    ? Colors.tealAccent[700]
+                                    ? AppColorPrimary.primary6
                                     : Colors.grey,
                                 fontFamily: 'Poppins',
                                 fontSize: 10,
