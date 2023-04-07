@@ -1,5 +1,6 @@
 import 'package:bantuin/constants/color/app_color.dart';
 import 'package:bantuin/constants/font/app_font.dart';
+import 'package:bantuin/screens/note/tracking_screen.dart';
 import 'package:flutter/material.dart';
 
 class NotesDetail extends StatelessWidget {
@@ -12,6 +13,7 @@ class NotesDetail extends StatelessWidget {
   final String eventDate;
   final String reminder;
   final String ringtone;
+  final double? progress;
 
   NotesDetail({
     required this.title,
@@ -23,188 +25,272 @@ class NotesDetail extends StatelessWidget {
     required this.eventDate,
     required this.reminder,
     required this.ringtone,
+    this.progress,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Note Detail',
+        toolbarHeight: 76,
+        backgroundColor: Colors.white,
+        elevation: 1,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back),
+          color: Colors.black,
         ),
+        actions: [
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => TracingScreen(
+                          progress: this.progress == null ? 0 : this.progress!),
+                    ));
+                  },
+                  child: Text(
+                    "Lihat",
+                    style: AppFont.textButtonActive,
+                  ),
+                ),
+                SizedBox(width: 10.0),
+                Container(
+                  padding: EdgeInsets.all(4.0),
+                  decoration: BoxDecoration(
+                    color: AppColor.completeColor,
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: progress == null
+                      ? detailPersonal()
+                      : Text('${(progress! * 100).toStringAsFixed(0)}%',
+                          style: AppFont.regularprogres12),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              title,
-              style: AppFont.semiBold14,
-            ),
-            SizedBox(height: 8.0),
-            Row(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(
-                  Icons.person,
-                  size: 20.0,
-                  color: AppColorPrimary.primary6,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      title,
+                      style: AppFont.textTitleScreen,
+                    ),
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            // Navigate to update notes page
+                            Navigator.pushNamed(
+                              context,
+                              '/update-notes',
+                              arguments: {
+                                'title': title,
+                                'description': description,
+                                'avatarUrl': avatarUrl,
+                                'name': name,
+                                'createdBy': createdBy,
+                                'fileUrl': fileUrl,
+                                'eventDate': eventDate,
+                                'reminder': reminder,
+                                'ringtone': ringtone,
+                              },
+                            );
+                          },
+                          child: Text(
+                            'Edit',
+                            style: AppFont.textButtonActive,
+                          ),
+                        ),
+                        SizedBox(width: 24),
+                        InkWell(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Delete Notes?'),
+                                  content: Text(
+                                      'Are you sure you want to delete this notes?'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Cancel'),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        // Perform delete operation and navigate back to previous screen
+                                        // ...
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Delete'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          child: Text(
+                            'Hapus',
+                            style: AppFont.textButtonError,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                SizedBox(width: 8.0),
-                Text(
-                  name,
-                  style: AppFont.regular12,
-                ),
-                SizedBox(width: 8.0),
-                CircleAvatar(
-                  backgroundImage: NetworkImage(avatarUrl),
-                  radius: 12.0,
-                ),
-              ],
-            ),
-            SizedBox(height: 16.0),
-            Text(
-              description,
-              style: AppFont.regular12,
-            ),
-            SizedBox(height: 16.0),
-            Row(
-              children: [
-                Icon(
-                  Icons.attach_file,
-                  size: 20.0,
-                  color: AppColorPrimary.primary6,
-                ),
-                SizedBox(width: 8.0),
-                Text(
-                  fileUrl,
-                  style: AppFont.regular12,
-                ),
-              ],
-            ),
-            SizedBox(height: 16.0),
-            Row(
-              children: [
-                Icon(
-                  Icons.person_outline,
-                  size: 20.0,
-                  color: AppColorPrimary.primary6,
-                ),
-                SizedBox(width: 8.0),
-                Text(
-                  createdBy,
-                  style: AppFont.regular12,
-                ),
-              ],
-            ),
-            SizedBox(height: 16.0),
-            Row(
-              children: [
-                Icon(
-                  Icons.event,
-                  size: 20.0,
-                  color: AppColorPrimary.primary6,
-                ),
-                SizedBox(width: 8.0),
-                Text(
-                  eventDate,
-                  style: AppFont.regular12,
-                ),
-              ],
-            ),
-            SizedBox(height: 16.0),
-            Row(
-              children: [
-                Icon(
-                  Icons.notifications_none,
-                  size: 20.0,
-                  color: AppColorPrimary.primary6,
-                ),
-                SizedBox(width: 8.0),
-                Text(
-                  reminder,
-                  style: AppFont.regular12,
-                ),
-              ],
-            ),
-            SizedBox(height: 16.0),
-            Row(
-              children: [
-                Icon(
-                  Icons.music_note,
-                  size: 20.0,
-                  color: AppColorPrimary.primary6,
-                ),
-                SizedBox(width: 8.0),
-                Text(
-                  ringtone,
-                  style: AppFont.regular12,
-                ),
-              ],
-            ),
-            Container(
-              padding: EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      // Navigate to update notes page
-                      Navigator.pushNamed(
-                        context,
-                        '/update-notes',
-                        arguments: {
-                          'title': title,
-                          'description': description,
-                          'avatarUrl': avatarUrl,
-                          'name': name,
-                          'createdBy': createdBy,
-                          'fileUrl': fileUrl,
-                          'eventDate': eventDate,
-                          'reminder': reminder,
-                          'ringtone': ringtone,
-                        },
-                      );
-                    },
-                    child: Text('Update'),
+                SizedBox(height: 20.0),
+                SizedBox(
+                  width: 250,
+                  child: Text(
+                    description,
+                    style: AppFont.medium14,
+                    maxLines: 5,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Show confirmation dialog before deleting notes
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text('Delete Notes?'),
-                            content: Text('Are you sure you want to delete this notes?'),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text('Cancel'),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  // Perform delete operation and navigate back to previous screen
-                                  // ...
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                },
-                                child: Text('Delete'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                    child: Text('Delete'),
-                    style: ElevatedButton.styleFrom(primary: Colors.red),
+                ),
+                SizedBox(height: 24.0),
+                Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                      color: AppColorPrimary.primary3,
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Text('Kak Lea', style: AppFont.textNameTimActive),
+                ),
+                SizedBox(height: 24.0),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      'File Dokumen : ',
+                      style: AppFont.medium14,
+                    ),
+                    SizedBox(height: 7),
+                    InkWell(
+                      onTap: () {},
+                      child: Text(
+                        fileUrl,
+                        style: AppFont.textButtonUnderline,
+                      ),
+                    ),
+                    SizedBox(height: 11),
+                  ],
+                ),
+                SizedBox(height: 16.0),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Pembuat Catatan :',
+                      style: AppFont.medium14,
+                    ),
+                    SizedBox(height: 8.0),
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          backgroundImage: NetworkImage(avatarUrl),
+                          radius: 12.0,
+                        ),
+                        SizedBox(width: 8.0),
+                        Text(
+                          createdBy,
+                          style: AppFont.textPersonOrTeam,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: 24.0),
+                SizedBox(
+                  height: 72,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Tanggal Acara : ' + eventDate,
+                        style: AppFont.textDescription,
+                      ),
+                      Text(
+                        'Reminder : ' + reminder,
+                        style: AppFont.textDescription,
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                                text: 'Ringtone : ',
+                                style: AppFont.textDescription),
+                            TextSpan(
+                                text: ringtone,
+                                style: AppFont.textButtonActive),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
+              ],
+            ),
+            ElevatedButton(
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Catatan Diselesaikan")));
+                Navigator.pop(context);
+              },
+              style: const ButtonStyle(
+                padding: MaterialStatePropertyAll(
+                  EdgeInsets.symmetric(horizontal: 100, vertical: 15),
+                ),
+                elevation: MaterialStatePropertyAll(0),
+                backgroundColor: MaterialStatePropertyAll(AppColor.activeColor),
+              ),
+              child: Center(
+                child: Text(
+                  'Selesaikan Catatan',
+                  style: AppFont.textFillButtonActive,
+                ),
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget detailPersonal() {
+    bool isisUploaded = true;
+    return Container(
+      padding: EdgeInsets.all(4.0),
+      decoration: BoxDecoration(
+        color: AppColor.completeColor,
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Text(
+        'Sudah selesai',
+        style: TextStyle(
+          fontStyle: FontStyle.normal,
+          color: AppColor.textprogresColor,
         ),
       ),
     );

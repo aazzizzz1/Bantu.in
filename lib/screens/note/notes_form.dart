@@ -18,7 +18,7 @@ class NotesForm extends StatefulWidget {
 class _NotesFormState extends State<NotesForm> {
   List<DateTime> _selectedDates = [];
   String? _selectedRingtone;
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,14 +42,14 @@ class _NotesFormState extends State<NotesForm> {
               children: [
                 Text(
                   "Buat Catatan",
-                  style: AppFont.semiBold20,
+                  style: AppFont.textTitleScreen,
                 ),
                 const SizedBox(
                   height: 24,
                 ),
                 Text(
                   "Subjek",
-                  style: AppFont.labelForm,
+                  style: AppFont.labelTextForm,
                 ),
                 const SizedBox(
                   height: 4,
@@ -80,7 +80,7 @@ class _NotesFormState extends State<NotesForm> {
                 ),
                 Text(
                   "Deskripsi",
-                  style: AppFont.labelForm,
+                  style: AppFont.labelTextForm,
                 ),
                 const SizedBox(
                   height: 4,
@@ -116,7 +116,7 @@ class _NotesFormState extends State<NotesForm> {
                 ),
                 Text(
                   "Masukan email anggota",
-                  style: AppFont.labelForm,
+                  style: AppFont.labelTextForm,
                 ),
                 const SizedBox(
                   height: 4,
@@ -188,7 +188,7 @@ class _NotesFormState extends State<NotesForm> {
                 ),
                 Text(
                   "Tambahkan tanggal",
-                  style: AppFont.labelForm,
+                  style: AppFont.labelTextForm,
                 ),
                 DatePicker(
                   onChanged: (DateTime value) {
@@ -203,7 +203,7 @@ class _NotesFormState extends State<NotesForm> {
                 // ),
                 // Text(
                 //   "Tambahkan waktu",
-                //   style: AppFont.labelForm,
+                //   style: AppFont.labelTextForm,
                 // ),
                 // TimePicker(
                 //   onChanged: (TimeOfDay value) {
@@ -218,16 +218,16 @@ class _NotesFormState extends State<NotesForm> {
                 ),
                 Text(
                   "Tambahkan pengingat",
-                  style: AppFont.labelForm,
+                  style: AppFont.labelTextForm,
                 ),
                 MultiReminderPicker(
-                    initialDates: _selectedDates,
-                    onChanged: (List<DateTime> dates) {
-                      setState(() {
-                        _selectedDates = dates;
-                      });
-                    },
-                  ),
+                  initialDates: _selectedDates,
+                  onChanged: (List<DateTime> dates) {
+                    setState(() {
+                      _selectedDates = dates;
+                    });
+                  },
+                ),
                 const SizedBox(
                   height: 16,
                 ),
@@ -236,7 +236,7 @@ class _NotesFormState extends State<NotesForm> {
                 ),
                 Text(
                   "Tambahkan Ringtones",
-                  style: AppFont.labelForm,
+                  style: AppFont.labelTextForm,
                 ),
                 RingtonePickerWidget(
                   label: 'Ringtone',
@@ -263,7 +263,7 @@ class _NotesFormState extends State<NotesForm> {
                   child: Center(
                     child: Text(
                       'Buat Catatan',
-                      style: AppFont.textFillButton,
+                      style: AppFont.textFillButtonActive,
                     ),
                   ),
                 ),

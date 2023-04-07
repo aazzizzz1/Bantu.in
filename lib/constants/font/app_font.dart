@@ -63,21 +63,21 @@ class AppFont {
         fontWeight: FontWeight.w600,
         color: Colors.black,
       );
-  static TextStyle get textFillButton => GoogleFonts.ibmPlexSans(
+  static TextStyle get textFillButtonActive => GoogleFonts.ibmPlexSans(
         fontSize: 12,
         fontStyle: FontStyle.normal,
         fontWeight: FontWeight.w500,
         color: AppColorNeutral.neutral1,
       );
-  static TextStyle get textOutlineButton => GoogleFonts.ibmPlexSans(
+  static TextStyle get textErrorOutlineButton => GoogleFonts.ibmPlexSans(
         fontSize: 12,
         fontStyle: FontStyle.normal,
         fontWeight: FontWeight.w500,
         color: Color.fromARGB(255, 212, 32, 41),
       );
-  static TextStyle get labelForm => GoogleFonts.ibmPlexSans(
+  static TextStyle get labelTextForm => GoogleFonts.ibmPlexSans(
         fontSize: 12,
-        // fontStyle: FontStyle.normal,
+        fontStyle: FontStyle.normal,
         fontWeight: FontWeight.w400,
         color: Color.fromARGB(255, 82, 82, 82),
       );
@@ -104,5 +104,95 @@ class AppFont {
         fontStyle: FontStyle.normal,
         fontWeight: FontWeight.w600,
         color: AppColorPrimary.primary6,
+      );
+  static TextStyle get textPersonOrTeam => GoogleFonts.ibmPlexSans(
+        fontSize: 12,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w500,
+        color: AppColorNeutral.neutral8,
+      );
+  static TextStyle get textStatusNote => GoogleFonts.ibmPlexSans(
+        fontSize: 12,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w500,
+        color: AppColorPrimary.primary6,
+      );
+  static TextStyle get cancelText => GoogleFonts.ibmPlexSans(
+        fontSize: 12,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w500,
+        color: AppColorNeutral.neutral8,
+      );
+  static TextStyle get disableText => GoogleFonts.ibmPlexSans(
+        fontSize: 14,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w400,
+        color: Color.fromARGB(255, 141, 141, 141),
+      );
+  static TextStyle get inputAndNormalText => GoogleFonts.ibmPlexSans(
+        fontSize: 14,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w400,
+        color: Color.fromARGB(255, 22, 22, 22),
+      );
+  static TextStyle get textZeroProgress => GoogleFonts.ibmPlexSans(
+        fontSize: 12,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w400,
+        color: Color.fromARGB(255, 162, 25, 32),
+      );
+  static TextStyle get textHalfProgress => GoogleFonts.ibmPlexSans(
+        fontSize: 12,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w400,
+        color: Color.fromARGB(255, 197, 79, 0),
+      );
+  static TextStyle get textProgressComplete => GoogleFonts.ibmPlexSans(
+        fontSize: 12,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w400,
+        color: Color.fromARGB(255, 14, 96, 39),
+      );
+  static TextStyle get textStatusError => GoogleFonts.ibmPlexSans(
+        fontSize: 12,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w400,
+        color: AppColorRed.red6,
+      );
+  static TextStyle get textStatusActive => GoogleFonts.ibmPlexSans(
+        fontSize: 12,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w400,
+        color: AppColorPrimary.primary6,
+      );
+  static TextStyle get textTitleScreen => GoogleFonts.ibmPlexSans(
+        fontSize: 20,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w600,
+        color: Color.fromARGB(255, 22, 22, 22),
+      );
+  static TextStyle get textButtonActive => GoogleFonts.ibmPlexSans(
+        fontSize: 14,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w400,
+        color: Color.fromARGB(255, 15, 99, 254),
+      );
+  static TextStyle get textButtonError => GoogleFonts.ibmPlexSans(
+        fontSize: 14,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w400,
+        color: Color.fromARGB(255, 206, 48, 56),
+      );
+  static TextStyle get textNameTimActive => GoogleFonts.ibmPlexSans(
+      fontSize: 16,
+      fontStyle: FontStyle.normal,
+      fontWeight: FontWeight.w400,
+      color: AppColorPrimary.primary7);
+  static TextStyle get textButtonUnderline => GoogleFonts.ibmPlexSans(
+        fontSize: 14,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w400,
+        color: Color.fromARGB(255, 15, 99, 254),
+        decoration: TextDecoration.underline,
       );
 }

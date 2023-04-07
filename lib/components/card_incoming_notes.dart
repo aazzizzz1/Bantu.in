@@ -32,14 +32,16 @@ class CardIncomingNotes extends StatelessWidget {
             builder: (context) => NotesDetail(
               title: 'Meeting with John Doe',
               description: 'Meeting with John Doe to discuss about the project',
-              avatarUrl:'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
+              avatarUrl:
+                  'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
               name: 'John Doe',
               fileUrl: 'https://example.com/notes.pdf',
               // createdBy: 'John Doe',
               eventDate: '2023-04-08',
               reminder: '2023-04-07 10:00:00',
-              ringtone: 'default', 
+              ringtone: 'default',
               createdBy: 'Aziz',
+              progress: 0.6,
             ),
           ),
         );

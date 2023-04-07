@@ -9,10 +9,10 @@ import 'package:flutter/material.dart';
 class AppButton {
   static ButtonStyle get activeButton => ButtonStyle(
         backgroundColor: MaterialStatePropertyAll(AppColor.activeColor),
-        textStyle: MaterialStatePropertyAll(AppFont.textFillButton),
+        textStyle: MaterialStatePropertyAll(AppFont.textFillButtonActive),
       );
   static ButtonStyle get errorButtonFill => ButtonStyle(
         backgroundColor: MaterialStatePropertyAll(AppColor.errorColor),
-        textStyle: MaterialStatePropertyAll(AppFont.textFillButton),
+        textStyle: MaterialStatePropertyAll(AppFont.textFillButtonActive),
       );
 }
