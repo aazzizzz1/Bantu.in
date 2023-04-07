@@ -86,8 +86,8 @@ class _BottomMenuState extends State<BottomMenu> {
               shape: BoxShape.circle,
               gradient: LinearGradient(
                 colors: [
-                  Color.fromARGB(255, 0, 0, 183)!,
-                  Color.fromARGB(255, 0, 25, 246)!,
+                  Color.fromARGB(255, 0, 0, 183),
+                  Color.fromARGB(255, 0, 25, 246),
                 ],
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
