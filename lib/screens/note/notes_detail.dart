@@ -67,8 +67,10 @@ class NotesDetail extends StatelessWidget {
                     color: AppColor.completeColor,
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  child: Text('${(progress! * 100).toStringAsFixed(0)}%',
-                      style: AppFont.regularprogres12),
+                  child: progress == null
+                      ? detailPersonal()
+                      : Text('${(progress! * 100).toStringAsFixed(0)}%',
+                          style: AppFont.regularprogres12),
                 ),
               ],
             ),
@@ -271,6 +273,24 @@ class NotesDetail extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget detailPersonal() {
+    bool isisUploaded = true;
+    return Container(
+      padding: EdgeInsets.all(4.0),
+      decoration: BoxDecoration(
+        color: AppColor.completeColor,
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Text(
+        'Sudah selesai',
+        style: TextStyle(
+          fontStyle: FontStyle.normal,
+          color: AppColor.textprogresColor,
         ),
       ),
     );
