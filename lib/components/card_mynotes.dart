@@ -40,6 +40,8 @@ class CardMyNotes extends StatelessWidget {
               eventDate: '2023-04-08',
               reminder: '2023-04-07 10:00:00',
               ringtone: 'default',
+              isUpload: isUploaded,
+              isAdmin: false,
             ),
           ),
         );
@@ -91,15 +93,19 @@ class CardMyNotes extends StatelessWidget {
                       Container(
                         padding: EdgeInsets.all(4.0),
                         decoration: BoxDecoration(
-                          color: isUploaded ? AppColor.completeColor : AppColorRed.red4,
+                          color: isUploaded
+                              ? AppColor.completeColor
+                              : AppColorRed.red4,
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         child: Text(
                           isUploaded ? 'Sudah selesai' : 'Belum selesai',
                           style: TextStyle(
                             fontStyle: FontStyle.normal,
-                            color: isUploaded ? AppColor.textprogresColor : AppColor.errorColor,
-                            ),
+                            color: isUploaded
+                                ? AppColor.textprogresColor
+                                : AppColor.errorColor,
+                          ),
                         ),
                       ),
                     ],
