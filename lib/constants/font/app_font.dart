@@ -64,9 +64,9 @@ class AppFont {
         color: Colors.black,
       );
   static TextStyle get textFillButtonActive => GoogleFonts.ibmPlexSans(
-        fontSize: 12,
+        fontSize: 14,
         fontStyle: FontStyle.normal,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w400,
         color: AppColorNeutral.neutral1,
       );
   static TextStyle get textErrorOutlineButton => GoogleFonts.ibmPlexSans(
@@ -135,6 +135,24 @@ class AppFont {
         fontWeight: FontWeight.w400,
         color: Color.fromARGB(255, 22, 22, 22),
       );
+  // static TextStyle get textUploadDone => GoogleFonts.ibmPlexSans(
+  //       fontSize: 12,
+  //       fontStyle: FontStyle.normal,
+  //       fontWeight: FontWeight.w400,
+  //       color: Color.fromARGB(255, 162, 25, 32),
+  //     );
+  static TextStyle get textUploadDone => GoogleFonts.ibmPlexSans(
+        fontSize: 14,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w400,
+        color: Color.fromARGB(255, 14, 96, 39),
+      );
+  static TextStyle get textUploadError => GoogleFonts.ibmPlexSans(
+        fontSize: 14,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w400,
+        color: AppColorRed.red5,
+      );
   static TextStyle get textZeroProgress => GoogleFonts.ibmPlexSans(
         fontSize: 12,
         fontStyle: FontStyle.normal,
@@ -177,6 +195,12 @@ class AppFont {
         fontWeight: FontWeight.w400,
         color: Color.fromARGB(255, 15, 99, 254),
       );
+  static TextStyle get textButtonDisable => GoogleFonts.ibmPlexSans(
+        fontSize: 14,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w400,
+        color: AppColorNeutral.neutral6,
+      );
   static TextStyle get textButtonError => GoogleFonts.ibmPlexSans(
         fontSize: 14,
         fontStyle: FontStyle.normal,
@@ -194,5 +218,11 @@ class AppFont {
         fontWeight: FontWeight.w400,
         color: Color.fromARGB(255, 15, 99, 254),
         decoration: TextDecoration.underline,
+      );
+  static TextStyle get clientTextDate => GoogleFonts.ibmPlexSans(
+        fontSize: 14,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w400,
+        color: AppColorNeutral.neutral6,
       );
 }

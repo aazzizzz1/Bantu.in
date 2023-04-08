@@ -42,6 +42,7 @@ class CardIncomingNotes extends StatelessWidget {
               ringtone: 'default',
               createdBy: 'Aziz',
               progress: 0.6,
+              isAdmin: true,
             ),
           ),
         );

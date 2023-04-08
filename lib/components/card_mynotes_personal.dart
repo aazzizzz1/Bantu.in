@@ -38,6 +38,7 @@ class CardMyNotesPersonal extends StatelessWidget {
               eventDate: '2023-04-08',
               reminder: '2023-04-07 10:00:00',
               ringtone: 'default',
+              isPersonal: true,
             ),
           ),
         );
