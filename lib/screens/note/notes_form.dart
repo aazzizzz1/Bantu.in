@@ -265,9 +265,11 @@ class _NotesFormState extends State<NotesForm> {
                   style: AppFont.labelTextForm,
                 ),
                 MyReminder(
-                  initialDates: [],
-                  onChanged: (List<DateTime> value) {
-                    // Do something with the selected time value
+                  initialDates: _selectedDates,
+                  onChanged: (newDates) {
+                    setState(() {
+                      _selectedDates = newDates;
+                    });
                   },
                 ),
                 // MultiReminderPicker(
