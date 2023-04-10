@@ -26,7 +26,7 @@ class _ClientUploadState extends State<ClientUpload> {
         Navigator.of(context).push(MaterialPageRoute(
           builder: (_) => Scaffold(
             appBar: AppBar(
-              title: Text(_pickedFile!.name!),
+              title: Text(_pickedFile!.name),
               actions: [
                 IconButton(
                   icon: const Icon(
@@ -47,7 +47,7 @@ class _ClientUploadState extends State<ClientUpload> {
         Navigator.of(context).push(MaterialPageRoute(
           builder: (_) => Scaffold(
             appBar: AppBar(
-              title: Text(_pickedFile!.name!),
+              title: Text(_pickedFile!.name),
               actions: [
                 IconButton(
                   icon: const Icon(
