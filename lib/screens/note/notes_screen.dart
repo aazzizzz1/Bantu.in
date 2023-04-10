@@ -1,7 +1,7 @@
 import 'package:bantuin/components/card_incoming_notes.dart';
 import 'package:bantuin/components/card_mynotes.dart';
 import 'package:bantuin/components/card_mynotes_personal.dart';
-import 'package:bantuin/components/floating_notes.dart';
+import 'package:bantuin/widgets/floating_button/floating_notes.dart';
 import 'package:bantuin/constants/button/app_button.dart';
 import 'package:bantuin/screens/note/notes_form.dart';
 import 'package:flutter/material.dart';

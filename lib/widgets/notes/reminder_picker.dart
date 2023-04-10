@@ -1,5 +1,5 @@
-import 'package:bantuin/components/date_picker.dart';
-import 'package:bantuin/components/time_picker.dart';
+import 'package:bantuin/widgets/notes/date_picker.dart';
+import 'package:bantuin/widgets/notes/time_picker.dart';
 import 'package:flutter/material.dart';
 
 class ReminderPicker extends StatefulWidget {

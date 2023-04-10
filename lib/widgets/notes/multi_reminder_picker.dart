@@ -1,4 +1,4 @@
-import 'package:bantuin/components/reminder_picker.dart';
+import 'package:bantuin/widgets/notes/reminder_picker.dart';
 import 'package:flutter/material.dart';
 
 class MultiReminderPicker extends StatefulWidget {
@@ -16,7 +16,7 @@ class MultiReminderPicker extends StatefulWidget {
 }
 
 class _MultiReminderPickerState extends State<MultiReminderPicker> {
-  List<DateTime> _selectedDates = [];
+  late List<DateTime> _selectedDates;
 
   @override
   void initState() {
@@ -24,7 +24,7 @@ class _MultiReminderPickerState extends State<MultiReminderPicker> {
     _selectedDates = widget.initialDates;
   }
 
-  void _onReminderChanged(DateTime dateTime) {
+  void _updateSelectedDates(DateTime dateTime) {
     setState(() {
       if (_selectedDates.contains(dateTime)) {
         _selectedDates.remove(dateTime);
@@ -36,43 +36,45 @@ class _MultiReminderPickerState extends State<MultiReminderPicker> {
     widget.onChanged(_selectedDates);
   }
 
+  void _addNewReminder() async {
+    final DateTime? selectedDateTime = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
+    );
+    if (selectedDateTime != null) {
+      final TimeOfDay? selectedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+      if (selectedTime != null) {
+        final DateTime selectedDateTimeWithTime = DateTime(
+          selectedDateTime.year,
+          selectedDateTime.month,
+          selectedDateTime.day,
+          selectedTime.hour,
+          selectedTime.minute,
+        );
+        _updateSelectedDates(selectedDateTimeWithTime);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 16),
-        ListView.builder(
+        ListView.separated(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: _selectedDates.length + 1,
           itemBuilder: (context, index) {
             if (index == _selectedDates.length) {
               return GestureDetector(
-                onTap: () async {
-                  final DateTime? selectedDateTime = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime.now(),
-                    lastDate: DateTime.now().add(const Duration(days: 365)),
-                  );
-                  if (selectedDateTime != null) {
-                    final TimeOfDay? selectedTime = await showTimePicker(
-                      context: context,
-                      initialTime: TimeOfDay.now(),
-                    );
-                    if (selectedTime != null) {
-                      final DateTime selectedDateTimeWithTime = DateTime(
-                        selectedDateTime.year,
-                        selectedDateTime.month,
-                        selectedDateTime.day,
-                        selectedTime.hour,
-                        selectedTime.minute,
-                      );
-                      _onReminderChanged(selectedDateTimeWithTime);
-                    }
-                  }
-                },
+                onTap: _addNewReminder,
                 child: Row(
                   children: [
                     const Icon(Icons.add, size: 24),
@@ -85,12 +87,14 @@ class _MultiReminderPickerState extends State<MultiReminderPicker> {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: ReminderPicker(
+                  key: ValueKey(_selectedDates[index]),
                   initialDate: _selectedDates[index],
-                  onChanged: (DateTime dateTime) => _onReminderChanged(dateTime),
+                  onChanged: _updateSelectedDates,
                 ),
               );
             }
           },
+          separatorBuilder: (context, index) => const SizedBox(height: 8),
         ),
       ],
     );
