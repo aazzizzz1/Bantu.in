@@ -1,5 +1,6 @@
 import 'package:bantuin/widgets/notes/date_time_picker.dart';
 import 'package:bantuin/widgets/notes/email_picker.dart';
+import 'package:bantuin/widgets/notes/form/button_to_screen_notes.dart';
 import 'package:bantuin/widgets/notes/my_reminder.dart';
 import 'package:bantuin/widgets/notes/reminder_picker.dart';
 import 'package:bantuin/widgets/notes/ringtones_picker.dart';
@@ -302,23 +303,7 @@ class _NotesFormState extends State<NotesForm> {
                 const SizedBox(
                   height: 16,
                 ),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: const ButtonStyle(
-                    padding: MaterialStatePropertyAll(
-                      EdgeInsets.symmetric(horizontal: 120, vertical: 15),
-                    ),
-                    elevation: MaterialStatePropertyAll(0),
-                    backgroundColor:
-                        MaterialStatePropertyAll(AppColor.activeColor),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Buat Catatan',
-                      style: AppFont.textFillButtonActive,
-                    ),
-                  ),
-                ),
+                ButtonScreenNotes(),
               ],
             ),
           ),
