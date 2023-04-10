@@ -1,7 +1,7 @@
 import 'package:bantuin/components/card_incoming_notes.dart';
 import 'package:bantuin/components/card_mynotes.dart';
 import 'package:bantuin/components/card_mynotes_personal.dart';
-import 'package:bantuin/components/floating_home.dart';
+import 'package:bantuin/widgets/floating_button/floating_home.dart';
 import 'package:bantuin/components/daftar_catatan.dart';
 import 'package:bantuin/components/list_daftar_catatan.dart';
 import 'package:bantuin/components/point_royalty.dart';
