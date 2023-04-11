@@ -1,6 +1,7 @@
 import 'package:bantuin/constants/font/app_font.dart';
 import 'package:bantuin/widgets/home/filtering_data.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DaftarCatatan extends StatefulWidget {
   const DaftarCatatan({super.key});
@@ -28,13 +29,19 @@ class _DaftarCatatanState extends State<DaftarCatatan> {
               children: [
                 Text(
                   'Sortir berdasarkan',
-                  style: AppFont.semiBold14,
+                  style: GoogleFonts.ibmPlexSans(
+                          fontSize: 16,
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
                 ),
                 DataFilter(
                   onSortByChanged: (String sortBy) {
                     // handle sorting based on selected value
                   },
-                  onDateFilterChanged: (DateTime? date) {},
+                  onDateFilterChanged: (DateTime? date) {
+                    // handle filtering based on selected date
+                  },
                 ),
               ],
             ),

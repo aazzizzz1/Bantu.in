@@ -61,7 +61,7 @@ class _NotesFormState extends State<NotesForm> {
                 ),
                 Text(
                   "Subjek",
-                  style: AppFont.labelTextForm,
+                  style: AppFont.medium14,
                 ),
                 const SizedBox(
                   height: 4,
@@ -92,7 +92,7 @@ class _NotesFormState extends State<NotesForm> {
                 ),
                 Text(
                   "Deskripsi",
-                  style: AppFont.labelTextForm,
+                  style: AppFont.medium14,
                 ),
                 const SizedBox(
                   height: 4,
@@ -121,14 +121,17 @@ class _NotesFormState extends State<NotesForm> {
                   ),
                 ),
                 const SizedBox(
-                  height: 26,
+                  height: 24,
                 ),
                 const Divider(
                   thickness: 1,
                 ),
+                const SizedBox(
+                  height: 24,
+                ),
                 Text(
                   "Masukan email anggota",
-                  style: AppFont.labelTextForm,
+                  style: AppFont.medium14,
                 ),
                 const SizedBox(
                   height: 4,
@@ -194,17 +197,20 @@ class _NotesFormState extends State<NotesForm> {
                 //   ),
                 // ),
                 const SizedBox(
-                  height: 16,
+                  height: 24,
                 ),
                 const Divider(
                   thickness: 1,
+                ),
+                const SizedBox(
+                  height: 24,
                 ),
                 Text(
                   "Tambahkan tanggal acara",
                   style: AppFont.labelTextForm,
                 ),
                 const SizedBox(
-                  height: 16,
+                  height: 4,
                 ),
                 DateTimePicker(
                   onChanged: (DateTime selectedDate) {
@@ -256,14 +262,20 @@ class _NotesFormState extends State<NotesForm> {
                 //   },
                 // ),
                 const SizedBox(
-                  height: 16,
+                  height: 24,
                 ),
                 const Divider(
                   thickness: 1,
                 ),
+                const SizedBox(
+                  height: 24,
+                ),
                 Text(
                   "Tambahkan pengingat",
                   style: AppFont.labelTextForm,
+                ),
+                const SizedBox(
+                  height: 4,
                 ),
                 MyReminder(
                   initialDates: _selectedDates,
@@ -282,14 +294,20 @@ class _NotesFormState extends State<NotesForm> {
                 //   },
                 // ),
                 const SizedBox(
-                  height: 16,
+                  height: 24,
                 ),
                 const Divider(
                   thickness: 1,
                 ),
+                const SizedBox(
+                  height: 24,
+                ),
                 Text(
                   "Tambahkan Ringtones",
                   style: AppFont.labelTextForm,
+                ),
+                const SizedBox(
+                  height: 4,
                 ),
                 RingtonePickerWidget(
                   label: 'Ringtone',
@@ -301,9 +319,12 @@ class _NotesFormState extends State<NotesForm> {
                   },
                 ),
                 const SizedBox(
-                  height: 16,
+                  height: 24,
                 ),
                 ButtonScreenNotes(),
+                const SizedBox(
+                  height: 24,
+                ),
               ],
             ),
           ),

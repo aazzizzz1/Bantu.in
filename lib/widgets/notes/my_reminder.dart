@@ -1,4 +1,6 @@
+import 'package:bantuin/constants/font/app_font.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
 class MyReminder extends StatefulWidget {
@@ -45,11 +47,9 @@ class _MyReminderState extends State<MyReminder> {
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 16),
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -86,17 +86,21 @@ class _MyReminderState extends State<MyReminder> {
                     borderRadius: BorderRadius.circular(8.0),
                     border: Border.all(color: Colors.grey),
                   ),
-                  margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                  margin:const EdgeInsets.symmetric(vertical: 10, ),
                   padding: const EdgeInsets.all(16),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Icon(Icons.add, size: 24),
+                      SvgPicture.asset(
+                        "lib/assets/icons/Alarm.svg",
+                        height: 26,
+                        width: 26,
+                      ),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
-                          'Add Reminder',
-                          style: TextStyle(color: Theme.of(context).accentColor),
+                          'Tambahkan Pengingat',
+                          style: AppFont.hintTextField,
                         ),
                       ),
                     ],
@@ -109,12 +113,19 @@ class _MyReminderState extends State<MyReminder> {
                   borderRadius: BorderRadius.circular(8.0),
                   border: Border.all(color: Colors.grey),
                 ),
-                margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                margin:
+                    const EdgeInsets.symmetric(vertical: 10, ),
                 padding: const EdgeInsets.all(16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(DateFormat('dd MMMM yyyy, hh:mm a').format(_selectedDates[index])),
+                    SvgPicture.asset(
+                      "lib/assets/icons/Alarm.svg",
+                      height: 26,
+                      width: 26,
+                    ),
+                    Text(DateFormat('dd MMMM yyyy, hh:mm a')
+                        .format(_selectedDates[index])),
                     IconButton(
                       icon: const Icon(Icons.delete),
                       onPressed: () => _removeReminder(index),

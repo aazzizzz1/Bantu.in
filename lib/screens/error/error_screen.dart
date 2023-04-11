@@ -5,10 +5,12 @@ class ErrorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      //create note screen text in middle
-      child: const Center(
-        child: Text('Error Screen please go back'),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Error'),
+      ),
+      body: Center(
+        child: Text('Error Silahkan Kembali'),
       ),
     );
   }

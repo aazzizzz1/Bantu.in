@@ -1,5 +1,8 @@
+import 'package:bantuin/constants/constant.dart';
+import 'package:bantuin/constants/font/app_font.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MultipleEmailPicker extends StatefulWidget {
   final void Function(List<String> selectedEmails) onChanged;
@@ -56,23 +59,40 @@ class _MultipleEmailPickerState extends State<MultipleEmailPicker> {
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
-              labelText: 'Email address',
+              labelText: 'Masukkan email',
+              labelStyle: AppFont.hintTextField,
               border: OutlineInputBorder(),
             ),
             validator: (value) {
               if (value != null) {
                 final email = value.trim();
                 if (email.isNotEmpty && !EmailValidator.validate(email)) {
-                  return 'Please enter a valid email address';
+                  return 'Masukan email yang sesuai';
                 }
               }
               return null;
             },
           ),
           SizedBox(height: 8.0),
-          ElevatedButton(
-            onPressed: _addEmail,
-            child: Text('Add email'),
+          GestureDetector(
+            onTap: _addEmail,
+            child: Row(
+              children: [
+                IconButton(onPressed: _addEmail, icon: Icon(Icons.add), color: AppColorPrimary.primary6,),
+                TextButton(
+                  onPressed: _addEmail,
+                  child: Text(
+                    'Tambahkan Email',
+                    style: GoogleFonts.ibmPlexSans(
+                      fontSize: 16,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w400,
+                      color: AppColorPrimary.primary6,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
