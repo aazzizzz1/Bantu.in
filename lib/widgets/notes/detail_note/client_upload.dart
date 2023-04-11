@@ -69,7 +69,7 @@ class _ClientUploadState extends State<ClientUpload> {
     }
   }
 
-    void _saveFile() async {
+  void _saveFile() async {
     if (_pickedFile != null) {
       print('File saved: ${_pickedFile!.name}');
       if (_pickedFile!.extension == 'jpg' || _pickedFile!.extension == 'png') {
@@ -118,7 +118,7 @@ class _ClientUploadState extends State<ClientUpload> {
         ),
         const SizedBox(height: 8),
         Text(
-          "File yang support adalah .jpg atau .png.",
+          "File yang support adalah .jpg atau .png .pdf",
           style: AppFont.medium14,
         ),
         const SizedBox(height: 16),
@@ -126,7 +126,7 @@ class _ClientUploadState extends State<ClientUpload> {
           onPressed: () async {
             FilePickerResult? result = await FilePicker.platform.pickFiles(
               type: FileType.custom,
-              allowedExtensions: ['jpg', 'pdf', 'doc'],
+              allowedExtensions: ['jpg', 'png', 'pdf'],
             );
             if (result != null) {
               setState(() {
@@ -161,9 +161,29 @@ class _ClientUploadState extends State<ClientUpload> {
         ),
         const SizedBox(height: 16),
         if (_pickedFile != null)
-          ElevatedButton(
-            onPressed: _openFile,
-            child: Text('Open file: ${_pickedFile!.name}'),
+          Column(
+            children: [
+              Row(
+                //spaceBetween
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "File yang telah diunggah",
+                    style: AppFont.semiBold14,
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      // Action to perform when the button is pressed
+                    },
+                    child: Text('Lihat Semua'),
+                  )
+                ],
+              ),
+              ElevatedButton(
+                onPressed: _openFile,
+                child: Text('Open file: ${_pickedFile!.name}'),
+              ),
+            ],
           ),
       ],
     );
