@@ -3,6 +3,8 @@ import 'package:bantuin/screens/note/notes_screen.dart';
 import 'package:bantuin/widgets/bottom_navigation/list_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class BottomMenu extends StatefulWidget {
   BottomMenu({Key? key, required this.currentScreen, required this.currentTab})
@@ -40,29 +42,31 @@ class _BottomMenuState extends State<BottomMenu> {
           context: context,
           builder: (context) => AlertDialog(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-            title: const Text('Exit App'),
-            content: const Text('Are you sure to exit the app?'),
+                borderRadius: BorderRadius.circular(9.0)),
+            title: const Text('Keluar Aplikasi'),
+            content: const Text('Apakah kamu yakin keluar aplikasi?'),
             actionsAlignment: MainAxisAlignment.spaceBetween,
             actions: [
               TextButton(
                 onPressed: () => SystemNavigator.pop(),
                 child: Text(
-                  'Yes',
-                  style: TextStyle(
-                    color: AppColorPrimary.primary6,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  'Iya',
+                  style: GoogleFonts.ibmPlexSans(
+                      fontSize: 14,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w500,
+                      color: AppColorPrimary.primary6),
                 ),
               ),
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
                 child: Text(
-                  'No',
-                  style: TextStyle(
-                    color: AppColorPrimary.primary6,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  'Tidak',
+                  style: GoogleFonts.ibmPlexSans(
+                      fontSize: 14,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w500,
+                      color: AppColorPrimary.primary6),
                 ),
               )
             ],
@@ -108,7 +112,7 @@ class _BottomMenuState extends State<BottomMenu> {
         bottomNavigationBar: BottomAppBar(
           shape: const CircularNotchedRectangle(),
           notchMargin: 5,
-          elevation: 10,
+          elevation: 9,
           child: SizedBox(
             height: 60,
             child: Row(
@@ -128,20 +132,29 @@ class _BottomMenuState extends State<BottomMenu> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
-                              Icons.home_filled,
+                            SvgPicture.asset(
+                              "lib/assets/icons/Home.svg",
+                              height: 26,
+                              width: 26,
                               color: statusLayar.currentTab == 0
                                   ? AppColorPrimary.primary6
-                                  : Colors.grey,
+                                  : Colors.black,
                             ),
+                            // Icon(
+                            //   Icons.home_filled,
+                            //   color: statusLayar.currentTab == 0
+                            //       ? AppColorPrimary.primary6
+                            //       : Colors.grey,
+                            // ),
                             Text(
-                              'Home',
-                              style: TextStyle(
+                              'Beranda',
+                              style: GoogleFonts.ibmPlexSans(
+                                fontSize: 9,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w500,
                                 color: statusLayar.currentTab == 0
                                     ? AppColorPrimary.primary6
-                                    : Colors.grey,
-                                fontFamily: 'Poppins',
-                                fontSize: 10,
+                                    : Colors.black,
                               ),
                             )
                           ],
@@ -160,20 +173,29 @@ class _BottomMenuState extends State<BottomMenu> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
-                              Icons.group_add_rounded,
+                            SvgPicture.asset(
+                              "lib/assets/icons/Team.svg",
+                              height: 26,
+                              width: 26,
                               color: statusLayar.currentTab == 1
                                   ? AppColorPrimary.primary6
-                                  : Colors.grey,
+                                  : Colors.black,
                             ),
+                            // Icon(
+                            //   Icons.group_add_rounded,
+                            //   color: statusLayar.currentTab == 1
+                            //       ? AppColorPrimary.primary6
+                            //       : Colors.grey,
+                            // ),
                             Text(
                               'Tim',
-                              style: TextStyle(
+                              style: GoogleFonts.ibmPlexSans(
+                                fontSize: 9,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w500,
                                 color: statusLayar.currentTab == 1
                                     ? AppColorPrimary.primary6
-                                    : Colors.grey,
-                                fontFamily: 'Poppins',
-                                fontSize: 10,
+                                    : Colors.black,
                               ),
                             )
                           ],
@@ -186,12 +208,13 @@ class _BottomMenuState extends State<BottomMenu> {
                   margin: const EdgeInsets.only(top: 25),
                   width: size.width * 0.2,
                   alignment: Alignment.center,
-                  child: const Text(
-                    'Notes',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      color: Colors.grey,
-                      fontSize: 10,
+                  child: Text(
+                    'Catatan',
+                    style: GoogleFonts.ibmPlexSans(
+                      fontSize: 9,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black,
                     ),
                   ),
                 ),
@@ -209,20 +232,29 @@ class _BottomMenuState extends State<BottomMenu> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
-                              Icons.mail_outline_rounded,
+                            SvgPicture.asset(
+                              "lib/assets/icons/email.svg",
+                              height: 26,
+                              width: 26,
                               color: statusLayar.currentTab == 2
                                   ? AppColorPrimary.primary6
-                                  : Colors.grey,
+                                  : Colors.black,
                             ),
+                            // Icon(
+                            //   Icons.mail_outline_rounded,
+                            //   color: statusLayar.currentTab == 2
+                            //       ? AppColorPrimary.primary6
+                            //       : Colors.grey,
+                            // ),
                             Text(
-                              'Invitation',
-                              style: TextStyle(
+                              'Undangan',
+                              style: GoogleFonts.ibmPlexSans(
+                                fontSize: 9,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w500,
                                 color: statusLayar.currentTab == 2
                                     ? AppColorPrimary.primary6
-                                    : Colors.grey,
-                                fontFamily: 'Poppins',
-                                fontSize: 10,
+                                    : Colors.black,
                               ),
                             )
                           ],
@@ -232,7 +264,7 @@ class _BottomMenuState extends State<BottomMenu> {
                     SizedBox(
                       width: size.width * 0.2,
                       child: MaterialButton(
-                        minWidth: 10,
+                        minWidth: 9,
                         onPressed: () {
                           setState(() {
                             statusLayar.currentTab = 3;
@@ -242,20 +274,29 @@ class _BottomMenuState extends State<BottomMenu> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
-                              Icons.account_circle,
+                            SvgPicture.asset(
+                              "lib/assets/icons/Avatar.svg",
+                              height: 26,
+                              width: 26,
                               color: statusLayar.currentTab == 3
                                   ? AppColorPrimary.primary6
-                                  : Colors.grey,
+                                  : Colors.black,
                             ),
+                            // Icon(
+                            //   Icons.account_circle,
+                            //   color: statusLayar.currentTab == 3
+                            //       ? AppColorPrimary.primary6
+                            //       : Colors.grey,
+                            // ),
                             Text(
-                              'Profile',
-                              style: TextStyle(
+                              'Profil',
+                              style: GoogleFonts.ibmPlexSans(
+                                fontSize: 9,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w500,
                                 color: statusLayar.currentTab == 3
                                     ? AppColorPrimary.primary6
-                                    : Colors.grey,
-                                fontFamily: 'Poppins',
-                                fontSize: 10,
+                                    : Colors.black,
                               ),
                             )
                           ],
