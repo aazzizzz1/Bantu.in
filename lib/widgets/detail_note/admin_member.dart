@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
-import '../../../constants/color/app_color.dart';
-import '../../../constants/font/app_font.dart';
+import '../../constants/color/app_color.dart';
+import '../../constants/font/app_font.dart';
 
 class AdminMember extends StatelessWidget {
   final String fileUrl;

@@ -1,6 +1,6 @@
 import 'package:bantuin/widgets/notes/date_time_picker.dart';
 import 'package:bantuin/widgets/notes/email_picker.dart';
-import 'package:bantuin/widgets/notes/form/button_to_screen_notes.dart';
+import 'package:bantuin/widgets/form/button_to_screen_notes.dart';
 import 'package:bantuin/widgets/notes/my_reminder.dart';
 import 'package:bantuin/widgets/notes/reminder_picker.dart';
 import 'package:bantuin/widgets/notes/ringtones_picker.dart';

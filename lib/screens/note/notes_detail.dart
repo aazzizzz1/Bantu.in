@@ -1,13 +1,13 @@
 import 'package:bantuin/constants/color/app_color.dart';
 import 'package:bantuin/constants/font/app_font.dart';
 import 'package:bantuin/screens/note/tracking_screen.dart';
-import 'package:bantuin/widgets/notes/detail_note/admin_appbar.dart';
-import 'package:bantuin/widgets/notes/detail_note/admin_date.dart';
-import 'package:bantuin/widgets/notes/detail_note/admin_member.dart';
-import 'package:bantuin/widgets/notes/detail_note/client_date.dart';
-import 'package:bantuin/widgets/notes/detail_note/client_upload.dart';
-import 'package:bantuin/widgets/notes/detail_note/client_upload_status.dart';
-import 'package:bantuin/widgets/notes/detail_note/edit_delete_note.dart';
+import 'package:bantuin/widgets/detail_note/admin_appbar.dart';
+import 'package:bantuin/widgets/detail_note/admin_date.dart';
+import 'package:bantuin/widgets/detail_note/admin_member.dart';
+import 'package:bantuin/widgets/detail_note/client_date.dart';
+import 'package:bantuin/widgets/detail_note/client_upload.dart';
+import 'package:bantuin/widgets/detail_note/client_upload_status.dart';
+import 'package:bantuin/widgets/detail_note/edit_delete_note.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
