@@ -25,6 +25,7 @@ class NotesDetail extends StatelessWidget {
   final bool? isAdmin;
   final bool? isPersonal;
   final bool? isUpload;
+  // final NoteModel notes;
 
   NotesDetail({
     required this.title,
