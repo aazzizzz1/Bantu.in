@@ -36,6 +36,7 @@ class _BottomMenuState extends State<BottomMenu> {
     return WillPopScope(
       onWillPop: () async {
         final shouldpop = await showDialog<bool>(
+          barrierDismissible: false,
           context: context,
           builder: (context) => AlertDialog(
             shape: RoundedRectangleBorder(

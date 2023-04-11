@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
-import '../../../constants/font/app_font.dart';
+import '../../constants/font/app_font.dart';
 
 class AdminDate extends StatelessWidget {
   final String eventDate;

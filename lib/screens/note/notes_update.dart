@@ -12,17 +12,53 @@ import '../../constants/constant.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class NotesUpdate extends StatefulWidget {
-  const NotesUpdate({super.key});
+  final String title;
+  final String description;
+  final String avatarUrl;
+  final String name;
+  final String fileUrl;
+  final String createdBy;
+  final String eventDate;
+  final String reminder;
+  final String ringtone;
+
+  NotesUpdate({
+    super.key,
+    required this.title,
+    required this.description,
+    required this.avatarUrl,
+    required this.name,
+    required this.fileUrl,
+    required this.createdBy,
+    required this.eventDate,
+    required this.reminder,
+    required this.ringtone,
+  });
 
   @override
   State<NotesUpdate> createState() => _NotesUpdateState();
 }
 
 class _NotesUpdateState extends State<NotesUpdate> {
+  TextEditingController _titleController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
+  TextEditingController _eventDateController = TextEditingController();
+  TextEditingController _reminderController = TextEditingController();
+  TextEditingController _ringtoneController = TextEditingController();
   List<DateTime> _selectedDates = [];
   String? _selectedRingtone;
 
   List<String> _selectedEmails = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _titleController.text = widget.title;
+    _descriptionController.text = widget.description;
+    _eventDateController.text = widget.eventDate;
+    _ringtoneController.text = widget.ringtone;
+    super.initState();
+  }
 
   void _handleEmailsChanged(List<String> selectedEmails) {
     setState(() {
@@ -66,6 +102,7 @@ class _NotesUpdateState extends State<NotesUpdate> {
                   height: 4,
                 ),
                 TextFormField(
+                  controller: _titleController,
                   decoration: InputDecoration(
                     filled: true,
                     hintText: 'Tulis Subject',
@@ -97,6 +134,7 @@ class _NotesUpdateState extends State<NotesUpdate> {
                   height: 4,
                 ),
                 TextField(
+                  controller: _descriptionController,
                   keyboardType: TextInputType.multiline,
                   maxLines: 5,
                   decoration: InputDecoration(
@@ -292,7 +330,7 @@ class _NotesUpdateState extends State<NotesUpdate> {
                 ),
                 RingtonePickerWidget(
                   label: 'Ringtone',
-                  initialRingtone: _selectedRingtone,
+                  initialRingtone: _ringtoneController.toString(),
                   onChanged: (ringtone) {
                     setState(() {
                       _selectedRingtone = ringtone;
@@ -306,7 +344,7 @@ class _NotesUpdateState extends State<NotesUpdate> {
                   onPressed: () {},
                   style: const ButtonStyle(
                     padding: MaterialStatePropertyAll(
-                      EdgeInsets.symmetric(horizontal: 120, vertical: 15),
+                      EdgeInsets.symmetric(horizontal: 100, vertical: 15),
                     ),
                     elevation: MaterialStatePropertyAll(0),
                     backgroundColor:
