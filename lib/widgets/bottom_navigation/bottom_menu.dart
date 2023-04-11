@@ -49,7 +49,7 @@ class _BottomMenuState extends State<BottomMenu> {
                 child: Text(
                   'Yes',
                   style: TextStyle(
-                    color: Colors.tealAccent[700],
+                    color: AppColorPrimary.primary6,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -59,7 +59,7 @@ class _BottomMenuState extends State<BottomMenu> {
                 child: Text(
                   'No',
                   style: TextStyle(
-                    color: Colors.tealAccent[700],
+                    color: AppColorPrimary.primary6,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
