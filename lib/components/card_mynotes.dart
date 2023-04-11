@@ -2,6 +2,7 @@ import 'package:bantuin/constants/color/app_color.dart';
 import 'package:bantuin/constants/font/app_font.dart';
 import 'package:bantuin/screens/note/notes_detail.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CardMyNotes extends StatelessWidget {
   final String title;
@@ -87,7 +88,7 @@ class CardMyNotes extends StatelessWidget {
                       Expanded(
                         child: Text(
                           title,
-                          style: AppFont.semiBold14,
+                          style: AppFont.semiBold16w500,
                         ),
                       ),
                       Container(
@@ -119,11 +120,10 @@ class CardMyNotes extends StatelessWidget {
                   SizedBox(height: 8.0),
                   Row(
                     children: [
-                      Icon(
-                        Icons.person,
-                        size: 20.0,
-                        color: AppColorPrimary.primary6,
-                      ),
+                      SvgPicture.asset("lib/assets/icons/Avatar.svg",
+                          height: 26,
+                          width: 26,
+                          color: AppColorPrimary.primary6),
                       SizedBox(width: 8.0),
                       Text(
                         'Personal',

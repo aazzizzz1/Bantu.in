@@ -207,7 +207,7 @@ class _NotesFormState extends State<NotesForm> {
                 ),
                 Text(
                   "Tambahkan tanggal acara",
-                  style: AppFont.labelTextForm,
+                  style: AppFont.medium14,
                 ),
                 const SizedBox(
                   height: 4,
@@ -272,7 +272,7 @@ class _NotesFormState extends State<NotesForm> {
                 ),
                 Text(
                   "Tambahkan pengingat",
-                  style: AppFont.labelTextForm,
+                  style: AppFont.medium14,
                 ),
                 const SizedBox(
                   height: 4,
@@ -304,7 +304,7 @@ class _NotesFormState extends State<NotesForm> {
                 ),
                 Text(
                   "Tambahkan Ringtones",
-                  style: AppFont.labelTextForm,
+                  style: AppFont.medium14,
                 ),
                 const SizedBox(
                   height: 4,
