@@ -84,7 +84,7 @@ class _MultipleEmailPickerState extends State<MultipleEmailPicker> {
                   child: Text(
                     'Tambahkan Email',
                     style: GoogleFonts.ibmPlexSans(
-                      fontSize: 16,
+                      fontSize: 14,
                       fontStyle: FontStyle.normal,
                       fontWeight: FontWeight.w400,
                       color: AppColorPrimary.primary6,
