@@ -160,31 +160,57 @@ class _ClientUploadState extends State<ClientUpload> {
           ),
         ),
         const SizedBox(height: 16),
-        if (_pickedFile != null)
-          Column(
-            children: [
-              Row(
-                //spaceBetween
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        _pickedFile != null
+            ? Column(
                 children: [
-                  Text(
-                    "File yang telah diunggah",
-                    style: AppFont.semiBold14,
+                  Row(
+                    //spaceBetween
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "File yang telah diunggah",
+                        style: AppFont.semiBold14,
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          // Action to perform when the button is pressed
+                        },
+                        child: Text('Lihat Semua'),
+                      )
+                    ],
                   ),
-                  TextButton(
-                    onPressed: () {
-                      // Action to perform when the button is pressed
-                    },
-                    child: Text('Lihat Semua'),
-                  )
+                  ElevatedButton(
+                    onPressed: _openFile,
+                    child: Text('Open file: ${_pickedFile!.name}'),
+                  ),
                 ],
-              ),
-              ElevatedButton(
-                onPressed: _openFile,
-                child: Text('Open file: ${_pickedFile!.name}'),
-              ),
-            ],
-          ),
+              )
+            : const SizedBox()
+        // if (_pickedFile != null)
+        //   Column(
+        //     children: [
+        //       Row(
+        //         //spaceBetween
+        //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //         children: [
+        //           Text(
+        //             "File yang telah diunggah",
+        //             style: AppFont.semiBold14,
+        //           ),
+        //           TextButton(
+        //             onPressed: () {
+        //               // Action to perform when the button is pressed
+        //             },
+        //             child: Text('Lihat Semua'),
+        //           )
+        //         ],
+        //       ),
+        //       ElevatedButton(
+        //         onPressed: _openFile,
+        //         child: Text('Open file: ${_pickedFile!.name}'),
+        //       ),
+        //     ],
+        //   ),
       ],
     );
   }
