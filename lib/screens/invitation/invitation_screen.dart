@@ -17,13 +17,12 @@ class _InvitationScreenState extends State<InvitationScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        toolbarHeight: 72,
+        automaticallyImplyLeading: false,
         title: Text(
           'Permintaan',
           style: AppFont.regular20,
         ),
         backgroundColor: Colors.white,
-        elevation: 1,
       ),
       body: CardInvitation(),
     );
