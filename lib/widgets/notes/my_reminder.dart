@@ -26,6 +26,48 @@ class _MyReminderState extends State<MyReminder> {
     _selectedDates = widget.initialDates;
   }
 
+  Future<void> _addNewReminder() async {
+    final DateTime? selectedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
+    );
+    if (selectedDate != null) {
+      final DateTime now = DateTime.now();
+      final TimeOfDay? selectedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+      if (selectedTime != null) {
+        final DateTime selectedDateTime = DateTime(
+          selectedDate.year,
+          selectedDate.month,
+          selectedDate.day,
+          selectedTime.hour,
+          selectedTime.minute,
+        );
+        if (selectedDateTime.isBefore(now)) {
+          showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: Text('Peringatan'),
+            content: Text('Anda tidak dapat memilih waktu sebelum waktu saat ini.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('OK'),
+              ),
+            ],
+          ),
+        );
+        } else {
+          _onReminderChanged(selectedDateTime);
+        }
+      }
+    }
+  }
+
   void _onReminderChanged(DateTime dateTime) {
     setState(() {
       if (_selectedDates.contains(dateTime)) {
@@ -57,36 +99,13 @@ class _MyReminderState extends State<MyReminder> {
           itemBuilder: (context, index) {
             if (index == _selectedDates.length) {
               return GestureDetector(
-                onTap: () async {
-                  final DateTime? selectedDateTime = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime.now(),
-                    lastDate: DateTime.now().add(const Duration(days: 365)),
-                  );
-                  if (selectedDateTime != null) {
-                    final TimeOfDay? selectedTime = await showTimePicker(
-                      context: context,
-                      initialTime: TimeOfDay.now(),
-                    );
-                    if (selectedTime != null) {
-                      final DateTime selectedDateTimeWithTime = DateTime(
-                        selectedDateTime.year,
-                        selectedDateTime.month,
-                        selectedDateTime.day,
-                        selectedTime.hour,
-                        selectedTime.minute,
-                      );
-                      _onReminderChanged(selectedDateTimeWithTime);
-                    }
-                  }
-                },
+                onTap: _addNewReminder,
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
                     border: Border.all(color: Colors.grey),
                   ),
-                  margin:const EdgeInsets.symmetric(vertical: 10, ),
+                  margin: const EdgeInsets.symmetric(vertical: 10),
                   padding: const EdgeInsets.all(16),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
