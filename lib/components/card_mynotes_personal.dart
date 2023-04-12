@@ -1,6 +1,7 @@
 import 'package:bantuin/constants/color/app_color.dart';
 import 'package:bantuin/constants/font/app_font.dart';
 import 'package:bantuin/screens/note/notes_detail.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -109,9 +110,14 @@ class CardMyNotesPersonal extends StatelessWidget {
                         style: AppFont.regular12,
                       ),
                       SizedBox(width: 8.0),
-                      CircleAvatar(
-                        backgroundImage: NetworkImage(avatarUrl),
-                        radius: 12.0,
+                      CachedNetworkImage(
+                        imageUrl: avatarUrl,
+                        placeholder: (context, url) => CircularProgressIndicator(),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        imageBuilder: (context, imageProvider) => CircleAvatar(
+                          backgroundImage: imageProvider,
+                          radius: 12.0,
+                        ),
                       ),
                       SizedBox(width: 8.0),
                       Text(

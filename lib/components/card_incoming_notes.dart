@@ -3,6 +3,7 @@ import 'package:bantuin/constants/font/app_font.dart';
 import 'package:bantuin/screens/note/notes_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class CardIncomingNotes extends StatelessWidget {
   final String title;
@@ -33,8 +34,7 @@ class CardIncomingNotes extends StatelessWidget {
             builder: (context) => NotesDetail(
               title: 'Meeting with John Doe',
               description: 'Meeting with John Doe to discuss about the project',
-              avatarUrl:
-                  'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
+              avatarUrl:'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
               name: 'John Doe',
               fileUrl: 'https://example.com/notes.pdf',
               // createdBy: 'John Doe',
@@ -117,9 +117,14 @@ class CardIncomingNotes extends StatelessWidget {
                       SizedBox(width: 8.0),
                       Text('Personal', style: AppFont.regular12),
                       SizedBox(width: 8.0),
-                      CircleAvatar(
-                        backgroundImage: NetworkImage(avatarUrl),
-                        radius: 12.0,
+                      CachedNetworkImage(
+                        imageUrl: avatarUrl,
+                        placeholder: (context, url) => CircularProgressIndicator(),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        imageBuilder: (context, imageProvider) => CircleAvatar(
+                          backgroundImage: imageProvider,
+                          radius: 12.0,
+                        ),
                       ),
                       SizedBox(width: 8.0),
                       Text(

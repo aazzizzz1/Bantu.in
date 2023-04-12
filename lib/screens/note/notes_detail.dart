@@ -8,6 +8,7 @@ import 'package:bantuin/widgets/detail_note/client_date.dart';
 import 'package:bantuin/widgets/detail_note/client_upload.dart';
 import 'package:bantuin/widgets/detail_note/client_upload_status.dart';
 import 'package:bantuin/widgets/detail_note/edit_delete_note.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -129,9 +130,17 @@ class NotesDetail extends StatelessWidget {
                       SizedBox(height: 8.0),
                       Row(
                         children: [
-                          CircleAvatar(
-                            backgroundImage: NetworkImage(avatarUrl),
-                            radius: 12.0,
+                          CachedNetworkImage(
+                            imageUrl: avatarUrl,
+                            placeholder: (context, url) =>
+                                CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                            imageBuilder: (context, imageProvider) =>
+                                CircleAvatar(
+                              backgroundImage: imageProvider,
+                              radius: 12.0,
+                            ),
                           ),
                           SizedBox(width: 8.0),
                           Text(

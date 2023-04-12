@@ -18,13 +18,6 @@ class _InvitationScreenState extends State<InvitationScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         toolbarHeight: 72,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(Icons.arrow_back),
-          color: Colors.black,
-        ),
         title: Text(
           'Permintaan',
           style: AppFont.regular20,
