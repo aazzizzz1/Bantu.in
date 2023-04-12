@@ -12,6 +12,7 @@ class CardMyNotesPersonal extends StatelessWidget {
   final String month;
   final String avatarUrl;
   final String name;
+  final bool isDone;
 
   CardMyNotesPersonal({
     required this.title,
@@ -20,6 +21,7 @@ class CardMyNotesPersonal extends StatelessWidget {
     required this.month,
     required this.avatarUrl,
     required this.name,
+    required this.isDone,
   });
 
   @override
@@ -40,6 +42,7 @@ class CardMyNotesPersonal extends StatelessWidget {
               eventDate: '2023-04-08',
               reminder: '2023-04-07 10:00:00',
               ringtone: 'default',
+              isUpload: isDone,
               isPersonal: true,
             ),
           ),
@@ -87,6 +90,24 @@ class CardMyNotesPersonal extends StatelessWidget {
                         child: Text(
                           title,
                           style: AppFont.semiBold16w500,
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(4.0),
+                        decoration: BoxDecoration(
+                          color: isDone
+                              ? AppColor.completeColor
+                              : AppColorRed.red4,
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        child: Text(
+                          isDone ? 'Sudah Selesai' : 'Belum Selesai',
+                          style: TextStyle(
+                            fontStyle: FontStyle.normal,
+                            color: isDone
+                                ? AppColor.textprogresColor
+                                : AppColor.errorColor,
+                          ),
                         ),
                       ),
                     ],

@@ -21,7 +21,7 @@ class _ListDaftarCatatanState extends State<ListDaftarCatatan> {
         itemBuilder: (context, index) {
           return Column(
             children: [
-              CardIncomingNotes(
+              CardMyNotesProgres(
                 title: 'Belikan saya tiket pesawat',
                 description: 'Belikan saya tiket pesawat untuk tgl 2 april ke Solo dan pulangnya tgl 4 april.',
                 date: '1',
@@ -55,6 +55,7 @@ class _ListDaftarCatatanState extends State<ListDaftarCatatan> {
                 month: 'Jan',
                 avatarUrl:'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
                 name: 'Siapa ya',
+                isDone: true,
               ),
             ],
           );

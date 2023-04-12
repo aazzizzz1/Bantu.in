@@ -75,6 +75,17 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                   itemBuilder: (context, index) {
                     return Column(
                       children: [
+                        CardMyNotesProgres(
+                          title: 'Belikan saya tiket pesawat',
+                          description:
+                              'Belikan saya tiket pesawat untuk tgl 2 april ke Solo dan pulangnya tgl 4 april.',
+                          date: '1',
+                          month: 'Mar',
+                          avatarUrl:
+                              'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
+                          name: 'John Doe',
+                          progress: 0.8,
+                        ),
                         CardMyNotesPersonal(
                           title: 'Acara ulang tahun adik',
                           description: 'Ulang tahun tanggal 17 adik fitri',
@@ -83,8 +94,9 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                           avatarUrl:
                               'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
                           name: 'Siapa ya',
+                          isDone: true,
                         ),
-                        CardIncomingNotesUpload(
+                        CardMyNotesProgres(
                           title: 'Meeting with client',
                           description:
                               'Discuss bantuin project requirements with client',
@@ -93,7 +105,7 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                           avatarUrl:
                               'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
                           name: 'John Doe',
-                          isUploaded: true,
+                          progress: 0.6,
                         ),
                         CardMyNotesPersonal(
                           title: 'Meeting with client',
@@ -104,17 +116,7 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                           avatarUrl:
                               'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
                           name: 'John Doe',
-                        ),
-                        CardIncomingNotesUpload(
-                          title: 'Meeting with client',
-                          description:
-                              'Discuss bantuin project requirements with client',
-                          date: '15',
-                          month: 'Apr',
-                          avatarUrl:
-                              'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
-                          name: 'John Doe',
-                          isUploaded: false,
+                          isDone: false,
                         ),
                       ],
                     );
@@ -145,17 +147,6 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
               itemBuilder: (context, index) {
                 return Column(
                   children: [
-                    CardIncomingNotes(
-                      title: 'Belikan saya tiket pesawat',
-                      description:
-                          'Belikan saya tiket pesawat untuk tgl 2 april ke Solo dan pulangnya tgl 4 april.',
-                      date: '1',
-                      month: 'Mar',
-                      avatarUrl:
-                          'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
-                      name: 'John Doe',
-                      progress: 0.8,
-                    ),
                     CardIncomingNotesUpload(
                       title: 'Beli tiket untuk bos',
                       description:
@@ -167,7 +158,7 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                       name: 'Zahra',
                       isUploaded: true,
                     ),
-                    CardIncomingNotes(
+                    CardIncomingNotesUpload(
                       title: 'Meeting with client',
                       description:
                           'Discuss bantuin project requirements with client',
@@ -176,7 +167,18 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                       avatarUrl:
                           'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
                       name: 'John Doe',
-                      progress: 0.6,
+                      isUploaded: true,
+                    ),
+                    CardIncomingNotesUpload(
+                      title: 'Meeting with client',
+                      description:
+                          'Discuss bantuin project requirements with client',
+                      date: '15',
+                      month: 'Apr',
+                      avatarUrl:
+                          'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
+                      name: 'John Doe',
+                      isUploaded: false,
                     ),
                   ],
                 );
