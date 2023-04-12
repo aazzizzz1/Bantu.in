@@ -1,9 +1,15 @@
+import 'package:bantuin/constants/font/app_font.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DataFilter extends StatefulWidget {
   final Function(DateTime? date) onDateFilterChanged;
 
-  const DataFilter({Key? key, required this.onDateFilterChanged, required Null Function(String sortBy) onSortByChanged}) : super(key: key);
+  const DataFilter(
+      {Key? key,
+      required this.onDateFilterChanged,
+      required Null Function(String sortBy) onSortByChanged})
+      : super(key: key);
 
   @override
   _DataFilterState createState() => _DataFilterState();
@@ -27,15 +33,36 @@ class _DataFilterState extends State<DataFilter> {
                 items: [
                   DropdownMenuItem<String>(
                     value: 'Tanggal',
-                    child: Text('Tanggal'),
+                    child: Text(
+                      'Tanggal',
+                      style: GoogleFonts.ibmPlexSans(
+                          fontSize: 14,
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
+                    ),
                   ),
                   DropdownMenuItem<String>(
                     value: 'Bulan',
-                    child: Text('Bulan'),
+                    child: Text(
+                      'Bulan',
+                      style: GoogleFonts.ibmPlexSans(
+                          fontSize: 14,
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
+                    ),
                   ),
                   DropdownMenuItem<String>(
                     value: 'Tahun',
-                    child: Text('Tahun'),
+                    child: Text(
+                      'Tahun',
+                      style: GoogleFonts.ibmPlexSans(
+                          fontSize: 14,
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
+                    ),
                   ),
                 ],
                 onChanged: (value) {
@@ -52,7 +79,7 @@ class _DataFilterState extends State<DataFilter> {
                       context: context,
                       initialDate: _selectedDate ?? DateTime.now(),
                       firstDate: DateTime(2010),
-                      lastDate: DateTime.now(),
+                      lastDate: DateTime(2100),
                     );
                     if (picked != null) {
                       setState(() {
@@ -65,25 +92,35 @@ class _DataFilterState extends State<DataFilter> {
                     _selectedDate != null
                         ? "${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}"
                         : 'Pilih Tanggal',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: GoogleFonts.ibmPlexSans(
+                          fontSize: 14,
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
                   ),
                 ),
               if (_filterOption == 'Bulan')
                 DropdownButton<int>(
                   value: _selectedDate?.month,
                   items: List.generate(
-                    12,
+                    14,
                     (index) => DropdownMenuItem<int>(
                       value: index + 1,
-                      child: Text('${index + 1}'),
+                      child: Text('${index + 1}',
+                      style: GoogleFonts.ibmPlexSans(
+                          fontSize: 14,
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
+                      ),
                     ),
                   ),
                   onChanged: (value) {
                     setState(() {
-                      _selectedDate = DateTime(_selectedDate?.year ?? DateTime.now().year, value!, 1);
+                      _selectedDate = DateTime(
+                          _selectedDate?.year ?? DateTime.now().year,
+                          value!,
+                          1);
                     });
                     widget.onDateFilterChanged(_selectedDate);
                   },
@@ -95,12 +132,19 @@ class _DataFilterState extends State<DataFilter> {
                     10,
                     (index) => DropdownMenuItem<int>(
                       value: DateTime.now().year - index,
-                      child: Text('${DateTime.now().year - index}'),
+                      child: Text('${DateTime.now().year - index}',
+                      style: GoogleFonts.ibmPlexSans(
+                          fontSize: 14,
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
+                      ),
                     ),
                   ),
                   onChanged: (value) {
                     setState(() {
-                      _selectedDate = DateTime(value!, _selectedDate?.month ?? DateTime.now().month, 1);
+                      _selectedDate = DateTime(value!,
+                          _selectedDate?.month ?? DateTime.now().month, 1);
                     });
                     widget.onDateFilterChanged(_selectedDate);
                   },

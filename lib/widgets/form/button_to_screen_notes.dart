@@ -16,9 +16,7 @@ class ButtonScreenNotes extends StatelessWidget {
         );
       },
       style: const ButtonStyle(
-        padding: MaterialStatePropertyAll(
-          EdgeInsets.symmetric(horizontal: 120, vertical: 15),
-        ),
+        padding: MaterialStatePropertyAll(EdgeInsets.all(16.0)),
         elevation: MaterialStatePropertyAll(0),
         backgroundColor: MaterialStatePropertyAll(AppColor.activeColor),
       ),

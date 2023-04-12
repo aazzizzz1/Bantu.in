@@ -3,6 +3,12 @@ import 'package:google_fonts/google_fonts.dart';
 import '../color/app_color.dart';
 
 class AppFont {
+  static TextStyle get semiBold16w500 => GoogleFonts.ibmPlexSans(
+        fontSize: 16,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w500,
+        color: Colors.black,
+      );
   static TextStyle get regular28 => GoogleFonts.ibmPlexSans(
         fontSize: 28,
         fontStyle: FontStyle.normal,
