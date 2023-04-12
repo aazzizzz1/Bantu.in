@@ -67,107 +67,113 @@ class NotesDetail extends StatelessWidget {
               : const SizedBox()
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      title,
-                      style: AppFont.textTitleScreen,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        title,
+                        style: AppFont.textTitleScreen,
+                      ),
+                      isPersonal == true || isAdmin == true
+                          ? EditDeleteNote(
+                              title: title,
+                              description: description,
+                              avatarUrl: avatarUrl,
+                              name: name,
+                              fileUrl: fileUrl,
+                              createdBy: createdBy,
+                              eventDate: eventDate,
+                              reminder: reminder,
+                              ringtone: ringtone,
+                              isAdmin: isAdmin,
+                            )
+                          : const SizedBox(),
+                    ],
+                  ),
+                  SizedBox(height: 20.0),
+                  SizedBox(
+                    width: 250,
+                    child: Text(
+                      description,
+                      style: AppFont.medium14,
+                      maxLines: 5,
                     ),
-                    isPersonal == true || isAdmin == true
-                        ? EditDeleteNote(
-                            title: title,
-                            description: description,
-                            avatarUrl: avatarUrl,
-                            name: name,
-                            fileUrl: fileUrl,
-                            createdBy: createdBy,
-                            eventDate: eventDate,
-                            reminder: reminder,
-                            ringtone: ringtone)
-                        : const SizedBox(),
-                  ],
+                  ),
+                  SizedBox(height: 24.0),
+                  isAdmin != null
+                      ? (isAdmin == true
+                          ? AdminMember(fileUrl: fileUrl)
+                          : ClientDate(
+                              eventDate: eventDate, reminder: reminder))
+                      : const SizedBox(),
+                  SizedBox(height: 16.0),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Pembuat Catatan :',
+                        style: AppFont.medium14,
+                      ),
+                      SizedBox(height: 8.0),
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            backgroundImage: NetworkImage(avatarUrl),
+                            radius: 12.0,
+                          ),
+                          SizedBox(width: 8.0),
+                          Text(
+                            createdBy,
+                            style: AppFont.textPersonOrTeam,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 24.0),
+                  isPersonal == true || isAdmin == true
+                      ? AdminDate(
+                          eventDate: eventDate,
+                          reminder: reminder,
+                          ringtone: ringtone)
+                      : const ClientUpload(),
+                  // isAdmin != null
+                  //     ? (isAdmin == true ? adminWidgetDate() : clientUpload())
+                  //     : const SizedBox(),
+                ],
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Catatan Diselesaikan")));
+                  Navigator.pop(context);
+                },
+                style: const ButtonStyle(
+                  padding: MaterialStatePropertyAll(
+                    EdgeInsets.symmetric(horizontal: 100, vertical: 15),
+                  ),
+                  elevation: MaterialStatePropertyAll(0),
+                  backgroundColor:
+                      MaterialStatePropertyAll(AppColor.activeColor),
                 ),
-                SizedBox(height: 20.0),
-                SizedBox(
-                  width: 250,
+                child: Center(
                   child: Text(
-                    description,
-                    style: AppFont.medium14,
-                    maxLines: 5,
+                    'Selesaikan Catatan',
+                    style: AppFont.textFillButtonActive,
                   ),
                 ),
-                SizedBox(height: 24.0),
-                isAdmin != null
-                    ? (isAdmin == true
-                        ? AdminMember(fileUrl: fileUrl)
-                        : ClientDate(eventDate: eventDate, reminder: reminder))
-                    : const SizedBox(),
-                SizedBox(height: 16.0),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Pembuat Catatan :',
-                      style: AppFont.medium14,
-                    ),
-                    SizedBox(height: 8.0),
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          backgroundImage: NetworkImage(avatarUrl),
-                          radius: 12.0,
-                        ),
-                        SizedBox(width: 8.0),
-                        Text(
-                          createdBy,
-                          style: AppFont.textPersonOrTeam,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(height: 24.0),
-                isPersonal == true || isAdmin == true
-                    ? AdminDate(
-                        eventDate: eventDate,
-                        reminder: reminder,
-                        ringtone: ringtone)
-                    : const ClientUpload(),
-                // isAdmin != null
-                //     ? (isAdmin == true ? adminWidgetDate() : clientUpload())
-                //     : const SizedBox(),
-              ],
-            ),
-            ElevatedButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Catatan Diselesaikan")));
-                Navigator.pop(context);
-              },
-              style: const ButtonStyle(
-                padding: MaterialStatePropertyAll(
-                  EdgeInsets.symmetric(horizontal: 100, vertical: 15),
-                ),
-                elevation: MaterialStatePropertyAll(0),
-                backgroundColor: MaterialStatePropertyAll(AppColor.activeColor),
               ),
-              child: Center(
-                child: Text(
-                  'Selesaikan Catatan',
-                  style: AppFont.textFillButtonActive,
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -330,7 +330,7 @@ class _NotesUpdateState extends State<NotesUpdate> {
                 ),
                 RingtonePickerWidget(
                   label: 'Ringtone',
-                  initialRingtone: _ringtoneController.toString(),
+                  initialRingtone: _ringtoneController.text,
                   onChanged: (ringtone) {
                     setState(() {
                       _selectedRingtone = ringtone;

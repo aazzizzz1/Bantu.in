@@ -19,6 +19,7 @@ class EditDeleteNote extends StatelessWidget {
   final String eventDate;
   final String reminder;
   final String ringtone;
+  final bool? isAdmin;
   // final NoteModel note;
 
   const EditDeleteNote({
@@ -32,6 +33,7 @@ class EditDeleteNote extends StatelessWidget {
     required this.eventDate,
     required this.reminder,
     required this.ringtone,
+    this.isAdmin,
   });
 
   @override
@@ -106,81 +108,9 @@ class EditDeleteNote extends StatelessWidget {
                         // Perform delete operation and navigate back to previous screen
                         // ...
                         Navigator.pop(context);
-                        showDialog(
-                          // barrierDismissible: false,
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            alignment: Alignment.center,
-                            title: Text(
-                              'Silahkan tulis pesan kepada orang \n yang anda libatkan',
-                              style: AppFont.semiBold14,
-                              textAlign: TextAlign.center,
-                            ),
-                            content: Container(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Pesan",
-                                    style: AppFont.labelTextForm,
-                                  ),
-                                  const SizedBox(height: 8),
-                                  TextFormField(
-                                    decoration: InputDecoration(
-                                      filled: true,
-                                      hintText: 'Tulis Pesan',
-                                      hintStyle: AppFont.hintTextField,
-                                      fillColor: AppColorNeutral.neutral1,
-                                      focusedBorder: const OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: AppColorPrimary.primary6)),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            color: AppColorNeutral.neutral2),
-                                        borderRadius: BorderRadius.circular(3),
-                                      ),
-                                      disabledBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            color: AppColorNeutral.neutral2),
-                                        borderRadius: BorderRadius.circular(3),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            actions: [
-                              SizedBox(
-                                width: 140,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  style: const ButtonStyle(
-                                    overlayColor: MaterialStatePropertyAll(
-                                        AppColorPrimary.primary4),
-                                    padding: MaterialStatePropertyAll(
-                                      EdgeInsets.symmetric(
-                                          horizontal: 24, vertical: 10),
-                                    ),
-                                    elevation: MaterialStatePropertyAll(0),
-                                    backgroundColor: MaterialStatePropertyAll(
-                                        AppColor.activeColor),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      'Kirim',
-                                      style: AppFont.textFillButtonActive,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-
-                        // Navigator.pop(context);
+                        isAdmin == true
+                            ? popUpMessage(context)
+                            : Navigator.pop(context);
                       },
                       child: Text('Hapus'),
                     ),
@@ -195,6 +125,86 @@ class EditDeleteNote extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Future popUpMessage(BuildContext context) {
+    TextEditingController messageDelete = TextEditingController();
+    return showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) => AlertDialog(
+        scrollable: true,
+        alignment: Alignment.center,
+        title: Text(
+          'Silahkan tulis pesan kepada orang \n yang anda libatkan',
+          style: AppFont.semiBold14,
+          textAlign: TextAlign.center,
+        ),
+        content: SingleChildScrollView(
+          child: Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Pesan",
+                  style: AppFont.labelTextForm,
+                ),
+                const SizedBox(height: 8),
+                TextFormField(
+                  controller: messageDelete,
+                  decoration: InputDecoration(
+                    filled: true,
+                    hintText: 'Tulis Pesan',
+                    hintStyle: AppFont.hintTextField,
+                    fillColor: AppColorNeutral.neutral1,
+                    focusedBorder: const OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: AppColorPrimary.primary6)),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(color: AppColorNeutral.neutral2),
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                    disabledBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(color: AppColorNeutral.neutral2),
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        actions: [
+          SizedBox(
+            width: 140,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+              style: const ButtonStyle(
+                overlayColor:
+                    MaterialStatePropertyAll(AppColorPrimary.primary4),
+                padding: MaterialStatePropertyAll(
+                  EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                ),
+                elevation: MaterialStatePropertyAll(0),
+                backgroundColor: MaterialStatePropertyAll(AppColor.activeColor),
+              ),
+              child: Center(
+                child: Text(
+                  'Kirim',
+                  style: AppFont.textFillButtonActive,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
