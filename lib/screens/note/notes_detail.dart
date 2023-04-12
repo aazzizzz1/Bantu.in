@@ -160,8 +160,8 @@ class NotesDetail extends StatelessWidget {
                   alignment: Alignment.bottomCenter,
                   child: ElevatedButton(
                     onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text("Catatan Diselesaikan")));
+                      // ScaffoldMessenger.of(context).showSnackBar(
+                      //     SnackBar(content: Text("Catatan Diselesaikan")));
                       Navigator.pop(context);
                     },
                     style: const ButtonStyle(
