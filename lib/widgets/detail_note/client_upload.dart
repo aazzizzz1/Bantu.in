@@ -6,7 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class ClientUpload extends StatefulWidget {
   const ClientUpload({Key? key}) : super(key: key);
@@ -19,93 +19,68 @@ class _ClientUploadState extends State<ClientUpload> {
   PlatformFile? _pickedFile;
 
   void _openFile() {
-    if (_pickedFile != null) {
-      print('File opened: ${_pickedFile!.name}');
-      if (_pickedFile!.extension == 'jpg' || _pickedFile!.extension == 'png') {
-        // Display the image file
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (_) => Scaffold(
-            appBar: AppBar(
-              title: Text(_pickedFile!.name),
-              actions: [
-                IconButton(
-                  icon: const Icon(
-                    Icons.download_rounded,
-                    color: AppColorNeutral.neutral1,
-                  ),
-                  onPressed: _saveFile,
+  if (_pickedFile != null) {
+    print('File opened: ${_pickedFile!.name}');
+    if (_pickedFile!.extension == 'jpg' || _pickedFile!.extension == 'png') {
+      // Display the image file
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (_) => Scaffold(
+          appBar: AppBar(
+            title: Text(_pickedFile!.name),
+            actions: [
+              IconButton(
+                icon: const Icon(
+                  Icons.download_rounded,
+                  color: AppColorNeutral.neutral1,
                 ),
-              ],
-            ),
-            body: Center(
-              child: Image.file(File(_pickedFile!.path!)),
-            ),
+                onPressed: _saveFile,
+              ),
+            ],
           ),
-        ));
-      } else if (_pickedFile!.extension == 'pdf') {
-        // Display the PDF file
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (_) => Scaffold(
-            appBar: AppBar(
-              title: Text(_pickedFile!.name),
-              actions: [
-                IconButton(
-                  icon: const Icon(
-                    Icons.download_rounded,
-                    color: AppColorNeutral.neutral1,
-                  ),
-                  onPressed: _saveFile,
+          body: Center(
+            child: Image.file(File(_pickedFile!.path!)),
+          ),
+        ),
+      ));
+    } else if (_pickedFile!.extension == 'pdf') {
+      // Display the PDF file
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (_) => Scaffold(
+          appBar: AppBar(
+            title: Text(_pickedFile!.name),
+            actions: [
+              IconButton(
+                icon: const Icon(
+                  Icons.download_rounded,
+                  color: AppColorNeutral.neutral1,
                 ),
-              ],
-            ),
-            body: PDFView(
-              filePath: _pickedFile!.path!,
-            ),
+                onPressed: _saveFile,
+              ),
+            ],
           ),
-        ));
-      } else {
-        print('Unsupported file type');
-      }
+          body: SfPdfViewer.file(File(_pickedFile!.path!)),
+        ),
+      ));
+    } else {
+      print('Unsupported file type');
     }
   }
+}
+
 
   void _saveFile() async {
-    if (_pickedFile != null) {
-      print('File saved: ${_pickedFile!.name}');
-      if (_pickedFile!.extension == 'jpg' || _pickedFile!.extension == 'png') {
-        // Save the image file
-        final directory = await getApplicationDocumentsDirectory();
-        final path = directory.path;
-        final file = File(_pickedFile!.path!);
-        final savedFile = await file.copy('$path/${_pickedFile!.name}');
-        print('File saved to: ${savedFile.path}');
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Image saved to ${savedFile.path}'),
-          ),
-        );
-      } else if (_pickedFile!.extension == 'pdf') {
-        // Save the PDF file
-        final directory = await getApplicationDocumentsDirectory();
-        final path = directory.path;
-        final file = File(_pickedFile!.path!);
-        final savedFile = await file.copy('$path/${_pickedFile!.name}');
-        print('File saved to: ${savedFile.path}');
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('PDF saved to ${savedFile.path}'),
-          ),
-        );
-      } else {
-        print('Unsupported file type');
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Unsupported file type'),
-          ),
-        );
-      }
-    }
+  if (_pickedFile != null) {
+    final directory = await getApplicationDocumentsDirectory();
+    final path = directory.path;
+    final file = File(_pickedFile!.path!);
+    final savedFile = await file.copy('$path/${_pickedFile!.name}');
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('File saved to ${savedFile.path}'),
+      ),
+    );
   }
+}
 
   @override
   Widget build(BuildContext context) {
