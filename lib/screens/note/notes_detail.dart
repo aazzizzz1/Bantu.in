@@ -46,6 +46,7 @@ class NotesDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         toolbarHeight: 76,
         backgroundColor: Colors.white,
@@ -68,12 +69,14 @@ class NotesDetail extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+        child: Container(
+          height: MediaQuery.of(context).size.height - 60,
+          margin: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
@@ -151,24 +154,34 @@ class NotesDetail extends StatelessWidget {
                   //     : const SizedBox(),
                 ],
               ),
-              ElevatedButton(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Catatan Diselesaikan")));
-                  Navigator.pop(context);
-                },
-                style: const ButtonStyle(
-                  padding: MaterialStatePropertyAll(
-                    EdgeInsets.symmetric(horizontal: 100, vertical: 15),
-                  ),
-                  elevation: MaterialStatePropertyAll(0),
-                  backgroundColor:
-                      MaterialStatePropertyAll(AppColor.activeColor),
-                ),
-                child: Center(
-                  child: Text(
-                    'Selesaikan Catatan',
-                    style: AppFont.textFillButtonActive,
+              SizedBox(
+                height: 48,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Catatan Diselesaikan")));
+                      Navigator.pop(context);
+                    },
+                    style: const ButtonStyle(
+                      padding: MaterialStatePropertyAll(
+                        EdgeInsets.symmetric(horizontal: 100, vertical: 15),
+                      ),
+                      elevation: MaterialStatePropertyAll(0),
+                      backgroundColor:
+                          MaterialStatePropertyAll(AppColor.activeColor),
+                    ),
+                    child: Center(
+                        child: isPersonal == true || isAdmin == true
+                            ? Text(
+                                'Selesaikan Catatan',
+                                style: AppFont.textFillButtonActive,
+                              )
+                            : Text(
+                                'Simpan',
+                                style: AppFont.textFillButtonActive,
+                              )),
                   ),
                 ),
               ),
