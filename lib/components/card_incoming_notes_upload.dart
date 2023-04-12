@@ -5,7 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class CardMyNotes extends StatelessWidget {
+class CardIncomingNotesUpload extends StatelessWidget {
   final String title;
   final String description;
   final String date;
@@ -14,7 +14,7 @@ class CardMyNotes extends StatelessWidget {
   final String name;
   final bool isUploaded;
 
-  CardMyNotes({
+  CardIncomingNotesUpload({
     required this.title,
     required this.description,
     required this.date,
@@ -101,7 +101,7 @@ class CardMyNotes extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         child: Text(
-                          isUploaded ? 'Sudah selesai' : 'Belum selesai',
+                          isUploaded ? 'Sudah Upload' : 'Belum Upload',
                           style: TextStyle(
                             fontStyle: FontStyle.normal,
                             color: isUploaded

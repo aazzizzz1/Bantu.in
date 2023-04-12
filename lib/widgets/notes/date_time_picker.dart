@@ -25,26 +25,47 @@ class _DateTimePickerState extends State<DateTimePicker> {
     _selectedDateTime = widget.initialDateTime;
   }
 
-  Future<void> _selectDate() async {
-    final DateTime? selectedDate = await showDatePicker(
+Future<void> _selectDate() async {
+  final DateTime now = DateTime.now();
+  final DateTime? selectedDate = await showDatePicker(
+    context: context,
+    initialDate: _selectedDateTime,
+    firstDate: now,
+    lastDate: _selectedDateTime.add(Duration(days: 365)),
+  );
+  if (selectedDate != null) {
+    TimeOfDay initialTime = TimeOfDay.now();
+    if (selectedDate == now) {
+      initialTime = TimeOfDay.fromDateTime(now);
+    }
+    final TimeOfDay? selectedTime = await showTimePicker(
       context: context,
-      initialDate: _selectedDateTime,
-      firstDate: DateTime.now(),
-      lastDate: _selectedDateTime.add(Duration(days: 365)),
+      initialTime: initialTime,
     );
-    if (selectedDate != null) {
-      final TimeOfDay? selectedTime = await showTimePicker(
-        context: context,
-        initialTime: TimeOfDay.fromDateTime(_selectedDateTime),
+    if (selectedTime != null) {
+      final DateTime selectedDateTime = DateTime(
+        selectedDate.year,
+        selectedDate.month,
+        selectedDate.day,
+        selectedTime.hour,
+        selectedTime.minute,
       );
-      if (selectedTime != null) {
-        final DateTime selectedDateTime = DateTime(
-          selectedDate.year,
-          selectedDate.month,
-          selectedDate.day,
-          selectedTime.hour,
-          selectedTime.minute,
+      if (selectedDateTime.isBefore(now)) {
+        // Jika waktu yang dipilih sebelum waktu saat ini, tampilkan pesan kesalahan
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: Text('Peringatan'),
+            content: Text('Anda tidak dapat memilih waktu sebelum waktu saat ini.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('OK'),
+              ),
+            ],
+          ),
         );
+      } else {
         setState(() {
           _selectedDateTime = selectedDateTime;
         });
@@ -52,6 +73,8 @@ class _DateTimePickerState extends State<DateTimePicker> {
       }
     }
   }
+}
+
 
   String _getDateTimeDifference() {
     final Duration difference = _selectedDateTime.difference(DateTime.now());

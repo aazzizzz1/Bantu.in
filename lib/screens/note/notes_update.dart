@@ -1,11 +1,7 @@
 import 'package:bantuin/widgets/notes/date_time_picker.dart';
 import 'package:bantuin/widgets/notes/email_picker.dart';
 import 'package:bantuin/widgets/notes/my_reminder.dart';
-import 'package:bantuin/widgets/notes/reminder_picker.dart';
 import 'package:bantuin/widgets/notes/ringtones_picker.dart';
-import 'package:bantuin/widgets/notes/multi_reminder_picker.dart';
-import 'package:bantuin/widgets/notes/my_date_picker.dart';
-import 'package:bantuin/widgets/notes/my_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../constants/constant.dart';

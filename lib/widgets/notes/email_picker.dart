@@ -29,6 +29,22 @@ class _MultipleEmailPickerState extends State<MultipleEmailPicker> {
         _emailController.clear();
         widget.onChanged(_emails); // Call the onChanged callback
       });
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Email tidak valid"),
+            content: Text("Masukan email yang sesuai"),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text("OK"),
+              )
+            ],
+          );
+        }
+      );
     }
   }
 
@@ -59,7 +75,6 @@ class _MultipleEmailPickerState extends State<MultipleEmailPicker> {
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
-              labelText: 'Masukkan email',
               labelStyle: AppFont.hintTextField,
               border: OutlineInputBorder(),
             ),

@@ -2,11 +2,7 @@ import 'package:bantuin/widgets/notes/date_time_picker.dart';
 import 'package:bantuin/widgets/notes/email_picker.dart';
 import 'package:bantuin/widgets/form/button_to_screen_notes.dart';
 import 'package:bantuin/widgets/notes/my_reminder.dart';
-import 'package:bantuin/widgets/notes/reminder_picker.dart';
 import 'package:bantuin/widgets/notes/ringtones_picker.dart';
-import 'package:bantuin/widgets/notes/multi_reminder_picker.dart';
-import 'package:bantuin/widgets/notes/my_date_picker.dart';
-import 'package:bantuin/widgets/notes/my_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../constants/constant.dart';
@@ -137,65 +133,6 @@ class _NotesFormState extends State<NotesForm> {
                   height: 4,
                 ),
                 MultipleEmailPicker(onChanged: _handleEmailsChanged),
-                // TextField(
-                //   decoration: InputDecoration(
-                //     prefixIcon: SvgPicture.asset(
-                //       "lib/assets/icons/Contact.svg",
-                //       alignment: Alignment.centerRight,
-                //     ),
-                //     filled: true,
-                //     hintText: 'Masukan email anggota',
-                //     hintStyle: AppFont.hintTextField,
-                //     fillColor: AppColorNeutral.neutral1,
-                //     focusedBorder: const OutlineInputBorder(
-                //         borderSide:
-                //             BorderSide(color: AppColorPrimary.primary6)),
-                //     enabledBorder: OutlineInputBorder(
-                //       borderSide:
-                //           const BorderSide(color: AppColorNeutral.neutral2),
-                //       borderRadius: BorderRadius.circular(3),
-                //     ),
-                //     disabledBorder: OutlineInputBorder(
-                //       borderSide:
-                //           const BorderSide(color: AppColorNeutral.neutral2),
-                //       borderRadius: BorderRadius.circular(3),
-                //     ),
-                //   ),
-                // ),
-                // const SizedBox(
-                //   height: 4,
-                // ),
-                // SizedBox(
-                //   width: MediaQuery.of(context).size.width - 200,
-                //   height: 48,
-                //   child: ElevatedButton(
-                //     style: const ButtonStyle(
-                //       elevation: MaterialStatePropertyAll(0),
-                //       backgroundColor:
-                //           MaterialStatePropertyAll(Colors.transparent),
-                //     ),
-                //     onPressed: () {},
-                //     child: Row(
-                //       children: [
-                //         const Icon(
-                //           Icons.add,
-                //           color: AppColorPrimary.primary6,
-                //         ),
-                //         const SizedBox(
-                //           width: 8,
-                //         ),
-                //         Text(
-                //           "Tambah email",
-                //           style: GoogleFonts.ibmPlexSans(
-                //               fontSize: 14,
-                //               fontStyle: FontStyle.normal,
-                //               fontWeight: FontWeight.w400,
-                //               color: AppColorPrimary.primary6),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                // ),
                 const SizedBox(
                   height: 24,
                 ),
@@ -218,49 +155,6 @@ class _NotesFormState extends State<NotesForm> {
                   },
                   initialDateTime: DateTime.now(),
                 ),
-                // MyDatePicker(
-                //   onChanged: (DateTime selectedDate) {
-                //     // Handle date selection changes
-                //   },
-                // ),
-                // const SizedBox(
-                //   height: 16,
-                // ),
-                // MyTimePicker(
-                //   onChanged: (selectedTime) {
-                //     // Handle the selected time change here
-                //     print('Selected time: ${selectedTime.format(context)}');
-                //   },
-                // ),
-                // const SizedBox(
-                //   height: 16,
-                // ),
-                // SizedBox(
-                // width: 200.0,
-                // height: 150.0,
-                // child: MyDateTimeList(),
-                //   // your child widgets here
-                // ),
-                // DatePicker(
-                //   onChanged: (DateTime value) {
-                //     // Do something with the selected date value
-                //   },
-                // ),
-                // const SizedBox(
-                //   height: 16,
-                // ),
-                // const Divider(
-                //   thickness: 1,
-                // ),
-                // Text(
-                //   "Tambahkan waktu",
-                //   style: AppFont.labelTextForm,
-                // ),
-                // TimePicker(
-                //   onChanged: (TimeOfDay value) {
-                //     // Do something with the selected time value
-                //   },
-                // ),
                 const SizedBox(
                   height: 24,
                 ),
@@ -285,14 +179,6 @@ class _NotesFormState extends State<NotesForm> {
                     });
                   },
                 ),
-                // MultiReminderPicker(
-                //   initialDates: _selectedDates,
-                //   onChanged: (List<DateTime> dates) {
-                //     setState(() {
-                //       _selectedDates = dates;
-                //     });
-                //   },
-                // ),
                 const SizedBox(
                   height: 24,
                 ),
@@ -303,7 +189,7 @@ class _NotesFormState extends State<NotesForm> {
                   height: 24,
                 ),
                 Text(
-                  "Tambahkan Ringtones",
+                  "Tambahkan ringtones",
                   style: AppFont.medium14,
                 ),
                 const SizedBox(
@@ -333,3 +219,117 @@ class _NotesFormState extends State<NotesForm> {
     );
   }
 }
+
+
+// TextField(
+//   decoration: InputDecoration(
+//     prefixIcon: SvgPicture.asset(
+//       "lib/assets/icons/Contact.svg",
+//       alignment: Alignment.centerRight,
+//     ),
+//     filled: true,
+//     hintText: 'Masukan email anggota',
+//     hintStyle: AppFont.hintTextField,
+//     fillColor: AppColorNeutral.neutral1,
+//     focusedBorder: const OutlineInputBorder(
+//         borderSide:
+//             BorderSide(color: AppColorPrimary.primary6)),
+//     enabledBorder: OutlineInputBorder(
+//       borderSide:
+//           const BorderSide(color: AppColorNeutral.neutral2),
+//       borderRadius: BorderRadius.circular(3),
+//     ),
+//     disabledBorder: OutlineInputBorder(
+//       borderSide:
+//           const BorderSide(color: AppColorNeutral.neutral2),
+//       borderRadius: BorderRadius.circular(3),
+//     ),
+//   ),
+// ),
+// const SizedBox(
+//   height: 4,
+// ),
+// SizedBox(
+//   width: MediaQuery.of(context).size.width - 200,
+//   height: 48,
+//   child: ElevatedButton(
+//     style: const ButtonStyle(
+//       elevation: MaterialStatePropertyAll(0),
+//       backgroundColor:
+//           MaterialStatePropertyAll(Colors.transparent),
+//     ),
+//     onPressed: () {},
+//     child: Row(
+//       children: [
+//         const Icon(
+//           Icons.add,
+//           color: AppColorPrimary.primary6,
+//         ),
+//         const SizedBox(
+//           width: 8,
+//         ),
+//         Text(
+//           "Tambah email",
+//           style: GoogleFonts.ibmPlexSans(
+//               fontSize: 14,
+//               fontStyle: FontStyle.normal,
+//               fontWeight: FontWeight.w400,
+//               color: AppColorPrimary.primary6),
+//         ),
+//       ],
+//     ),
+//   ),
+// ),
+
+// MyDatePicker(
+//   onChanged: (DateTime selectedDate) {
+//     // Handle date selection changes
+//   },
+// ),
+// const SizedBox(
+//   height: 16,
+// ),
+// MyTimePicker(
+//   onChanged: (selectedTime) {
+//     // Handle the selected time change here
+//     print('Selected time: ${selectedTime.format(context)}');
+//   },
+// ),
+// const SizedBox(
+//   height: 16,
+// ),
+// SizedBox(
+// width: 200.0,
+// height: 150.0,
+// child: MyDateTimeList(),
+//   // your child widgets here
+// ),
+// DatePicker(
+//   onChanged: (DateTime value) {
+//     // Do something with the selected date value
+//   },
+// ),
+// const SizedBox(
+//   height: 16,
+// ),
+// const Divider(
+//   thickness: 1,
+// ),
+// Text(
+//   "Tambahkan waktu",
+//   style: AppFont.labelTextForm,
+// ),
+// TimePicker(
+//   onChanged: (TimeOfDay value) {
+//     // Do something with the selected time value
+//   },
+// ),
+
+// MultiReminderPicker(
+//   initialDates: _selectedDates,
+//   onChanged: (List<DateTime> dates) {
+//     setState(() {
+//       _selectedDates = dates;
+//     });
+//   },
+// ),

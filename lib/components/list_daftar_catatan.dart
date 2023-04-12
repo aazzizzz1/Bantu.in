@@ -1,5 +1,5 @@
-import 'package:bantuin/components/card_incoming_notes.dart';
-import 'package:bantuin/components/card_mynotes.dart';
+import 'package:bantuin/components/card_mynotes_progres.dart';
+import 'package:bantuin/components/card_incoming_notes_upload.dart';
 import 'package:bantuin/components/card_mynotes_personal.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +30,7 @@ class _ListDaftarCatatanState extends State<ListDaftarCatatan> {
                 name: 'John Doe',
                 progress: 0.8,
               ),
-              CardMyNotes(
+              CardIncomingNotesUpload(
                 title: 'Meeting with client',
                 description: 'Discuss bantuin project requirements with client',
                 date: '16',
@@ -39,7 +39,7 @@ class _ListDaftarCatatanState extends State<ListDaftarCatatan> {
                 name: 'Zizi',
                 isUploaded: false,
               ),
-              CardMyNotes(
+              CardIncomingNotesUpload(
                 title: 'Beli tiket untuk bos',
                 description: 'Belikan saya tiket pesawat untuk tgl 2 april ke Solo dan pulangnya tgl 4 april.',
                 date: '15',

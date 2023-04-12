@@ -103,7 +103,7 @@ class _DataFilterState extends State<DataFilter> {
                 DropdownButton<int>(
                   value: _selectedDate?.month,
                   items: List.generate(
-                    14,
+                    12,
                     (index) => DropdownMenuItem<int>(
                       value: index + 1,
                       child: Text('${index + 1}',

@@ -1,5 +1,5 @@
-import 'package:bantuin/components/card_incoming_notes.dart';
-import 'package:bantuin/components/card_mynotes.dart';
+import 'package:bantuin/components/card_mynotes_progres.dart';
+import 'package:bantuin/components/card_incoming_notes_upload.dart';
 import 'package:bantuin/components/card_mynotes_personal.dart';
 import 'package:bantuin/widgets/floating_button/floating_notes.dart';
 import 'package:bantuin/constants/button/app_button.dart';
@@ -84,7 +84,7 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                               'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
                           name: 'Siapa ya',
                         ),
-                        CardMyNotes(
+                        CardIncomingNotesUpload(
                           title: 'Meeting with client',
                           description:
                               'Discuss bantuin project requirements with client',
@@ -105,7 +105,7 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                               'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
                           name: 'John Doe',
                         ),
-                        CardMyNotes(
+                        CardIncomingNotesUpload(
                           title: 'Meeting with client',
                           description:
                               'Discuss bantuin project requirements with client',
@@ -156,7 +156,7 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                       name: 'John Doe',
                       progress: 0.8,
                     ),
-                    CardMyNotes(
+                    CardIncomingNotesUpload(
                       title: 'Beli tiket untuk bos',
                       description:
                           'Belikan saya tiket pesawat untuk tgl 2 april ke Solo dan pulangnya tgl 4 april.',
