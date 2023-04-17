@@ -14,8 +14,8 @@ class _ListDaftarCatatanState extends State<ListDaftarCatatan> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 170),
       padding: const EdgeInsets.all(16),
+      height: MediaQuery.of(context).size.height * 0.8,
       child: ListView.builder(
         itemCount: 3,
         itemBuilder: (context, index) {
