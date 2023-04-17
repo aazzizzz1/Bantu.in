@@ -14,8 +14,7 @@ class _DaftarCatatanState extends State<DaftarCatatan> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(top: 90),
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         child: Column(
           children: [
             Row(
