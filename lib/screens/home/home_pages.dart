@@ -1,18 +1,16 @@
-import 'package:bantuin/components/card_mynotes_progres.dart';
 import 'package:bantuin/components/card_incoming_notes_upload.dart';
 import 'package:bantuin/components/card_mynotes_personal.dart';
-import 'package:bantuin/widgets/floating_button/floating_home.dart';
+import 'package:bantuin/components/card_mynotes_progres.dart';
 import 'package:bantuin/components/daftar_catatan.dart';
 import 'package:bantuin/components/list_daftar_catatan.dart';
 import 'package:bantuin/components/point_royalty.dart';
 import 'package:bantuin/constants/button/app_button.dart';
-import 'package:bantuin/screens/note/notes_form.dart';
+import 'package:bantuin/constants/font/app_font.dart';
 import 'package:bantuin/screens/note/notes_form.dart';
 import 'package:bantuin/screens/notification/notification_screen.dart';
+import 'package:bantuin/widgets/floating_button/floating_home.dart';
 import 'package:bantuin/widgets/home/filtering_data.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import '../../constants/font/app_font.dart';
 
 class HomePages extends StatefulWidget {
   const HomePages({Key? key}) : super(key: key);
@@ -51,12 +49,14 @@ class _HomePagesState extends State<HomePages> {
         ),
         actions: [
           Container(
-            margin: EdgeInsets.only(right: 20),
+            margin: const EdgeInsets.only(right: 20),
             child: IconButton(
               splashRadius: 20,
-              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => NotificationScreen(),
-              )),
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const NotificationScreen(),
+                ));
+              },
               icon: const Icon(
                 Icons.notifications_none_outlined,
                 color: AppColorNeutral.neutral4,
@@ -68,26 +68,20 @@ class _HomePagesState extends State<HomePages> {
         backgroundColor: Colors.white,
         elevation: 1,
       ),
-      body: Stack(
+      body: ListView(
         children: [
-          // content of the page
           PointRoyalty(),
           DaftarCatatan(),
           ListDaftarCatatan(),
-          // floating button above bottom navbar
-          Positioned(
-            bottom: 80,
-            right: 16.0,
-            child: FloatingButtonHome(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const NotesForm()),
-                );
-              },
-            ),
-          ),
         ],
+      ),
+      floatingActionButton: FloatingButtonHome(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const NotesForm()),
+          );
+        },
       ),
     );
   }
