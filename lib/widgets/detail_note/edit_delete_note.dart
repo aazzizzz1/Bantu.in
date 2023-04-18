@@ -7,7 +7,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 
 import '../../constants/color/app_color.dart';
 import '../../constants/font/app_font.dart';
-import '../../models/note_model.dart';
+import '../../models/user_note_model.dart';
 
 class EditDeleteNote extends StatelessWidget {
   final String title;
