@@ -75,9 +75,24 @@ class _MultipleEmailPickerState extends State<MultipleEmailPicker> {
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
-              labelStyle: AppFont.hintTextField,
-              border: OutlineInputBorder(),
-            ),
+                    filled: true,
+                    hintText: 'Masukan email anggota',
+                    hintStyle: AppFont.hintTextField,
+                    fillColor: AppColorNeutral.neutral1,
+                    focusedBorder: const OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: AppColorPrimary.primary6)),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(color: AppColorNeutral.neutral2),
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                    disabledBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(color: AppColorNeutral.neutral2),
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                  ),
             validator: (value) {
               if (value != null) {
                 final email = value.trim();
