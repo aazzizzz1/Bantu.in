@@ -133,7 +133,8 @@ class CardMyNotesPersonal extends StatelessWidget {
                       SizedBox(width: 8.0),
                       CachedNetworkImage(
                         imageUrl: avatarUrl,
-                        placeholder: (context, url) => CircularProgressIndicator(),
+                        placeholder: (context, url) =>
+                            CircularProgressIndicator(),
                         errorWidget: (context, url, error) => Icon(Icons.error),
                         imageBuilder: (context, imageProvider) => CircleAvatar(
                           backgroundImage: imageProvider,

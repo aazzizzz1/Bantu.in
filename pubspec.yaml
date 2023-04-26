@@ -33,6 +33,9 @@ dependencies:
   url_launcher: ^6.1.10
   syncfusion_flutter_pdfviewer: ^21.1.39
   cached_network_image: ^3.2.3
+  image_picker: ^0.8.7+3
+  path_provider: ^2.0.14
+  drag_and_drop_lists: ^0.3.3
 
 dev_dependencies:
   flutter_test:

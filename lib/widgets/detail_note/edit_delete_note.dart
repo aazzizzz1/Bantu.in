@@ -1,3 +1,4 @@
+import 'package:bantuin/components/popup_delete.dart';
 import 'package:bantuin/screens/note/notes_detail.dart';
 import 'package:bantuin/screens/note/notes_update.dart';
 import 'package:flutter/cupertino.dart';
@@ -38,6 +39,7 @@ class EditDeleteNote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController messageDeleteController = TextEditingController();
     return Row(
       children: [
         InkWell(
@@ -90,32 +92,10 @@ class EditDeleteNote extends StatelessWidget {
         InkWell(
           onTap: () {
             showDialog(
-              barrierDismissible: false,
+              // barrierDismissible: false,
               context: context,
               builder: (BuildContext context) {
-                return AlertDialog(
-                  title: Text('Delete Notes?'),
-                  content: Text('Are you sure you want to delete this notes?'),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text('Cancel'),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        // Perform delete operation and navigate back to previous screen
-                        // ...
-                        Navigator.pop(context);
-                        isAdmin == true
-                            ? popUpMessage(context)
-                            : Navigator.pop(context);
-                      },
-                      child: Text('Hapus'),
-                    ),
-                  ],
-                );
+                return PopupDelete();
               },
             );
           },
@@ -125,86 +105,6 @@ class EditDeleteNote extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-  Future popUpMessage(BuildContext context) {
-    TextEditingController messageDelete = TextEditingController();
-    return showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) => AlertDialog(
-        scrollable: true,
-        alignment: Alignment.center,
-        title: Text(
-          'Silahkan tulis pesan kepada orang \n yang anda libatkan',
-          style: AppFont.semiBold14,
-          textAlign: TextAlign.center,
-        ),
-        content: SingleChildScrollView(
-          child: Container(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Pesan",
-                  style: AppFont.labelTextForm,
-                ),
-                const SizedBox(height: 8),
-                TextFormField(
-                  controller: messageDelete,
-                  decoration: InputDecoration(
-                    filled: true,
-                    hintText: 'Tulis Pesan',
-                    hintStyle: AppFont.hintTextField,
-                    fillColor: AppColorNeutral.neutral1,
-                    focusedBorder: const OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: AppColorPrimary.primary6)),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: AppColorNeutral.neutral2),
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                    disabledBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: AppColorNeutral.neutral2),
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        actions: [
-          SizedBox(
-            width: 140,
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.pop(context);
-              },
-              style: const ButtonStyle(
-                overlayColor:
-                    MaterialStatePropertyAll(AppColorPrimary.primary4),
-                padding: MaterialStatePropertyAll(
-                  EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-                ),
-                elevation: MaterialStatePropertyAll(0),
-                backgroundColor: MaterialStatePropertyAll(AppColor.activeColor),
-              ),
-              child: Center(
-                child: Text(
-                  'Kirim',
-                  style: AppFont.textFillButtonActive,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
