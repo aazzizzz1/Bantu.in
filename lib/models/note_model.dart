@@ -1,38 +1,26 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 class NoteModel {
-  final String title;
+  final int id;
+  final String subject;
   final String description;
-  final String date;
-  final String month;
-  final String avatarUrl;
-  final String name;
-  final String fileUrl;
-  final String createdBy;
   final String eventDate;
-  final String reminder;
-  final String ringtone;
-  final double? progress;
-  final bool? isAdmin;
-  final bool? isPersonal;
-  final bool? isUpload;
+  final int columnId;
+  final String notesType;
 
   NoteModel({
-    required this.title,
+    required this.id,
+    required this.subject,
     required this.description,
-    required this.date,
-    required this.month,
-    required this.avatarUrl,
-    required this.name,
-    required this.fileUrl,
-    required this.createdBy,
     required this.eventDate,
-    required this.reminder,
-    required this.ringtone,
-    this.progress,
-    this.isAdmin,
-    this.isPersonal,
-    this.isUpload,
+    required this.columnId,
+    required this.notesType,
   });
+
+  factory NoteModel.fromJson(Map<String, dynamic> json) => NoteModel(
+        id: json['id'],
+        subject: json['subject'],
+        description: json['description'],
+        eventDate: json['event_date'],
+        columnId: json['column_id'],
+        notesType: json['notes_type'],
+      );
 }

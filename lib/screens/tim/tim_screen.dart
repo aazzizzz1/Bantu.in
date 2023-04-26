@@ -1,4 +1,5 @@
 import 'package:bantuin/constants/button/app_button.dart';
+import 'package:bantuin/screens/tim/tim_card_screen.dart';
 import 'package:bantuin/screens/tim/tim_form.dart';
 import 'package:bantuin/widgets/floating_button/floating_tim.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,16 @@ class _TimScreenState extends State<TimScreen> {
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
-      body: Container(),
+      body: Container(
+        child: TextButton(
+          child: Text('Come in'),
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => TimCardScreen(),
+            ));
+          },
+        ),
+      ),
       floatingActionButton: FloatingButtonTim(
         onPressed: () {
           Navigator.push(

@@ -1,3 +1,4 @@
+import 'package:bantuin/components/popup_update.dart';
 import 'package:bantuin/widgets/notes/date_time_picker.dart';
 import 'package:bantuin/widgets/notes/email_picker.dart';
 import 'package:bantuin/widgets/notes/my_reminder.dart';
@@ -337,7 +338,12 @@ class _NotesUpdateState extends State<NotesUpdate> {
                   height: 16,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => PopupUpdate(),
+                    );
+                  },
                   style: const ButtonStyle(
                     padding: MaterialStatePropertyAll(
                       EdgeInsets.symmetric(horizontal: 100, vertical: 15),
