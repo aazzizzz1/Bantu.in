@@ -87,6 +87,11 @@ class AppFont {
         fontWeight: FontWeight.w400,
         color: Color.fromARGB(255, 82, 82, 82),
       );
+  static TextStyle get errorTextForm => GoogleFonts.ibmPlexSans(
+      fontSize: 12,
+      fontStyle: FontStyle.normal,
+      fontWeight: FontWeight.w400,
+      color: AppColorRed.red5);
   static TextStyle get hintTextField => GoogleFonts.ibmPlexSans(
         fontSize: 14,
         fontStyle: FontStyle.normal,
@@ -104,6 +109,12 @@ class AppFont {
         fontStyle: FontStyle.normal,
         fontWeight: FontWeight.w400,
         color: AppColorPrimary.primary6,
+      );
+  static TextStyle get textBottomSheet => GoogleFonts.ibmPlexSans(
+        fontSize: 20,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w400,
+        color: AppColorNeutral.neutral7,
       );
   static TextStyle get textInvitation => GoogleFonts.ibmPlexSans(
         fontSize: 14,

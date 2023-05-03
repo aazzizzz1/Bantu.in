@@ -49,103 +49,108 @@ class CardMyNotesPersonal extends StatelessWidget {
         );
       },
       child: Container(
+        height: 135,
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey),
           borderRadius: BorderRadius.circular(16.0),
         ),
-        padding: EdgeInsets.all(10.0),
-        margin: EdgeInsets.only(bottom: 16.0),
+        padding: const EdgeInsets.all(10.0),
+        margin: const EdgeInsets.only(bottom: 16.0),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    date,
-                    style: AppFont.semiBold20,
-                  ),
-                  Text(
-                    month,
-                    style: AppFont.semiBold20,
-                  ),
-                ],
-              ),
-            ),
             Container(
-              width: 0.5,
-              height: 120.0,
-              color: Colors.grey,
+              margin: const EdgeInsets.all(8),
+              child: SvgPicture.asset('lib/assets/icons/User.svg',
+                  color: AppColorPrimary.primary6),
             ),
-            SizedBox(width: 16.0),
+            const VerticalDivider(
+              width: 5,
+              color: AppColorNeutral.neutral2,
+              thickness: 1.5,
+            ),
+            const SizedBox(width: 16.0),
             Expanded(
-              flex: 5,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        child: Text(
-                          title,
-                          style: AppFont.semiBold16w500,
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(4.0),
-                        decoration: BoxDecoration(
-                          color: isDone
-                              ? AppColor.completeColor
-                              : AppColorRed.red4,
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        child: Text(
-                          isDone ? 'Sudah Selesai' : 'Belum Selesai',
-                          style: TextStyle(
-                            fontStyle: FontStyle.normal,
-                            color: isDone
-                                ? AppColor.textprogresColor
-                                : AppColor.errorColor,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              title,
+                              style: AppFont.semiBold16w500,
+                            ),
                           ),
-                        ),
+                          Container(
+                            padding: const EdgeInsets.all(4.0),
+                            decoration: BoxDecoration(
+                              color: isDone
+                                  ? AppColor.completeColor
+                                  : AppColorRed.red4,
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            child: Text(
+                              isDone ? 'Sudah Selesai' : 'Belum Selesai',
+                              style: TextStyle(
+                                fontStyle: FontStyle.normal,
+                                color: isDone
+                                    ? AppColor.textprogresColor
+                                    : AppColor.errorColor,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8.0),
+                      Text(
+                        description,
+                        style: AppFont.regular12,
                       ),
                     ],
                   ),
-                  SizedBox(height: 8.0),
-                  SizedBox(height: 8.0),
-                  Text(
-                    description,
-                    style: AppFont.regular12,
-                  ),
-                  SizedBox(height: 8.0),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SvgPicture.asset("lib/assets/icons/Avatar.svg",
-                          height: 26,
-                          width: 26,
-                          color: AppColorPrimary.primary6),
-                      SizedBox(width: 8.0),
-                      Text(
-                        'Personal',
-                        style: AppFont.regular12,
+                      Row(
+                        children: [
+                          CachedNetworkImage(
+                            imageUrl: avatarUrl,
+                            placeholder: (context, url) =>
+                                const CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
+                            imageBuilder: (context, imageProvider) =>
+                                CircleAvatar(
+                              backgroundImage: imageProvider,
+                              radius: 10.0,
+                            ),
+                          ),
+                          const SizedBox(width: 8.0),
+                          Text(
+                            name,
+                            style: AppFont.regular12,
+                          ),
+                        ],
                       ),
-                      SizedBox(width: 8.0),
-                      CachedNetworkImage(
-                        imageUrl: avatarUrl,
-                        placeholder: (context, url) =>
-                            CircularProgressIndicator(),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
-                        imageBuilder: (context, imageProvider) => CircleAvatar(
-                          backgroundImage: imageProvider,
-                          radius: 12.0,
-                        ),
-                      ),
-                      SizedBox(width: 8.0),
-                      Text(
-                        name,
-                        style: AppFont.regular12,
-                      ),
+                      Row(
+                        children: [
+                          Text(
+                            '$date ',
+                            style: AppFont.regular12,
+                          ),
+                          Text(
+                            '$month ',
+                            style: AppFont.regular12,
+                          ),
+                          Text(
+                            '2023',
+                            style: AppFont.regular12,
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ],
