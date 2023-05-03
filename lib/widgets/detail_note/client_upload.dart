@@ -8,9 +8,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart';
 
 class ClientUpload extends StatefulWidget {
   const ClientUpload({Key? key}) : super(key: key);
@@ -21,38 +18,15 @@ class ClientUpload extends StatefulWidget {
 
 class _ClientUploadState extends State<ClientUpload> {
   PlatformFile? _pickedFile;
-  File? camera;
-
-  Future pickImage(ImageSource source) async {
-    try {
-      final image = await ImagePicker().pickImage(source: source);
-      if (image == null) {
-        return;
-      } else {}
-      // final imageTemp = File(image.path);
-      final imagePermanent = await saveImagePermanent(image.path);
-      setState(() {
-        this.camera = imagePermanent;
-      });
-    } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
-    }
-  }
-
-  Future<File> saveImagePermanent(String imagePath) async {
-    final directory = await getApplicationDocumentsDirectory();
-    final name = basename(imagePath);
-    final image = File('${directory.path}/$name');
-
-    return File(imagePath).copy(image.path);
-  }
+  late File file = File(_pickedFile!.name);
+  // File? camera;
 
   void _openFile() {
     if (_pickedFile != null) {
       print('File opened: ${_pickedFile!.name}');
       if (_pickedFile!.extension == 'jpg' || _pickedFile!.extension == 'png') {
         // Display the image file
-        Navigator.of(context as BuildContext).push(MaterialPageRoute(
+        Navigator.of(context).push(MaterialPageRoute(
           builder: (_) => Scaffold(
             appBar: AppBar(
               title: Text(_pickedFile!.name),
@@ -73,7 +47,7 @@ class _ClientUploadState extends State<ClientUpload> {
         ));
       } else if (_pickedFile!.extension == 'pdf') {
         // Display the PDF file
-        Navigator.of(context as BuildContext).push(MaterialPageRoute(
+        Navigator.of(context).push(MaterialPageRoute(
           builder: (_) => Scaffold(
             appBar: AppBar(
               title: Text(_pickedFile!.name),
@@ -127,78 +101,173 @@ class _ClientUploadState extends State<ClientUpload> {
         const SizedBox(height: 16),
         ElevatedButton(
           onPressed: () async {
-            showBottomSheet(
+            showModalBottomSheet(
+              backgroundColor: Colors.transparent,
               context: context,
-              builder: (context) => BottomSheet(
-                onClosing: () {},
-                builder: (context) => Container(
-                  child: Column(
-                    children: [
-                      ElevatedButton(
-                        onPressed: () async {},
-                        style: ButtonStyle(
-                          overlayColor: MaterialStateProperty.all(
-                              AppColorNeutral.neutral2),
-                          padding: MaterialStateProperty.all(
-                            const EdgeInsets.symmetric(vertical: 10),
-                          ),
-                          elevation: MaterialStateProperty.all(0),
-                          side: MaterialStateProperty.all(
-                            const BorderSide(color: AppColorNeutral.neutral2),
-                          ),
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.white),
+              builder: (context) => Container(
+                height: MediaQuery.of(context).size.height / 4.5,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10))),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    // ElevatedButton(
+                    //   onPressed: () async {
+                    //     await pickImage(ImageSource.camera);
+                    //   },
+                    //   style: ButtonStyle(
+                    //     overlayColor:
+                    //         MaterialStateProperty.all(AppColorNeutral.neutral2),
+                    //     padding: MaterialStateProperty.all(
+                    //       const EdgeInsets.symmetric(vertical: 10),
+                    //     ),
+                    //     elevation: MaterialStateProperty.all(0),
+                    //     backgroundColor:
+                    //         MaterialStateProperty.all(Colors.white),
+                    //   ),
+                    //   child: Row(
+                    //     children: [
+                    //       const Icon(
+                    //         Icons.camera_alt_outlined,
+                    //         color: Colors.black,
+                    //       ),
+                    //       const SizedBox(width: 32),
+                    //       Text(
+                    //         "Gunakan kamera",
+                    //         style: AppFont.textBottomSheet,
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        FilePickerResult? result =
+                            await FilePicker.platform.pickFiles(
+                          type: FileType.custom,
+                          allowedExtensions: ['jpg', 'png', 'pdf'],
+                        );
+                        if (result != null) {
+                          setState(() {
+                            _pickedFile = result.files.first;
+                          });
+                        } else {
+                          print('Tidak mengambil File');
+                          // User canceled the picker
+                        }
+                        Navigator.pop(context);
+                      },
+                      style: ButtonStyle(
+                        overlayColor:
+                            MaterialStateProperty.all(AppColorNeutral.neutral2),
+                        padding: MaterialStateProperty.all(
+                          const EdgeInsets.symmetric(vertical: 10),
                         ),
-                        child: Row(
-                          children: [
-                            Icon(Icons.camera_alt_outlined),
-                            SizedBox(width: 32),
-                            Text("Gunakan kamera"),
-                          ],
-                        ),
+                        elevation: MaterialStateProperty.all(0),
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.white),
                       ),
-                      ElevatedButton(
-                        onPressed: () async {
-                          FilePickerResult? result =
-                              await FilePicker.platform.pickFiles(
-                            type: FileType.custom,
-                            allowedExtensions: ['jpg', 'png', 'pdf'],
-                          );
-                          if (result != null) {
-                            setState(() {
-                              _pickedFile = result.files.first;
-                            });
-                          } else {
-                            print('Tidak mengambil File');
-                            // User canceled the picker
-                          }
-                        },
-                        style: ButtonStyle(
-                          overlayColor: MaterialStateProperty.all(
-                              AppColorNeutral.neutral2),
-                          padding: MaterialStateProperty.all(
-                            const EdgeInsets.symmetric(vertical: 10),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.phone_iphone_rounded,
+                            color: Colors.black,
                           ),
-                          elevation: MaterialStateProperty.all(0),
-                          side: MaterialStateProperty.all(
-                            const BorderSide(color: AppColorNeutral.neutral2),
+                          SizedBox(width: 32),
+                          Text(
+                            "Pilih file di HP",
+                            style: AppFont.textBottomSheet,
                           ),
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.white),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(Icons.camera_alt_outlined),
-                            SizedBox(width: 32),
-                            Text("Pilih file di HP"),
-                          ],
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             );
+            // showBottomSheet(
+            //   context: context,
+            //   builder: (context) => BottomSheet(
+            //     shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(4)),
+            //     // constraints: BoxConstraints(maxHeight: 30),
+            //     onClosing: () {},
+            //     builder: (context) => Container(
+            //       height: 150,
+            //       child: Column(
+            // children: [
+            //   ElevatedButton(
+            //     onPressed: () async {},
+            //     style: ButtonStyle(
+            //       overlayColor: MaterialStateProperty.all(
+            //           AppColorNeutral.neutral2),
+            //       padding: MaterialStateProperty.all(
+            //         const EdgeInsets.symmetric(vertical: 10),
+            //       ),
+            //       elevation: MaterialStateProperty.all(0),
+            //       side: MaterialStateProperty.all(
+            //         const BorderSide(color: AppColorNeutral.neutral2),
+            //       ),
+            //       backgroundColor:
+            //           MaterialStateProperty.all(Colors.white),
+            //     ),
+            //     child: Row(
+            //       children: [
+            //         Icon(Icons.camera_alt_outlined),
+            //         SizedBox(width: 32),
+            //         Text(
+            //           "Gunakan kamera",
+            //           style: AppFont.semiBold14,
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            //   ElevatedButton(
+            //     onPressed: () async {
+            //       FilePickerResult? result =
+            //           await FilePicker.platform.pickFiles(
+            //         type: FileType.custom,
+            //         allowedExtensions: ['jpg', 'png', 'pdf'],
+            //       );
+            //       if (result != null) {
+            //         setState(() {
+            //           _pickedFile = result.files.first;
+            //         });
+            //       } else {
+            //         print('Tidak mengambil File');
+            //         // User canceled the picker
+            //       }
+            //     },
+            //     style: ButtonStyle(
+            //       overlayColor: MaterialStateProperty.all(
+            //           AppColorNeutral.neutral2),
+            //       padding: MaterialStateProperty.all(
+            //         const EdgeInsets.symmetric(vertical: 10),
+            //       ),
+            //       elevation: MaterialStateProperty.all(0),
+            //       side: MaterialStateProperty.all(
+            //         const BorderSide(color: AppColorNeutral.neutral2),
+            //       ),
+            //       backgroundColor:
+            //           MaterialStateProperty.all(Colors.white),
+            //     ),
+            //     child: Row(
+            //       children: [
+            //         Icon(Icons.camera_alt_outlined),
+            //         SizedBox(width: 32),
+            //         Text("Pilih file di HP"),
+            //       ],
+            //     ),
+            //   ),
+            // ],
+            //       ),
+            //     ),
+            //   ),
+            // );
             // FilePickerResult? result = await FilePicker.platform.pickFiles(
             //   type: FileType.custom,
             //   allowedExtensions: ['jpg', 'png', 'pdf'],
@@ -256,7 +325,18 @@ class _ClientUploadState extends State<ClientUpload> {
                   ),
                   ElevatedButton(
                     onPressed: _openFile,
-                    child: Text('Open file: ${_pickedFile!.name}'),
+                    child: Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: FileImage(
+                            File(_pickedFile!.path!),
+                          ),
+                        ),
+                      ),
+                      child: Text('data'),
+                    ),
                   ),
                 ],
               )

@@ -33,29 +33,75 @@ class _TimCardScreenState extends State<TimCardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.green,
       appBar: AppBar(
-        title: Text('Tim Jarvis'),
+        toolbarHeight: 71,
+        leadingWidth: 90,
+        shadowColor: AppColorNeutral.neutral2,
+        backgroundColor: Colors.white,
+        title: Row(
+          children: [
+            Text(
+              'Tim Jarvis',
+              style: AppFont.textTitleScreen,
+            ),
+          ],
+        ),
+        leading: Container(
+          margin: EdgeInsets.only(left: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 40,
+                child: IconButton(
+                  highlightColor: Colors.transparent,
+                  // constraints: const BoxConstraints(maxWidth: 40),
+                  onPressed: () {
+                    // Navigator.pop(context);
+                  },
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: Colors.black,
+                  ),
+                  alignment: Alignment.topLeft,
+                  splashColor: AppColorNeutral.neutral1,
+                  splashRadius: 25,
+                  iconSize: 30,
+                ),
+              ),
+              SvgPicture.asset('lib/assets/images/exampleLogoTim.svg'),
+            ],
+          ),
+        ),
+        actions: [
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 16.0),
+            child: SvgPicture.asset(
+              'lib/assets/icons/icon-tim.svg',
+              height: 30,
+              width: 30,
+            ),
+          ),
+        ],
       ),
       body: DragAndDropLists(
-        lastItemTargetHeight: 300,
         listWidth: 300,
         axis: Axis.horizontal,
-        // lastItemTargetHeight: 50,
+        lastItemTargetHeight: MediaQuery.of(context).size.height - 720,
         // addLastItemTargetHeightToTop: true,
         // lastListTargetSize: 30,
-        listPadding: EdgeInsets.all(16),
-        listInnerDecoration: BoxDecoration(
-          color: Theme.of(context).canvasColor,
-          borderRadius: BorderRadius.circular(10),
+        listPadding: const EdgeInsets.all(16),
+        listInnerDecoration: const BoxDecoration(
+          color: Colors.white,
         ),
         children: lists,
-        itemDivider: Divider(thickness: 2, height: 2, color: Colors.green),
         itemDecorationWhileDragging: BoxDecoration(
           color: Colors.white,
           boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
         ),
-        listDragHandle: buildDragHandle(isList: true),
-        itemDragHandle: buildDragHandle(),
+        // listDragHandle: buildDragHandle(isList: true),
+        // itemDragHandle: buildDragHandle(),
         onItemReorder: onReorderListItem,
         onListReorder: onReorderList,
       ),
@@ -64,139 +110,118 @@ class _TimCardScreenState extends State<TimCardScreen> {
 
   //DragAndDrop Handle
   DragHandle buildDragHandle({bool isList = false}) {
-    final verticalAlignment = isList
-        ? DragHandleVerticalAlignment.top
-        : DragHandleVerticalAlignment.center;
-    final color = isList ? Colors.blueGrey : Colors.black26;
-
     return DragHandle(
-      verticalAlignment: verticalAlignment,
       child: Container(
         padding: EdgeInsets.only(right: 10),
-        child: Icon(Icons.menu, color: color),
+        child: Icon(Icons.menu),
       ),
     );
   }
 
   // DragAndDrop Widget Build
   DragAndDropList buildList(NoteTimModel list) => DragAndDropList(
+        canDrag: false,
         header: Container(
-          padding: EdgeInsets.all(8),
+          width: double.infinity,
+          padding: const EdgeInsets.all(15),
+          decoration: const BoxDecoration(
+            color: AppColorNeutral.neutral1,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(4),
+              topRight: Radius.circular(4),
+            ),
+          ),
           child: Text(
-            'title',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            'Title',
+            style: AppFont.semiBold14,
           ),
         ),
+        footer: Container(
+            height: 50,
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(4),
+                bottomRight: Radius.circular(4),
+              ),
+            ),
+            child: TextButton(
+                onPressed: () {},
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.add,
+                      color: AppColor.activeColor,
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      'Tambah Catatan',
+                      style: AppFont.textButtonActive,
+                    ),
+                  ],
+                ))
+            // ElevatedButton(
+            //     style: const ButtonStyle(
+            //       overlayColor:
+            //           MaterialStatePropertyAll(AppColorPrimary.primary3),
+            //       elevation: MaterialStatePropertyAll(0),
+            //       backgroundColor: MaterialStatePropertyAll(Colors.transparent),
+            //     ),
+            //     onPressed: () {},
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.center,
+            //       children: [
+            //         const Icon(
+            //           Icons.add,
+            //           color: AppColor.activeColor,
+            //         ),
+            //         const SizedBox(
+            //           width: 8,
+            //         ),
+            //         Text(
+            //           'Tambah Catatan',
+            //           style: AppFont.textButtonActive,
+            //         ),
+            //       ],
+            //     )),
+            ),
         children: list.items
             .map(
               (e) => DragAndDropItem(
                 child: Container(
+                  height: 120,
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey),
                     borderRadius: BorderRadius.circular(16.0),
                   ),
-                  padding: EdgeInsets.all(10.0),
-                  margin: EdgeInsets.only(bottom: 16.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                  padding: EdgeInsets.all(12.0),
+                  margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              e.date,
-                              style: AppFont.semiBold20,
-                            ),
-                            Text(
-                              e.month,
-                              style: AppFont.semiBold20,
-                            ),
-                          ],
+                      Text(
+                        e.titles,
+                        style: AppFont.semiBold14,
+                      ),
+                      Text(
+                        e.description,
+                        style: AppFont.textDescription,
+                      ),
+                      CachedNetworkImage(
+                        imageUrl: e.avatarUrl,
+                        placeholder: (context, url) =>
+                            CircularProgressIndicator(),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        imageBuilder: (context, imageProvider) => CircleAvatar(
+                          backgroundImage: imageProvider,
+                          radius: 12.0,
                         ),
-                      ),
-                      Container(
-                        width: 0.5,
-                        height: 120.0,
-                        color: Colors.grey,
-                      ),
-                      SizedBox(width: 16.0),
-                      Expanded(
-                        flex: 5,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    e.titles,
-                                    style: AppFont.semiBold16w500,
-                                  ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.all(4.0),
-                                  decoration: BoxDecoration(
-                                    color: e.isUploaded
-                                        ? AppColor.completeColor
-                                        : AppColorRed.red4,
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  child: Text(
-                                    e.isUploaded
-                                        ? 'Sudah Upload'
-                                        : 'Belum Upload',
-                                    style: TextStyle(
-                                      fontStyle: FontStyle.normal,
-                                      color: e.isUploaded
-                                          ? AppColor.textprogresColor
-                                          : AppColor.errorColor,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 8.0),
-                            SizedBox(height: 8.0),
-                            Text(
-                              e.description,
-                              style: AppFont.regular12,
-                            ),
-                            SizedBox(height: 8.0),
-                            Row(
-                              children: [
-                                SvgPicture.asset("lib/assets/icons/Avatar.svg",
-                                    height: 26,
-                                    width: 26,
-                                    color: AppColorPrimary.primary6),
-                                SizedBox(width: 8.0),
-                                Text(
-                                  'Personal',
-                                  style: AppFont.regular12,
-                                ),
-                                SizedBox(width: 8.0),
-                                CachedNetworkImage(
-                                  imageUrl: e.avatarUrl,
-                                  placeholder: (context, url) =>
-                                      CircularProgressIndicator(),
-                                  errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
-                                  imageBuilder: (context, imageProvider) =>
-                                      CircleAvatar(
-                                    backgroundImage: imageProvider,
-                                    radius: 12.0,
-                                  ),
-                                ),
-                                SizedBox(width: 8.0),
-                                Text(
-                                  e.name,
-                                  style: AppFont.regular12,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
+                      )
                     ],
                   ),
                 ),
