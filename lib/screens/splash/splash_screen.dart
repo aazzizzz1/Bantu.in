@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:bantuin/screens/auth/login_screen.dart';
 import 'package:bantuin/screens/home/home_pages.dart';
 import 'package:bantuin/widgets/bottom_navigation/bottom_menu.dart';
 import 'package:flutter/material.dart';
@@ -34,24 +35,35 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Future.delayed(
       const Duration(seconds: 4),
-      () => Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                BottomMenu(currentTab: 0, currentScreen: const HomePages())),
-      ),
+      () => 
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const LoginScreen()),
+        ),
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //       builder: (context) =>
+      //           BottomMenu(currentTab: 0, currentScreen: const HomePages())),
+      // ),
     );
   }
 
   setdata(BuildContext context) async {
     await Future.delayed(const Duration(seconds: 3), () {
       SchedulerBinding.instance.addPostFrameCallback((_) {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return BottomMenu(
-            currentTab: 0,
-            currentScreen: const HomePages(),
-          );
-        }));
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const LoginScreen()),
+        );
+        // Navigator.push(context, MaterialPageRoute(builder: (context) {
+        //   return BottomMenu(
+        //     currentTab: 0,
+        //     currentScreen: const HomePages(),
+        //   );
+        // }));
       });
     });
   }
