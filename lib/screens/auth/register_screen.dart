@@ -1,3 +1,4 @@
+import 'package:bantuin/screens/auth/login_screen.dart';
 import 'package:bantuin/screens/home/home_pages.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -158,7 +159,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const HomePages()),
+                              builder: (context) => const LoginScreen()),
                         );
                         // final isValidForm = _formKey.currentState!.validate();
                         // if (isValidForm) {
