@@ -63,6 +63,12 @@ class AppFont {
         fontWeight: FontWeight.w400,
         color: AppColorNeutral.neutral6,
       );
+  static TextStyle get textDescriptionRedeem => GoogleFonts.ibmPlexSans(
+        fontSize: 14,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w400,
+        color: AppColorNeutral.neutral6,
+      );
   static TextStyle get textSubjectOrTitle => GoogleFonts.ibmPlexSans(
         fontSize: 14,
         fontStyle: FontStyle.normal,
@@ -241,5 +247,23 @@ class AppFont {
         fontStyle: FontStyle.normal,
         fontWeight: FontWeight.w400,
         color: AppColorNeutral.neutral6,
+      );
+  static TextStyle get textNotificationActive => GoogleFonts.ibmPlexSans(
+        fontSize: 14,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w400,
+        color: AppColorPrimary.primary6,
+      );
+  static TextStyle get textNotificationError => GoogleFonts.ibmPlexSans(
+        fontSize: 14,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w400,
+        color: AppColorRed.red6,
+      );
+  static TextStyle get textNotificationTime => GoogleFonts.ibmPlexSans(
+        fontSize: 14,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w400,
+        color: AppColorNeutral.neutral5,
       );
 }

@@ -22,6 +22,7 @@ dependencies:
   google_fonts: ^4.0.3
   http: ^0.13.5
   flutter_svg: ^2.0.4
+  flutter_lorem: ^2.0.0
   # flutter ringtone player
   flutter_ringtone_player: ^3.2.0
   file_picker: ^5.2.7
