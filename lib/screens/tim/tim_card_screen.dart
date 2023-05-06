@@ -1,6 +1,8 @@
 import 'package:bantuin/models/note_tim_model.dart';
 import 'package:bantuin/models/user_note_model.dart';
+import 'package:bantuin/screens/tim/tim_screen.dart';
 import 'package:bantuin/view_models/note_viewmodel.dart';
+import 'package:bantuin/widgets/bottom_navigation/bottom_menu.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drag_and_drop_lists/drag_and_drop_item.dart';
 import 'package:drag_and_drop_lists/drag_and_drop_list.dart';
@@ -58,7 +60,13 @@ class _TimCardScreenState extends State<TimCardScreen> {
                   highlightColor: Colors.transparent,
                   // constraints: const BoxConstraints(maxWidth: 40),
                   onPressed: () {
-                    // Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => BottomMenu(
+                              currentTab: 1,
+                              currentScreen: const TimScreen())),
+                    );
                   },
                   icon: Icon(
                     Icons.arrow_back,
