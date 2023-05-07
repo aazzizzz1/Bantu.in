@@ -1,3 +1,5 @@
+import 'package:bantuin/widgets/notes/add_repeat.dart';
+import 'package:bantuin/widgets/notes/create_note_textfield.dart';
 import 'package:bantuin/widgets/notes/date_time_picker.dart';
 import 'package:bantuin/widgets/notes/email_picker.dart';
 import 'package:bantuin/widgets/form/button_to_screen_notes.dart';
@@ -29,6 +31,9 @@ class _NotesFormState extends State<NotesForm> {
 
   @override
   Widget build(BuildContext context) {
+    final _descriptionController = TextEditingController();
+    final _subjectController = TextEditingController();
+    final formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -45,6 +50,7 @@ class _NotesFormState extends State<NotesForm> {
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 16),
           child: Form(
+            key: formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -55,66 +61,22 @@ class _NotesFormState extends State<NotesForm> {
                 const SizedBox(
                   height: 24,
                 ),
-                Text(
-                  "Subjek",
-                  style: AppFont.medium14,
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                TextFormField(
-                  decoration: InputDecoration(
-                    filled: true,
-                    hintText: 'Tulis Subject',
-                    hintStyle: AppFont.hintTextField,
-                    fillColor: AppColorNeutral.neutral1,
-                    focusedBorder: const OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: AppColorPrimary.primary6)),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: AppColorNeutral.neutral2),
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                    disabledBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: AppColorNeutral.neutral2),
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                  ),
+                CreateNoteTextField(
+                  label: 'Subject',
+                  hint: 'Subject',
+                  message: 'subject',
+                  controller: _subjectController,
+                  isSubject: true,
                 ),
                 const SizedBox(
                   height: 24,
                 ),
-                Text(
-                  "Deskripsi",
-                  style: AppFont.medium14,
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                TextField(
-                  keyboardType: TextInputType.multiline,
-                  maxLines: 5,
-                  decoration: InputDecoration(
-                    filled: true,
-                    hintText: 'Tulis deskripsi catatan',
-                    hintStyle: AppFont.hintTextField,
-                    fillColor: AppColorNeutral.neutral1,
-                    focusedBorder: const OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: AppColorPrimary.primary6)),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: AppColorNeutral.neutral2),
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                    disabledBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: AppColorNeutral.neutral2),
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                  ),
+                //Description
+                CreateNoteTextField(
+                  label: 'Deskripsi',
+                  hint: 'Deskripsi',
+                  message: 'deskripsi',
+                  controller: _descriptionController,
                 ),
                 const SizedBox(
                   height: 24,
@@ -127,24 +89,30 @@ class _NotesFormState extends State<NotesForm> {
                 ),
                 Text(
                   "Masukan email anggota",
-                  style: AppFont.medium14,
+                  style: AppFont.labelTextForm,
                 ),
                 const SizedBox(
                   height: 4,
                 ),
                 MultipleEmailPicker(onChanged: _handleEmailsChanged),
-                const SizedBox(
-                  height: 24,
-                ),
+                // const SizedBox(
+                //   height: 24,
+                // ),
                 const Divider(
                   thickness: 1,
                 ),
                 const SizedBox(
                   height: 24,
                 ),
-                Text(
-                  "Tambahkan tanggal acara",
-                  style: AppFont.medium14,
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                          text: 'Tambahkan tanggal acara',
+                          style: AppFont.labelTextForm),
+                      TextSpan(text: ' *', style: AppFont.textStatusError),
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 4,
@@ -158,15 +126,15 @@ class _NotesFormState extends State<NotesForm> {
                 const SizedBox(
                   height: 24,
                 ),
-                const Divider(
-                  thickness: 1,
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-                Text(
-                  "Tambahkan pengingat",
-                  style: AppFont.medium14,
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                          text: 'Tambahkan pengingat',
+                          style: AppFont.labelTextForm),
+                      TextSpan(text: ' *', style: AppFont.textStatusError),
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 4,
@@ -179,18 +147,23 @@ class _NotesFormState extends State<NotesForm> {
                     });
                   },
                 ),
+                // isRepeat
                 const SizedBox(
                   height: 24,
                 ),
-                const Divider(
-                  thickness: 1,
-                ),
+                const AddRepeat(),
                 const SizedBox(
                   height: 24,
                 ),
-                Text(
-                  "Tambahkan ringtones",
-                  style: AppFont.medium14,
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                          text: 'Tambahkan ringtones',
+                          style: AppFont.labelTextForm),
+                      TextSpan(text: ' *', style: AppFont.textStatusError),
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 4,
@@ -207,7 +180,7 @@ class _NotesFormState extends State<NotesForm> {
                 const SizedBox(
                   height: 24,
                 ),
-                ButtonScreenNotes(),
+                ButtonScreenNotes(formKey: formKey),
                 const SizedBox(
                   height: 24,
                 ),

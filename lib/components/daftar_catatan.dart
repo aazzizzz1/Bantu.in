@@ -29,10 +29,10 @@ class _DaftarCatatanState extends State<DaftarCatatan> {
                 Text(
                   'Sortir berdasarkan',
                   style: GoogleFonts.ibmPlexSans(
-                          fontSize: 16,
-                          fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black),
+                      fontSize: 16,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black),
                 ),
                 DataFilter(
                   onSortByChanged: (String sortBy) {

@@ -3,7 +3,8 @@ class NoteModel {
   final String subject;
   final String description;
   final String eventDate;
-  final int columnId;
+  final String reminder;
+  final int ringtoneId;
   final String notesType;
 
   NoteModel({
@@ -11,7 +12,8 @@ class NoteModel {
     required this.subject,
     required this.description,
     required this.eventDate,
-    required this.columnId,
+    required this.reminder,
+    required this.ringtoneId,
     required this.notesType,
   });
 
@@ -20,7 +22,15 @@ class NoteModel {
         subject: json['subject'],
         description: json['description'],
         eventDate: json['event_date'],
-        columnId: json['column_id'],
+        reminder: json['reminder'],
+        ringtoneId: json['column_id'],
         notesType: json['notes_type'],
       );
+  Map<String, dynamic> toJson() => {
+        "subject": subject,
+        "description": description,
+        "event_date": eventDate,
+        "reminder": reminder,
+        "ringtone_id": ringtoneId,
+      };
 }

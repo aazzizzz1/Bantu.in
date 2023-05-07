@@ -1,4 +1,5 @@
 import 'package:bantuin/components/card_invitation.dart';
+import 'package:bantuin/components/home_card_invitation.dart';
 import 'package:bantuin/constants/button/app_button.dart';
 import 'package:flutter/material.dart';
 

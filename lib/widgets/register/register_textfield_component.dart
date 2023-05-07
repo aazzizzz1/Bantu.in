@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../constants/color/app_color.dart';
-import '../constants/font/app_font.dart';
+import '../../constants/color/app_color.dart';
+import '../../constants/font/app_font.dart';
 
 class TextFieldComponent extends StatefulWidget {
   final String label;

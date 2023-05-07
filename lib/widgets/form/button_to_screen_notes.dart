@@ -4,16 +4,20 @@ import 'package:bantuin/screens/note/notes_screen.dart';
 import 'package:flutter/material.dart';
 
 class ButtonScreenNotes extends StatelessWidget {
-  const ButtonScreenNotes({Key? key}) : super(key: key);
+  final GlobalKey<FormState> formKey;
+  const ButtonScreenNotes({Key? key, required this.formKey});
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => NoteScreen()),
-        );
+        final isValidForm = formKey.currentState!.validate();
+        if (isValidForm) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const NoteScreen()),
+          );
+        }
       },
       style: const ButtonStyle(
         padding: MaterialStatePropertyAll(EdgeInsets.all(16.0)),

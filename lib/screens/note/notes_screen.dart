@@ -45,10 +45,10 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
           controller: tabController,
           tabs: const [
             Text(
-              "Catatanku",
+              "Berjalan",
             ),
             Text(
-              "Catatan Masuk",
+              "Berlalu",
             ),
           ],
         ),
