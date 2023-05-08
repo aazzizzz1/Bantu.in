@@ -15,6 +15,12 @@ class AppFont {
         fontWeight: FontWeight.w400,
         color: Colors.black,
       );
+  static TextStyle get regular16w500 => GoogleFonts.ibmPlexSans(
+        fontSize: 16,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w400,
+        color: Colors.black,
+      );
   static TextStyle get semiBold20 => GoogleFonts.ibmPlexSans(
         fontSize: 20,
         fontStyle: FontStyle.normal,

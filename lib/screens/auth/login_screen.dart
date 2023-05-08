@@ -1,5 +1,6 @@
 import 'package:bantuin/widgets/register/register_textfield_component.dart';
 import 'package:bantuin/constants/button/app_button.dart';
+import 'package:bantuin/screens/auth/forgot_password.dart';
 import 'package:bantuin/screens/auth/register_screen.dart';
 import 'package:bantuin/screens/home/home_pages.dart';
 import 'package:bantuin/widgets/bottom_navigation/bottom_menu.dart';
@@ -70,7 +71,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       alignment: Alignment.centerRight,
                       child: TextButton(
                         onPressed: () {
-                          // tambahkan kode untuk memproses tindakan lupa kata sandi di sini
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ForgotPassword()),
+                          );
                         },
                         child: const Text(
                           'Lupa kata sandi?',
