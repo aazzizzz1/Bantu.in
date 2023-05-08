@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class User {
+class RegisterModel {
   final String username;
   final String email;
   final String phone;
@@ -8,7 +8,7 @@ class User {
   final String password;
   final String passwordConfirmation;
 
-  User({
+  RegisterModel({
     required this.username,
     required this.email,
     required this.phone,
@@ -17,7 +17,7 @@ class User {
     required this.passwordConfirmation,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
+  factory RegisterModel.fromJson(Map<String, dynamic> json) => RegisterModel(
         username: json['username'],
         email: json['email'],
         phone: json['phone'],

@@ -1,10 +1,10 @@
-import 'package:bantuin/models/user_model.dart';
+import 'package:bantuin/models/register_model.dart';
 import 'package:bantuin/screens/auth/login_screen.dart';
-import 'package:bantuin/screens/home/home_pages.dart';
-import 'package:bantuin/services/api/api_service.dart';
-import 'package:email_validator/email_validator.dart';
+import 'package:bantuin/view_models/register_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 import '../../widgets/register/register_textfield_component.dart';
 import '../../constants/color/app_color.dart';
@@ -20,15 +20,13 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _jobController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _passwordConfirmationController =
       TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _jobController = TextEditingController();
   bool obscure = true;
-
-  final _apiService = ApiService();
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +111,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ? [
                               LengthLimitingTextInputFormatter(16),
                               FilteringTextInputFormatter.allow(
-                                RegExp("[a-zA-Z0-9 ]"),
+                                RegExp("[a-zA-Z0-9 !@#\$%^&*()_+-]+"),
                               ),
                             ]
                           : null,
@@ -167,71 +165,71 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     const SizedBox(height: 36.0),
-                    ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          final user = User(
-                            username: _usernameController.toString(),
-                            email: _emailController.toString(),
-                            phone: _phoneController.toString(),
-                            job: _jobController.toString(),
-                            password: _passwordController.toString(),
-                            passwordConfirmation: _passwordConfirmationController.toString(),
-                          );
-                          try {
-                            final response = await _apiService.register(user);
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const LoginScreen(),
-                              ),
-                            );
-                          } on FormatException catch (e) {
-                            showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                title: const Text('Registration Failed'),
-                                content: Text(e.message),
-                                actions: <Widget>[
-                                  TextButton(
-                                    onPressed: () =>
-                                        Navigator.pop(context, 'OK'),
-                                    child: const Text('OK'),
-                                  ),
-                                ],
-                              ),
-                            );
-                          } catch (e) {
-                            showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                title: const Text('Registration Failed'),
-                                content: Text(e.toString()),
-                                actions: <Widget>[
-                                  TextButton(
-                                    onPressed: () =>
-                                        Navigator.pop(context, 'OK'),
-                                    child: const Text('OK'),
-                                  ),
-                                ],
-                              ),
-                            );
+                    Consumer<RegisterViewModel>(
+                      builder: (context, register, _) => ElevatedButton(
+                       onPressed: () async {
+                      final isValidForm = _formKey.currentState!.validate();
+                      if (isValidForm) {
+                        try {
+                          await register.postRegister(
+                                RegisterModel(
+                                  username: _usernameController.text,
+                                  email: _emailController.text,
+                                  phone: _phoneController.text,
+                                  job: _jobController.text,
+                                  password: _passwordController.text,
+                                  passwordConfirmation:
+                                      _passwordConfirmationController.text,
+                                ),
+                              );
+                              Fluttertoast.showToast(
+                                msg: "Berhasil Mendaftar",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.green,
+                                textColor: Colors.white,
+                                fontSize: 16.0,
+                              );
+                              await Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const LoginScreen(),
+                                ),
+                              );
+                            } catch (e) {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: const Text('Registrasi Gagal'),
+                                  content: Text(e.toString()),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(context, 'OK'),
+                                      child: const Text('OK'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
                           }
-                        }
-                      },
-                      style: const ButtonStyle(
-                        padding: MaterialStatePropertyAll(EdgeInsets.all(16.0)),
-                        elevation: MaterialStatePropertyAll(0),
-                        backgroundColor:
-                            MaterialStatePropertyAll(AppColor.activeColor),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Daftar',
-                          style: AppFont.textFillButtonActive,
+                        },
+                        style: const ButtonStyle(
+                          padding:
+                              MaterialStatePropertyAll(EdgeInsets.all(16.0)),
+                          elevation: MaterialStatePropertyAll(0),
+                          backgroundColor:
+                              MaterialStatePropertyAll(AppColor.activeColor),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Daftar',
+                            style: AppFont.textFillButtonActive,
+                          ),
                         ),
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),
