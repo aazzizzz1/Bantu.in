@@ -1,5 +1,7 @@
+import 'package:bantuin/models/user_model.dart';
 import 'package:bantuin/screens/auth/login_screen.dart';
 import 'package:bantuin/screens/home/home_pages.dart';
+import 'package:bantuin/services/api/api_service.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,11 +21,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordConfirmationController =
       TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _jobController = TextEditingController();
   bool obscure = true;
+
+  final _apiService = ApiService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,6 +69,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       type: 'email',
                       email: true,
                       controller: _emailController,
+                    ),
+                    const SizedBox(height: 20.0),
+                    TextFieldComponent(
+                      label: 'Nomor telepon',
+                      hint: 'Masukan nomor telepon',
+                      type: 'nomor telepon',
+                      controller: _phoneController,
                     ),
                     const SizedBox(height: 20.0),
                     TextFieldComponent(
@@ -155,19 +168,55 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     const SizedBox(height: 36.0),
                     ElevatedButton(
-                      onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) => const LoginScreen()),
-                        // );
-                        final isValidForm = _formKey.currentState!.validate();
-                        if (isValidForm) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginScreen()),
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          final user = User(
+                            username: _usernameController.toString(),
+                            email: _emailController.toString(),
+                            phone: _phoneController.toString(),
+                            job: _jobController.toString(),
+                            password: _passwordController.toString(),
+                            passwordConfirmation: _passwordConfirmationController.toString(),
                           );
+                          try {
+                            final response = await _apiService.register(user);
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const LoginScreen(),
+                              ),
+                            );
+                          } on FormatException catch (e) {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text('Registration Failed'),
+                                content: Text(e.message),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context, 'OK'),
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          } catch (e) {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text('Registration Failed'),
+                                content: Text(e.toString()),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(context, 'OK'),
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
                         }
                       },
                       style: const ButtonStyle(

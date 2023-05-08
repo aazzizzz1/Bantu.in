@@ -246,8 +246,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   placeholder: (context, url) => CircularProgressIndicator(),
                   errorWidget: (context, url, error) => Icon(Icons.error),
                   imageBuilder: (context, imageProvider) => Container(
-                    width: 150,
-                    height: 150,
+                    width: 160,
+                    height: 160,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
