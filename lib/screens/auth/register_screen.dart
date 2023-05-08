@@ -6,7 +6,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../components/register_textfield_component.dart';
+import '../../widgets/register/register_textfield_component.dart';
 import '../../constants/color/app_color.dart';
 import '../../constants/font/app_font.dart';
 

@@ -1,4 +1,4 @@
-import 'package:bantuin/components/register_textfield_component.dart';
+import 'package:bantuin/widgets/register/register_textfield_component.dart';
 import 'package:bantuin/constants/color/app_color.dart';
 import 'package:bantuin/constants/font/app_font.dart';
 import 'package:bantuin/screens/home/home_pages.dart';

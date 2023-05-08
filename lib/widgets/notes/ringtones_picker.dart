@@ -1,5 +1,8 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+
+import '../../constants/constant.dart';
 
 class RingtonePickerWidget extends StatefulWidget {
   final String label;
@@ -19,6 +22,7 @@ class RingtonePickerWidget extends StatefulWidget {
 
 class _RingtonePickerWidgetState extends State<RingtonePickerWidget> {
   String? _selectedRingtone;
+  final ringtoneController = TextEditingController();
 
   @override
   void initState() {
@@ -39,56 +43,54 @@ class _RingtonePickerWidgetState extends State<RingtonePickerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () async {
-        final List<String> ringtones = [
-          'ringtone1.mp3',
-          'ringtone2.mp3',
-          'ringtone3.mp3',
-          // Add more ringtones here
-        ];
-
-        await showModalBottomSheet<void>(
-          context: context,
-          builder: (BuildContext context) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const SizedBox(height: 16),
-                Text(widget.label, style: Theme.of(context).textTheme.subtitle1),
-                const SizedBox(height: 16),
-                for (final ringtone in ringtones)
-                  ListTile(
-                    title: Text(ringtone),
-                    trailing: Icon(
-                      _selectedRingtone == ringtone ? Icons.check_circle : Icons.circle,
-                      color: Theme.of(context).accentColor,
-                    ),
-                    onTap: () {
-                      _onRingtoneSelected(ringtone);
-                      Navigator.pop(context);
-                    },
-                    onLongPress: () async {
-                      await _playRingtone(ringtone);
-                    },
-                  ),
-              ],
-            );
-          },
-        );
+    final List<String> ringtones = [
+      'ringtone1.mp3',
+      'ringtone2.mp3',
+      'ringtone3.mp3',
+      // Add more ringtones here
+    ];
+    // String selectedValue = '';
+    return DropdownButtonFormField(
+      value: _selectedRingtone,
+      validator: (value) {
+        if (value == null) {
+          return 'Anda belum memilih nada dering';
+        }
       },
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(
-              _selectedRingtone ?? 'Select a ringtone',
-              style: TextStyle(
-                color: _selectedRingtone == null ? Colors.grey : null,
-              ),
-            ),
-          ),
-          const Icon(Icons.keyboard_arrow_down),
-        ],
+      items: ringtones
+          .map((item) => DropdownMenuItem<String>(
+                value: item,
+                child: Text(item, style: AppFont.regular12),
+              ))
+          .toList(),
+      onChanged: (value) {
+        setState(() {
+          _selectedRingtone = value as String;
+          ringtoneController.text = _selectedRingtone!;
+        });
+      },
+      icon: const Icon(Icons.keyboard_arrow_down),
+      decoration: InputDecoration(
+        filled: true,
+        hintText: 'Pilih nada dering',
+        hintStyle: AppFont.hintTextField,
+        fillColor: AppColorNeutral.neutral1,
+        focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: AppColorNeutral.neutral2)),
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: AppColorNeutral.neutral2),
+          borderRadius: BorderRadius.circular(3),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: AppColorNeutral.neutral2),
+          borderRadius: BorderRadius.circular(3),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: AppColorNeutral.neutral2),
+          borderRadius: BorderRadius.circular(3),
+        ),
+        focusedErrorBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: AppColorPrimary.primary6)),
       ),
     );
   }

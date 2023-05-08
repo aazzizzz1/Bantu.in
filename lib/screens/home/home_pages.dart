@@ -2,6 +2,7 @@ import 'package:bantuin/components/card_incoming_notes_upload.dart';
 import 'package:bantuin/components/card_mynotes_personal.dart';
 import 'package:bantuin/components/card_mynotes_progres.dart';
 import 'package:bantuin/components/daftar_catatan.dart';
+import 'package:bantuin/components/home_invitation.dart';
 import 'package:bantuin/components/list_daftar_catatan.dart';
 import 'package:bantuin/components/point_royalty.dart';
 import 'package:bantuin/constants/button/app_button.dart';
@@ -71,6 +72,7 @@ class _HomePagesState extends State<HomePages> {
       body: ListView(
         children: [
           PointRoyalty(),
+          HomeInvitaion(),
           DaftarCatatan(),
           ListDaftarCatatan(),
         ],

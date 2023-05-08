@@ -1,8 +1,8 @@
-import 'package:bantuin/components/register_textfield_component.dart';
 import 'package:bantuin/constants/color/app_color.dart';
 import 'package:bantuin/constants/font/app_font.dart';
 import 'package:bantuin/screens/auth/email_otp.dart';
 import 'package:bantuin/screens/auth/login_screen.dart';
+import 'package:bantuin/widgets/register/register_textfield_component.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -29,8 +29,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
-                  builder: (context) => const LoginScreen()),
+              MaterialPageRoute(builder: (context) => const LoginScreen()),
             );
           },
           icon: const Icon(
@@ -41,7 +40,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.2),
+          padding:
+              EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.2),
           margin: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,8 +86,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => EmailOtp(key: null),
-                                ),
+                              builder: (context) => EmailOtp(key: null),
+                            ),
                           );
                         }
                       },

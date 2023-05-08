@@ -31,20 +31,19 @@ class _MultipleEmailPickerState extends State<MultipleEmailPicker> {
       });
     } else {
       showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Email tidak valid"),
-            content: Text("Masukan email yang sesuai"),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text("OK"),
-              )
-            ],
-          );
-        }
-      );
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Email tidak valid"),
+              content: Text("Masukan email yang sesuai"),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text("OK"),
+                )
+              ],
+            );
+          });
     }
   }
 
@@ -57,75 +56,74 @@ class _MultipleEmailPickerState extends State<MultipleEmailPicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Wrap(
-            spacing: 8.0,
-            children: _emails.map((email) {
-              return InputChip(
-                label: Text(email),
-                onDeleted: () => _removeEmail(_emails.indexOf(email)),
-              );
-            }).toList(),
-          ),
-          TextFormField(
-            controller: _emailController,
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
-                    filled: true,
-                    hintText: 'Masukan email anggota',
-                    hintStyle: AppFont.hintTextField,
-                    fillColor: AppColorNeutral.neutral1,
-                    focusedBorder: const OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: AppColorPrimary.primary6)),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: AppColorNeutral.neutral2),
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                    disabledBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: AppColorNeutral.neutral2),
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                  ),
-            validator: (value) {
-              if (value != null) {
-                final email = value.trim();
-                if (email.isNotEmpty && !EmailValidator.validate(email)) {
-                  return 'Masukan email yang sesuai';
-                }
-              }
-              return null;
-            },
-          ),
-          SizedBox(height: 8.0),
-          GestureDetector(
-            onTap: _addEmail,
-            child: Row(
-              children: [
-                IconButton(onPressed: _addEmail, icon: Icon(Icons.add), color: AppColorPrimary.primary6,),
-                TextButton(
-                  onPressed: _addEmail,
-                  child: Text(
-                    'Tambahkan Email',
-                    style: GoogleFonts.ibmPlexSans(
-                      fontSize: 14,
-                      fontStyle: FontStyle.normal,
-                      fontWeight: FontWeight.w400,
-                      color: AppColorPrimary.primary6,
-                    ),
-                  ),
-                ),
-              ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Wrap(
+          spacing: 8.0,
+          children: _emails.map((email) {
+            return InputChip(
+              label: Text(email),
+              onDeleted: () => _removeEmail(_emails.indexOf(email)),
+            );
+          }).toList(),
+        ),
+        TextFormField(
+          controller: _emailController,
+          keyboardType: TextInputType.emailAddress,
+          style: AppFont.medium14,
+          decoration: InputDecoration(
+            filled: true,
+            hintText: 'Masukan email anggota',
+            hintStyle: AppFont.hintTextField,
+            fillColor: AppColorNeutral.neutral1,
+            focusedBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: AppColorPrimary.primary6)),
+            enabledBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: AppColorNeutral.neutral2),
+              borderRadius: BorderRadius.circular(3),
+            ),
+            disabledBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: AppColorNeutral.neutral2),
+              borderRadius: BorderRadius.circular(3),
             ),
           ),
-        ],
-      ),
+          validator: (value) {
+            if (value != null) {
+              final email = value.trim();
+              if (email.isNotEmpty && !EmailValidator.validate(email)) {
+                return 'Masukan email yang sesuai';
+              }
+            }
+            return null;
+          },
+        ),
+        SizedBox(height: 8.0),
+        GestureDetector(
+          onTap: _addEmail,
+          child: Row(
+            children: [
+              IconButton(
+                onPressed: _addEmail,
+                icon: Icon(Icons.add),
+                color: AppColorPrimary.primary6,
+              ),
+              TextButton(
+                onPressed: _addEmail,
+                child: Text(
+                  'Tambahkan Email',
+                  style: GoogleFonts.ibmPlexSans(
+                    fontSize: 14,
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.w400,
+                    color: AppColorPrimary.primary6,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

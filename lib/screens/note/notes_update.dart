@@ -241,6 +241,7 @@ class _NotesUpdateState extends State<NotesUpdate> {
                   height: 16,
                 ),
                 DateTimePicker(
+                  controller: _eventDateController,
                   onChanged: (DateTime selectedDate) {
                     // Handle date selection changes
                   },
