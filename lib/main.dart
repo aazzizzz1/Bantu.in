@@ -4,6 +4,7 @@ import 'package:bantuin/screens/point/detail_product_redeem.dart';
 import 'package:bantuin/screens/point/point_screen.dart';
 import 'package:bantuin/screens/splash/splash_screen.dart';
 import 'package:bantuin/utils/routes.dart';
+import 'package:bantuin/view_models/login_viewmodel.dart';
 import 'package:bantuin/view_models/note_viewmodel.dart';
 import 'package:bantuin/view_models/register_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => RegisterViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => LoginViewModel(),
         ),
       ],
       child: MaterialApp(

@@ -1,3 +1,5 @@
+import 'package:bantuin/models/login_model.dart';
+import 'package:bantuin/view_models/login_viewmodel.dart';
 import 'package:bantuin/widgets/register/register_textfield_component.dart';
 import 'package:bantuin/constants/button/app_button.dart';
 import 'package:bantuin/screens/auth/forgot_password.dart';
@@ -6,8 +8,9 @@ import 'package:bantuin/screens/home/home_pages.dart';
 import 'package:bantuin/widgets/bottom_navigation/bottom_menu.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -18,12 +21,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _passwordConfirmationController =
-      TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _jobController = TextEditingController();
   bool obscure = true;
   @override
   Widget build(BuildContext context) {
@@ -62,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       hint: 'Masukan kata sandi',
                       type: 'kata sandi',
                       description:
-                          'Kata sandi harus terdiri dari 8 huruf, 1 huruf besar, 1 angka',
+                          'Kata sandi harus terdiri dari 8 huruf, 1 huruf besar, 1 angka, dan 1 simbol',
                       controller: _passwordController,
                       icon: Icons.remove_red_eye_outlined,
                       obscure: true,
@@ -86,37 +85,65 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    // CONFIRM PASSWORD
                     const SizedBox(height: 36.0),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => BottomMenu(
-                                  currentTab: 0,
-                                  currentScreen: const HomePages())),
-                        );
-                        // final isValidForm = _formKey.currentState!.validate();
-                        // if (isValidForm) {
-                        //   Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) =>
-                        //             BottomMenu(currentTab: 0, currentScreen: const HomePages())),
-                        //   );
-                        // }
-                      },
-                      style: const ButtonStyle(
-                        padding: MaterialStatePropertyAll(EdgeInsets.all(16.0)),
-                        elevation: MaterialStatePropertyAll(0),
-                        backgroundColor:
-                            MaterialStatePropertyAll(AppColor.activeColor),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Masuk',
-                          style: AppFont.textFillButtonActive,
+                    Consumer<LoginViewModel>(
+                      builder: (context, login, _) => ElevatedButton(
+                        onPressed: () async {
+                          final isValidForm = _formKey.currentState!.validate();
+                          if (isValidForm) {
+                            try {
+                              await login.postLogin(
+                                LoginModel(
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                ),
+                              );
+                              Fluttertoast.showToast(
+                                msg: "Berhasil Masuk",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.green,
+                                textColor: Colors.white,
+                                fontSize: 16.0,
+                              );
+                              await Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => BottomMenu(
+                                        currentTab: 0,
+                                        currentScreen: const HomePages())),
+                              );
+                            } catch (e) {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: const Text('Login Gagal'),
+                                  content: Text(e.toString()),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(context, 'OK'),
+                                      child: const Text('OK'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+                          }
+                        },
+                        style: const ButtonStyle(
+                          padding:
+                              MaterialStatePropertyAll(EdgeInsets.all(16.0)),
+                          elevation: MaterialStatePropertyAll(0),
+                          backgroundColor:
+                              MaterialStatePropertyAll(AppColor.activeColor),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Masuk',
+                            style: AppFont.textFillButtonActive,
+                          ),
                         ),
                       ),
                     ),
