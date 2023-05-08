@@ -5,18 +5,38 @@ import 'dart:convert';
 class PersonalNoteApi {
   String baseUrl = 'https://bantuin.fly.dev/api/notes';
   String token =
-      'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozOSwiZXhwIjoxNjgzNTE4NjEyfQ.1CnQ3P7I8GRNLHDTAxYUF2lFeYqw-KZjSn1cTupi0r0';
+      'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozOSwiZXhwIjoxNjgzNTUyMzE2fQ.S_ztvnDeeBQTerJchBS1oKpxCq6ToyQ9i6CNQKFSo-M';
   Future postApi(NoteModel note) async {
     var url = Uri.parse(baseUrl);
     var response = await http.post(
       url,
-      body: note.toJson(),
+      body: json.encode(note.toJson()),
       headers: ({
-        "Accept": "application/json",
+        "Content-Type": "application/json; charset=UTF-8",
+        "Authorization": "Bearer $token"
+      }),
+    );
+    final responseBody = json.decode(response.body);
+    print(responseBody);
+  }
+
+  Future<List<NoteModel>> getApi(String type) async {
+    var url = Uri.parse(baseUrl);
+    final response = await http.get(
+      url,
+      headers: ({
+        "Content-Type": "application/json; charset=UTF-8",
         "Authorization": "Bearer $token"
       }),
     );
     final responseBody = json.decode(response.body)['data'];
-    print(responseBody);
+
+    final listOfNotes =
+        (responseBody as List).map((e) => NoteModel.fromJson(e)).toList();
+    return listOfNotes;
+    // return listOfNotes
+    //     .where((element) => element.notesType!.toLowerCase().contains(type))
+    //     .toList();
+    // print(responseBody);
   }
 }

@@ -54,16 +54,16 @@ class _ListDaftarCatatanState extends State<ListDaftarCatatan> {
                 name: 'Zahra',
                 isUploaded: true,
               ),
-              CardMyNotesPersonal(
-                title: 'Acara ulang tahun adik',
-                description: 'Ulang tahun tanggal 17 adik fitri',
-                date: '5',
-                month: 'Jan',
-                avatarUrl:
-                    'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
-                name: 'Siapa ya',
-                isDone: true,
-              ),
+              // CardMyNotesPersonal(
+              //   title: 'Acara ulang tahun adik',
+              //   description: 'Ulang tahun tanggal 17 adik fitri',
+              //   date: '5',
+              //   month: 'Jan',
+              //   avatarUrl:
+              //       'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
+              //   name: 'Siapa ya',
+              //   isDone: true,
+              // ),
             ],
           );
         },

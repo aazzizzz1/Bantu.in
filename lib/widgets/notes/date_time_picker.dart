@@ -6,11 +6,13 @@ import 'package:intl/intl.dart';
 class DateTimePicker extends StatefulWidget {
   final ValueChanged<DateTime> onChanged;
   final DateTime initialDateTime;
+  final TextEditingController controller;
 
   const DateTimePicker({
     Key? key,
     required this.onChanged,
     required this.initialDateTime,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -72,10 +74,13 @@ class _DateTimePickerState extends State<DateTimePicker> {
             _selectedDateTime = selectedDateTime;
             // _dateController.text =
             //     DateFormat('EEEE, dd MMM, yyyy').format(_selectedDateTime);
-            _dateController.text =
-                DateFormat.yMMMMEEEEd('id_ID').format(_selectedDateTime);
+            // _dateController.text =
+            //     DateFormat.yMEd('en_US').format(_selectedDateTime);
+            widget.controller.text = DateFormat('dd/MM/yyyy hh:mm', 'en_US')
+                .format(_selectedDateTime);
           });
           widget.onChanged(_selectedDateTime);
+          print(_selectedDateTime);
         }
       }
     }
@@ -94,11 +99,11 @@ class _DateTimePickerState extends State<DateTimePicker> {
   Widget build(BuildContext context) {
     return TextFormField(
       readOnly: true,
-      controller: _dateController,
+      controller: widget.controller,
       keyboardType: TextInputType.multiline,
       style: AppFont.medium14,
       onTap: () {
-        initializeDateFormatting('id_ID', null).then((_) => _selectDate());
+        initializeDateFormatting('en_US', null).then((_) => _selectDate());
       },
       validator: (value) {
         if (value!.isEmpty) {

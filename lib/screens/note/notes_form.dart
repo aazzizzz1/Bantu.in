@@ -1,14 +1,21 @@
+import 'package:bantuin/models/note_model.dart';
 import 'package:bantuin/widgets/notes/add_repeat.dart';
 import 'package:bantuin/widgets/notes/create_note_textfield.dart';
 import 'package:bantuin/widgets/notes/date_time_picker.dart';
 import 'package:bantuin/widgets/notes/email_picker.dart';
 import 'package:bantuin/widgets/form/button_to_screen_notes.dart';
 import 'package:bantuin/widgets/notes/my_reminder.dart';
+import 'package:bantuin/widgets/notes/my_reminder2.dart';
 import 'package:bantuin/widgets/notes/ringtones_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import '../../constants/constant.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../view_models/note_viewmodel.dart';
+import 'notes_screen.dart';
 
 class NotesForm extends StatefulWidget {
   const NotesForm({super.key});
@@ -18,7 +25,9 @@ class NotesForm extends StatefulWidget {
 }
 
 class _NotesFormState extends State<NotesForm> {
-  List<DateTime> _selectedDates = [];
+  // List<DateTime> _selectedDatesReminder = [];
+  DateTime _selectedDatesReminder = DateTime.now();
+  DateTime _selectedDate = DateTime.now();
   String? _selectedRingtone;
 
   List<String> _selectedEmails = [];
@@ -33,6 +42,8 @@ class _NotesFormState extends State<NotesForm> {
   Widget build(BuildContext context) {
     final _descriptionController = TextEditingController();
     final _subjectController = TextEditingController();
+    final _reminderController = TextEditingController();
+    final _dateController = TextEditingController();
     final formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
@@ -118,8 +129,12 @@ class _NotesFormState extends State<NotesForm> {
                   height: 4,
                 ),
                 DateTimePicker(
+                  controller: _dateController,
                   onChanged: (DateTime selectedDate) {
                     // Handle date selection changes
+                    // setState(() {
+                    //   _selectedDate = selectedDate;
+                    // });
                   },
                   initialDateTime: DateTime.now(),
                 ),
@@ -139,14 +154,22 @@ class _NotesFormState extends State<NotesForm> {
                 const SizedBox(
                   height: 4,
                 ),
-                MyReminder(
-                  initialDates: _selectedDates,
-                  onChanged: (newDates) {
-                    setState(() {
-                      _selectedDates = newDates;
-                    });
+                MyReminder2(
+                  initialDates: _selectedDatesReminder,
+                  controller: _reminderController,
+                  onChanged: (newDate) {
+                    _selectedDatesReminder = newDate;
                   },
                 ),
+                //Before
+                // MyReminder(
+                //   initialDates: _selectedDatesReminder,
+                //   onChanged: (newDates) {
+                //     setState(() {
+                //       _selectedDatesReminder = newDates;
+                //     });
+                //   },
+                // ),
                 // isRepeat
                 const SizedBox(
                   height: 24,
@@ -180,7 +203,69 @@ class _NotesFormState extends State<NotesForm> {
                 const SizedBox(
                   height: 24,
                 ),
-                ButtonScreenNotes(formKey: formKey),
+                Consumer<NoteViewModel>(
+                  builder: (context, note, _) => ElevatedButton(
+                    onPressed: () async {
+                      final isValidForm = formKey.currentState!.validate();
+                      if (isValidForm) {
+                        try {
+                          await note
+                              .postPersonalNote(NoteModel(
+                                subject: _subjectController.text,
+                                description: _descriptionController.text,
+                                eventDate: _dateController.text,
+                                reminder: _reminderController.text,
+                                ringtoneId: 1,
+                              ))
+                              .then(
+                                (value) => Fluttertoast.showToast(
+                                        msg: 'Berhasil menambahkan note')
+                                    .then(
+                                  (value) => Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const NoteScreen()),
+                                  ),
+                                ),
+                              );
+                        } catch (e) {
+                          Fluttertoast.showToast(msg: e.toString());
+                          print(e);
+                        }
+
+                        // Navigator.pushReplacement(
+                        //   context,
+                        //   MaterialPageRoute(builder: (context) => const NoteScreen()),
+                        // );
+                      }
+                    },
+                    style: const ButtonStyle(
+                      padding: MaterialStatePropertyAll(EdgeInsets.all(16.0)),
+                      elevation: MaterialStatePropertyAll(0),
+                      backgroundColor:
+                          MaterialStatePropertyAll(AppColor.activeColor),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Buat Catatan',
+                        style: AppFont.textFillButtonActive,
+                      ),
+                    ),
+                  ),
+                ),
+                //Before
+                // ButtonScreenNotes(
+                //   formKey: formKey,
+                //   noteModel: NoteModel(
+                //     subject: _subjectController.text,
+                //     description: _descriptionController.text,
+                //     eventDate: _dateController.text,
+                //     reminder: _reminderController.text,
+                //     ringtoneId: 2,
+                //   ),
+                // ),
+                // ButtonScreenNotes(formKey: formKey, noteModel: ,),
                 const SizedBox(
                   height: 24,
                 ),
