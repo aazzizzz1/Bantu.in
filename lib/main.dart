@@ -5,6 +5,7 @@ import 'package:bantuin/screens/point/point_screen.dart';
 import 'package:bantuin/screens/splash/splash_screen.dart';
 import 'package:bantuin/utils/routes.dart';
 import 'package:bantuin/view_models/note_viewmodel.dart';
+import 'package:bantuin/view_models/register_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,6 +25,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => NoteViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => RegisterViewModel(),
         ),
       ],
       child: MaterialApp(

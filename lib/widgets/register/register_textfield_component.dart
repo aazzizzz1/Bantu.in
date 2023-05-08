@@ -58,8 +58,8 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
               ? [
                   LengthLimitingTextInputFormatter(16),
                   FilteringTextInputFormatter.allow(
-                    RegExp("[a-zA-Z0-9 ]"),
-                  ),
+                                RegExp("[a-zA-Z0-9 !@#\$%^&*()_+-]+"),
+                              ),
                 ]
               : null,
           validator: (value) {
@@ -72,8 +72,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
                     ? null
                     : 'Maaf email anda tidak valid';
               } else if (widget.obscure != null) {
-                bool passValid = RegExp("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*")
-                    .hasMatch(value);
+                bool passValid = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value);
                 return passValid
                     ? null
                     : 'Maaf kata sandi anda belum memenuhi kriteria';

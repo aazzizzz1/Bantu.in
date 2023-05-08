@@ -45,6 +45,7 @@ class _NotesFormState extends State<NotesForm> {
     final _reminderController = TextEditingController();
     final _dateController = TextEditingController();
     final formKey = GlobalKey<FormState>();
+    
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
