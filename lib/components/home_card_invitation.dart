@@ -5,14 +5,14 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import '../constants/color/app_color.dart';
 import '../constants/font/app_font.dart';
 
-class CardInvitation extends StatefulWidget {
-  const CardInvitation({super.key});
+class HomeCardInvitation extends StatefulWidget {
+  const HomeCardInvitation({super.key});
 
   @override
-  State<CardInvitation> createState() => _CardInvitationState();
+  State<HomeCardInvitation> createState() => _HomeCardInvitationState();
 }
 
-class _CardInvitationState extends State<CardInvitation> {
+class _HomeCardInvitationState extends State<HomeCardInvitation> {
   bool _isDone = false;
   @override
   bool _isAccept = false;
@@ -103,6 +103,99 @@ class _CardInvitationState extends State<CardInvitation> {
         ],
       ),
     );
+    // SizedBox(
+    //   // width: MediaQuery.of(context).size.width,
+    //   //create note screen text in middle
+    //   child: Container(
+    //     // width: MediaQuery.of(context).size.width,
+    //     height: 150,
+    //     decoration: BoxDecoration(
+    //       border: const Border.fromBorderSide(
+    //           BorderSide(color: AppColorNeutral.neutral2, width: 1)),
+    //       borderRadius: BorderRadius.circular(4),
+    //       color: AppColorNeutral.neutral1,
+    //     ),
+    //     child: SizedBox(
+    //       // height: 70,
+    //       child: Container(
+    //         margin: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+    //         child: Row(
+    //           mainAxisAlignment: MainAxisAlignment.center,
+    //           crossAxisAlignment: CrossAxisAlignment.center,
+    //           children: [
+    //             Column(
+    //               mainAxisAlignment: MainAxisAlignment.start,
+    //               children: [
+    //                 CachedNetworkImage(
+    //                   imageUrl:
+    //                       'https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?w=900&t=st=1680684886~exp=1680685486~hmac=b9176641b65dc64df37ed7f0cfba49259ea8908fbe7bd96cecc07b7d42e46633',
+    //                   placeholder: (context, url) =>
+    //                       CircularProgressIndicator(),
+    //                   errorWidget: (context, url, error) => Icon(Icons.error),
+    //                   imageBuilder: (context, imageProvider) => Container(
+    //                     width: 50,
+    //                     height: 50,
+    //                     decoration: BoxDecoration(
+    //                       shape: BoxShape.circle,
+    //                       image: DecorationImage(
+    //                         fit: BoxFit.cover,
+    //                         image: imageProvider,
+    //                       ),
+    //                     ),
+    //                   ),
+    //                 ),
+    //               ],
+    //             ),
+    //             const SizedBox(
+    //               width: 12,
+    //             ),
+    //             Column(
+    //               crossAxisAlignment: CrossAxisAlignment.start,
+    //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //               children: [
+    //                 SizedBox(
+    //                   width: MediaQuery.of(context).size.width - 100,
+    //                   child: RichText(
+    //                     overflow: TextOverflow.visible,
+    //                     text: TextSpan(
+    //                       children: [
+    //                         TextSpan(
+    //                           text: "Nadim Makarim",
+    //                           style: AppFont.semiBold14,
+    //                         ),
+    //                         TextSpan(
+    //                           text: " Melibatkan anda pada sebuah catatan",
+    //                           style: AppFont.medium14,
+    //                         ),
+    //                       ],
+    //                     ),
+    //                   ),
+    //                 ),
+    //                 Row(
+    //                   mainAxisAlignment: MainAxisAlignment.start,
+    //                   children: [
+    //                     Icon(
+    //                       Icons.note_add,
+    //                       color: AppColorPrimary.primary6,
+    //                     ),
+    //                     SizedBox(
+    //                       width: 8,
+    //                     ),
+    //                     Text(
+    //                       "Membeli Tiket Pesawat",
+    //                       style: AppFont.textInvitation,
+    //                     ),
+    //                   ],
+    //                 ),
+    //                 _isDone ? textResponse(_isAccept) : buttonOffering(),
+    //               ],
+    //             ),
+    //           ],
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 
   Widget buttonOffering() {
@@ -168,15 +261,8 @@ class _CardInvitationState extends State<CardInvitation> {
   Widget textResponse(bool response) {
     return Expanded(
       child: response
-          ? RichText(
-              text: TextSpan(children: [
-              TextSpan(text: 'Selamat anda telah ', style: AppFont.medium14),
-              TextSpan(
-                  text: 'menerima ', style: AppFont.textNotificationActive),
-              TextSpan(text: 'catatan ini.', style: AppFont.medium14),
-            ]))
-          // ? Text('Selamat anda telah menerima catatan ini.',
-          //     style: AppFont.medium14)
+          ? Text('Selamat anda telah menerima catatan ini.',
+              style: AppFont.medium14)
           : Text(
               'Anda menolak catatan ini.',
               style: AppFont.textUploadError,

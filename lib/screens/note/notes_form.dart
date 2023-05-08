@@ -1,12 +1,21 @@
+import 'package:bantuin/models/note_model.dart';
+import 'package:bantuin/widgets/notes/add_repeat.dart';
+import 'package:bantuin/widgets/notes/create_note_textfield.dart';
 import 'package:bantuin/widgets/notes/date_time_picker.dart';
 import 'package:bantuin/widgets/notes/email_picker.dart';
 import 'package:bantuin/widgets/form/button_to_screen_notes.dart';
 import 'package:bantuin/widgets/notes/my_reminder.dart';
+import 'package:bantuin/widgets/notes/my_reminder2.dart';
 import 'package:bantuin/widgets/notes/ringtones_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import '../../constants/constant.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../view_models/note_viewmodel.dart';
+import 'notes_screen.dart';
 
 class NotesForm extends StatefulWidget {
   const NotesForm({super.key});
@@ -16,7 +25,9 @@ class NotesForm extends StatefulWidget {
 }
 
 class _NotesFormState extends State<NotesForm> {
-  List<DateTime> _selectedDates = [];
+  // List<DateTime> _selectedDatesReminder = [];
+  DateTime _selectedDatesReminder = DateTime.now();
+  DateTime _selectedDate = DateTime.now();
   String? _selectedRingtone;
 
   List<String> _selectedEmails = [];
@@ -29,6 +40,11 @@ class _NotesFormState extends State<NotesForm> {
 
   @override
   Widget build(BuildContext context) {
+    final _descriptionController = TextEditingController();
+    final _subjectController = TextEditingController();
+    final _reminderController = TextEditingController();
+    final _dateController = TextEditingController();
+    final formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -45,6 +61,7 @@ class _NotesFormState extends State<NotesForm> {
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 16),
           child: Form(
+            key: formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -55,66 +72,22 @@ class _NotesFormState extends State<NotesForm> {
                 const SizedBox(
                   height: 24,
                 ),
-                Text(
-                  "Subjek",
-                  style: AppFont.medium14,
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                TextFormField(
-                  decoration: InputDecoration(
-                    filled: true,
-                    hintText: 'Tulis Subject',
-                    hintStyle: AppFont.hintTextField,
-                    fillColor: AppColorNeutral.neutral1,
-                    focusedBorder: const OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: AppColorPrimary.primary6)),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: AppColorNeutral.neutral2),
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                    disabledBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: AppColorNeutral.neutral2),
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                  ),
+                CreateNoteTextField(
+                  label: 'Subject',
+                  hint: 'Subject',
+                  message: 'subject',
+                  controller: _subjectController,
+                  isSubject: true,
                 ),
                 const SizedBox(
                   height: 24,
                 ),
-                Text(
-                  "Deskripsi",
-                  style: AppFont.medium14,
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                TextField(
-                  keyboardType: TextInputType.multiline,
-                  maxLines: 5,
-                  decoration: InputDecoration(
-                    filled: true,
-                    hintText: 'Tulis deskripsi catatan',
-                    hintStyle: AppFont.hintTextField,
-                    fillColor: AppColorNeutral.neutral1,
-                    focusedBorder: const OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: AppColorPrimary.primary6)),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: AppColorNeutral.neutral2),
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                    disabledBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: AppColorNeutral.neutral2),
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                  ),
+                //Description
+                CreateNoteTextField(
+                  label: 'Deskripsi',
+                  hint: 'Deskripsi',
+                  message: 'deskripsi',
+                  controller: _descriptionController,
                 ),
                 const SizedBox(
                   height: 24,
@@ -127,70 +100,93 @@ class _NotesFormState extends State<NotesForm> {
                 ),
                 Text(
                   "Masukan email anggota",
-                  style: AppFont.medium14,
+                  style: AppFont.labelTextForm,
                 ),
                 const SizedBox(
                   height: 4,
                 ),
                 MultipleEmailPicker(onChanged: _handleEmailsChanged),
-                const SizedBox(
-                  height: 24,
-                ),
+                // const SizedBox(
+                //   height: 24,
+                // ),
                 const Divider(
                   thickness: 1,
                 ),
                 const SizedBox(
                   height: 24,
                 ),
-                Text(
-                  "Tambahkan tanggal acara",
-                  style: AppFont.medium14,
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                          text: 'Tambahkan tanggal acara',
+                          style: AppFont.labelTextForm),
+                      TextSpan(text: ' *', style: AppFont.textStatusError),
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 4,
                 ),
                 DateTimePicker(
+                  controller: _dateController,
                   onChanged: (DateTime selectedDate) {
                     // Handle date selection changes
+                    // setState(() {
+                    //   _selectedDate = selectedDate;
+                    // });
                   },
                   initialDateTime: DateTime.now(),
                 ),
                 const SizedBox(
                   height: 24,
                 ),
-                const Divider(
-                  thickness: 1,
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-                Text(
-                  "Tambahkan pengingat",
-                  style: AppFont.medium14,
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                          text: 'Tambahkan pengingat',
+                          style: AppFont.labelTextForm),
+                      TextSpan(text: ' *', style: AppFont.textStatusError),
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 4,
                 ),
-                MyReminder(
-                  initialDates: _selectedDates,
-                  onChanged: (newDates) {
-                    setState(() {
-                      _selectedDates = newDates;
-                    });
+                MyReminder2(
+                  initialDates: _selectedDatesReminder,
+                  controller: _reminderController,
+                  onChanged: (newDate) {
+                    _selectedDatesReminder = newDate;
                   },
                 ),
+                //Before
+                // MyReminder(
+                //   initialDates: _selectedDatesReminder,
+                //   onChanged: (newDates) {
+                //     setState(() {
+                //       _selectedDatesReminder = newDates;
+                //     });
+                //   },
+                // ),
+                // isRepeat
                 const SizedBox(
                   height: 24,
                 ),
-                const Divider(
-                  thickness: 1,
-                ),
+                const AddRepeat(),
                 const SizedBox(
                   height: 24,
                 ),
-                Text(
-                  "Tambahkan ringtones",
-                  style: AppFont.medium14,
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                          text: 'Tambahkan ringtones',
+                          style: AppFont.labelTextForm),
+                      TextSpan(text: ' *', style: AppFont.textStatusError),
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 4,
@@ -207,7 +203,69 @@ class _NotesFormState extends State<NotesForm> {
                 const SizedBox(
                   height: 24,
                 ),
-                ButtonScreenNotes(),
+                Consumer<NoteViewModel>(
+                  builder: (context, note, _) => ElevatedButton(
+                    onPressed: () async {
+                      final isValidForm = formKey.currentState!.validate();
+                      if (isValidForm) {
+                        try {
+                          await note
+                              .postPersonalNote(NoteModel(
+                                subject: _subjectController.text,
+                                description: _descriptionController.text,
+                                eventDate: _dateController.text,
+                                reminder: _reminderController.text,
+                                ringtoneId: 1,
+                              ))
+                              .then(
+                                (value) => Fluttertoast.showToast(
+                                        msg: 'Berhasil menambahkan note')
+                                    .then(
+                                  (value) => Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const NoteScreen()),
+                                  ),
+                                ),
+                              );
+                        } catch (e) {
+                          Fluttertoast.showToast(msg: e.toString());
+                          print(e);
+                        }
+
+                        // Navigator.pushReplacement(
+                        //   context,
+                        //   MaterialPageRoute(builder: (context) => const NoteScreen()),
+                        // );
+                      }
+                    },
+                    style: const ButtonStyle(
+                      padding: MaterialStatePropertyAll(EdgeInsets.all(16.0)),
+                      elevation: MaterialStatePropertyAll(0),
+                      backgroundColor:
+                          MaterialStatePropertyAll(AppColor.activeColor),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Buat Catatan',
+                        style: AppFont.textFillButtonActive,
+                      ),
+                    ),
+                  ),
+                ),
+                //Before
+                // ButtonScreenNotes(
+                //   formKey: formKey,
+                //   noteModel: NoteModel(
+                //     subject: _subjectController.text,
+                //     description: _descriptionController.text,
+                //     eventDate: _dateController.text,
+                //     reminder: _reminderController.text,
+                //     ringtoneId: 2,
+                //   ),
+                // ),
+                // ButtonScreenNotes(formKey: formKey, noteModel: ,),
                 const SizedBox(
                   height: 24,
                 ),

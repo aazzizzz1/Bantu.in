@@ -1,54 +1,34 @@
+import 'package:bantuin/models/note_model.dart';
 import 'package:bantuin/models/user_note_model.dart';
+import 'package:bantuin/services/api/personal_note_api.dart';
+import 'package:bantuin/services/api/user_note_api.dart';
 import 'package:flutter/material.dart';
 
 import '../models/note_tim_model.dart';
 
-// class NoteViewModel with ChangeNotifier {
-//   // this code for get api
-//   List<UserNotesModel> _listNoteApi = [];
-//   List<UserNotesModel> get listNoteApi => _listNoteApi;
+class NoteViewModel with ChangeNotifier {
+  final PersonalNoteApi _personalNote = PersonalNoteApi();
 
-//   // List<UserNotesModel> _listNoteTim = [];
+  List<NoteModel> _listOfPersonalNote = [];
+  List<NoteModel> get listOfPersonalNote => _listOfPersonalNote;
 
-//   // final List<UserNotesModel> _listNoteTim = [
-//   //   UserNotesModel(
-//   //     id: 1,
-//   //     userId: 1,
-//   //     noteId: 1,
-//   //     role: 'admin',
-//   //     reminder: 'ayaya',
-//   //     status: 'done',
-//   //     ringtoneId: 1,
-//   //   ),
-//   //   UserNotesModel(
-//   //     id: 2,
-//   //     userId: 2,
-//   //     noteId: 2,
-//   //     role: 'admin',
-//   //     reminder: 'ayaya',
-//   //     status: 'done',
-//   //     ringtoneId: 1,
-//   //   ),
-//   //   UserNotesModel(
-//   //     id: 3,
-//   //     userId: 3,
-//   //     noteId: 3,
-//   //     role: 'admin',
-//   //     reminder: 'ayaya',
-//   //     status: 'done',
-//   //     ringtoneId: 1,
-//   //   ),
-//   //   UserNotesModel(
-//   //     id: 4,
-//   //     userId: 4,
-//   //     noteId: 4,
-//   //     role: 'admin',
-//   //     reminder: 'ayaya',
-//   //     status: 'done',
-//   //     ringtoneId: 1,
-//   //   ),
-//   // ];
-// }
+  Future<void> postPersonalNote(NoteModel note) async {
+    try {
+      await _personalNote.postApi(note);
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> fetchPersonalNote(String type) async {
+    try {
+      _listOfPersonalNote = await _personalNote.getApi(type);
+      notifyListeners();
+    } catch (_) {
+      rethrow;
+    }
+  }
+}
 
 List<NoteTimModel> listNoteTim = [
   NoteTimModel(

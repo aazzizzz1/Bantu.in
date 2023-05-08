@@ -6,22 +6,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CardMyNotesPersonal extends StatelessWidget {
-  final String title;
+  final String subject;
   final String description;
   final String date;
-  final String month;
   final String avatarUrl;
   final String name;
-  final bool isDone;
+  final String status;
 
   CardMyNotesPersonal({
-    required this.title,
+    required this.subject,
     required this.description,
     required this.date,
-    required this.month,
     required this.avatarUrl,
     required this.name,
-    required this.isDone,
+    required this.status,
   });
 
   @override
@@ -42,7 +40,7 @@ class CardMyNotesPersonal extends StatelessWidget {
               eventDate: '2023-04-08',
               reminder: '2023-04-07 10:00:00',
               ringtone: 'default',
-              isUpload: isDone,
+              isUpload: true,
               isPersonal: true,
             ),
           ),
@@ -80,25 +78,21 @@ class CardMyNotesPersonal extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              title,
+                              subject,
                               style: AppFont.semiBold16w500,
                             ),
                           ),
                           Container(
                             padding: const EdgeInsets.all(4.0),
                             decoration: BoxDecoration(
-                              color: isDone
-                                  ? AppColor.completeColor
-                                  : AppColorRed.red4,
+                              color: AppColor.completeColor,
                               borderRadius: BorderRadius.circular(8.0),
                             ),
                             child: Text(
-                              isDone ? 'Sudah Selesai' : 'Belum Selesai',
+                              '',
                               style: TextStyle(
                                 fontStyle: FontStyle.normal,
-                                color: isDone
-                                    ? AppColor.textprogresColor
-                                    : AppColor.errorColor,
+                                color: AppColor.textprogresColor,
                               ),
                             ),
                           ),
@@ -130,27 +124,17 @@ class CardMyNotesPersonal extends StatelessWidget {
                           ),
                           const SizedBox(width: 8.0),
                           Text(
-                            name,
+                            name[0],
                             style: AppFont.regular12,
                           ),
                         ],
                       ),
-                      Row(
-                        children: [
-                          Text(
-                            '$date ',
-                            style: AppFont.regular12,
-                          ),
-                          Text(
-                            '$month ',
-                            style: AppFont.regular12,
-                          ),
-                          Text(
-                            '2023',
-                            style: AppFont.regular12,
-                          ),
-                        ],
-                      )
+                      Container(
+                        child: Text(
+                          '$date',
+                          style: AppFont.regular12,
+                        ),
+                      ),
                     ],
                   ),
                 ],

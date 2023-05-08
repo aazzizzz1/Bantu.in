@@ -1,4 +1,4 @@
-import 'package:bantuin/components/register_textfield_component.dart';
+import 'package:bantuin/widgets/register/register_textfield_component.dart';
 import 'package:bantuin/constants/button/app_button.dart';
 import 'package:bantuin/screens/auth/forgot_password.dart';
 import 'package:bantuin/screens/auth/register_screen.dart';
@@ -90,22 +90,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 36.0),
                     ElevatedButton(
                       onPressed: () {
-                        // Navigator.push(
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BottomMenu(
+                                  currentTab: 0,
+                                  currentScreen: const HomePages())),
+                        );
+                        // final isValidForm = _formKey.currentState!.validate();
+                        // if (isValidForm) {
+                        //   Navigator.push(
                         //     context,
                         //     MaterialPageRoute(
                         //         builder: (context) =>
                         //             BottomMenu(currentTab: 0, currentScreen: const HomePages())),
                         //   );
-                        final isValidForm = _formKey.currentState!.validate();
-                        if (isValidForm) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => BottomMenu(
-                                    currentTab: 0,
-                                    currentScreen: const HomePages())),
-                          );
-                        }
+                        // }
                       },
                       style: const ButtonStyle(
                         padding: MaterialStatePropertyAll(EdgeInsets.all(16.0)),
