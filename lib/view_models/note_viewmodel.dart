@@ -3,7 +3,6 @@ import 'package:bantuin/models/user_note_model.dart';
 import 'package:bantuin/services/api/personal_note_api.dart';
 import 'package:bantuin/services/api/user_note_api.dart';
 import 'package:flutter/material.dart';
-
 import '../models/note_tim_model.dart';
 
 class NoteViewModel with ChangeNotifier {
