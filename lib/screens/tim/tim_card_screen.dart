@@ -1,5 +1,6 @@
 import 'package:bantuin/models/note_tim_model.dart';
 import 'package:bantuin/models/user_note_model.dart';
+import 'package:bantuin/screens/tim/tim_all_member.dart';
 import 'package:bantuin/screens/tim/tim_screen.dart';
 import 'package:bantuin/view_models/note_viewmodel.dart';
 import 'package:bantuin/widgets/bottom_navigation/bottom_menu.dart';
@@ -64,8 +65,7 @@ class _TimCardScreenState extends State<TimCardScreen> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => BottomMenu(
-                              currentTab: 1,
-                              currentScreen: const TimScreen())),
+                              currentTab: 1, currentScreen: const TimScreen())),
                     );
                   },
                   icon: Icon(
@@ -84,11 +84,19 @@ class _TimCardScreenState extends State<TimCardScreen> {
         ),
         actions: [
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 16.0),
-            child: SvgPicture.asset(
-              'lib/assets/icons/icon-tim.svg',
-              height: 30,
-              width: 30,
+            margin: const EdgeInsets.only(right: 20),
+            child: IconButton(
+              splashRadius: 20,
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const TimAllMember(),
+                ));
+              },
+              icon: SvgPicture.asset(
+                'lib/assets/icons/Group.svg',
+                height: 30,
+                width: 30,
+              ),
             ),
           ),
         ],
