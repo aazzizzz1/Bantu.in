@@ -5,31 +5,30 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginApi {
   String baseUrl = 'https://bantuin.fly.dev/api/login';
-  String token =
-      'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozOSwiZXhwIjoxNjgzNTUyMzE2fQ.S_ztvnDeeBQTerJchBS1oKpxCq6ToyQ9i6CNQKFSo-M';
   Future postLogin(LoginModel note) async {
     // final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     var url = Uri.parse(baseUrl);
     var response = await http.post(
       url,
+      // body: note.toJson(),
       body: json.encode(note.toJson()),
       headers: ({
         "Content-Type": "application/json; charset=UTF-8",
-        "Authorization": "Bearer $token"
+        // "Authorization": "Bearer $token"
       }),
     );
 
     if (response.statusCode == 200) {
-    final responseBody = json.decode(response.body);
-  } else if (response.statusCode == 404) {
-    throw Exception("Endpoint not found");
-  } else if (response.statusCode == 422) {
-    final responseBody = json.decode(response.body);
-    throw Exception(responseBody['message']);
-  } else {
-    throw Exception("Failed to post login");
-  }
+      final responseBody = json.decode(response.body);
+    } else if (response.statusCode == 404) {
+      throw Exception("Endpoint not found");
+    } else if (response.statusCode == 422) {
+      final responseBody = json.decode(response.body);
+      throw Exception(responseBody['message']);
+    } else {
+      throw Exception("Failed to post login");
+    }
 
     final responseBody = json.decode(response.body);
     print(responseBody);
@@ -41,7 +40,6 @@ class LoginApi {
       url,
       headers: ({
         "Content-Type": "application/json; charset=UTF-8",
-        "Authorization": "Bearer $token"
       }),
     );
     final responseBody = json.decode(response.body)['data'];

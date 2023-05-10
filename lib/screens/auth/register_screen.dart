@@ -34,6 +34,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
         elevation: 0,
       ),
       body: Container(
@@ -167,11 +168,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const SizedBox(height: 36.0),
                     Consumer<RegisterViewModel>(
                       builder: (context, register, _) => ElevatedButton(
-                       onPressed: () async {
-                      final isValidForm = _formKey.currentState!.validate();
-                      if (isValidForm) {
-                        try {
-                          await register.postRegister(
+                        onPressed: () async {
+                          final isValidForm = _formKey.currentState!.validate();
+                          if (isValidForm) {
+                            try {
+                              await register.postRegister(
                                 RegisterModel(
                                   username: _usernameController.text,
                                   email: _emailController.text,

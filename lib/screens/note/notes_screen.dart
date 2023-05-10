@@ -2,10 +2,12 @@ import 'package:bantuin/components/card_mynotes_progres.dart';
 import 'package:bantuin/components/card_incoming_notes_upload.dart';
 import 'package:bantuin/components/card_mynotes_personal.dart';
 import 'package:bantuin/view_models/note_viewmodel.dart';
+import 'package:bantuin/widgets/detail_note/admin_member.dart';
 import 'package:bantuin/widgets/floating_button/floating_notes.dart';
 import 'package:bantuin/constants/button/app_button.dart';
 import 'package:bantuin/screens/note/notes_form.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 
 class NoteScreen extends StatefulWidget {
@@ -81,20 +83,26 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
             children: [
               // content of the page
               Container(
+                width: MediaQuery.of(context).size.width,
                 padding: const EdgeInsets.all(16.0),
                 child: Consumer<NoteViewModel>(
                   builder: (context, note, child) => ListView.builder(
                     itemCount: note.listOfPersonalNote.length,
                     itemBuilder: (context, index) {
                       var data = note.listOfPersonalNote[index];
+                      String member = '';
+                      for (var i = 0; i < data.member.length; i++) {
+                        member = data.member[i];
+                      }
+                      initializeDateFormatting('id_ID', null);
                       return CardMyNotesPersonal(
                         subject: data.subject,
                         description: data.description,
                         date: data.eventDate,
                         avatarUrl:
                             'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
-                        name: data.member![0],
-                        status: data.status!,
+                        member: member,
+                        status: data.status,
                       );
                     },
                   ),

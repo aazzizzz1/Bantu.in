@@ -1,6 +1,7 @@
 import 'package:bantuin/constants/color/app_color.dart';
 import 'package:bantuin/constants/font/app_font.dart';
 import 'package:bantuin/models/note_model.dart';
+import 'package:bantuin/models/post_note_model.dart';
 import 'package:bantuin/screens/note/notes_screen.dart';
 import 'package:bantuin/view_models/note_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,7 @@ import 'package:provider/provider.dart';
 
 class ButtonScreenNotes extends StatelessWidget {
   final GlobalKey<FormState> formKey;
-  final NoteModel noteModel;
+  final PostNoteModel noteModel;
   const ButtonScreenNotes({
     Key? key,
     required this.formKey,

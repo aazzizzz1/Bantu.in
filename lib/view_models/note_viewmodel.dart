@@ -1,4 +1,5 @@
 import 'package:bantuin/models/note_model.dart';
+import 'package:bantuin/models/post_note_model.dart';
 import 'package:bantuin/models/user_note_model.dart';
 import 'package:bantuin/services/api/personal_note_api.dart';
 import 'package:bantuin/services/api/user_note_api.dart';
@@ -11,9 +12,10 @@ class NoteViewModel with ChangeNotifier {
   List<NoteModel> _listOfPersonalNote = [];
   List<NoteModel> get listOfPersonalNote => _listOfPersonalNote;
 
-  Future<void> postPersonalNote(NoteModel note) async {
+  Future<void> postPersonalNote(PostNoteModel note) async {
     try {
       await _personalNote.postApi(note);
+      notifyListeners();
     } catch (_) {
       rethrow;
     }
