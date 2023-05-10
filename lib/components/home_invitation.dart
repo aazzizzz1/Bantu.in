@@ -58,7 +58,7 @@ class HomeInvitaionState extends State<HomeInvitaion> {
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
     );

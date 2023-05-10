@@ -42,24 +42,31 @@ class _SplashScreenState extends State<SplashScreen> {
                 BottomMenu(currentTab: 0, currentScreen: const HomePages())),
       ),
     );
+    // Future.delayed(
+    //   const Duration(milliseconds: 3000),
+    //   () => Navigator.push(
+    //     context,
+    //     MaterialPageRoute(builder: (context) => const LoginScreen()),
+    //   ),
+    // );
   }
 
-  setdata(BuildContext context) async {
-    await Future.delayed(const Duration(seconds: 3), () {
-      SchedulerBinding.instance.addPostFrameCallback((_) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginScreen()),
-        );
-        // Navigator.push(context, MaterialPageRoute(builder: (context) {
-        //   return BottomMenu(
-        //     currentTab: 0,
-        //     currentScreen: const HomePages(),
-        //   );
-        // }));
-      });
-    });
-  }
+  // setdata(BuildContext context) async {
+  //   await Future.delayed(const Duration(seconds: 3), () {
+  //     SchedulerBinding.instance.addPostFrameCallback((_) {
+  //       Navigator.push(
+  //         context,
+  //         MaterialPageRoute(builder: (context) => const LoginScreen()),
+  //       );
+  //       // Navigator.push(context, MaterialPageRoute(builder: (context) {
+  //       //   return BottomMenu(
+  //       //     currentTab: 0,
+  //       //     currentScreen: const HomePages(),
+  //       //   );
+  //       // }));
+  //     });
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

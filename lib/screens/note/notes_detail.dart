@@ -12,36 +12,50 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
+import '../../models/note_model.dart';
+
 class NotesDetail extends StatelessWidget {
-  final String title;
+  // final String title;
+  // final String description;
+  // final String avatarUrl;
+  // final String name;
+  // final String fileUrl;
+  // final String createdBy;
+  // final String eventDate;
+  // final String reminder;
+  // final String ringtone;
+  // final double? progress;
+  // final bool? isAdmin;
+  // final bool? isPersonal;
+  // final bool? isUpload;
+  final String subject;
   final String description;
+  final String date;
   final String avatarUrl;
-  final String name;
-  final String fileUrl;
-  final String createdBy;
-  final String eventDate;
-  final String reminder;
-  final String ringtone;
-  final double? progress;
-  final bool? isAdmin;
-  final bool? isPersonal;
-  final bool? isUpload;
+  final String member;
+  final String status;
   // final NoteModel notes;
 
   NotesDetail({
-    required this.title,
+    // required this.title,
+    // required this.description,
+    // required this.avatarUrl,
+    // required this.name,
+    // required this.fileUrl,
+    // required this.createdBy,
+    // required this.eventDate,
+    // required this.reminder,
+    // required this.ringtone,
+    // this.progress,
+    // this.isAdmin,
+    // this.isPersonal,
+    // this.isUpload,
+    required this.subject,
     required this.description,
+    required this.date,
     required this.avatarUrl,
-    required this.name,
-    required this.fileUrl,
-    required this.createdBy,
-    required this.eventDate,
-    required this.reminder,
-    required this.ringtone,
-    this.progress,
-    this.isAdmin,
-    this.isPersonal,
-    this.isUpload,
+    required this.member,
+    required this.status,
   });
 
   @override
@@ -60,14 +74,20 @@ class NotesDetail extends StatelessWidget {
           color: Colors.black,
         ),
         actions: [
-          isPersonal == null
-              ? (isAdmin == true
-                  ? AdminAppbar(
-                      progress: progress,
-                    )
-                  : ClientUploadStatus(isUpload: isUpload!))
-              : const SizedBox()
+          Text(
+            status,
+            style: AppFont.textProgressComplete,
+          )
         ],
+        // actions: [
+        //   isPersonal == null
+        //       ? (isAdmin == true
+        //           ? AdminAppbar(
+        //               progress: progress,
+        //             )
+        //           : ClientUploadStatus(isUpload: isUpload!))
+        //       : const SizedBox()
+        // ],
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -84,23 +104,24 @@ class NotesDetail extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        title,
+                        subject,
                         style: AppFont.textTitleScreen,
                       ),
-                      isPersonal == true || isAdmin == true
-                          ? EditDeleteNote(
-                              title: title,
-                              description: description,
-                              avatarUrl: avatarUrl,
-                              name: name,
-                              fileUrl: fileUrl,
-                              createdBy: createdBy,
-                              eventDate: eventDate,
-                              reminder: reminder,
-                              ringtone: ringtone,
-                              isAdmin: isAdmin,
-                            )
-                          : const SizedBox(),
+                      const SizedBox(),
+                      // isPersonal == true || isAdmin == true
+                      //     ? EditDeleteNote(
+                      //         title: title,
+                      //         description: description,
+                      //         avatarUrl: avatarUrl,
+                      //         name: name,
+                      //         fileUrl: fileUrl,
+                      //         createdBy: createdBy,
+                      //         eventDate: eventDate,
+                      //         reminder: reminder,
+                      //         ringtone: ringtone,
+                      //         isAdmin: isAdmin,
+                      //       )
+                      //     : const SizedBox(),
                     ],
                   ),
                   SizedBox(height: 20.0),
@@ -113,12 +134,13 @@ class NotesDetail extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 24.0),
-                  isAdmin != null
-                      ? (isAdmin == true
-                          ? AdminMember(fileUrl: fileUrl)
-                          : ClientDate(
-                              eventDate: eventDate, reminder: reminder))
-                      : const SizedBox(),
+                  // AdminMember(fileUrl: avatarUrl),
+                  // isAdmin != null
+                  //     ? (isAdmin == true
+                  //         ? AdminMember(fileUrl: fileUrl)
+                  //         : ClientDate(
+                  //             eventDate: eventDate, reminder: reminder))
+                  //     : const SizedBox(),
                   SizedBox(height: 16.0),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -144,7 +166,7 @@ class NotesDetail extends StatelessWidget {
                           ),
                           SizedBox(width: 8.0),
                           Text(
-                            createdBy,
+                            member,
                             style: AppFont.textPersonOrTeam,
                           ),
                         ],
@@ -152,12 +174,13 @@ class NotesDetail extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 24.0),
-                  isPersonal == true || isAdmin == true
-                      ? AdminDate(
-                          eventDate: eventDate,
-                          reminder: reminder,
-                          ringtone: ringtone)
-                      : const ClientUpload(),
+                  AdminDate(eventDate: date, reminder: date, ringtone: 'alarm')
+                  // isPersonal == true || isAdmin == true
+                  //     ? AdminDate(
+                  //         eventDate: eventDate,
+                  //         reminder: reminder,
+                  //         ringtone: ringtone)
+                  //     : const ClientUpload(),
                   // isAdmin != null
                   //     ? (isAdmin == true ? adminWidgetDate() : clientUpload())
                   //     : const SizedBox(),
@@ -168,30 +191,31 @@ class NotesDetail extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: ElevatedButton(
-                    onPressed: () {
-                      // ScaffoldMessenger.of(context).showSnackBar(
-                      //     SnackBar(content: Text("Catatan Diselesaikan")));
-                      Navigator.pop(context);
-                    },
-                    style: const ButtonStyle(
-                      padding: MaterialStatePropertyAll(
-                        EdgeInsets.symmetric(horizontal: 100, vertical: 15),
+                      onPressed: () {
+                        // ScaffoldMessenger.of(context).showSnackBar(
+                        //     SnackBar(content: Text("Catatan Diselesaikan")));
+                        Navigator.pop(context);
+                      },
+                      style: const ButtonStyle(
+                        padding: MaterialStatePropertyAll(
+                          EdgeInsets.symmetric(horizontal: 100, vertical: 15),
+                        ),
+                        elevation: MaterialStatePropertyAll(0),
+                        backgroundColor:
+                            MaterialStatePropertyAll(AppColor.activeColor),
                       ),
-                      elevation: MaterialStatePropertyAll(0),
-                      backgroundColor:
-                          MaterialStatePropertyAll(AppColor.activeColor),
-                    ),
-                    child: Center(
-                        child: isPersonal == true || isAdmin == true
-                            ? Text(
-                                'Selesaikan Catatan',
-                                style: AppFont.textFillButtonActive,
-                              )
-                            : Text(
-                                'Simpan',
-                                style: AppFont.textFillButtonActive,
-                              )),
-                  ),
+                      child: Text('Selesaikan Catatan')
+                      // Center(
+                      //     child: isPersonal == true || isAdmin == true
+                      //         ? Text(
+                      //             'Selesaikan Catatan',
+                      //             style: AppFont.textFillButtonActive,
+                      //           )
+                      //         : Text(
+                      //             'Simpan',
+                      //             style: AppFont.textFillButtonActive,
+                      //           )),
+                      ),
                 ),
               ),
             ],

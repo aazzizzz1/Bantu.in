@@ -1,16 +1,19 @@
+import 'dart:convert';
+
 import 'package:bantuin/constants/color/app_color.dart';
 import 'package:bantuin/constants/font/app_font.dart';
 import 'package:bantuin/screens/note/notes_detail.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 
 class CardMyNotesPersonal extends StatelessWidget {
   final String subject;
   final String description;
   final String date;
   final String avatarUrl;
-  final String name;
+  final String member;
   final String status;
 
   CardMyNotesPersonal({
@@ -18,7 +21,7 @@ class CardMyNotesPersonal extends StatelessWidget {
     required this.description,
     required this.date,
     required this.avatarUrl,
-    required this.name,
+    required this.member,
     required this.status,
   });
 
@@ -27,24 +30,33 @@ class CardMyNotesPersonal extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => NotesDetail(
-              title: 'Meeting with John Doe',
-              description: 'Meeting with John Doe to discuss about the project',
-              avatarUrl:
-                  'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
-              name: 'John Doe',
-              fileUrl: 'https://example.com/notes.pdf',
-              createdBy: 'John Doe',
-              eventDate: '2023-04-08',
-              reminder: '2023-04-07 10:00:00',
-              ringtone: 'default',
-              isUpload: true,
-              isPersonal: true,
-            ),
-          ),
-        );
+            context,
+            MaterialPageRoute(
+              builder: (context) => NotesDetail(
+                  subject: subject,
+                  description: description,
+                  date: date,
+                  avatarUrl: avatarUrl,
+                  member: member,
+                  status: status),
+            )
+            // MaterialPageRoute(
+            //   builder: (context) => NotesDetail(
+            //     title: 'Meeting with John Doe',
+            //     description: 'Meeting with John Doe to discuss about the project',
+            //     avatarUrl:
+            //         'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
+            //     name: 'John Doe',
+            //     fileUrl: 'https://example.com/notes.pdf',
+            //     createdBy: 'John Doe',
+            //     eventDate: '2023-04-08',
+            //     reminder: '2023-04-07 10:00:00',
+            //     ringtone: 'default',
+            //     isUpload: true,
+            //     isPersonal: true,
+            //   ),
+            // ),
+            );
       },
       child: Container(
         height: 135,
@@ -55,6 +67,22 @@ class CardMyNotesPersonal extends StatelessWidget {
         padding: const EdgeInsets.all(10.0),
         margin: const EdgeInsets.only(bottom: 16.0),
         child: Row(
+          // after
+          // children: [
+          //   SizedBox(
+          //     width: 60,
+          //     child: ListView.builder(
+          //       shrinkWrap: true,
+          //       scrollDirection: Axis.horizontal,
+          //       itemCount: member.length,
+          //       itemBuilder: (context, index) => Text(
+          //         member[index],
+          //         style: AppFont.regular12,
+          //       ),
+          //     ),
+          //   ),
+          // ],
+
           children: [
             Container(
               margin: const EdgeInsets.all(8),
@@ -89,7 +117,7 @@ class CardMyNotesPersonal extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8.0),
                             ),
                             child: Text(
-                              '',
+                              status,
                               style: TextStyle(
                                 fontStyle: FontStyle.normal,
                                 color: AppColor.textprogresColor,
@@ -124,14 +152,27 @@ class CardMyNotesPersonal extends StatelessWidget {
                           ),
                           const SizedBox(width: 8.0),
                           Text(
-                            name[0],
+                            member,
                             style: AppFont.regular12,
-                          ),
+                          )
+                          // SizedBox(
+                          //   width: 60,
+                          //   child: ListView.builder(
+                          //     shrinkWrap: true,
+                          //     scrollDirection: Axis.horizontal,
+                          //     itemCount: member.length,
+                          //     itemBuilder: (context, index) => Text(
+                          //       member[index],
+                          //       style: AppFont.regular12,
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ),
                       Container(
                         child: Text(
                           '$date',
+                          // DateFormat('dd MMMM yyyy', 'id_ID').format(date),
                           style: AppFont.regular12,
                         ),
                       ),

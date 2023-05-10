@@ -13,6 +13,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../constants/constant.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:bantuin/models/post_note_model.dart';
 
 import '../../view_models/note_viewmodel.dart';
 import 'notes_screen.dart';
@@ -45,7 +46,7 @@ class _NotesFormState extends State<NotesForm> {
     final _reminderController = TextEditingController();
     final _dateController = TextEditingController();
     final formKey = GlobalKey<FormState>();
-    
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -211,13 +212,15 @@ class _NotesFormState extends State<NotesForm> {
                       if (isValidForm) {
                         try {
                           await note
-                              .postPersonalNote(NoteModel(
-                                subject: _subjectController.text,
-                                description: _descriptionController.text,
-                                eventDate: _dateController.text,
-                                reminder: _reminderController.text,
-                                ringtoneId: 1,
-                              ))
+                              .postPersonalNote(
+                                PostNoteModel(
+                                  subject: _subjectController.text,
+                                  description: _descriptionController.text,
+                                  eventDate: _dateController.text,
+                                  reminder: _reminderController.text,
+                                  ringtoneId: 1,
+                                ),
+                              )
                               .then(
                                 (value) => Fluttertoast.showToast(
                                         msg: 'Berhasil menambahkan note')
