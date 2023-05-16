@@ -33,22 +33,22 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void initState() {
     super.initState();
-    Future.delayed(
-      const Duration(milliseconds: 3000),
-      () => Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                BottomMenu(currentTab: 0, currentScreen: const HomePages())),
-      ),
-    );
     // Future.delayed(
     //   const Duration(milliseconds: 3000),
     //   () => Navigator.push(
     //     context,
-    //     MaterialPageRoute(builder: (context) => const LoginScreen()),
+    //     MaterialPageRoute(
+    //         builder: (context) =>
+    //             BottomMenu(currentTab: 0, currentScreen: const HomePages())),
     //   ),
     // );
+    Future.delayed(
+      const Duration(milliseconds: 3000),
+      () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+      ),
+    );
   }
 
   // setdata(BuildContext context) async {

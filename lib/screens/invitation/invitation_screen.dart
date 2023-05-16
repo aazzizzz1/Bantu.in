@@ -20,7 +20,7 @@ class _InvitationScreenState extends State<InvitationScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          'Permintaan',
+          'Undangan',
           style: AppFont.regular20,
         ),
         backgroundColor: Colors.white,
