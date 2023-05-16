@@ -89,7 +89,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       hint: 'Masukan kata sandi',
                       type: 'kata sandi',
                       description:
-                          'Kata sandi harus terdiri dari 8 huruf, 1 huruf besar, 1 angka, dan 1 simbol',
+                          'Kata sandi harus terdiri dari 8 huruf, 1 huruf besar, dan 1 angka',
                       controller: _passwordController,
                       icon: Icons.remove_red_eye_outlined,
                       obscure: true,
@@ -112,7 +112,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ? [
                               LengthLimitingTextInputFormatter(16),
                               FilteringTextInputFormatter.allow(
-                                RegExp("[a-zA-Z0-9 !@#\$%^&*()_+-]+"),
+                                RegExp("[a-zA-Z0-9]+"),
                               ),
                             ]
                           : null,

@@ -72,7 +72,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
                     ? null
                     : 'Maaf email anda tidak valid';
               } else if (widget.obscure != null) {
-                bool passValid = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value);
+                bool passValid = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$').hasMatch(value);
                 return passValid
                     ? null
                     : 'Maaf kata sandi anda belum memenuhi kriteria';

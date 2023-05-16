@@ -60,8 +60,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       label: 'Kata sandi',
                       hint: 'Masukan kata sandi',
                       type: 'kata sandi',
-                      description:
-                          'Kata sandi harus terdiri dari 8 huruf, 1 huruf besar, 1 angka, dan 1 simbol',
                       controller: _passwordController,
                       icon: Icons.remove_red_eye_outlined,
                       obscure: true,

@@ -14,8 +14,18 @@ class RegisterApi {
         // "Authorization": "Bearer $token"
       }),
     );
-    final responseBody = json.decode(response.body);
-    print(responseBody);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final responseBody = json.decode(response.body);
+      print(responseBody);
+    } else if (response.statusCode == 404) {
+      throw Exception("Endpoint not found");
+    } else if (response.statusCode == 422) {
+      final responseBody = json.decode(response.body);
+      throw Exception(responseBody['data']);
+    } else {
+      throw Exception("Failed to post register");
+    }
   }
 
   Future<List<RegisterModel>> getRegister(String type) async {
