@@ -1,1 +1,1 @@
-String baseUrl = 'https://bantuin.fly.dev/api/';
+const baseUrl = 'https://bantuin.fly.dev/api/';

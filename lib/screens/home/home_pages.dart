@@ -81,7 +81,7 @@ class _HomePagesState extends State<HomePages> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const NotesForm()),
+            MaterialPageRoute(builder: (context) => const NoteForm()),
           );
         },
       ),

@@ -155,7 +155,7 @@ class PopupUpdate extends StatelessWidget {
                               // Navigator.pop(context);
                             },
                             child: Text(
-                              'Ya',
+                              'Edit',
                               style: AppFont.textFillButtonActive,
                             ),
                           ),

@@ -6,13 +6,13 @@ import 'package:intl/intl.dart';
 
 import '../../constants/constant.dart';
 
-class MyReminder2 extends StatefulWidget {
+class UpdateDateReminder extends StatefulWidget {
   final DateTime initialDates;
   final ValueChanged<DateTime> onChanged;
   final TextEditingController controller;
   final DateTime initialLastDate;
 
-  const MyReminder2({
+  const UpdateDateReminder({
     Key? key,
     required this.initialDates,
     required this.initialLastDate,
@@ -21,10 +21,10 @@ class MyReminder2 extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _MyReminder2State createState() => _MyReminder2State();
+  _UpdateDateReminderState createState() => _UpdateDateReminderState();
 }
 
-class _MyReminder2State extends State<MyReminder2> {
+class _UpdateDateReminderState extends State<UpdateDateReminder> {
   DateTime? _selectedDates;
   final _reminderController = TextEditingController();
 
@@ -35,7 +35,7 @@ class _MyReminder2State extends State<MyReminder2> {
     initializeDateFormatting('id_ID', null);
   }
 
-  _addNewReminder() async {
+  Future<void> _addNewReminder() async {
     final DateTime? selectedDate = await showDatePicker(
       context: context,
       initialDate: widget.initialDates,

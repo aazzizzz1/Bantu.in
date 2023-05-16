@@ -8,7 +8,7 @@ import '../base_url.dart';
 class ApiServices {
   // String baseUrl = 'https://bantuin.fly.dev/api/notes';
   String token =
-      'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozOSwiZXhwIjoxNjgzNjg4OTcxfQ.eshUmJEyxJXo5lrSFOhjU81iG1msiIEXzyJkGpuLKMs';
+      'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozOSwiZXhwIjoxNjg0MzE5MjQxfQ.HLNA_NqXyMY_nUF-hc9z7Wdp2vQ0NBLcAMBpihA07iQ';
   @override
   Future<dynamic> postRequest(String url, data) async {
     // SharedPreferences? prefs = await SharedPreferences.getInstance();
@@ -16,7 +16,7 @@ class ApiServices {
     try {
       final response = await http.post(
         Uri.parse('$baseUrl$url'),
-        body: data is Map ? json.encode(data) : json.encode(data.toJson()),
+        body: json.encode(data.toJson()),
         headers: {
           "Content-Type": "application/json; charset=UTF-8",
           "Authorization": "Bearer $token",
@@ -37,10 +37,11 @@ class ApiServices {
       final response = await http.get(
         Uri.parse('$baseUrl$url'),
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json; charset=UTF-8",
           'Authorization': 'Bearer $token',
         },
       );
+      print(response);
       return returnResponse(response);
     } on SocketException {
       throw 'No Internet Connection';
@@ -66,9 +67,30 @@ class ApiServices {
     }
   }
 
+  Future<dynamic> putRequest(String url, data) async {
+    // SharedPreferences? prefs = await SharedPreferences.getInstance();
+    // String token = prefs.getString('token').toString();
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl$url'),
+        body: data is Map ? json.encode(data) : json.encode(data.toJson()),
+        headers: {
+          "Content-Type": "application/json; charset=UTF-8",
+          "Authorization": "Bearer $token",
+        },
+      );
+      return returnResponse(response);
+    } on SocketException {
+      throw 'No Internet Connection';
+    }
+  }
+
   dynamic returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
+        dynamic responseJson = jsonDecode(response.body);
+        return responseJson;
+      case 201:
         dynamic responseJson = jsonDecode(response.body);
         return responseJson;
       case 400:

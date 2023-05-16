@@ -2,6 +2,7 @@ import 'package:bantuin/models/note_model.dart';
 import 'package:bantuin/widgets/notes/add_repeat.dart';
 import 'package:bantuin/widgets/notes/create_note_textfield.dart';
 import 'package:bantuin/widgets/notes/date_time_picker.dart';
+import 'package:bantuin/widgets/notes/date_time_picker2.dart';
 import 'package:bantuin/widgets/notes/email_picker.dart';
 import 'package:bantuin/widgets/form/button_to_screen_notes.dart';
 import 'package:bantuin/widgets/notes/my_reminder.dart';
@@ -10,22 +11,25 @@ import 'package:bantuin/widgets/notes/ringtones_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../constants/constant.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:bantuin/models/post_note_model.dart';
 
 import '../../view_models/note_viewmodel.dart';
+import '../../view_models/ringtone_viewmodel.dart';
 import 'notes_screen.dart';
 
-class NotesForm extends StatefulWidget {
-  const NotesForm({super.key});
+class NoteForm extends StatefulWidget {
+  const NoteForm({super.key});
 
   @override
-  State<NotesForm> createState() => _NotesFormState();
+  State<NoteForm> createState() => _NoteFormState();
 }
 
-class _NotesFormState extends State<NotesForm> {
+class _NoteFormState extends State<NoteForm> {
   // List<DateTime> _selectedDatesReminder = [];
   DateTime _selectedDatesReminder = DateTime.now();
   DateTime _selectedDate = DateTime.now();
@@ -34,9 +38,18 @@ class _NotesFormState extends State<NotesForm> {
   List<String> _selectedEmails = [];
 
   void _handleEmailsChanged(List<String> selectedEmails) {
-    setState(() {
-      _selectedEmails = selectedEmails;
-    });
+    _selectedEmails = selectedEmails;
+    // setState(() {
+    // });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    Future.microtask(() =>
+        Provider.of<RingtoneViewModel>(context, listen: false).fetchRingtone());
+    super.initState();
   }
 
   @override
@@ -46,6 +59,8 @@ class _NotesFormState extends State<NotesForm> {
     final _reminderController = TextEditingController();
     final _dateController = TextEditingController();
     final formKey = GlobalKey<FormState>();
+    var ringtones = Provider.of<RingtoneViewModel>(context, listen: false);
+    int? ringtoneId;
 
     return Scaffold(
       appBar: AppBar(
@@ -75,9 +90,9 @@ class _NotesFormState extends State<NotesForm> {
                   height: 24,
                 ),
                 CreateNoteTextField(
-                  label: 'Subject',
-                  hint: 'Subject',
-                  message: 'subject',
+                  label: 'Subjek',
+                  hint: 'Subjek',
+                  message: 'subjek',
                   controller: _subjectController,
                   isSubject: true,
                 ),
@@ -130,16 +145,134 @@ class _NotesFormState extends State<NotesForm> {
                 const SizedBox(
                   height: 4,
                 ),
-                DateTimePicker(
+                TextFormField(
+                  readOnly: true,
                   controller: _dateController,
-                  onChanged: (DateTime selectedDate) {
-                    // Handle date selection changes
-                    // setState(() {
-                    //   _selectedDate = selectedDate;
-                    // });
+                  keyboardType: TextInputType.multiline,
+                  style: AppFont.medium14,
+                  onTap: () async {
+                    final DateTime now = DateTime.now();
+                    final DateTime? selectedDate = await showDatePicker(
+                      context: context,
+                      initialDate: _selectedDate,
+                      firstDate: now,
+                      lastDate: _selectedDate.add(Duration(days: 365)),
+                    );
+                    if (selectedDate != null) {
+                      TimeOfDay initialTime = TimeOfDay.now();
+                      if (selectedDate == now) {
+                        initialTime = TimeOfDay.fromDateTime(now);
+                      }
+                      final TimeOfDay? selectedTime = await showTimePicker(
+                        context: context,
+                        initialTime: initialTime,
+                      );
+                      if (selectedTime != null) {
+                        final DateTime selectedDateTime = DateTime(
+                          selectedDate.year,
+                          selectedDate.month,
+                          selectedDate.day,
+                          selectedTime.hour,
+                          selectedTime.minute,
+                        );
+                        if (selectedDateTime.isBefore(now)) {
+                          // Jika waktu yang dipilih sebelum waktu saat ini, tampilkan pesan kesalahan
+                          showDialog(
+                            context: context,
+                            builder: (_) => AlertDialog(
+                              title: Text('Peringatan'),
+                              content: Text(
+                                  'Anda tidak dapat memilih waktu sebelum waktu saat ini.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
+                        } else {
+                          _selectedDate = selectedDate;
+                          // setState(() {
+                          //   // widget.controller.text =
+                          //   //     DateFormat.yMMMEd().format(_selectedDateTime);
+                          //   // widget.controller.text = DateFormat('dd/MM/yyyy hh:mm', 'en_US')
+                          //   //     .format(_selectedDateTime);
+                          //   // widget.onChanged(_selectedDateTime);
+                          // });
+                          _dateController.text =
+                              DateFormat.yMMMMEEEEd().format(_selectedDate);
+                          print(_dateController.text);
+                        }
+                      }
+                    }
                   },
-                  initialDateTime: DateTime.now(),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Anda belum memasukkan tanggal';
+                    }
+                  },
+                  decoration: InputDecoration(
+                    filled: true,
+                    hintText: 'Pilih tanggal dan waktu pengingat.',
+                    hintStyle: AppFont.hintTextField,
+                    fillColor: AppColorNeutral.neutral1,
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: SvgPicture.asset(
+                        "lib/assets/icons/Alarm.svg",
+                        height: 26,
+                        width: 26,
+                      ),
+                    ),
+                    prefixIconColor: Colors.black,
+                    focusedBorder: const OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: AppColorNeutral.neutral2)),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(color: AppColorNeutral.neutral2),
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                    disabledBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(color: AppColorNeutral.neutral2),
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(color: AppColorNeutral.neutral2),
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                    focusedErrorBorder: const OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: AppColorPrimary.primary6)),
+                  ),
                 ),
+                // DateTimePicker2(
+                //   initialDates: _selectedDate,
+                //   controller: _dateController,
+                //   onChanged: (newSelectedDate) {
+                //     setState(() {
+                //       _selectedDate = newSelectedDate;
+                //       _dateController.text =
+                //           DateFormat.yMMMMEEEEd().format(newSelectedDate);
+                //     });
+                //   },
+                // ),
+                // DateTimePicker(
+                //   initialDateTime: _selectedDate,
+                //   controller: _dateController,
+                //   onChanged: (DateTime selectedDate) {
+                //     // Handle date selection changes
+                //     setState(() {
+                //       _selectedDate = selectedDate;
+                //       _dateController.text =
+                //           DateFormat('dd/MM/yyyy hh:mm', 'en_US')
+                //               .format(selectedDate);
+                //     });
+                //   },
+                // ),
                 const SizedBox(
                   height: 24,
                 ),
@@ -156,23 +289,116 @@ class _NotesFormState extends State<NotesForm> {
                 const SizedBox(
                   height: 4,
                 ),
-                MyReminder2(
-                  initialDates: _selectedDatesReminder,
+                TextFormField(
+                  readOnly: true,
                   controller: _reminderController,
-                  onChanged: (newDate) {
-                    _selectedDatesReminder = newDate;
+                  keyboardType: TextInputType.multiline,
+                  style: AppFont.medium14,
+                  onTap: () async {
+                    final DateTime? selectedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime.now(),
+                      lastDate: _selectedDate,
+                    );
+                    if (selectedDate != null) {
+                      final DateTime now = DateTime.now();
+                      final TimeOfDay? selectedTime = await showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.now(),
+                      );
+                      if (selectedTime != null) {
+                        final DateTime selectedDateTime = DateTime(
+                          selectedDate.year,
+                          selectedDate.month,
+                          selectedDate.day,
+                          selectedTime.hour,
+                          selectedTime.minute,
+                        );
+                        if (selectedDateTime.isBefore(now)) {
+                          showDialog(
+                            context: context,
+                            builder: (_) => AlertDialog(
+                              title: Text('Peringatan'),
+                              content: Text(
+                                  'Anda tidak dapat memilih waktu sebelum waktu saat ini.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
+                        } else {
+                          // setState(() {
+                          //   // widget.controller.text =
+                          //   //     DateFormat.yMd().add_jm().format(selectedDateTime);
+                          //   // _reminderController.text =
+                          //   //     DateFormat.yMMMMEEEEd('id_ID').format(selectedDateTime);
+                          // });
+                          _selectedDatesReminder = selectedDateTime;
+                          _reminderController.text =
+                              DateFormat('dd/MM/yyyy hh:mm', 'en_US')
+                                  .format(selectedDateTime);
+                          // widget.onChanged(selectedDateTime);
+                          // _onReminderChanged(selectedDateTime);
+                        }
+                      }
+                    }
                   },
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Anda belum memasukkan tanggal';
+                    }
+                  },
+                  decoration: InputDecoration(
+                    filled: true,
+                    hintText: 'Pilih tanggal dan waktu pengingat.',
+                    hintStyle: AppFont.hintTextField,
+                    fillColor: AppColorNeutral.neutral1,
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: SvgPicture.asset(
+                        "lib/assets/icons/Alarm.svg",
+                        height: 26,
+                        width: 26,
+                      ),
+                    ),
+                    prefixIconColor: Colors.black,
+                    focusedBorder: const OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: AppColorNeutral.neutral2)),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(color: AppColorNeutral.neutral2),
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                    disabledBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(color: AppColorNeutral.neutral2),
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(color: AppColorNeutral.neutral2),
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                    focusedErrorBorder: const OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: AppColorPrimary.primary6)),
+                  ),
                 ),
-                //Before
-                // MyReminder(
+                // MyReminder2(
                 //   initialDates: _selectedDatesReminder,
-                //   onChanged: (newDates) {
+                //   initialLastDate: _selectedDate,
+                //   controller: _reminderController,
+                //   onChanged: (newDate) {
                 //     setState(() {
-                //       _selectedDatesReminder = newDates;
+                //       _selectedDatesReminder = newDate;
                 //     });
                 //   },
                 // ),
-                // isRepeat
                 const SizedBox(
                   height: 24,
                 ),
@@ -193,15 +419,58 @@ class _NotesFormState extends State<NotesForm> {
                 const SizedBox(
                   height: 4,
                 ),
-                RingtonePickerWidget(
-                  label: 'Ringtone',
-                  initialRingtone: _selectedRingtone,
-                  onChanged: (ringtone) {
-                    setState(() {
-                      _selectedRingtone = ringtone;
-                    });
-                  },
+                Consumer<RingtoneViewModel>(
+                  builder: (context, value, child) => RingtonePickerWidget(
+                    label: 'Ringtone',
+                    listRingtone: value.listOfRingtone,
+                    initialRingtone: _selectedRingtone,
+                    onChanged: (value) {
+                      _selectedRingtone = value;
+                      // setState(() {
+                      // });
+                    },
+                  ),
                 ),
+                // Consumer<RingtoneViewModel>(
+                //   builder: (context, value, child) {
+                //     return RingtonePickerWidget(
+                //       label: 'Ringtone',
+                //       initialRingtone: _selectedRingtone,
+                //       listRingtone: value.listOfRingtone,
+                //       onChanged: (ringtone) {
+                //         setState(() {
+                //           _selectedRingtone = ringtone;
+                //           ringtoneId = value.listOfRingtone
+                //               .where(
+                //                   (element) => ringtone!.contains(element.name))
+                //               .reduce((value, element) => value)
+                //               .id;
+                //           // ringtoneId = value.listOfRingtone
+                //           //     .where((element) =>
+                //           //         _selectedRingtone!.contains(element.name))
+                //           //     .map((e) => e.id)
+                //           //     .reduce((value, element) => value + element);
+                //         });
+                //       },
+                //     );
+                //   },
+                // ),
+
+                // No Error
+                // RingtonePickerWidget(
+                //   label: 'Ringtone',
+                //   initialRingtone: _selectedRingtone,
+                //   onChanged: (ringtone) {
+                //     setState(() {
+                //       _selectedRingtone = ringtone;
+                //       // ringtoneId = _listOfRingtone
+                //       //     .where((element) =>
+                //       //         _selectedRingtone!.contains(element.name))
+                //       //     .map((e) => e.id)
+                //       //     .reduce((value, element) => value);
+                //     });
+                //   },
+                // ),
                 const SizedBox(
                   height: 24,
                 ),
@@ -209,6 +478,12 @@ class _NotesFormState extends State<NotesForm> {
                   builder: (context, note, _) => ElevatedButton(
                     onPressed: () async {
                       final isValidForm = formKey.currentState!.validate();
+                      print(ringtones.listOfRingtone
+                          .where((element) =>
+                              _selectedRingtone!.contains(element.name))
+                          .reduce((value, element) => value)
+                          .id);
+                      print(_selectedRingtone);
                       if (isValidForm) {
                         try {
                           await note
@@ -218,7 +493,11 @@ class _NotesFormState extends State<NotesForm> {
                                   description: _descriptionController.text,
                                   eventDate: _dateController.text,
                                   reminder: _reminderController.text,
-                                  ringtoneId: 1,
+                                  ringtoneId: ringtones.listOfRingtone
+                                      .where((element) => _selectedRingtone!
+                                          .contains(element.name))
+                                      .reduce((value, element) => value)
+                                      .id,
                                 ),
                               )
                               .then(
@@ -258,18 +537,6 @@ class _NotesFormState extends State<NotesForm> {
                     ),
                   ),
                 ),
-                //Before
-                // ButtonScreenNotes(
-                //   formKey: formKey,
-                //   noteModel: NoteModel(
-                //     subject: _subjectController.text,
-                //     description: _descriptionController.text,
-                //     eventDate: _dateController.text,
-                //     reminder: _reminderController.text,
-                //     ringtoneId: 2,
-                //   ),
-                // ),
-                // ButtonScreenNotes(formKey: formKey, noteModel: ,),
                 const SizedBox(
                   height: 24,
                 ),
@@ -281,117 +548,3 @@ class _NotesFormState extends State<NotesForm> {
     );
   }
 }
-
-
-// TextField(
-//   decoration: InputDecoration(
-//     prefixIcon: SvgPicture.asset(
-//       "lib/assets/icons/Contact.svg",
-//       alignment: Alignment.centerRight,
-//     ),
-//     filled: true,
-//     hintText: 'Masukan email anggota',
-//     hintStyle: AppFont.hintTextField,
-//     fillColor: AppColorNeutral.neutral1,
-//     focusedBorder: const OutlineInputBorder(
-//         borderSide:
-//             BorderSide(color: AppColorPrimary.primary6)),
-//     enabledBorder: OutlineInputBorder(
-//       borderSide:
-//           const BorderSide(color: AppColorNeutral.neutral2),
-//       borderRadius: BorderRadius.circular(3),
-//     ),
-//     disabledBorder: OutlineInputBorder(
-//       borderSide:
-//           const BorderSide(color: AppColorNeutral.neutral2),
-//       borderRadius: BorderRadius.circular(3),
-//     ),
-//   ),
-// ),
-// const SizedBox(
-//   height: 4,
-// ),
-// SizedBox(
-//   width: MediaQuery.of(context).size.width - 200,
-//   height: 48,
-//   child: ElevatedButton(
-//     style: const ButtonStyle(
-//       elevation: MaterialStatePropertyAll(0),
-//       backgroundColor:
-//           MaterialStatePropertyAll(Colors.transparent),
-//     ),
-//     onPressed: () {},
-//     child: Row(
-//       children: [
-//         const Icon(
-//           Icons.add,
-//           color: AppColorPrimary.primary6,
-//         ),
-//         const SizedBox(
-//           width: 8,
-//         ),
-//         Text(
-//           "Tambah email",
-//           style: GoogleFonts.ibmPlexSans(
-//               fontSize: 14,
-//               fontStyle: FontStyle.normal,
-//               fontWeight: FontWeight.w400,
-//               color: AppColorPrimary.primary6),
-//         ),
-//       ],
-//     ),
-//   ),
-// ),
-
-// MyDatePicker(
-//   onChanged: (DateTime selectedDate) {
-//     // Handle date selection changes
-//   },
-// ),
-// const SizedBox(
-//   height: 16,
-// ),
-// MyTimePicker(
-//   onChanged: (selectedTime) {
-//     // Handle the selected time change here
-//     print('Selected time: ${selectedTime.format(context)}');
-//   },
-// ),
-// const SizedBox(
-//   height: 16,
-// ),
-// SizedBox(
-// width: 200.0,
-// height: 150.0,
-// child: MyDateTimeList(),
-//   // your child widgets here
-// ),
-// DatePicker(
-//   onChanged: (DateTime value) {
-//     // Do something with the selected date value
-//   },
-// ),
-// const SizedBox(
-//   height: 16,
-// ),
-// const Divider(
-//   thickness: 1,
-// ),
-// Text(
-//   "Tambahkan waktu",
-//   style: AppFont.labelTextForm,
-// ),
-// TimePicker(
-//   onChanged: (TimeOfDay value) {
-//     // Do something with the selected time value
-//   },
-// ),
-
-// MultiReminderPicker(
-//   initialDates: _selectedDates,
-//   onChanged: (List<DateTime> dates) {
-//     setState(() {
-//       _selectedDates = dates;
-//     });
-//   },
-// ),
