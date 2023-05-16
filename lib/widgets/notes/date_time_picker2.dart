@@ -6,47 +6,49 @@ import 'package:intl/intl.dart';
 
 import '../../constants/constant.dart';
 
-class MyReminder2 extends StatefulWidget {
+class DateTimePicker2 extends StatefulWidget {
   final DateTime initialDates;
   final ValueChanged<DateTime> onChanged;
   final TextEditingController controller;
-  final DateTime initialLastDate;
 
-  const MyReminder2({
+  const DateTimePicker2({
     Key? key,
     required this.initialDates,
-    required this.initialLastDate,
     required this.onChanged,
     required this.controller,
   }) : super(key: key);
 
   @override
-  _MyReminder2State createState() => _MyReminder2State();
+  _DateTimePicker2State createState() => _DateTimePicker2State();
 }
 
-class _MyReminder2State extends State<MyReminder2> {
-  DateTime? _selectedDates;
+class _DateTimePicker2State extends State<DateTimePicker2> {
+  late DateTime _selectedDateTime;
   final _reminderController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _selectedDates = widget.initialDates;
+    _selectedDateTime = widget.initialDates;
     initializeDateFormatting('id_ID', null);
   }
 
-  _addNewReminder() async {
+  _selectDate() async {
+    final DateTime now = DateTime.now();
     final DateTime? selectedDate = await showDatePicker(
       context: context,
-      initialDate: widget.initialDates,
-      firstDate: DateTime.now(),
-      lastDate: widget.initialLastDate,
+      initialDate: _selectedDateTime,
+      firstDate: now,
+      lastDate: _selectedDateTime.add(Duration(days: 365)),
     );
     if (selectedDate != null) {
-      final DateTime now = DateTime.now();
+      TimeOfDay initialTime = TimeOfDay.now();
+      if (selectedDate == now) {
+        initialTime = TimeOfDay.fromDateTime(now);
+      }
       final TimeOfDay? selectedTime = await showTimePicker(
         context: context,
-        initialTime: TimeOfDay.now(),
+        initialTime: initialTime,
       );
       if (selectedTime != null) {
         final DateTime selectedDateTime = DateTime(
@@ -57,6 +59,7 @@ class _MyReminder2State extends State<MyReminder2> {
           selectedTime.minute,
         );
         if (selectedDateTime.isBefore(now)) {
+          // Jika waktu yang dipilih sebelum waktu saat ini, tampilkan pesan kesalahan
           showDialog(
             context: context,
             builder: (_) => AlertDialog(
@@ -73,16 +76,14 @@ class _MyReminder2State extends State<MyReminder2> {
           );
         } else {
           setState(() {
-            _selectedDates = selectedDateTime;
-            widget.controller.text = DateFormat('dd/MM/yyyy hh:mm', 'en_US')
-                .format(selectedDateTime);
+            _selectedDateTime = selectedDateTime;
             // widget.controller.text =
-            //     DateFormat.yMd().add_jm().format(selectedDateTime);
-            // _reminderController.text =
-            //     DateFormat.yMMMMEEEEd('id_ID').format(selectedDateTime);
+            //     DateFormat.yMMMEd().format(_selectedDateTime);
+            // widget.controller.text = DateFormat('dd/MM/yyyy hh:mm', 'en_US')
+            //     .format(_selectedDateTime);
+            widget.onChanged(_selectedDateTime);
           });
-          widget.onChanged(selectedDateTime);
-          // _onReminderChanged(selectedDateTime);
+          print(_selectedDateTime);
         }
       }
     }
@@ -115,11 +116,9 @@ class _MyReminder2State extends State<MyReminder2> {
       keyboardType: TextInputType.multiline,
       style: AppFont.medium14,
       onTap: () {
-        initializeDateFormatting().then(
-          (value) => _addNewReminder(),
+        initializeDateFormatting('en_US', null).then(
+          (value) => _selectDate(),
         );
-        // initializeDateFormatting('id_ID', null)
-        //     .then((_) => _selectDate());
       },
       validator: (value) {
         if (value!.isEmpty) {

@@ -1,29 +1,42 @@
 import 'package:bantuin/models/note_model.dart';
 import 'package:bantuin/models/post_note_model.dart';
 import 'package:bantuin/models/user_note_model.dart';
+import 'package:bantuin/services/api/api_services.dart';
+import 'package:bantuin/services/api/apps_repository.dart';
 import 'package:bantuin/services/api/personal_note_api.dart';
 import 'package:bantuin/services/api/user_note_api.dart';
 import 'package:flutter/material.dart';
 import '../models/note_tim_model.dart';
 
 class NoteViewModel with ChangeNotifier {
+  final appsRepository = AppsRepository();
   final PersonalNoteApi _personalNote = PersonalNoteApi();
 
-  List<NoteModel> _listOfPersonalNote = [];
-  List<NoteModel> get listOfPersonalNote => _listOfPersonalNote;
+  List<NoteDetailModel> _listOfPersonalNote = [];
+  List<NoteDetailModel> get listOfPersonalNote => _listOfPersonalNote;
 
   Future<void> postPersonalNote(PostNoteModel note) async {
     try {
-      await _personalNote.postApi(note);
+      await appsRepository.postPersonalNote(note);
       notifyListeners();
     } catch (_) {
       rethrow;
     }
   }
 
-  Future<void> fetchPersonalNote(String type) async {
+  Future<void> getPersonalNote() async {
     try {
-      _listOfPersonalNote = await _personalNote.getApi(type);
+      _listOfPersonalNote = await appsRepository.getPersonalNote();
+      notifyListeners();
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> updatePersonalNote(
+      PostNoteModel note, NoteDetailModel noteDetail) async {
+    try {
+      await appsRepository.updatePersonalNote(note, noteDetail.id);
       notifyListeners();
     } catch (_) {
       rethrow;

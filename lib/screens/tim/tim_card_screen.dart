@@ -168,7 +168,7 @@ class _TimCardScreenState extends State<TimCardScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const NotesForm(),
+                        builder: (context) => const NoteForm(),
                       ));
                 },
                 child: Row(

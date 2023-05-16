@@ -24,8 +24,8 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
     // TODO: implement initState
     super.initState();
     tabController = TabController(length: 2, vsync: this);
-    Future.microtask(() => Provider.of<NoteViewModel>(context, listen: false)
-        .fetchPersonalNote('personal'));
+    Future.microtask(() =>
+        Provider.of<NoteViewModel>(context, listen: false).getPersonalNote());
   }
 
   @override
@@ -90,75 +90,11 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                     itemCount: note.listOfPersonalNote.length,
                     itemBuilder: (context, index) {
                       var data = note.listOfPersonalNote[index];
-                      String member = '';
-                      for (var i = 0; i < data.member.length; i++) {
-                        member = data.member[i];
-                      }
                       initializeDateFormatting('id_ID', null);
-                      return CardMyNotesPersonal(
-                        subject: data.subject,
-                        description: data.description,
-                        date: data.eventDate,
-                        avatarUrl:
-                            'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
-                        member: member,
-                        status: data.status,
-                      );
+                      return CardMyNotesPersonal(noteDetail: data);
                     },
                   ),
                 ),
-                // ListView.builder(
-                //   itemCount: 3,
-                //   itemBuilder: (context, index) {
-                //     return Column(
-                //       children: [
-                //         CardMyNotesProgres(
-                //           title: 'Belikan saya tiket pesawat',
-                //           description:
-                //               'Belikan saya tiket pesawat untuk tgl 2 april ke Solo dan pulangnya tgl 4 april.',
-                //           date: '1',
-                //           month: 'Mar',
-                //           avatarUrl:
-                //               'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
-                //           name: 'John Doe',
-                //           progress: 0.8,
-                //         ),
-                //         CardMyNotesPersonal(
-                //           title: 'Acara ulang tahun adik',
-                //           description: 'Ulang tahun tanggal 17 adik fitri',
-                //           date: '5',
-                //           month: 'Jan',
-                //           avatarUrl:
-                //               'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
-                //           name: 'Siapa ya',
-                //           isDone: true,
-                //         ),
-                //         CardMyNotesProgres(
-                //           title: 'Meeting with client',
-                //           description:
-                //               'Discuss bantuin project requirements with client',
-                //           date: '15',
-                //           month: 'Apr',
-                //           avatarUrl:
-                //               'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
-                //           name: 'John Doe',
-                //           progress: 0.6,
-                //         ),
-                //         CardMyNotesPersonal(
-                //           title: 'Meeting with client',
-                //           description:
-                //               'Discuss bantuin project requirements with client',
-                //           date: '15',
-                //           month: 'Apr',
-                //           avatarUrl:
-                //               'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
-                //           name: 'John Doe',
-                //           isDone: false,
-                //         ),
-                //       ],
-                //     );
-                //   },
-                // ),
               ),
               Center(),
               // floating button above bottom navbar
@@ -169,8 +105,7 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const NotesForm()),
+                      MaterialPageRoute(builder: (context) => const NoteForm()),
                     );
                   },
                 ),

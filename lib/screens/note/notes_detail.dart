@@ -11,52 +11,14 @@ import 'package:bantuin/widgets/detail_note/edit_delete_note.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../models/note_model.dart';
 
 class NotesDetail extends StatelessWidget {
-  // final String title;
-  // final String description;
-  // final String avatarUrl;
-  // final String name;
-  // final String fileUrl;
-  // final String createdBy;
-  // final String eventDate;
-  // final String reminder;
-  // final String ringtone;
-  // final double? progress;
-  // final bool? isAdmin;
-  // final bool? isPersonal;
-  // final bool? isUpload;
-  final String subject;
-  final String description;
-  final String date;
-  final String avatarUrl;
-  final String member;
-  final String status;
-  // final NoteModel notes;
+  final NoteDetailModel noteDetail;
 
-  NotesDetail({
-    // required this.title,
-    // required this.description,
-    // required this.avatarUrl,
-    // required this.name,
-    // required this.fileUrl,
-    // required this.createdBy,
-    // required this.eventDate,
-    // required this.reminder,
-    // required this.ringtone,
-    // this.progress,
-    // this.isAdmin,
-    // this.isPersonal,
-    // this.isUpload,
-    required this.subject,
-    required this.description,
-    required this.date,
-    required this.avatarUrl,
-    required this.member,
-    required this.status,
-  });
+  NotesDetail({required this.noteDetail});
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +37,7 @@ class NotesDetail extends StatelessWidget {
         ),
         actions: [
           Text(
-            status,
+            noteDetail.status,
             style: AppFont.textProgressComplete,
           )
         ],
@@ -104,31 +66,21 @@ class NotesDetail extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        subject,
+                        noteDetail.subject,
                         style: AppFont.textTitleScreen,
                       ),
-                      const SizedBox(),
-                      // isPersonal == true || isAdmin == true
-                      //     ? EditDeleteNote(
-                      //         title: title,
-                      //         description: description,
-                      //         avatarUrl: avatarUrl,
-                      //         name: name,
-                      //         fileUrl: fileUrl,
-                      //         createdBy: createdBy,
-                      //         eventDate: eventDate,
-                      //         reminder: reminder,
-                      //         ringtone: ringtone,
-                      //         isAdmin: isAdmin,
-                      //       )
-                      //     : const SizedBox(),
+                      noteDetail.notesType == "personal"
+                          ? EditDeleteNote(
+                              note: noteDetail,
+                            )
+                          : const SizedBox(),
                     ],
                   ),
                   SizedBox(height: 20.0),
                   SizedBox(
                     width: 250,
                     child: Text(
-                      description,
+                      noteDetail.description,
                       style: AppFont.medium14,
                       maxLines: 5,
                     ),
@@ -153,7 +105,8 @@ class NotesDetail extends StatelessWidget {
                       Row(
                         children: [
                           CachedNetworkImage(
-                            imageUrl: avatarUrl,
+                            imageUrl:
+                                'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
                             placeholder: (context, url) =>
                                 CircularProgressIndicator(),
                             errorWidget: (context, url, error) =>
@@ -166,7 +119,7 @@ class NotesDetail extends StatelessWidget {
                           ),
                           SizedBox(width: 8.0),
                           Text(
-                            member,
+                            noteDetail.owner[0].username,
                             style: AppFont.textPersonOrTeam,
                           ),
                         ],
@@ -174,7 +127,12 @@ class NotesDetail extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 24.0),
-                  AdminDate(eventDate: date, reminder: date, ringtone: 'alarm')
+                  AdminDate(
+                      eventDate: DateFormat('dd MMMM yyyy', 'id_ID')
+                          .format(noteDetail.eventDate),
+                      reminder: DateFormat('dd MMMM yyyy', 'id_ID')
+                          .format(noteDetail.reminder),
+                      ringtone: noteDetail.ringtone)
                   // isPersonal == true || isAdmin == true
                   //     ? AdminDate(
                   //         eventDate: eventDate,

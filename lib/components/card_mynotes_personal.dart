@@ -8,22 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
-class CardMyNotesPersonal extends StatelessWidget {
-  final String subject;
-  final String description;
-  final String date;
-  final String avatarUrl;
-  final String member;
-  final String status;
+import '../models/note_model.dart';
 
-  CardMyNotesPersonal({
-    required this.subject,
-    required this.description,
-    required this.date,
-    required this.avatarUrl,
-    required this.member,
-    required this.status,
-  });
+class CardMyNotesPersonal extends StatelessWidget {
+  final NoteDetailModel noteDetail;
+  CardMyNotesPersonal({required this.noteDetail});
 
   @override
   Widget build(BuildContext context) {
@@ -32,31 +21,8 @@ class CardMyNotesPersonal extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => NotesDetail(
-                  subject: subject,
-                  description: description,
-                  date: date,
-                  avatarUrl: avatarUrl,
-                  member: member,
-                  status: status),
-            )
-            // MaterialPageRoute(
-            //   builder: (context) => NotesDetail(
-            //     title: 'Meeting with John Doe',
-            //     description: 'Meeting with John Doe to discuss about the project',
-            //     avatarUrl:
-            //         'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
-            //     name: 'John Doe',
-            //     fileUrl: 'https://example.com/notes.pdf',
-            //     createdBy: 'John Doe',
-            //     eventDate: '2023-04-08',
-            //     reminder: '2023-04-07 10:00:00',
-            //     ringtone: 'default',
-            //     isUpload: true,
-            //     isPersonal: true,
-            //   ),
-            // ),
-            );
+              builder: (context) => NotesDetail(noteDetail: noteDetail),
+            ));
       },
       child: Container(
         height: 135,
@@ -67,22 +33,6 @@ class CardMyNotesPersonal extends StatelessWidget {
         padding: const EdgeInsets.all(10.0),
         margin: const EdgeInsets.only(bottom: 16.0),
         child: Row(
-          // after
-          // children: [
-          //   SizedBox(
-          //     width: 60,
-          //     child: ListView.builder(
-          //       shrinkWrap: true,
-          //       scrollDirection: Axis.horizontal,
-          //       itemCount: member.length,
-          //       itemBuilder: (context, index) => Text(
-          //         member[index],
-          //         style: AppFont.regular12,
-          //       ),
-          //     ),
-          //   ),
-          // ],
-
           children: [
             Container(
               margin: const EdgeInsets.all(8),
@@ -106,7 +56,7 @@ class CardMyNotesPersonal extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              subject,
+                              noteDetail.subject,
                               style: AppFont.semiBold16w500,
                             ),
                           ),
@@ -117,7 +67,7 @@ class CardMyNotesPersonal extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8.0),
                             ),
                             child: Text(
-                              status,
+                              noteDetail.status,
                               style: TextStyle(
                                 fontStyle: FontStyle.normal,
                                 color: AppColor.textprogresColor,
@@ -128,7 +78,7 @@ class CardMyNotesPersonal extends StatelessWidget {
                       ),
                       const SizedBox(height: 8.0),
                       Text(
-                        description,
+                        noteDetail.description,
                         style: AppFont.regular12,
                       ),
                     ],
@@ -138,8 +88,34 @@ class CardMyNotesPersonal extends StatelessWidget {
                     children: [
                       Row(
                         children: [
+                          // noteDetail.owner[0].photo != null
+                          //     ? CachedNetworkImage(
+                          //         imageUrl: noteDetail.owner[0].photo,
+                          //         placeholder: (context, url) =>
+                          //             CircularProgressIndicator(),
+                          //         errorWidget: (context, url, error) =>
+                          //             const Icon(Icons.error),
+                          //         imageBuilder: (context, imageProvider) =>
+                          //             CircleAvatar(
+                          //           backgroundImage: imageProvider,
+                          //           radius: 10.0,
+                          //         ),
+                          //       )
+                          //     : CachedNetworkImage(
+                          //         imageUrl: imageUrl,
+                          //         placeholder: (context, url) =>
+                          //             CircularProgressIndicator(),
+                          //         errorWidget: (context, url, error) =>
+                          //             const Icon(Icons.error),
+                          //         imageBuilder: (context, imageProvider) =>
+                          //             CircleAvatar(
+                          //           backgroundImage: imageProvider,
+                          //           radius: 10.0,
+                          //         ),
+                          //       ),
                           CachedNetworkImage(
-                            imageUrl: avatarUrl,
+                            imageUrl:
+                                'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
                             placeholder: (context, url) =>
                                 const CircularProgressIndicator(),
                             errorWidget: (context, url, error) =>
@@ -152,7 +128,7 @@ class CardMyNotesPersonal extends StatelessWidget {
                           ),
                           const SizedBox(width: 8.0),
                           Text(
-                            member,
+                            noteDetail.owner[0].username,
                             style: AppFont.regular12,
                           )
                           // SizedBox(
@@ -171,8 +147,9 @@ class CardMyNotesPersonal extends StatelessWidget {
                       ),
                       Container(
                         child: Text(
-                          '$date',
-                          // DateFormat('dd MMMM yyyy', 'id_ID').format(date),
+                          // noteDetail.eventDate.toString(),
+                          DateFormat('dd MMMM yyyy', 'id_ID')
+                              .format(noteDetail.eventDate),
                           style: AppFont.regular12,
                         ),
                       ),
