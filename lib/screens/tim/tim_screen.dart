@@ -23,9 +23,8 @@ class _TimScreenState extends State<TimScreen> {
         elevation: 1,
         title: Text(
           'Tim',
-          style: AppFont.semiBold20,
+          style: AppFont.regular20,
         ),
-        centerTitle: true,
         automaticallyImplyLeading: false,
       ),
       body: ListView(

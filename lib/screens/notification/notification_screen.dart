@@ -1,4 +1,5 @@
 import 'package:bantuin/components/card_notification.dart';
+import 'package:bantuin/components/card_notification_update.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -38,6 +39,22 @@ class _NotificationScreenState extends State<NotificationScreen> {
           itemBuilder: (context, index) {
             return Column(
               children: const [
+                CardNotificationUpdate(
+                  user: 'Masbro',
+                  status: 'mengedit',
+                  time: 6,
+                  subject: 'Ulang Tahun Adik',
+                  massage: 'Halo, aku mau mengedit acara ',
+                  accepted: true,
+                ),
+                CardNotificationUpdate(
+                  user: 'Masbro',
+                  status: 'menghapus',
+                  time: 6,
+                  subject: 'Ulang Tahun Adik',
+                  massage: 'Halo, aku mau menghapus acara ',
+                  accepted: false,
+                ),
                 CardNotification(
                   user: 'Nadim Makrim',
                   status: 'menolak',

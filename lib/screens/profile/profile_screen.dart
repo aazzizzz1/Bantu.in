@@ -25,11 +25,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         elevation: 2,
         title: Text(
           'Informasi Personal',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
+          style: AppFont.regular20,
         ),
         automaticallyImplyLeading: false,
       ),
@@ -133,7 +129,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ],
                             ),
                             Text(
-                              'Rizky',
+                              'Aziz',
                               style: AppFont.regular16w500,
                             ),
                             SizedBox(
