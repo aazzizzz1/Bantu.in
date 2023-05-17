@@ -34,12 +34,12 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        elevation: 1,
+        automaticallyImplyLeading: false,
+        elevation: 2,
         title: Text(
           'Catatan',
-          style: AppFont.semiBold20,
+          style: AppFont.regular20,
         ),
-        centerTitle: true,
         bottom: TabBar(
           automaticIndicatorColorAdjustment: false,
           dividerColor: Colors.green,
@@ -99,7 +99,7 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
               Center(),
               // floating button above bottom navbar
               Positioned(
-                bottom: 20,
+                bottom: 16.0,
                 right: 16.0,
                 child: FloatingButtonNotes(
                   onPressed: () {
