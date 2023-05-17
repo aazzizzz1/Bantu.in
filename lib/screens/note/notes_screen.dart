@@ -66,15 +66,6 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
             ),
           ],
         ),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-        ),
       ),
       body: TabBarView(
         controller: tabController,
