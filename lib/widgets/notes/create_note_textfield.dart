@@ -28,9 +28,9 @@ class _CreateNoteTextFieldState extends State<CreateNoteTextField> {
   @override
   void initState() {
     // TODO: implement initState
-    widget.controller.addListener(() {
-      setState(() {});
-    });
+    // widget.controller.addListener(() {
+    //   setState(() {});
+    // });
     super.initState();
   }
 

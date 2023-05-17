@@ -10,6 +10,7 @@ import '../models/note_tim_model.dart';
 
 class NoteViewModel with ChangeNotifier {
   final appsRepository = AppsRepository();
+  final apiServise = ApiServices();
   final PersonalNoteApi _personalNote = PersonalNoteApi();
 
   List<NoteDetailModel> _listOfPersonalNote = [];
@@ -35,8 +36,19 @@ class NoteViewModel with ChangeNotifier {
 
   Future<void> updatePersonalNote(
       PostNoteModel note, NoteDetailModel noteDetail) async {
+    print(noteDetail.id);
     try {
       await appsRepository.updatePersonalNote(note, noteDetail.id);
+      notifyListeners();
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> deletePersonalNote(NoteDetailModel noteDetail) async {
+    try {
+      await appsRepository.deletePersonalNote(noteDetail.id);
+      getPersonalNote();
       notifyListeners();
     } catch (_) {
       rethrow;
