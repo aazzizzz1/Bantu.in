@@ -1,5 +1,6 @@
 import 'package:bantuin/components/popup_update.dart';
 import 'package:bantuin/models/note_model.dart';
+import 'package:bantuin/screens/note/notes_detail.dart';
 import 'package:bantuin/widgets/notes/add_repeat.dart';
 import 'package:bantuin/widgets/notes/create_note_textfield.dart';
 import 'package:bantuin/widgets/notes/date_time_picker.dart';
@@ -38,8 +39,8 @@ class _NoteUpdateState extends State<NoteUpdate> {
   TextEditingController _eventDateController = TextEditingController();
   TextEditingController _reminderController = TextEditingController();
   TextEditingController _ringtoneController = TextEditingController();
-  DateTime _selectedDatesReminder = DateTime.now();
-  DateTime _selectedDate = DateTime.now();
+  late DateTime _selectedDatesReminder;
+  late DateTime _selectedDate;
   String? _selectedRingtone;
 
   List<String> _selectedEmails = [];
@@ -60,6 +61,8 @@ class _NoteUpdateState extends State<NoteUpdate> {
         .format(widget.noteDetail.reminder);
     _ringtoneController.text = widget.noteDetail.ringtone;
     _selectedRingtone = widget.noteDetail.ringtone;
+    _selectedDate = widget.noteDetail.eventDate;
+    _selectedDatesReminder = widget.noteDetail.reminder;
     super.initState();
   }
 
@@ -102,9 +105,9 @@ class _NoteUpdateState extends State<NoteUpdate> {
                   height: 24,
                 ),
                 CreateNoteTextField(
-                  label: 'Subject',
-                  hint: 'Subject',
-                  message: 'subject',
+                  label: 'Subjek',
+                  hint: 'Subjek',
+                  message: 'subjek',
                   controller: _subjectController,
                   isSubject: true,
                 ),
@@ -160,8 +163,13 @@ class _NoteUpdateState extends State<NoteUpdate> {
                 UpdateDateTimePicker(
                   onChanged: (DateTime selectedDate) {
                     // Handle date selection changes
+                    setState(() {
+                      _selectedDate = selectedDate;
+                    });
                   },
-                  initialDateTime: widget.noteDetail.eventDate,
+                  initialDateTime: _selectedDate != null
+                      ? _selectedDate
+                      : widget.noteDetail.eventDate,
                   controller: _eventDateController,
                 ),
                 const SizedBox(
@@ -181,10 +189,14 @@ class _NoteUpdateState extends State<NoteUpdate> {
                   height: 4,
                 ),
                 UpdateDateReminder(
-                  initialDates: widget.noteDetail.reminder,
-                  initialLastDate: widget.noteDetail.eventDate,
+                  initialDates: _selectedDatesReminder != null
+                      ? _selectedDatesReminder
+                      : widget.noteDetail.reminder,
+                  initialLastDate: _selectedDate,
                   onChanged: (newDate) {
-                    _selectedDatesReminder = newDate;
+                    setState(() {
+                      _selectedDatesReminder = newDate;
+                    });
                   },
                   controller: _reminderController,
                 ),
@@ -208,15 +220,17 @@ class _NoteUpdateState extends State<NoteUpdate> {
                 const SizedBox(
                   height: 4,
                 ),
-                RingtonePickerWidget(
-                  label: 'Ringtone',
-                  listRingtone: ringtones.listOfRingtone,
-                  initialRingtone: _selectedRingtone,
-                  onChanged: (value) {
-                    setState(() {
+                Consumer<RingtoneViewModel>(
+                  builder: (context, value, child) => RingtonePickerWidget(
+                    label: 'Ringtone',
+                    listRingtone: value.listOfRingtone,
+                    initialRingtone: _selectedRingtone,
+                    onChanged: (value) {
                       _selectedRingtone = value;
-                    });
-                  },
+                      // setState(() {
+                      // });
+                    },
+                  ),
                 ),
                 const SizedBox(
                   height: 24,
@@ -248,18 +262,9 @@ class _NoteUpdateState extends State<NoteUpdate> {
                                             .id,
                                       ),
                                       widget.noteDetail)
-                                  .then(
-                                    (value) => Fluttertoast.showToast(
-                                            msg: 'Berhasil mengubah note')
-                                        .then(
-                                      (value) => Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const NoteScreen()),
-                                      ),
-                                    ),
-                                  ),
+                                  .then((value) => Fluttertoast.showToast(
+                                          msg: 'Berhasil mengubah note')
+                                      .then((value) => Navigator.pop(context))),
                             );
                           } else {
                             note

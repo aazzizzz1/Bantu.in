@@ -2,17 +2,54 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../models/login_model.dart';
+import '../../models/post_note_model.dart';
 import '../base_url.dart';
 
 class ApiServices {
-  // String baseUrl = 'https://bantuin.fly.dev/api/notes';
-  String token =
-      'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozOSwiZXhwIjoxNjg0MzE5MjQxfQ.HLNA_NqXyMY_nUF-hc9z7Wdp2vQ0NBLcAMBpihA07iQ';
+  Future postLogin(String url, LoginModel login) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var response = await http.post(
+      Uri.parse('$baseUrl$url'),
+      body: json.encode(login.toJson()),
+      headers: ({
+        "Content-Type": "application/json; charset=UTF-8",
+      }),
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final responseBody = json.decode(response.body);
+      print(responseBody);
+      prefs.setString(
+        'token',
+        json.decode(response.body)['token'],
+      );
+      prefs.setInt('id', json.decode(response.body)['data']['id']);
+      prefs.setString(
+          'username', json.decode(response.body)['data']['username']);
+      prefs.setString('email', json.decode(response.body)['data']['email']);
+      prefs.setString('phone', json.decode(response.body)['data']['phone']);
+      prefs.setString('job', json.decode(response.body)['data']['job']);
+      return returnResponse(response);
+    } else if (response.statusCode == 404) {
+      throw Exception("Endpoint not found");
+    } else if (response.statusCode == 422) {
+      final responseBody = json.decode(response.body);
+      throw Exception(responseBody['message']);
+    } else {
+      final responseBody = json.decode(response.body);
+      print(responseBody);
+      throw Exception(responseBody['error']);
+    }
+  }
+
   @override
   Future<dynamic> postRequest(String url, data) async {
-    // SharedPreferences? prefs = await SharedPreferences.getInstance();
-    // String token = prefs.getString('token').toString();
+    SharedPreferences? prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('token').toString();
     try {
       final response = await http.post(
         Uri.parse('$baseUrl$url'),
@@ -30,8 +67,8 @@ class ApiServices {
 
   @override
   Future<dynamic> getRequest(String url) async {
-    // SharedPreferences? prefs = await SharedPreferences.getInstance();
-    // String token = prefs.getString('token').toString();
+    SharedPreferences? prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('token').toString();
 
     try {
       final response = await http.get(
@@ -50,8 +87,8 @@ class ApiServices {
 
   @override
   Future deleteRequest(String url) async {
-    // SharedPreferences? prefs = await SharedPreferences.getInstance();
-    // String token = prefs.getString('token').toString();
+    SharedPreferences? prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('token').toString();
 
     try {
       final response = await http.delete(
@@ -68,15 +105,15 @@ class ApiServices {
   }
 
   Future<dynamic> putRequest(String url, data) async {
-    // SharedPreferences? prefs = await SharedPreferences.getInstance();
-    // String token = prefs.getString('token').toString();
+    SharedPreferences? prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('token').toString();
     try {
-      final response = await http.post(
+      final response = await http.put(
         Uri.parse('$baseUrl$url'),
-        body: data is Map ? json.encode(data) : json.encode(data.toJson()),
+        body: json.encode(data.toJson()),
         headers: {
           "Content-Type": "application/json; charset=UTF-8",
-          "Authorization": "Bearer $token",
+          "Authorization": "Bearer $token"
         },
       );
       return returnResponse(response);
@@ -94,14 +131,22 @@ class ApiServices {
         dynamic responseJson = jsonDecode(response.body);
         return responseJson;
       case 400:
-        throw json.decode(response.body)['info'];
+        throw json.decode(response.body)['message'];
       case 401:
-        throw json.decode(response.body)['info'];
+        // throw Exception(json.decode(response.body)['message']);
+        throw json.decode(response.body)['message'];
       case 404:
-        throw json.decode(response.body)['info'];
+        // throw Exception(json.decode(response.body)['message']);
+        throw json.decode(response.body)['message'];
+      case 422:
+        // throw Exception(json.decode(response.body)['message']);
+        throw json.decode(response.body)['message'];
       case 500:
-        throw json.decode(response.body)['info'];
+        // throw Exception(json.decode(response.body)['message']);
+        throw json.decode(response.body)['message'];
       default:
+        // throw Exception(
+        //     "Error accourded while communicating with server with status code ${response.statusCode}");
         throw "Error accourded while communicating with server with status code ${response.statusCode}";
     }
   }
