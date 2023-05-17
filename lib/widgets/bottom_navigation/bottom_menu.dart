@@ -80,35 +80,35 @@ class _BottomMenuState extends State<BottomMenu> {
           child: statusLayar.screens[statusLayar.currentTab],
           bucket: bucket,
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: FloatingActionButton(
-          heroTag: "btnnotescreen",
-          backgroundColor: Colors.transparent,
-          child: Container(
-            height: 60,
-            width: 60,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: LinearGradient(
-                colors: [
-                  Color.fromARGB(255, 0, 0, 183),
-                  Color.fromARGB(255, 0, 25, 246),
-                ],
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-              ),
-            ),
-            child: Image.asset(
-              'lib/assets/images/logo.png',
-              height: 50,
-              width: 50,
-            ),
-          ),
-          onPressed: () {
-            Navigator.push((context),
-                MaterialPageRoute(builder: (context) => const NoteScreen()));
-          },
-        ),
+        // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        // floatingActionButton: FloatingActionButton(
+        //   heroTag: "btnnotescreen",
+        //   backgroundColor: Colors.transparent,
+        //   child: Container(
+        //     height: 60,
+        //     width: 60,
+        //     decoration: BoxDecoration(
+        //       shape: BoxShape.circle,
+        //       gradient: LinearGradient(
+        //         colors: [
+        //           Color.fromARGB(255, 0, 0, 183),
+        //           Color.fromARGB(255, 0, 25, 246),
+        //         ],
+        //         begin: Alignment.centerLeft,
+        //         end: Alignment.centerRight,
+        //       ),
+        //     ),
+        //     child: Image.asset(
+        //       'lib/assets/images/logo.png',
+        //       height: 50,
+        //       width: 50,
+        //     ),
+        //   ),
+        //   onPressed: () {
+        //     Navigator.push((context),
+        //         MaterialPageRoute(builder: (context) => const NoteScreen()));
+        //   },
+        // ),
         bottomNavigationBar: BottomAppBar(
           shape: const CircularNotchedRectangle(),
           notchMargin: 5,
@@ -174,10 +174,51 @@ class _BottomMenuState extends State<BottomMenu> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
-                              "lib/assets/icons/Team.svg",
+                              "lib/assets/icons/Task 2.svg",
                               height: 26,
                               width: 26,
                               color: statusLayar.currentTab == 1
+                                  ? AppColorPrimary.primary6
+                                  : Colors.black,
+                            ),
+                            // Icon(
+                            //   Icons.mail_outline_rounded,
+                            //   color: statusLayar.currentTab == 2
+                            //       ? AppColorPrimary.primary6
+                            //       : Colors.grey,
+                            // ),
+                            Text(
+                              'Catatan',
+                              style: GoogleFonts.ibmPlexSans(
+                                fontSize: 9,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w500,
+                                color: statusLayar.currentTab == 1
+                                    ? AppColorPrimary.primary6
+                                    : Colors.black,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: size.width * 0.2,
+                      child: MaterialButton(
+                        onPressed: () {
+                          setState(() {
+                            statusLayar.currentTab = 2;
+                            statusLayar.screens[2];
+                          });
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              "lib/assets/icons/Team.svg",
+                              height: 26,
+                              width: 26,
+                              color: statusLayar.currentTab == 2
                                   ? AppColorPrimary.primary6
                                   : Colors.black,
                             ),
@@ -193,7 +234,7 @@ class _BottomMenuState extends State<BottomMenu> {
                                 fontSize: 9,
                                 fontStyle: FontStyle.normal,
                                 fontWeight: FontWeight.w500,
-                                color: statusLayar.currentTab == 1
+                                color: statusLayar.currentTab == 2
                                     ? AppColorPrimary.primary6
                                     : Colors.black,
                               ),
@@ -204,20 +245,20 @@ class _BottomMenuState extends State<BottomMenu> {
                     ),
                   ],
                 ),
-                Container(
-                  margin: const EdgeInsets.only(top: 25),
-                  width: size.width * 0.2,
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Catatan',
-                    style: GoogleFonts.ibmPlexSans(
-                      fontSize: 9,
-                      fontStyle: FontStyle.normal,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
+                // Container(
+                //   margin: const EdgeInsets.only(top: 25),
+                //   width: size.width * 0.2,
+                //   alignment: Alignment.center,
+                //   child: Text(
+                //     'Catatan',
+                //     style: GoogleFonts.ibmPlexSans(
+                //       fontSize: 9,
+                //       fontStyle: FontStyle.normal,
+                //       fontWeight: FontWeight.w500,
+                //       color: Colors.black,
+                //     ),
+                //   ),
+                // ),
                 Row(
                   children: [
                     SizedBox(
@@ -225,8 +266,8 @@ class _BottomMenuState extends State<BottomMenu> {
                       child: MaterialButton(
                         onPressed: () {
                           setState(() {
-                            statusLayar.currentTab = 2;
-                            statusLayar.screens[2];
+                            statusLayar.currentTab = 3;
+                            statusLayar.screens[3];
                           });
                         },
                         child: Column(
@@ -236,7 +277,7 @@ class _BottomMenuState extends State<BottomMenu> {
                               "lib/assets/icons/email.svg",
                               height: 26,
                               width: 26,
-                              color: statusLayar.currentTab == 2
+                              color: statusLayar.currentTab == 3
                                   ? AppColorPrimary.primary6
                                   : Colors.black,
                             ),
@@ -252,7 +293,7 @@ class _BottomMenuState extends State<BottomMenu> {
                                 fontSize: 9,
                                 fontStyle: FontStyle.normal,
                                 fontWeight: FontWeight.w500,
-                                color: statusLayar.currentTab == 2
+                                color: statusLayar.currentTab == 3
                                     ? AppColorPrimary.primary6
                                     : Colors.black,
                               ),
@@ -267,8 +308,8 @@ class _BottomMenuState extends State<BottomMenu> {
                         minWidth: 9,
                         onPressed: () {
                           setState(() {
-                            statusLayar.currentTab = 3;
-                            statusLayar.screens[3];
+                            statusLayar.currentTab = 4;
+                            statusLayar.screens[4];
                           });
                         },
                         child: Column(
@@ -278,7 +319,7 @@ class _BottomMenuState extends State<BottomMenu> {
                               "lib/assets/icons/Avatar.svg",
                               height: 26,
                               width: 26,
-                              color: statusLayar.currentTab == 3
+                              color: statusLayar.currentTab == 4
                                   ? AppColorPrimary.primary6
                                   : Colors.black,
                             ),
@@ -294,7 +335,7 @@ class _BottomMenuState extends State<BottomMenu> {
                                 fontSize: 9,
                                 fontStyle: FontStyle.normal,
                                 fontWeight: FontWeight.w500,
-                                color: statusLayar.currentTab == 3
+                                color: statusLayar.currentTab == 4
                                     ? AppColorPrimary.primary6
                                     : Colors.black,
                               ),

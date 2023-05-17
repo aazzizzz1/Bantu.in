@@ -55,10 +55,51 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextFieldComponent(
-                      label: 'Username',
-                      hint: 'Masukan username',
-                      type: 'username',
+                    Text(
+                      'Username',
+                      style: AppFont.labelTextForm,
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    TextFormField(
+                      scrollPadding: const EdgeInsets.only(left: 10),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      inputFormatters:[
+                              LengthLimitingTextInputFormatter(16),
+                              FilteringTextInputFormatter.allow(
+                                RegExp("[A-Za-z]"),
+                              ),
+                            ],
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Maaf anda belum memasukan username anda';
+                        }
+                      },
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: AppColorNeutral.neutral1,
+                        hintText: 'Username',
+                        hintStyle: AppFont.hintTextField,
+                        focusedBorder: const OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: AppColorPrimary.primary6)),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: AppColorNeutral.neutral2),
+                          borderRadius: BorderRadius.circular(3),
+                        ),
+                        disabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: AppColorNeutral.neutral2),
+                          borderRadius: BorderRadius.circular(3),
+                        ),
+                        errorBorder: InputBorder.none,
+                        focusedErrorBorder: const OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: AppColorPrimary.primary6)),
+                        errorStyle: AppFont.errorTextForm,
+                      ),
                       controller: _usernameController,
                     ),
                     const SizedBox(height: 20.0),
@@ -70,10 +111,51 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       controller: _emailController,
                     ),
                     const SizedBox(height: 20.0),
-                    TextFieldComponent(
-                      label: 'Nomor telepon',
-                      hint: 'Masukan nomor telepon',
-                      type: 'nomor telepon',
+                    Text(
+                      'Nomor telepon',
+                      style: AppFont.labelTextForm,
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    TextFormField(
+                      scrollPadding: const EdgeInsets.only(left: 10),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      inputFormatters:[
+                              LengthLimitingTextInputFormatter(16),
+                              FilteringTextInputFormatter.allow(
+                                RegExp("[0-9]"),
+                              ),
+                            ],
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Maaf anda belum memasukan nomor telepon anda';
+                        }
+                      },
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: AppColorNeutral.neutral1,
+                        hintText: 'Nomor telepon',
+                        hintStyle: AppFont.hintTextField,
+                        focusedBorder: const OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: AppColorPrimary.primary6)),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: AppColorNeutral.neutral2),
+                          borderRadius: BorderRadius.circular(3),
+                        ),
+                        disabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: AppColorNeutral.neutral2),
+                          borderRadius: BorderRadius.circular(3),
+                        ),
+                        errorBorder: InputBorder.none,
+                        focusedErrorBorder: const OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: AppColorPrimary.primary6)),
+                        errorStyle: AppFont.errorTextForm,
+                      ),
                       controller: _phoneController,
                     ),
                     const SizedBox(height: 20.0),
