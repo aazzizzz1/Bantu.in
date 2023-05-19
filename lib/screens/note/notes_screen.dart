@@ -36,12 +36,12 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        elevation: 1,
+        automaticallyImplyLeading: false,
+        elevation: 2,
         title: Text(
           'Catatan',
-          style: AppFont.semiBold20,
+          style: AppFont.regular20,
         ),
-        centerTitle: true,
         bottom: TabBar(
           automaticIndicatorColorAdjustment: false,
           dividerColor: Colors.green,
@@ -67,15 +67,6 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
               ),
             ),
           ],
-        ),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
         ),
       ),
       body: Consumer<NoteViewModel>(

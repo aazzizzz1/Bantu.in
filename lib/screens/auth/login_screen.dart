@@ -77,8 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: const Text(
                           'Lupa kata sandi?',
                           style: TextStyle(
-                            color: Colors.blue,
-                            decoration: TextDecoration.underline,
+                            color: AppColor.activeColor,
                           ),
                         ),
                       ),
@@ -157,7 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextSpan(
                       text: 'Daftar',
                       style: TextStyle(
-                        color: Colors.blue,
+                        color: AppColor.activeColor,
                         fontWeight: FontWeight.bold,
                       ),
                       recognizer: TapGestureRecognizer()

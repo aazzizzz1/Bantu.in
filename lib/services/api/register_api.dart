@@ -26,6 +26,8 @@ class RegisterApi {
     } else {
       throw Exception("Failed to post register");
     }
+    final responseBody = json.decode(response.body);
+    print(responseBody);
   }
 
   Future<List<RegisterModel>> getRegister(String type) async {

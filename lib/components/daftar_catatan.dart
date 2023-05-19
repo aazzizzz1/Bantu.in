@@ -34,14 +34,14 @@ class _DaftarCatatanState extends State<DaftarCatatan> {
                       fontWeight: FontWeight.w500,
                       color: Colors.black),
                 ),
-                DataFilter(
-                  onSortByChanged: (String sortBy) {
-                    // handle sorting based on selected value
-                  },
-                  onDateFilterChanged: (DateTime? date) {
-                    // handle filtering based on selected date
-                  },
-                ),
+                // DataFilter(
+                //   onSortByChanged: (String sortBy) {
+                //     // handle sorting based on selected value
+                //   },
+                //   onDateFilterChanged: (DateTime? date) {
+                //     // handle filtering based on selected date
+                //   },
+                // ),
               ],
             ),
           ],
