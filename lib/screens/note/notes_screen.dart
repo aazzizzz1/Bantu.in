@@ -26,6 +26,8 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
     tabController = TabController(length: 2, vsync: this);
     Future.microtask(() =>
         Provider.of<NoteViewModel>(context, listen: false).getPersonalNote());
+    Future.microtask(() =>
+        Provider.of<NoteViewModel>(context, listen: false).getCompleteNote());
   }
 
   @override
@@ -67,88 +69,96 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
           ],
         ),
       ),
-      body: TabBarView(
-        controller: tabController,
-        children: [
-          Stack(
+      body: Consumer<NoteViewModel>(
+        builder: (context, note, child) {
+          return TabBarView(
+            controller: tabController,
             children: [
-              // content of the page
-              Container(
-                width: MediaQuery.of(context).size.width,
-                padding: const EdgeInsets.all(16.0),
-                child: Consumer<NoteViewModel>(
-                  builder: (context, note, child) => ListView.builder(
-                    itemCount: note.listOfPersonalNote.length,
-                    itemBuilder: (context, index) {
-                      var data = note.listOfPersonalNote[index];
-                      initializeDateFormatting('id_ID', null);
-                      return CardMyNotesPersonal(noteDetail: data);
-                    },
+              Stack(
+                children: [
+                  // content of the page
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    padding: const EdgeInsets.all(16.0),
+                    child: note.listOfPersonalNote.isEmpty
+                        ? Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Catatan masih kosong',
+                              style: AppFont.regular28,
+                            ),
+                          )
+                        : ListView.builder(
+                            itemCount: note.listOfPersonalNote.length,
+                            itemBuilder: (context, index) {
+                              var data = note.listOfPersonalNote[index];
+                              initializeDateFormatting('id_ID', null);
+                              switch (data.notesType) {
+                                case "personal":
+                                  return CardMyNotesPersonal(noteDetail: data);
+                                case 'collaboration':
+                                  return CardMyNotesProgres(noteDetail: data);
+                                default:
+                                  return CardIncomingNotesUpload(
+                                      noteDetail: data);
+                              }
+                            },
+                          ),
                   ),
-                ),
+                  Center(),
+                  // floating button above bottom navbar
+                  Positioned(
+                    bottom: 20,
+                    right: 16.0,
+                    child: FloatingButtonNotes(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const NoteForm()),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
-              Center(),
-              // floating button above bottom navbar
-              Positioned(
-                bottom: 16.0,
-                right: 16.0,
-                child: FloatingButtonNotes(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const NoteForm()),
-                    );
-                  },
-                ),
+              Container(
+                padding: const EdgeInsets.all(16.0),
+                child: note.listOfCompleteNote.isEmpty
+                    ? Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Belum ada catatan',
+                          style: AppFont.textScreenEmpty,
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: note.listOfPersonalNote.length,
+                        itemBuilder: (context, index) {
+                          var data = note.listOfPersonalNote[index];
+                          initializeDateFormatting('id_ID', null);
+                          switch (data.notesType) {
+                            case "personal":
+                              return CardMyNotesPersonal(noteDetail: data);
+                            case 'collaboration':
+                              return CardMyNotesProgres(noteDetail: data);
+                            default:
+                              return CardIncomingNotesUpload(noteDetail: data);
+                          }
+                          // switch (convertType) {
+                          //   case 1:
+                          //     return CardMyNotesProgres(noteDetail: data);
+                          //   case 2:
+                          //     return CardMyNotesPersonal(noteDetail: data);
+                          //   default:
+                          //   // return CardMyNotesPersonal(noteDetail: data);
+                          // }
+                        },
+                      ),
               ),
             ],
-          ),
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            child: ListView.builder(
-              itemCount: 2,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    CardIncomingNotesUpload(
-                      title: 'Beli tiket untuk bos',
-                      description:
-                          'Belikan saya tiket pesawat untuk tgl 2 april ke Solo dan pulangnya tgl 4 april.',
-                      date: '15',
-                      month: 'Apr',
-                      avatarUrl:
-                          'https://images.unsplash.com/photo-1610276198568-eb6d0ff53e48?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80',
-                      name: 'Zahra',
-                      isUploaded: true,
-                    ),
-                    CardIncomingNotesUpload(
-                      title: 'Meeting with client',
-                      description:
-                          'Discuss bantuin project requirements with client',
-                      date: '15',
-                      month: 'Apr',
-                      avatarUrl:
-                          'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
-                      name: 'John Doe',
-                      isUploaded: true,
-                    ),
-                    CardIncomingNotesUpload(
-                      title: 'Meeting with client',
-                      description:
-                          'Discuss bantuin project requirements with client',
-                      date: '15',
-                      month: 'Apr',
-                      avatarUrl:
-                          'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
-                      name: 'John Doe',
-                      isUploaded: false,
-                    ),
-                  ],
-                );
-              },
-            ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }

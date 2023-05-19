@@ -19,11 +19,13 @@ class _InvitationScreenState extends State<InvitationScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        toolbarHeight: 76,
         title: Text(
           'Undangan',
           style: AppFont.regular20,
         ),
         backgroundColor: Colors.white,
+        elevation: 1,
       ),
       body: CardInvitation(),
     );

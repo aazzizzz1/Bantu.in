@@ -58,34 +58,32 @@ class _PointScreenState extends State<PointScreen> {
                     width: 2,
                   )),
                 ),
-                child: Expanded(
-                  child: Row(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              SvgPicture.asset(
-                                "lib/assets/images/logos.svg",
-                                height: 26,
-                                width: 26,
-                              ),
-                              const SizedBox(width: 5),
-                              Text(
-                                'Bantu.in Point :',
-                                style: AppFont.titlePoint,
-                              ),
-                            ],
-                          ),
-                          Text(
-                            "100",
-                            style: AppFont.regular28,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                child: Row(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            SvgPicture.asset(
+                              "lib/assets/images/logos.svg",
+                              height: 26,
+                              width: 26,
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              'Bantu.in Point :',
+                              style: AppFont.titlePoint,
+                            ),
+                          ],
+                        ),
+                        Text(
+                          "100",
+                          style: AppFont.regular28,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 24.0),

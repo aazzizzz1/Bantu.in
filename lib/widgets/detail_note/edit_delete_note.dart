@@ -40,19 +40,20 @@ class EditDeleteNote extends StatelessWidget {
         Consumer<NoteViewModel>(
           builder: (context, value, child) => InkWell(
             onTap: () {
-              note.notesType != 'personal'
-                  ? showDialog(
-                      // barrierDismissible: false,
-                      context: context,
-                      builder: (BuildContext context) {
-                        return PopupDelete();
-                      },
-                    )
-                  : value
-                      .deletePersonalNote(note)
-                      .then((value) =>
-                          Fluttertoast.showToast(msg: 'Note berhasil dihapus'))
-                      .then((value) => Navigator.pop(context));
+              // PopupDelete(noteDetail: note);
+              // note.notesType != 'personal'
+              showDialog(
+                barrierDismissible: false,
+                context: context,
+                builder: (BuildContext context) {
+                  return PopupDelete(noteDetail: note);
+                },
+              ).then((value) => Navigator.pop(context));
+              //     : value
+              //         .deletePersonalNote(note)
+              //         .then((value) =>
+              //             Fluttertoast.showToast(msg: 'Note berhasil dihapus'))
+              //         .then((value) => Navigator.pop(context));
             },
             child: Text(
               'Hapus',

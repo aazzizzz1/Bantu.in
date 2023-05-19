@@ -18,9 +18,11 @@ class _TimScreenState extends State<TimScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 1,
+        toolbarHeight: 76,
         title: Text(
           'Tim',
           style: AppFont.regular20,

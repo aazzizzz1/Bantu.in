@@ -339,7 +339,7 @@ class _NoteUpdateState extends State<NoteUpdate> {
                     ),
                     child: Center(
                       child: Text(
-                        'Buat Catatan',
+                        'Simpan catatan',
                         style: AppFont.textFillButtonActive,
                       ),
                     ),

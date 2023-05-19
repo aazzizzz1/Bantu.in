@@ -4,6 +4,7 @@ class PostNoteModel {
   final String eventDate;
   final String reminder;
   final int ringtoneId;
+  final List? email;
 
   PostNoteModel({
     required this.subject,
@@ -11,6 +12,7 @@ class PostNoteModel {
     required this.eventDate,
     required this.reminder,
     required this.ringtoneId,
+    this.email,
   });
 
   Map<String, dynamic> toJson() => {
@@ -19,5 +21,6 @@ class PostNoteModel {
         "event_date": eventDate,
         "reminder": reminder,
         "ringtone_id": ringtoneId,
+        "email": email,
       };
 }
