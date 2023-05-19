@@ -431,46 +431,6 @@ class _NoteFormState extends State<NoteForm> {
                     },
                   ),
                 ),
-                // Consumer<RingtoneViewModel>(
-                //   builder: (context, value, child) {
-                //     return RingtonePickerWidget(
-                //       label: 'Ringtone',
-                //       initialRingtone: _selectedRingtone,
-                //       listRingtone: value.listOfRingtone,
-                //       onChanged: (ringtone) {
-                //         setState(() {
-                //           _selectedRingtone = ringtone;
-                //           ringtoneId = value.listOfRingtone
-                //               .where(
-                //                   (element) => ringtone!.contains(element.name))
-                //               .reduce((value, element) => value)
-                //               .id;
-                //           // ringtoneId = value.listOfRingtone
-                //           //     .where((element) =>
-                //           //         _selectedRingtone!.contains(element.name))
-                //           //     .map((e) => e.id)
-                //           //     .reduce((value, element) => value + element);
-                //         });
-                //       },
-                //     );
-                //   },
-                // ),
-
-                // No Error
-                // RingtonePickerWidget(
-                //   label: 'Ringtone',
-                //   initialRingtone: _selectedRingtone,
-                //   onChanged: (ringtone) {
-                //     setState(() {
-                //       _selectedRingtone = ringtone;
-                //       // ringtoneId = _listOfRingtone
-                //       //     .where((element) =>
-                //       //         _selectedRingtone!.contains(element.name))
-                //       //     .map((e) => e.id)
-                //       //     .reduce((value, element) => value);
-                //     });
-                //   },
-                // ),
                 const SizedBox(
                   height: 24,
                 ),
@@ -478,12 +438,6 @@ class _NoteFormState extends State<NoteForm> {
                   builder: (context, note, _) => ElevatedButton(
                     onPressed: () async {
                       final isValidForm = formKey.currentState!.validate();
-                      print(ringtones.listOfRingtone
-                          .where((element) =>
-                              _selectedRingtone!.contains(element.name))
-                          .reduce((value, element) => value)
-                          .id);
-                      print(_selectedRingtone);
                       if (isValidForm) {
                         try {
                           await note
@@ -498,6 +452,7 @@ class _NoteFormState extends State<NoteForm> {
                                           .contains(element.name))
                                       .reduce((value, element) => value)
                                       .id,
+                                  email: _selectedEmails,
                                 ),
                               )
                               .then(
@@ -516,11 +471,6 @@ class _NoteFormState extends State<NoteForm> {
                           Fluttertoast.showToast(msg: e.toString());
                           print(e);
                         }
-
-                        // Navigator.pushReplacement(
-                        //   context,
-                        //   MaterialPageRoute(builder: (context) => const NoteScreen()),
-                        // );
                       }
                     },
                     style: const ButtonStyle(

@@ -7,6 +7,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/note_model.dart';
 
@@ -17,11 +18,20 @@ class CardMyNotesPersonal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        String name = prefs.getString('username').toString();
+        bool isOwner = false;
+        if (name == noteDetail.owner[0].username) {
+          isOwner = true;
+        }
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => NotesDetail(noteDetail: noteDetail),
+              builder: (context) => NotesDetail(
+                noteDetail: noteDetail,
+                isOwner: isOwner,
+              ),
             ));
       },
       child: Container(

@@ -9,9 +9,12 @@ import 'package:bantuin/constants/button/app_button.dart';
 import 'package:bantuin/constants/font/app_font.dart';
 import 'package:bantuin/screens/note/notes_form.dart';
 import 'package:bantuin/screens/notification/notification_screen.dart';
+import 'package:bantuin/view_models/note_viewmodel.dart';
 import 'package:bantuin/widgets/floating_button/floating_home.dart';
 import 'package:bantuin/widgets/home/filtering_data.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePages extends StatefulWidget {
   const HomePages({Key? key}) : super(key: key);
@@ -21,6 +24,26 @@ class HomePages extends StatefulWidget {
 }
 
 class _HomePagesState extends State<HomePages> {
+  String name = 'Username';
+  String job = 'Pekerjaan';
+  Future getDataUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      name = prefs.getString('username').toString();
+      job = prefs.getString('job').toString();
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    Future.microtask(() =>
+        Provider.of<NoteViewModel>(context, listen: false).getPersonalNote());
+    getDataUser();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,11 +62,11 @@ class _HomePagesState extends State<HomePages> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Nama",
+              name,
               style: AppFont.semiBold14,
             ),
             Text(
-              "Pekerjaan",
+              job,
               style: AppFont.regular12,
             ),
           ],
@@ -69,14 +92,23 @@ class _HomePagesState extends State<HomePages> {
         backgroundColor: Colors.white,
         elevation: 1,
       ),
-      body: ListView(
-        children: [
-          PointRoyalty(),
-          HomeInvitaion(),
-          DaftarCatatan(),
-          ListDaftarCatatan(),
-        ],
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: SizedBox(
+          child: Column(
+            children: [
+              PointRoyalty(),
+              HomeInvitaion(),
+              DaftarCatatan(),
+              ListDaftarCatatan(),
+            ],
+          ),
+        ),
       ),
+      // ListView(
+      //   children: const [
+      //   ],
+      // ),
       floatingActionButton: FloatingButtonHome(
         onPressed: () {
           Navigator.push(

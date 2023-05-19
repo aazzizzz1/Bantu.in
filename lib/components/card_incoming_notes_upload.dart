@@ -1,52 +1,36 @@
 import 'package:bantuin/constants/color/app_color.dart';
 import 'package:bantuin/constants/font/app_font.dart';
+import 'package:bantuin/models/note_model.dart';
 import 'package:bantuin/screens/note/notes_detail.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CardIncomingNotesUpload extends StatelessWidget {
-  final String title;
-  final String description;
-  final String date;
-  final String month;
-  final String avatarUrl;
-  final String name;
-  final bool isUploaded;
+  final NoteDetailModel noteDetail;
 
-  CardIncomingNotesUpload({
-    required this.title,
-    required this.description,
-    required this.date,
-    required this.month,
-    required this.avatarUrl,
-    required this.name,
-    required this.isUploaded,
-  });
+  CardIncomingNotesUpload({required this.noteDetail});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => NotesDetail(
-        //       title: 'Meeting with John Doe',
-        //       description: 'Meeting with John Doe to discuss about the project',
-        //       avatarUrl:
-        //           'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
-        //       name: 'John Doe',
-        //       fileUrl: 'https://example.com/notes.pdf',
-        //       createdBy: 'John Doe',
-        //       eventDate: '2023-04-08',
-        //       reminder: '2023-04-07 10:00:00',
-        //       ringtone: 'default',
-        //       isUpload: isUploaded,
-        //       isAdmin: false,
-        //     ),
-        //   ),
-        // );
+      onTap: () async {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        String name = prefs.getString('username').toString();
+        bool isOwner = false;
+        if (name == noteDetail.owner[0].username) {
+          isOwner = true;
+        }
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => NotesDetail(
+                noteDetail: noteDetail,
+                isOwner: isOwner,
+              ),
+            ));
       },
       child: Container(
         height: 135,
@@ -62,7 +46,7 @@ class CardIncomingNotesUpload extends StatelessWidget {
               alignment: Alignment.centerRight,
               margin: const EdgeInsets.all(8),
               child: SvgPicture.asset(
-                'lib/assets/icons/Contact.svg',
+                'lib/assets/icons/Group.svg',
                 alignment: Alignment.centerLeft,
                 allowDrawingOutsideViewBox: true,
                 color: AppColorPrimary.primary6,
@@ -85,25 +69,21 @@ class CardIncomingNotesUpload extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              title,
+                              noteDetail.subject,
                               style: AppFont.semiBold16w500,
                             ),
                           ),
                           Container(
                             padding: EdgeInsets.all(4.0),
                             decoration: BoxDecoration(
-                              color: isUploaded
-                                  ? AppColor.completeColor
-                                  : AppColorRed.red4,
+                              color: AppColorRed.red4,
                               borderRadius: BorderRadius.circular(8.0),
                             ),
                             child: Text(
-                              isUploaded ? 'Sudah Upload' : 'Belum Upload',
+                              'Belum Upload',
                               style: TextStyle(
                                 fontStyle: FontStyle.normal,
-                                color: isUploaded
-                                    ? AppColor.textprogresColor
-                                    : AppColor.errorColor,
+                                color: AppColor.errorColor,
                               ),
                             ),
                           ),
@@ -111,7 +91,7 @@ class CardIncomingNotesUpload extends StatelessWidget {
                       ),
                       const SizedBox(height: 8.0),
                       Text(
-                        description,
+                        noteDetail.description,
                         style: AppFont.regular12,
                       ),
                     ],
@@ -122,7 +102,8 @@ class CardIncomingNotesUpload extends StatelessWidget {
                       Row(
                         children: [
                           CachedNetworkImage(
-                            imageUrl: avatarUrl,
+                            imageUrl:
+                                'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
                             placeholder: (context, url) =>
                                 const CircularProgressIndicator(),
                             errorWidget: (context, url, error) =>
@@ -135,27 +116,18 @@ class CardIncomingNotesUpload extends StatelessWidget {
                           ),
                           const SizedBox(width: 8.0),
                           Text(
-                            name,
+                            noteDetail.owner[0].username,
                             style: AppFont.regular12,
                           ),
                         ],
                       ),
-                      Row(
-                        children: [
-                          Text(
-                            '$date ',
-                            style: AppFont.regular12,
-                          ),
-                          Text(
-                            '$month ',
-                            style: AppFont.regular12,
-                          ),
-                          Text(
-                            '2023',
-                            style: AppFont.regular12,
-                          ),
-                        ],
-                      )
+                      Container(
+                        child: Text(
+                          DateFormat('dd MMMM yyyy', 'id_ID')
+                              .format(noteDetail.eventDate),
+                          style: AppFont.regular12,
+                        ),
+                      ),
                     ],
                   ),
                 ],

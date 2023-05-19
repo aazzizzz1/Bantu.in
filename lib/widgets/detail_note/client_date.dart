@@ -2,13 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:intl/intl.dart';
 
 import '../../constants/color/app_color.dart';
 import '../../constants/font/app_font.dart';
 
 class ClientDate extends StatelessWidget {
-  final String eventDate;
-  final String reminder;
+  final DateTime eventDate;
+  final DateTime reminder;
   const ClientDate({
     super.key,
     required this.eventDate,
@@ -31,11 +32,11 @@ class ClientDate extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Tanggal Acara : ' + eventDate,
+                'Tanggal Acara : ${DateFormat('EEEE dd MMMM yyyy', 'id_ID').format(eventDate)}',
                 style: AppFont.clientTextDate,
               ),
               Text(
-                'Reminder : ' + reminder,
+                'Reminder : ${DateFormat('EEEE dd MMMM yyyy', 'id_ID').format(reminder)}',
                 style: AppFont.clientTextDate,
               ),
             ],

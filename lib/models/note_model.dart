@@ -22,6 +22,7 @@ class NoteDetailModel {
   final String status;
   final List owner;
   final String ringtone;
+  final List file;
   final List member;
 
   NoteDetailModel({
@@ -34,34 +35,32 @@ class NoteDetailModel {
     required this.status,
     required this.owner,
     required this.ringtone,
+    required this.file,
     required this.member,
   });
 
   factory NoteDetailModel.fromJson(Map<String, dynamic> json) =>
       NoteDetailModel(
         id: json['id'] ?? 0,
-        subject: json['subject'] ?? '',
-        description: json['description'] ?? '',
-        eventDate: DateTime.parse(json['event_date']) ?? DateTime.now(),
-        reminder: DateTime.parse(json['reminder']) ?? DateTime.now(),
-        notesType: json['note_type'] ?? '',
-        status: json['status'] ?? '',
+        subject: json['subject'] ?? 'null',
+        description: json['description'] ?? 'null',
+        eventDate: DateTime.parse(json['event_date']),
+        reminder: DateTime.parse(json['reminder']),
+        notesType: json['note_type'] ?? 'null',
+        status: json['status'] ?? 'null',
         owner: json['owner'] != null
             ? (json['owner'] as List)
                 .map((e) => OwnerDetailModel.fromJson(e))
                 .toList()
             : [],
-        ringtone: json['ringtone'] ?? '',
-        member: json['member'] ?? [],
+        ringtone: json['ringtone'] ?? 'null',
+        file: json['file'] ?? [],
+        member: json['member'] != null
+            ? (json['member'] as List)
+                .map((e) => MemberDetailModel.fromJson(e))
+                .toList()
+            : [],
       );
-
-  /*"id": 39,
-                    "username": "Putra",
-                    "email": "putradaus10@gmail.com",
-                    "phone": "081252222530",
-                    "job": "Mahasiswa",
-                    "photo": null
-      */
 }
 
 class OwnerDetailModel {
@@ -84,10 +83,38 @@ class OwnerDetailModel {
   factory OwnerDetailModel.fromJson(Map<String, dynamic> json) =>
       OwnerDetailModel(
         id: json['id'] ?? 0,
-        username: json['username'] ?? '',
-        email: json['email'] ?? '',
-        phone: json['phone'] ?? '',
-        job: json['job'] ?? '',
-        photo: json['photo'] ?? '',
+        username: json['username'] ?? 'null',
+        email: json['email'] ?? 'null',
+        phone: json['phone'] ?? 'null',
+        job: json['job'] ?? 'null',
+        photo: json['photo'] ?? 'null',
+      );
+}
+
+class MemberDetailModel {
+  final int id;
+  final String username;
+  final String email;
+  final String phone;
+  final String job;
+  final String photo;
+
+  MemberDetailModel({
+    required this.id,
+    required this.username,
+    required this.email,
+    required this.phone,
+    required this.job,
+    required this.photo,
+  });
+
+  factory MemberDetailModel.fromJson(Map<String, dynamic> json) =>
+      MemberDetailModel(
+        id: json['id'] ?? 0,
+        username: json['username'] ?? 'null',
+        email: json['email'] ?? 'null',
+        phone: json['phone'] ?? 'null',
+        job: json['job'] ?? 'null',
+        photo: json['photo'] ?? 'null',
       );
 }

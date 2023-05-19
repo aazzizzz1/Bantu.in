@@ -239,7 +239,7 @@ class AppFont {
   static TextStyle get textNameTimActive => GoogleFonts.ibmPlexSans(
       fontSize: 16,
       fontStyle: FontStyle.normal,
-      fontWeight: FontWeight.w400,
+      fontWeight: FontWeight.w500,
       color: AppColorPrimary.primary7);
   static TextStyle get textButtonUnderline => GoogleFonts.ibmPlexSans(
         fontSize: 14,
@@ -271,5 +271,11 @@ class AppFont {
         fontStyle: FontStyle.normal,
         fontWeight: FontWeight.w400,
         color: AppColorNeutral.neutral5,
+      );
+  static TextStyle get textScreenEmpty => GoogleFonts.ibmPlexSans(
+        fontSize: 20,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w400,
+        color: AppColorNeutral.neutral4,
       );
 }

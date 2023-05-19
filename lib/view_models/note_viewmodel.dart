@@ -16,6 +16,9 @@ class NoteViewModel with ChangeNotifier {
   List<NoteDetailModel> _listOfPersonalNote = [];
   List<NoteDetailModel> get listOfPersonalNote => _listOfPersonalNote;
 
+  List<NoteDetailModel> _listOfCompleteNote = [];
+  List<NoteDetailModel> get listOfCompleteNote => _listOfCompleteNote;
+
   Future<void> postPersonalNote(PostNoteModel note) async {
     try {
       await appsRepository.postPersonalNote(note);
@@ -49,6 +52,15 @@ class NoteViewModel with ChangeNotifier {
     try {
       await appsRepository.deletePersonalNote(noteDetail.id);
       getPersonalNote();
+      notifyListeners();
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> getCompleteNote() async {
+    try {
+      _listOfCompleteNote = await appsRepository.getNoteByStatus('complete');
       notifyListeners();
     } catch (_) {
       rethrow;

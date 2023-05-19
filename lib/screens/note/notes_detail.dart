@@ -12,18 +12,33 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/note_model.dart';
 
 class NotesDetail extends StatelessWidget {
   final NoteDetailModel noteDetail;
+  final bool isOwner;
 
-  NotesDetail({required this.noteDetail});
+  NotesDetail({required this.noteDetail, required this.isOwner});
 
   @override
   Widget build(BuildContext context) {
+    // Future<bool> isOwner() async {
+    //   var prefs = await SharedPreferences.getInstance();
+    //   String name = prefs.getString('username').toString().toLowerCase();
+
+    //   if (noteDetail.owner[0].username == name) {
+    //     print(name);
+    //     return false;
+    //   } else {
+    //     return true;
+    //   }
+    // }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         toolbarHeight: 76,
         backgroundColor: Colors.white,
@@ -36,11 +51,16 @@ class NotesDetail extends StatelessWidget {
           color: Colors.black,
         ),
         actions: [
-          Text(
-            noteDetail.status,
-            style: AppFont.textProgressComplete,
+          Container(
+            margin: const EdgeInsets.only(right: 16),
+            alignment: Alignment.center,
+            child: Text(
+              noteDetail.status,
+              style: AppFont.textProgressComplete,
+            ),
           )
         ],
+
         // actions: [
         //   isPersonal == null
         //       ? (isAdmin == true
@@ -64,16 +84,23 @@ class NotesDetail extends StatelessWidget {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        noteDetail.subject,
-                        style: AppFont.textTitleScreen,
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.65,
+                        child: Text(
+                          noteDetail.subject,
+                          style: AppFont.textTitleScreen,
+                        ),
                       ),
-                      noteDetail.notesType == "personal"
-                          ? EditDeleteNote(
-                              note: noteDetail,
-                            )
+                      isOwner
+                          ? EditDeleteNote(note: noteDetail)
                           : const SizedBox(),
+                      // noteDetail.notesType == "personal"
+                      //     ? EditDeleteNote(
+                      //         note: noteDetail,
+                      //       )
+                      //     : const SizedBox(),
                     ],
                   ),
                   SizedBox(height: 20.0),
@@ -85,15 +112,15 @@ class NotesDetail extends StatelessWidget {
                       maxLines: 5,
                     ),
                   ),
-                  SizedBox(height: 24.0),
-                  // AdminMember(fileUrl: avatarUrl),
-                  // isAdmin != null
-                  //     ? (isAdmin == true
-                  //         ? AdminMember(fileUrl: fileUrl)
-                  //         : ClientDate(
-                  //             eventDate: eventDate, reminder: reminder))
-                  //     : const SizedBox(),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 24.0),
+                  noteDetail.notesType == 'personal'
+                      ? const SizedBox()
+                      : isOwner == true
+                          ? AdminMember(noteDetail: noteDetail)
+                          : ClientDate(
+                              eventDate: noteDetail.eventDate,
+                              reminder: noteDetail.reminder),
+                  const SizedBox(height: 16.0),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -127,21 +154,16 @@ class NotesDetail extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 24.0),
-                  AdminDate(
-                      eventDate: DateFormat('dd MMMM yyyy', 'id_ID')
-                          .format(noteDetail.eventDate),
-                      reminder: DateFormat('dd MMMM yyyy', 'id_ID')
-                          .format(noteDetail.reminder),
-                      ringtone: noteDetail.ringtone)
-                  // isPersonal == true || isAdmin == true
-                  //     ? AdminDate(
-                  //         eventDate: eventDate,
-                  //         reminder: reminder,
-                  //         ringtone: ringtone)
-                  //     : const ClientUpload(),
-                  // isAdmin != null
-                  //     ? (isAdmin == true ? adminWidgetDate() : clientUpload())
-                  //     : const SizedBox(),
+                  noteDetail.notesType == "personal"
+                      ? AdminDate(
+                          eventDate: DateFormat('dd MMMM yyyy', 'id_ID')
+                              .format(noteDetail.eventDate),
+                          reminder: DateFormat('dd MMMM yyyy', 'id_ID')
+                              .format(noteDetail.reminder),
+                          ringtone: noteDetail.ringtone)
+                      : isOwner
+                          ? const SizedBox()
+                          : const ClientUpload(),
                 ],
               ),
               SizedBox(
@@ -149,31 +171,29 @@ class NotesDetail extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: ElevatedButton(
-                      onPressed: () {
-                        // ScaffoldMessenger.of(context).showSnackBar(
-                        //     SnackBar(content: Text("Catatan Diselesaikan")));
-                        Navigator.pop(context);
-                      },
-                      style: const ButtonStyle(
-                        padding: MaterialStatePropertyAll(
-                          EdgeInsets.symmetric(horizontal: 100, vertical: 15),
-                        ),
-                        elevation: MaterialStatePropertyAll(0),
-                        backgroundColor:
-                            MaterialStatePropertyAll(AppColor.activeColor),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    style: const ButtonStyle(
+                      padding: MaterialStatePropertyAll(
+                        EdgeInsets.symmetric(horizontal: 100, vertical: 15),
                       ),
-                      child: Text('Selesaikan Catatan')
-                      // Center(
-                      //     child: isPersonal == true || isAdmin == true
-                      //         ? Text(
-                      //             'Selesaikan Catatan',
-                      //             style: AppFont.textFillButtonActive,
-                      //           )
-                      //         : Text(
-                      //             'Simpan',
-                      //             style: AppFont.textFillButtonActive,
-                      //           )),
-                      ),
+                      elevation: MaterialStatePropertyAll(0),
+                      backgroundColor:
+                          MaterialStatePropertyAll(AppColor.activeColor),
+                    ),
+                    child: Center(
+                      child: isOwner
+                          ? Text(
+                              'Selesaikan Catatan',
+                              style: AppFont.textFillButtonActive,
+                            )
+                          : Text(
+                              'Simpan',
+                              style: AppFont.textFillButtonActive,
+                            ),
+                    ),
+                  ),
                 ),
               ),
             ],

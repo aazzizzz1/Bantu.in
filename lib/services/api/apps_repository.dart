@@ -58,20 +58,20 @@ class AppsRepository {
     }
   }
 
-  Future<void> postPersonalNote(PostNoteModel note) async {
-    try {
-      await _apiService.postRequest('/notes', note);
-    } catch (_) {
-      rethrow;
-    }
-  }
-
   Future getPersonalNote() async {
     try {
       final response = await _apiService.getRequest('/notes');
       NoteModel ringtones = NoteModel.fromJson(response);
       // print(response);
       return ringtones.notes;
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> postPersonalNote(PostNoteModel note) async {
+    try {
+      await _apiService.postRequest('/notes', note);
     } catch (_) {
       rethrow;
     }
@@ -88,6 +88,20 @@ class AppsRepository {
   Future<void> deletePersonalNote(int id) async {
     try {
       await _apiService.deleteRequest('/notes/$id');
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future getNoteByStatus(String value) async {
+    try {
+      final response = await _apiService.getRequest('/notes');
+      NoteModel ringtones = NoteModel.fromJson(response);
+      // print(response);
+      return ringtones.notes
+          .where((element) =>
+              element.status.toLowerCase().contains(value.toLowerCase()))
+          .toList();
     } catch (_) {
       rethrow;
     }
