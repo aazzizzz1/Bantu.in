@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:bantuin/models/file_note_client.dart';
 import 'package:bantuin/models/note_model.dart';
 import 'package:bantuin/services/api/api_services.dart';
 
@@ -105,5 +108,20 @@ class AppsRepository {
     } catch (_) {
       rethrow;
     }
+  }
+
+  Future<void> postFileClient(
+      {required String id, required List<File> selectedFile}) async {
+    try {
+      await _apiService.postMultipart(
+          '/attaches', selectedFile, {'note_id': id}, 'path[]');
+    } catch (_) {
+      rethrow;
+    }
+    // try {
+    //   await _apiService.postRequest('/attaches', note);
+    // } catch (_) {
+    //   rethrow;
+    // }
   }
 }

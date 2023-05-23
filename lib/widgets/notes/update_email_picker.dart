@@ -4,12 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../models/note_model.dart';
+
 class UpdateEmailPicker extends StatefulWidget {
   final void Function(List<String> selectedEmails) onChanged;
+  final List<MemberDetailModel> memberEmails;
 
   const UpdateEmailPicker({
     Key? key,
     required this.onChanged,
+    required this.memberEmails,
   }) : super(key: key);
 
   @override
@@ -17,9 +21,20 @@ class UpdateEmailPicker extends StatefulWidget {
 }
 
 class _UpdateEmailPickerState extends State<UpdateEmailPicker> {
-  final List<String> _emails = [];
+  late List<String> _emails;
   final TextEditingController _emailController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    List<String> data = [];
+    for (var index = 0; index < widget.memberEmails.length; index++) {
+      data.add(widget.memberEmails[index].email);
+    }
+    _emails = data;
+    super.initState();
+  }
 
   void _addEmail() {
     final String email = _emailController.text.trim();

@@ -32,10 +32,10 @@ class AdminAppbar extends StatelessWidget {
           ),
           SizedBox(width: 10.0),
           Container(
-            padding: EdgeInsets.all(4.0),
+            padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
             decoration: BoxDecoration(
               color: AppColor.completeColor,
-              borderRadius: BorderRadius.circular(8.0),
+              borderRadius: BorderRadius.circular(16.0),
             ),
             child: progress == null
                 ? Text('0%', style: AppFont.regularprogres12)

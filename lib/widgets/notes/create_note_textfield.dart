@@ -81,6 +81,7 @@ class _CreateNoteTextFieldState extends State<CreateNoteTextField> {
         ),
         TextFormField(
           controller: widget.controller,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           style: AppFont.medium14,
           buildCounter: (context,
                   {required currentLength, required isFocused, maxLength}) =>
