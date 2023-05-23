@@ -2,21 +2,22 @@ import 'dart:convert';
 
 import 'package:bantuin/constants/color/app_color.dart';
 import 'package:bantuin/constants/font/app_font.dart';
+import 'package:bantuin/models/user_models.dart';
 import 'package:bantuin/screens/auth/login_screen.dart';
 import 'package:bantuin/screens/profile/edit_password_profile.dart';
 import 'package:bantuin/screens/profile/edit_profile.dart';
+import 'package:bantuin/widgets/detail_note/client_upload.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class ProfileScreen extends StatelessWidget {
 
-  @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
+  final UsersDetailModel users;
 
-class _ProfileScreenState extends State<ProfileScreen> {
+  const ProfileScreen({required this.users});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,11 +93,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             textStyle: AppFont.semiBold16w500,
                           ),
                           onPressed: () {
-                            Navigator.push(
-                              (context),
-                              MaterialPageRoute(
-                                  builder: (context) => EditProfile()),
-                            );
+                            ClientUpload();
+                            // Navigator.push(
+                            //   (context),
+                            //   MaterialPageRoute(
+                            //       builder: (context) => EditProfile( usersDetail: users,)),
+                            // );
                           },
                           child: const Text('Edit Foto Profil'),
                         ),
@@ -121,7 +123,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     Navigator.push(
                                       (context),
                                       MaterialPageRoute(
-                                          builder: (context) => EditProfile()),
+                                          builder: (context) => EditProfile( usersDetail: users, )),
                                     );
                                   },
                                   child: const Text('Ubah'),
@@ -129,7 +131,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ],
                             ),
                             Text(
-                              'Aziz',
+                              users.username,
                               style: AppFont.regular16w500,
                             ),
                             SizedBox(
@@ -143,7 +145,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               height: 7,
                             ),
                             Text(
-                              'azizvbi33@gmail.com',
+                              users.email,
                               style: AppFont.regular16w500,
                             ),
                             SizedBox(
@@ -157,7 +159,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               height: 7,
                             ),
                             Text(
-                              'Programer',
+                              users.job,
+                              style: AppFont.regular16w500,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              'Nomor Telepon',
+                              style: AppFont.semiBold16w500,
+                            ),
+                            SizedBox(
+                              height: 7,
+                            ),
+                            Text(
+                              users.phone,
                               style: AppFont.regular16w500,
                             ),
                             Row(
@@ -175,12 +191,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     textStyle: AppFont.semiBold16w500,
                                   ),
                                   onPressed: () {
-                                    Navigator.push(
-                                      (context),
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              EditPasswordProfile()),
-                                    );
+                                    // Navigator.push(
+                                    //   (context),
+                                    //   MaterialPageRoute(
+                                    //       builder: (context) =>
+                                    //           EditPasswordProfile(users: users,)),
+                                    // );
                                   },
                                   child: const Text('Ubah'),
                                 ),

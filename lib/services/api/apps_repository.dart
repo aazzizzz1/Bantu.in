@@ -1,6 +1,7 @@
 import 'package:bantuin/models/note_model.dart';
+import 'package:bantuin/models/post_user_model.dart';
+import 'package:bantuin/models/user_models.dart';
 import 'package:bantuin/services/api/api_services.dart';
-
 import '../../models/login_model.dart';
 import '../../models/post_note_model.dart';
 import '../../models/register_model.dart';
@@ -106,4 +107,47 @@ class AppsRepository {
       rethrow;
     }
   }
+
+  // profile user
+    Future getUsers() async {
+    try {
+      final response = await _apiService.getRequest('/users');
+      print(response);
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> postUsers(PostUsersModel user) async {
+    try {
+      await _apiService.postRequest('/users', user);
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> updateUsers(PostUsersModel user, int id) async {
+    try {
+      await _apiService.putRequest('/users/$id', user);
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> postProfilePhoto(UsersDetailModel user, int id) async {
+    try {
+      await _apiService.postRequest('/users/$id', user);
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> postProfilePassword(RegisterModel register) async {
+    try {
+      await _apiService.postRequest('/update_password', register);
+    } catch (_) {
+      rethrow;
+    }
+  }
+
 }
