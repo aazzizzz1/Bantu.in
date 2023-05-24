@@ -4,11 +4,13 @@ import 'package:bantuin/models/user_models.dart';
 import 'package:bantuin/screens/auth/login_screen.dart';
 import 'package:bantuin/screens/profile/edit_password_profile.dart';
 import 'package:bantuin/screens/profile/edit_profile.dart';
+import 'package:bantuin/view_models/password_viewmodel.dart';
 import 'package:bantuin/view_models/user_viewmodel.dart';
 import 'package:bantuin/widgets/detail_note/client_upload.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -16,9 +18,21 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  String password = '';
+
   @override
+  Future getDataUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      password = prefs.getString('password').toString();
+    });
+  }
+
   void initState() {
     // TODO: implement initState
+    getDataUser();
+    Future.microtask(() =>
+        Provider.of<PasswordViewModel>(context, listen: false).getPassword());
     Future.microtask(
         () => Provider.of<UsersViewModel>(context, listen: false).getUsers());
     super.initState();
@@ -219,9 +233,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   height: 7,
                                 ),
                                 Text(
-                                  '********',
+                                  password,
                                   style: AppFont.regular16w500,
                                 ),
+                                // Consumer<PasswordViewModel>(
+                                //   builder: (context, pass, child) {
+                                //     var data = pass.listOfPassword;
+                                //     return Text(
+                                //       data.password,
+                                //       style: AppFont.regular16w500,
+                                //     );
+                                //   },
+                                // ),
                                 SizedBox(
                                   height: 20,
                                 ),

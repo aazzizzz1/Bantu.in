@@ -1,4 +1,6 @@
 import 'package:bantuin/models/note_model.dart';
+import 'package:bantuin/models/password_model.dart';
+import 'package:bantuin/models/post_password_model.dart';
 import 'package:bantuin/models/post_user_model.dart';
 import 'package:bantuin/models/user_models.dart';
 import 'package:bantuin/services/api/api_services.dart';
@@ -112,7 +114,7 @@ class AppsRepository {
   Future getUsers() async {
     try {
       final response = await _apiService.getRequest('/active_user');
-      UsersDetailModel users = UsersDetailModel.fromJson(response['data']);
+      PasswordModel users = PasswordModel.fromJson(response['data']);
       return users;
     } catch (_) {
       rethrow;
@@ -135,6 +137,32 @@ class AppsRepository {
     }
   }
 
+  Future getPassword() async {
+    try {
+      final response = await _apiService.getRequest('/update_password');
+      PasswordModel pass = PasswordModel.fromJson(response['data']);
+      return pass;
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> postPassword(PostPasswordModel passpost) async {
+    try {
+      await _apiService.postRequest('/update_password', passpost);
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> updatePassword(PostPasswordModel passpost, int id) async {
+    try {
+      await _apiService.putRequest('/update_password/$id', passpost);
+    } catch (_) {
+      rethrow;
+    }
+  }
+
   Future<void> postProfilePhoto(UsersDetailModel user, int id) async {
     try {
       await _apiService.postRequest('/users/$id', user);
@@ -143,11 +171,4 @@ class AppsRepository {
     }
   }
 
-  Future<void> postProfilePassword(RegisterModel register) async {
-    try {
-      await _apiService.postRequest('/update_password', register);
-    } catch (_) {
-      rethrow;
-    }
-  }
 }

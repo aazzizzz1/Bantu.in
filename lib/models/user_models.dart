@@ -34,7 +34,7 @@ class UsersDetailModel {
       email: json['email'] ?? 'null',
       phone: json['phone'] ?? 'null',
       job: json['job'] ?? 'null',
-      photo: json['photo'] ?? 'lib/assets/images/exampleAvatar.png',
+      photo: json['photo'] ?? 'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
     );
   }
 }

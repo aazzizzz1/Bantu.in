@@ -21,8 +21,7 @@ class EditPasswordProfile extends StatefulWidget {
 class _EditPasswordProfileState extends State<EditPasswordProfile> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _passwordConfirmationController =
-      TextEditingController();
+  final TextEditingController _passwordConfirmationController = TextEditingController();
   bool obscure = true;
 
   @override
@@ -37,7 +36,7 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
               context,
               MaterialPageRoute(
                 builder: (context) => BottomMenu(
-                  currentTab: 3,
+                  currentTab: 4,
                   currentScreen: ProfileScreen(),
                 ),
               ),
