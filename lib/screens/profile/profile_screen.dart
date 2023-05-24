@@ -30,11 +30,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void initState() {
     // TODO: implement initState
-    getDataUser();
-    Future.microtask(() =>
-        Provider.of<PasswordViewModel>(context, listen: false).getPassword());
+    // Future.microtask(() =>
+    //     Provider.of<PasswordViewModel>(context, listen: false).getPassword());
     Future.microtask(
         () => Provider.of<UsersViewModel>(context, listen: false).getUsers());
+    getDataUser();
     super.initState();
   }
 
@@ -105,22 +105,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            padding: const EdgeInsets.all(5.0),
-                            primary: Colors.white,
-                            shadowColor: Colors.black,
-                            textStyle: AppFont.semiBold16w500,
-                          ),
-                          onPressed: () {
-                            ClientUpload();
-                            // Navigator.push(
-                            //   (context),
-                            //   MaterialPageRoute(
-                            //       builder: (context) => EditProfile( usersDetail: users,)),
-                            // );
+                        child: Consumer<UsersViewModel>(
+                          builder: (context, value, child) {
+                            return TextButton(
+                              style: TextButton.styleFrom(
+                                padding: const EdgeInsets.all(5.0),
+                                primary: Colors.white,
+                                shadowColor: Colors.black,
+                                textStyle: AppFont.semiBold16w500,
+                              ),
+                              onPressed: () {
+                                // ClientUpload();
+                                // Navigator.push(
+                                //   (context),
+                                //   MaterialPageRoute(
+                                //       builder: (context) => EditProfile( usersDetail: users,)),
+                                // );
+                              },
+                              child: const Text('Edit Foto Profil'),
+                            );
                           },
-                          child: const Text('Edit Foto Profil'),
                         ),
                       ),
                       Consumer<UsersViewModel>(
@@ -222,7 +226,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         //   (context),
                                         //   MaterialPageRoute(
                                         //       builder: (context) =>
-                                        //           EditPasswordProfile(users: users,)),
+                                        //           EditPasswordProfile(passpost: users,)),
                                         // );
                                       },
                                       child: const Text('Ubah'),

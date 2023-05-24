@@ -6,6 +6,8 @@ import 'package:bantuin/screens/profile/profile_screen.dart';
 import 'package:bantuin/screens/tim/tim_screen.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../screens/profile/profile_screen2.dart';
+
 class ListMenu {
   int currentTab = 0;
   late final UsersDetailModel users;
@@ -19,7 +21,7 @@ class ListMenu {
       const NoteScreen(),
       const TimScreen(),
       const InvitationScreen(),
-      ProfileScreen(),
+      ProfileScreen2(),
     ];
   }
 }

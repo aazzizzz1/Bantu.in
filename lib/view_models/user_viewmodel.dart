@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bantuin/models/post_user_model.dart';
 import 'package:bantuin/models/user_models.dart';
 import 'package:bantuin/services/api/apps_repository.dart';
@@ -33,6 +35,19 @@ class UsersViewModel with ChangeNotifier {
     print(users.id);
     try {
       await appsRepository.updateUsers(user, users.id);
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<void> updateProfilePricture(
+      List<File> image, UsersDetailModel users) async {
+    print(users.id);
+    try {
+      await appsRepository.postProfilePicture(
+          id: users.id.toString(), selectedFile: image);
+      // await appsRepository.updateUsers(user, users.id);
       notifyListeners();
     } catch (error) {
       rethrow;
