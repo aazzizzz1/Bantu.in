@@ -50,30 +50,30 @@ class AdminMember extends StatelessWidget {
               }).toList(),
             ),
             const SizedBox(height: 12.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                // Text(
-                //   'dan 3 orang lagi.',
-                //   style: AppFont.medium14,
-                // ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => NotesAllMember(
-                                member: noteDetail.member,
-                              )),
-                    );
-                  },
-                  child: Text(
-                    'Lihat semua.',
-                    style: AppFont.textButtonActive,
-                  ),
-                ),
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.start,
+            //   children: [
+            //     // Text(
+            //     //   'dan 3 orang lagi.',
+            //     //   style: AppFont.medium14,
+            //     // ),
+            //     InkWell(
+            //       onTap: () {
+            //         Navigator.push(
+            //           context,
+            //           MaterialPageRoute(
+            //               builder: (context) => NotesAllMember(
+            //                     member: noteDetail.member,
+            //                   )),
+            //         );
+            //       },
+            //       child: Text(
+            //         'Lihat semua.',
+            //         style: AppFont.textButtonActive,
+            //       ),
+            //     ),
+            //   ],
+            // ),
           ],
         ),
         SizedBox(height: 24.0),
@@ -86,36 +86,47 @@ class AdminMember extends StatelessWidget {
               style: AppFont.medium14,
             ),
             SizedBox(height: 7),
-            // InkWell(
-            //   onTap: () {},
-            //   child: Text(
-            //     fileUrl,
-            //     style: AppFont.textButtonUnderline,
-            //   ),
-            // ),
-            SizedBox(height: 11),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  'dan 3 file lagi.',
-                  style: AppFont.medium14,
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const NotesAllFile()),
-                    );
-                  },
-                  child: Text(
-                    'Lihat semua.',
-                    style: AppFont.textButtonActive,
+            noteDetail.file.isEmpty
+                ? SizedBox(
+                    child: Text(
+                      'Belum ada file yang di upload',
+                      style: AppFont.regular12,
+                    ),
+                  )
+                : Column(
+                    children: noteDetail.file
+                        .map((urlFile) => InkWell(
+                              onTap: () {},
+                              child: Text(
+                                urlFile,
+                                style: AppFont.textButtonUnderline,
+                              ),
+                            ))
+                        .toList(),
                   ),
-                ),
-              ],
-            ),
+            SizedBox(height: 11),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.start,
+            //   children: [
+            //     Text(
+            //       'dan 3 file lagi.',
+            //       style: AppFont.medium14,
+            //     ),
+            //     InkWell(
+            //       onTap: () {
+            //         Navigator.push(
+            //           context,
+            //           MaterialPageRoute(
+            //               builder: (context) => const NotesAllFile()),
+            //         );
+            //       },
+            //       child: Text(
+            //         'Lihat semua.',
+            //         style: AppFont.textButtonActive,
+            //       ),
+            //     ),
+            //   ],
+            // ),
           ],
         ),
       ],

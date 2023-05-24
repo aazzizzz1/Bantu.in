@@ -3,8 +3,10 @@ import 'package:bantuin/constants/button/app_button.dart';
 import 'package:bantuin/screens/tim/tim_card_group.dart';
 import 'package:bantuin/screens/tim/tim_card_screen.dart';
 import 'package:bantuin/screens/tim/tim_form.dart';
+import 'package:bantuin/view_models/tim_view_model.dart';
 import 'package:bantuin/widgets/floating_button/floating_tim.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TimScreen extends StatefulWidget {
   const TimScreen({super.key});
@@ -14,6 +16,14 @@ class TimScreen extends StatefulWidget {
 }
 
 class _TimScreenState extends State<TimScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    Future.microtask(() =>
+        Provider.of<TeamViewModel>(context, listen: false).fetchAllTeam());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

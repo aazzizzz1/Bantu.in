@@ -2,10 +2,13 @@ import 'dart:io';
 
 import 'package:bantuin/models/file_note_client.dart';
 import 'package:bantuin/models/note_model.dart';
+import 'package:bantuin/models/tim_model.dart';
 import 'package:bantuin/services/api/api_services.dart';
+import 'package:http/http.dart';
 
 import '../../models/login_model.dart';
 import '../../models/post_note_model.dart';
+import '../../models/post_tim_model.dart';
 import '../../models/register_model.dart';
 import '../../models/ringtone_model.dart';
 
@@ -118,10 +121,33 @@ class AppsRepository {
     } catch (_) {
       rethrow;
     }
-    // try {
-    //   await _apiService.postRequest('/attaches', note);
-    // } catch (_) {
-    //   rethrow;
-    // }
+  }
+
+  // FEATURE TEAM
+  Future<void> postAddTim(PostTimModel tim) async {
+    try {
+      final response = await _apiService.postRequest('/teams', tim);
+      print(response);
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future getAllTim() async {
+    try {
+      final response = await _apiService.getRequest('/teams');
+      TeamModel team = TeamModel.fromJson(response);
+      return team.team;
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future updateTimName(int id, PostTimModel data) async {
+    try {
+      await _apiService.putRequest('/teams/$id', data);
+    } catch (_) {
+      rethrow;
+    }
   }
 }

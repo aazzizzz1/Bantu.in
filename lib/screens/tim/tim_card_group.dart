@@ -1,26 +1,13 @@
 import 'package:bantuin/constants/font/app_font.dart';
+import 'package:bantuin/models/tim_model.dart';
 import 'package:bantuin/screens/tim/tim_card_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class TimCardGroup extends StatelessWidget {
-  final String title;
-  final String description;
-  final String date;
-  final String month;
-  final String avatarUrl;
-  final String name;
-  final bool isDone;
+  final TeamDetailModel teamDetail;
 
-  const TimCardGroup({
-    required this.title,
-    required this.description,
-    required this.date,
-    required this.month,
-    required this.avatarUrl,
-    required this.name,
-    required this.isDone,
-  });
+  const TimCardGroup({required this.teamDetail});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +16,9 @@ class TimCardGroup extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => TimCardScreen(),
+            builder: (context) => TimCardScreen(
+              teamDetail: teamDetail,
+            ),
           ),
         );
       },
@@ -59,8 +48,9 @@ class TimCardGroup extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    title,
+                    teamDetail.title,
                     style: AppFont.semiBold16w500,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   Container(
                     height: 60,
@@ -72,17 +62,18 @@ class TimCardGroup extends StatelessWidget {
                           child: Stack(
                             children: [
                               CachedNetworkImage(
-                                  imageUrl: avatarUrl,
-                                  placeholder: (context, url) =>
-                                      const CircularProgressIndicator(),
-                                  errorWidget: (context, url, error) =>
-                                      const Icon(Icons.error),
-                                  imageBuilder: (context, imageProvider) =>
-                                      CircleAvatar(
-                                    backgroundImage: imageProvider,
-                                    radius: 20.0,
-                                  ),
+                                imageUrl:
+                                    'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                                imageBuilder: (context, imageProvider) =>
+                                    CircleAvatar(
+                                  backgroundImage: imageProvider,
+                                  radius: 20.0,
                                 ),
+                              ),
                               Positioned(
                                 left: 25,
                                 child: CircleAvatar(
@@ -94,7 +85,8 @@ class TimCardGroup extends StatelessWidget {
                               Positioned(
                                 left: 50,
                                 child: CachedNetworkImage(
-                                  imageUrl: avatarUrl,
+                                  imageUrl:
+                                      'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
                                   placeholder: (context, url) =>
                                       const CircularProgressIndicator(),
                                   errorWidget: (context, url, error) =>
