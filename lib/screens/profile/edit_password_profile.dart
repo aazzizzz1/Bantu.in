@@ -1,3 +1,4 @@
+import 'package:bantuin/models/password_model.dart';
 import 'package:bantuin/models/user_models.dart';
 import 'package:bantuin/widgets/register/register_textfield_component.dart';
 import 'package:bantuin/constants/color/app_color.dart';
@@ -9,9 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class EditPasswordProfile extends StatefulWidget {
-  final UsersDetailModel usersDetail;
+  final PasswordModel passpost;
 
-  const EditPasswordProfile({Key? key, required this.usersDetail})
+  const EditPasswordProfile({Key? key, required this.passpost})
       : super(key: key);
 
   @override
@@ -21,7 +22,8 @@ class EditPasswordProfile extends StatefulWidget {
 class _EditPasswordProfileState extends State<EditPasswordProfile> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _passwordConfirmationController = TextEditingController();
+  final TextEditingController _passwordConfirmationController =
+      TextEditingController();
   bool obscure = true;
 
   @override

@@ -32,6 +32,7 @@ class _ListDaftarTimState extends State<ListDaftarTim> {
                   ),
                 )
               : ListView.builder(
+                  reverse: true,
                   itemCount: value.listOfTeam.length,
                   itemBuilder: (context, index) {
                     var data = value.listOfTeam[index];

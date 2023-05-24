@@ -114,7 +114,8 @@ class AppsRepository {
       rethrow;
     }
   }
-Future<void> postFileClient(
+
+  Future<void> postFileClient(
       {required String id, required List<File> selectedFile}) async {
     try {
       await _apiService.postMultipart(
@@ -124,12 +125,12 @@ Future<void> postFileClient(
     }
   }
 
-//profile 
+//profile
 // profile user
   Future getUsers() async {
     try {
       final response = await _apiService.getRequest('/active_user');
-      PasswordModel users = PasswordModel.fromJson(response['data']);
+      UsersDetailModel users = UsersDetailModel.fromJson(response['data']);
       return users;
     } catch (_) {
       rethrow;
@@ -151,7 +152,17 @@ Future<void> postFileClient(
       rethrow;
     }
   }
-  
+
+  Future<void> postProfilePicture(
+      {required String id, required List<File> selectedFile}) async {
+    try {
+      await _apiService.postMultipart(
+          '/users/$id', selectedFile, {"photo": id}, "photo");
+    } catch (_) {
+      rethrow;
+    }
+  }
+
   // FEATURE TEAM
   Future<void> postAddTim(PostTimModel tim) async {
     try {

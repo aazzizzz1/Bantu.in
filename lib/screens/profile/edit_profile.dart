@@ -128,7 +128,7 @@ class _EditProfileState extends State<EditProfile> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => BottomMenu(
-                                        currentTab: 3,
+                                        currentTab: 4,
                                         currentScreen: ProfileScreen(),
                                       ),
                                     ),
