@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bantuin/models/note_model.dart';
 import 'package:bantuin/models/post_note_model.dart';
 import 'package:bantuin/models/user_note_model.dart';
@@ -6,6 +8,7 @@ import 'package:bantuin/services/api/apps_repository.dart';
 import 'package:bantuin/services/api/personal_note_api.dart';
 import 'package:bantuin/services/api/user_note_api.dart';
 import 'package:flutter/material.dart';
+import '../models/file_note_client.dart';
 import '../models/note_tim_model.dart';
 
 class NoteViewModel with ChangeNotifier {
@@ -39,7 +42,6 @@ class NoteViewModel with ChangeNotifier {
 
   Future<void> updatePersonalNote(
       PostNoteModel note, NoteDetailModel noteDetail) async {
-    print(noteDetail.id);
     try {
       await appsRepository.updatePersonalNote(note, noteDetail.id);
       notifyListeners();
@@ -61,6 +63,16 @@ class NoteViewModel with ChangeNotifier {
   Future<void> getCompleteNote() async {
     try {
       _listOfCompleteNote = await appsRepository.getNoteByStatus('complete');
+      notifyListeners();
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> uploadFileClient(
+      {required String id, required List<File> selectedFile}) async {
+    try {
+      await appsRepository.postFileClient(id: id, selectedFile: selectedFile);
       notifyListeners();
     } catch (_) {
       rethrow;

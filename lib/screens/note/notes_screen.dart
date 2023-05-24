@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 
+import 'note_form2.dart';
+
 class NoteScreen extends StatefulWidget {
   const NoteScreen({super.key});
 
@@ -102,6 +104,20 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                                   return CardIncomingNotesUpload(
                                       noteDetail: data);
                               }
+                              // if (data.notesType == 'collaboration') {
+                              //   switch (data.notesType) {
+                              //     case "personal":
+                              //       return CardMyNotesPersonal(
+                              //           noteDetail: data);
+                              //     case 'collaboration':
+                              //       return CardMyNotesProgres(noteDetail: data);
+                              //     default:
+                              //       return CardIncomingNotesUpload(
+                              //           noteDetail: data);
+                              //   }
+                              // } else {
+                              //   CardMyNotesPersonal(noteDetail: data);
+                              // }
                             },
                           ),
                   ),
@@ -115,7 +131,7 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const NoteForm()),
+                              builder: (context) => const NoteForm2()),
                         );
                       },
                     ),

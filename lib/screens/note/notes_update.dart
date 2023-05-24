@@ -10,6 +10,7 @@ import 'package:bantuin/widgets/notes/my_reminder.dart';
 import 'package:bantuin/widgets/notes/my_reminder2.dart';
 import 'package:bantuin/widgets/notes/ringtones_picker.dart';
 import 'package:bantuin/widgets/notes/update_date_reminder.dart';
+import 'package:bantuin/widgets/notes/update_email_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -46,9 +47,9 @@ class _NoteUpdateState extends State<NoteUpdate> {
   List<String> _selectedEmails = [];
 
   void _handleEmailsChanged(List<String> selectedEmails) {
-    setState(() {
-      _selectedEmails = selectedEmails;
-    });
+    _selectedEmails = selectedEmails;
+    // setState(() {
+    // });
   }
 
   void initState() {
@@ -81,7 +82,84 @@ class _NoteUpdateState extends State<NoteUpdate> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text(
+                    'Apakah anda yakin untuk membuang perubahan ini?',
+                    textAlign: TextAlign.center,
+                    style: AppFont.textSubjectOrTitle,
+                  ),
+                  actions: [
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      alignment: Alignment.center,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              style: const ButtonStyle(
+                                overlayColor: MaterialStatePropertyAll(
+                                    AppColorNeutral.neutral2),
+                                padding: MaterialStatePropertyAll(
+                                  EdgeInsets.symmetric(
+                                      horizontal: 28, vertical: 10),
+                                ),
+                                elevation: MaterialStatePropertyAll(0),
+                                side: MaterialStatePropertyAll(BorderSide(
+                                    color: AppColorNeutral.neutral2)),
+                                backgroundColor:
+                                    MaterialStatePropertyAll(Colors.white),
+                              ),
+                              onPressed: () async {
+                                // Perform delete operation and navigate back to previous screen
+                                // ...
+                                Navigator.pop(context);
+                              },
+                              child: Text(
+                                'Kembali',
+                                style: AppFont.textButtonDisable,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 16.0),
+                          Expanded(
+                            child: ElevatedButton(
+                              style: const ButtonStyle(
+                                overlayColor: MaterialStatePropertyAll(
+                                    AppColorPrimary.primary4),
+                                padding: MaterialStatePropertyAll(
+                                  EdgeInsets.symmetric(
+                                      horizontal: 28, vertical: 10),
+                                ),
+                                elevation: MaterialStatePropertyAll(0),
+                                // side: MaterialStatePropertyAll(
+                                //     BorderSide(color: AppColorPrimary.primary6)),
+                                backgroundColor: MaterialStatePropertyAll(
+                                    AppColorPrimary.primary5),
+                              ),
+                              onPressed: () async {
+                                // Perform delete operation and navigate back to previous screen
+                                // ...
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              },
+                              child: Text(
+                                'Ya',
+                                style: AppFont.textFillButtonActive,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
+            // Navigator.pop(context);
           },
           icon: const Icon(Icons.arrow_back),
           color: Colors.black,
@@ -137,7 +215,11 @@ class _NoteUpdateState extends State<NoteUpdate> {
                 const SizedBox(
                   height: 4,
                 ),
-                MultipleEmailPicker(onChanged: _handleEmailsChanged),
+                UpdateEmailPicker(
+                  onChanged: _handleEmailsChanged,
+                  memberEmails: widget.noteDetail.member,
+                ),
+                // MultipleEmailPicker(onChanged: _handleEmailsChanged),
                 // const SizedBox(
                 //   height: 24,
                 // ),
@@ -240,34 +322,27 @@ class _NoteUpdateState extends State<NoteUpdate> {
                     onPressed: () async {
                       final isValidForm = formKey.currentState!.validate();
                       if (isValidForm) {
-                        try {
-                          if (widget.noteDetail.notesType != 'personal') {
-                            await showDialog(
-                              context: context,
-                              builder: (context) => PopupUpdate(),
-                            ).then(
-                              (value) => note
-                                  .updatePersonalNote(
-                                      PostNoteModel(
-                                        subject: _subjectController.text,
-                                        description:
-                                            _descriptionController.text,
-                                        eventDate: _eventDateController.text,
-                                        reminder: _reminderController.text,
-                                        ringtoneId: ringtones.listOfRingtone
-                                            .where((element) =>
-                                                _selectedRingtone!
-                                                    .contains(element.name))
-                                            .reduce((value, element) => value)
-                                            .id,
-                                      ),
-                                      widget.noteDetail)
-                                  .then((value) => Fluttertoast.showToast(
-                                          msg: 'Berhasil mengubah note')
-                                      .then((value) => Navigator.pop(context))),
-                            );
-                          } else {
-                            note
+                        if (widget.noteDetail.notesType != 'personal') {
+                          await showDialog(
+                            context: context,
+                            builder: (context) => PopupUpdate(
+                              noteDetail: widget.noteDetail,
+                              postNote: PostNoteModel(
+                                subject: _subjectController.text,
+                                description: _descriptionController.text,
+                                eventDate: _eventDateController.text,
+                                reminder: _reminderController.text,
+                                ringtoneId: ringtones.listOfRingtone
+                                    .where((element) => _selectedRingtone!
+                                        .contains(element.name))
+                                    .reduce((value, element) => value)
+                                    .id,
+                              ),
+                            ),
+                          );
+                        } else {
+                          try {
+                            await note
                                 .updatePersonalNote(
                                     PostNoteModel(
                                       subject: _subjectController.text,
@@ -293,42 +368,10 @@ class _NoteUpdateState extends State<NoteUpdate> {
                                     ),
                                   ),
                                 );
+                          } catch (e) {
+                            Fluttertoast.showToast(msg: e.toString());
                           }
-                          // await note
-                          //     .updatePersonalNote(
-                          //         PostNoteModel(
-                          //           subject: _subjectController.text,
-                          //           description: _descriptionController.text,
-                          //           eventDate: _eventDateController.text,
-                          //           reminder: _reminderController.text,
-                          //           ringtoneId: ringtones.listOfRingtone
-                          //               .where((element) => _selectedRingtone!
-                          //                   .contains(element.name))
-                          //               .reduce((value, element) => value)
-                          //               .id,
-                          //         ),
-                          //         widget.noteDetail)
-                          //     .then(
-                          //       (value) => Fluttertoast.showToast(
-                          //               msg: 'Berhasil menambahkan note')
-                          //           .then(
-                          //         (value) => Navigator.pushReplacement(
-                          //           context,
-                          //           MaterialPageRoute(
-                          //               builder: (context) =>
-                          //                   const NoteScreen()),
-                          //         ),
-                          //       ),
-                          //     );
-                        } catch (e) {
-                          Fluttertoast.showToast(msg: e.toString());
-                          print(e);
                         }
-
-                        // Navigator.pushReplacement(
-                        //   context,
-                        //   MaterialPageRoute(builder: (context) => const NoteScreen()),
-                        // );
                       }
                     },
                     style: const ButtonStyle(

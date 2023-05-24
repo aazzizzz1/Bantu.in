@@ -84,6 +84,21 @@ class _ClientUploadState extends State<ClientUpload> {
     }
   }
 
+  void _pickMultipleFiles() async {
+    String _fileText = "";
+    FilePickerResult? result =
+        await FilePicker.platform.pickFiles(allowMultiple: true);
+
+    if (result != null) {
+      List<File> files = result.paths.map((path) => File(path!)).toList();
+      setState(() {
+        _fileText = files.toString();
+      });
+    } else {
+      // User canceled the picker
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -325,18 +340,7 @@ class _ClientUploadState extends State<ClientUpload> {
                   ),
                   ElevatedButton(
                     onPressed: _openFile,
-                    child: Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: FileImage(
-                            File(_pickedFile!.path!),
-                          ),
-                        ),
-                      ),
-                      child: Text('data'),
-                    ),
+                    child: Text('Open file: ${_pickedFile!.name}'),
                   ),
                 ],
               )
@@ -360,10 +364,10 @@ class _ClientUploadState extends State<ClientUpload> {
         //           )
         //         ],
         //       ),
-        //       ElevatedButton(
-        //         onPressed: _openFile,
-        //         child: Text('Open file: ${_pickedFile!.name}'),
-        //       ),
+        // ElevatedButton(
+        //   onPressed: _openFile,
+        //   child: Text('Open file: ${_pickedFile!.name}'),
+        // ),
         //     ],
         //   ),
       ],
