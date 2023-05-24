@@ -1,3 +1,4 @@
+import 'package:bantuin/models/user_models.dart';
 import 'package:bantuin/widgets/register/register_textfield_component.dart';
 import 'package:bantuin/constants/color/app_color.dart';
 import 'package:bantuin/constants/font/app_font.dart';
@@ -8,7 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class EditPasswordProfile extends StatefulWidget {
-  const EditPasswordProfile({super.key});
+  final UsersDetailModel usersDetail;
+
+  const EditPasswordProfile({Key? key, required this.usersDetail})
+      : super(key: key);
 
   @override
   State<EditPasswordProfile> createState() => _EditPasswordProfileState();
@@ -17,8 +21,7 @@ class EditPasswordProfile extends StatefulWidget {
 class _EditPasswordProfileState extends State<EditPasswordProfile> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _passwordConfirmationController =
-      TextEditingController();
+  final TextEditingController _passwordConfirmationController = TextEditingController();
   bool obscure = true;
 
   @override
@@ -32,8 +35,11 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => BottomMenu(
-                      currentTab: 3, currentScreen: const ProfileScreen())),
+                builder: (context) => BottomMenu(
+                  currentTab: 4,
+                  currentScreen: ProfileScreen(),
+                ),
+              ),
             );
           },
           icon: const Icon(
@@ -71,32 +77,32 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                       scrollPadding: const EdgeInsets.only(left: 10),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       controller: _passwordConfirmationController,
-                      obscureText: obscure == null ? false : obscure,
-                      inputFormatters: obscure != null
-                          ? [
-                              LengthLimitingTextInputFormatter(16),
-                              FilteringTextInputFormatter.allow(
-                                RegExp("[a-zA-Z0-9 ]"),
-                              ),
-                            ]
-                          : null,
+                      obscureText: obscure,
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(16),
+                        FilteringTextInputFormatter.allow(
+                          RegExp("[a-zA-Z0-9 ]"),
+                        ),
+                      ],
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Maaf anda belum memasukan kata sandi lama anda';
                         }
                         if (_passwordConfirmationController.text !=
                             _passwordController.text) {
-                          return 'Maaf kata sandi lama anda tidak sesuai ';
+                          return 'Maaf kata sandi lama anda tidak sesuai';
                         }
+                        return null;
                       },
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: AppColorNeutral.neutral1,
-                        hintText: 'Masukan kata sandi lama anda ',
+                        hintText: 'Masukan kata sandi lama anda',
                         hintStyle: AppFont.hintTextField,
                         focusedBorder: const OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: AppColorPrimary.primary6)),
+                          borderSide:
+                              BorderSide(color: AppColorPrimary.primary6),
+                        ),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
                               const BorderSide(color: AppColorNeutral.neutral2),
@@ -109,17 +115,14 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                         ),
                         errorBorder: InputBorder.none,
                         focusedErrorBorder: const OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: AppColorPrimary.primary6)),
+                          borderSide:
+                              BorderSide(color: AppColorPrimary.primary6),
+                        ),
                         errorStyle: AppFont.errorTextForm,
                         suffixIcon: IconButton(
                           onPressed: () {
                             setState(() {
-                              if (obscure) {
-                                obscure = false;
-                              } else {
-                                obscure = true;
-                              }
+                              obscure = !obscure;
                             });
                           },
                           icon: const Icon(
@@ -153,15 +156,13 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                       scrollPadding: const EdgeInsets.only(left: 10),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       controller: _passwordConfirmationController,
-                      obscureText: obscure == null ? false : obscure,
-                      inputFormatters: obscure != null
-                          ? [
-                              LengthLimitingTextInputFormatter(16),
-                              FilteringTextInputFormatter.allow(
-                                RegExp("[a-zA-Z0-9 ]"),
-                              ),
-                            ]
-                          : null,
+                      obscureText: obscure,
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(16),
+                        FilteringTextInputFormatter.allow(
+                          RegExp("[a-zA-Z0-9 ]"),
+                        ),
+                      ],
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Maaf anda belum memasukan ulang kata sandi baru anda';
@@ -170,6 +171,7 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                             _passwordController.text) {
                           return 'Maaf kata sandi baru anda belum sesuai dengan sebelumnya';
                         }
+                        return null;
                       },
                       decoration: InputDecoration(
                         filled: true,
@@ -177,8 +179,9 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                         hintText: 'Masukan kata sandi baru anda lagi',
                         hintStyle: AppFont.hintTextField,
                         focusedBorder: const OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: AppColorPrimary.primary6)),
+                          borderSide:
+                              BorderSide(color: AppColorPrimary.primary6),
+                        ),
                         enabledBorder: OutlineInputBorder(
                           borderSide:
                               const BorderSide(color: AppColorNeutral.neutral2),
@@ -191,17 +194,14 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                         ),
                         errorBorder: InputBorder.none,
                         focusedErrorBorder: const OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: AppColorPrimary.primary6)),
+                          borderSide:
+                              BorderSide(color: AppColorPrimary.primary6),
+                        ),
                         errorStyle: AppFont.errorTextForm,
                         suffixIcon: IconButton(
                           onPressed: () {
                             setState(() {
-                              if (obscure) {
-                                obscure = false;
-                              } else {
-                                obscure = true;
-                              }
+                              obscure = !obscure;
                             });
                           },
                           icon: const Icon(
@@ -214,27 +214,23 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                     const SizedBox(height: 36.0),
                     ElevatedButton(
                       onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) => const ProfileScreen()),
-                        // );
                         final isValidForm = _formKey.currentState!.validate();
                         if (isValidForm) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => BottomMenu(
-                                    currentTab: 3,
-                                    currentScreen: const ProfileScreen())),
+                              builder: (context) => BottomMenu(
+                                currentTab: 3,
+                                currentScreen: ProfileScreen(),
+                              ),
+                            ),
                           );
                         }
                       },
-                      style: const ButtonStyle(
-                        padding: MaterialStatePropertyAll(EdgeInsets.all(16.0)),
-                        elevation: MaterialStatePropertyAll(0),
-                        backgroundColor:
-                            MaterialStatePropertyAll(AppColor.activeColor),
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.all(16.0),
+                        elevation: 0,
+                        backgroundColor: AppColor.activeColor,
                       ),
                       child: Center(
                         child: Text(

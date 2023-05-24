@@ -16,6 +16,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../view_models/user_viewmodel.dart';
+
 import '../../view_models/ringtone_viewmodel.dart';
 import '../note/note_form2.dart';
 
@@ -27,16 +29,6 @@ class HomePages extends StatefulWidget {
 }
 
 class _HomePagesState extends State<HomePages> {
-  String name = 'Username';
-  String job = 'Pekerjaan';
-  Future getDataUser() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      name = prefs.getString('username').toString();
-      job = prefs.getString('job').toString();
-    });
-  }
-
   @override
   void initState() {
     // TODO: implement initState
@@ -45,7 +37,8 @@ class _HomePagesState extends State<HomePages> {
         Provider.of<NoteViewModel>(context, listen: false).getPersonalNote());
     Future.microtask(() =>
         Provider.of<RingtoneViewModel>(context, listen: false).fetchRingtone());
-    getDataUser();
+    Future.microtask(
+        () => Provider.of<UsersViewModel>(context, listen: false).getUsers());
     super.initState();
   }
 
@@ -63,18 +56,20 @@ class _HomePagesState extends State<HomePages> {
             child: Image.asset("lib/assets/images/Switch.png"),
           ),
         ),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              name,
-              style: AppFont.semiBold14,
-            ),
-            Text(
-              job,
-              style: AppFont.regular12,
-            ),
-          ],
+        title: Consumer<UsersViewModel>(
+          builder: (context, value, child) => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                value.listOfUsers.username,
+                style: AppFont.semiBold14,
+              ),
+              Text(
+                value.listOfUsers.job,
+                style: AppFont.regular12,
+              ),
+            ],
+          ),
         ),
         actions: [
           Container(

@@ -1,4 +1,5 @@
 import 'package:bantuin/constants/color/app_color.dart';
+import 'package:bantuin/models/user_models.dart';
 import 'package:bantuin/screens/note/notes_screen.dart';
 import 'package:bantuin/widgets/bottom_navigation/list_menu.dart';
 import 'package:flutter/material.dart';
@@ -27,8 +28,11 @@ class _BottomMenuState extends State<BottomMenu> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    statusLayar = ListMenu(currentTab, currentScreen);
+    statusLayar = ListMenu(
+        currentTab,
+        currentScreen,
+        UsersDetailModel(
+            email: '', id: 0, job: '', phone: '', username: '', photo: ''));
     super.initState();
   }
 

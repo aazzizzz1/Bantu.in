@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:bantuin/models/file_note_client.dart';
 import 'package:bantuin/models/note_model.dart';
+import 'package:bantuin/models/password_model.dart';
+import 'package:bantuin/models/post_password_model.dart';
+import 'package:bantuin/models/post_user_model.dart';
 import 'package:bantuin/models/tim_model.dart';
+import 'package:bantuin/models/user_models.dart';
 import 'package:bantuin/services/api/api_services.dart';
-import 'package:http/http.dart';
-
 import '../../models/login_model.dart';
 import '../../models/post_note_model.dart';
 import '../../models/post_tim_model.dart';
@@ -112,8 +114,7 @@ class AppsRepository {
       rethrow;
     }
   }
-
-  Future<void> postFileClient(
+Future<void> postFileClient(
       {required String id, required List<File> selectedFile}) async {
     try {
       await _apiService.postMultipart(
@@ -123,6 +124,34 @@ class AppsRepository {
     }
   }
 
+//profile 
+// profile user
+  Future getUsers() async {
+    try {
+      final response = await _apiService.getRequest('/active_user');
+      PasswordModel users = PasswordModel.fromJson(response['data']);
+      return users;
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> postUsers(PostUsersModel user) async {
+    try {
+      await _apiService.postRequest('/users', user);
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> updateUsers(PostUsersModel user, int id) async {
+    try {
+      await _apiService.putRequest('/users/$id', user);
+    } catch (_) {
+      rethrow;
+    }
+  }
+  
   // FEATURE TEAM
   Future<void> postAddTim(PostTimModel tim) async {
     try {
@@ -146,6 +175,41 @@ class AppsRepository {
   Future updateTimName(int id, PostTimModel data) async {
     try {
       await _apiService.putRequest('/teams/$id', data);
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  //passowrd
+  Future getPassword() async {
+    try {
+      final response = await _apiService.getRequest('/update_password');
+      PasswordModel pass = PasswordModel.fromJson(response['data']);
+      return pass;
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> postPassword(PostPasswordModel passpost) async {
+    try {
+      await _apiService.postRequest('/update_password', passpost);
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> updatePassword(PostPasswordModel passpost, int id) async {
+    try {
+      await _apiService.putRequest('/update_password/$id', passpost);
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> postProfilePhoto(UsersDetailModel user, int id) async {
+    try {
+      await _apiService.postRequest('/users/$id', user);
     } catch (_) {
       rethrow;
     }

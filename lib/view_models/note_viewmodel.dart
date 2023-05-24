@@ -5,8 +5,6 @@ import 'package:bantuin/models/post_note_model.dart';
 import 'package:bantuin/models/user_note_model.dart';
 import 'package:bantuin/services/api/api_services.dart';
 import 'package:bantuin/services/api/apps_repository.dart';
-import 'package:bantuin/services/api/personal_note_api.dart';
-import 'package:bantuin/services/api/user_note_api.dart';
 import 'package:flutter/material.dart';
 import '../models/file_note_client.dart';
 import '../models/note_tim_model.dart';
@@ -14,7 +12,6 @@ import '../models/note_tim_model.dart';
 class NoteViewModel with ChangeNotifier {
   final appsRepository = AppsRepository();
   final apiServise = ApiServices();
-  final PersonalNoteApi _personalNote = PersonalNoteApi();
 
   List<NoteDetailModel> _listOfPersonalNote = [];
   List<NoteDetailModel> get listOfPersonalNote => _listOfPersonalNote;

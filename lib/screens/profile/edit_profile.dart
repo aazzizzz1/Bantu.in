@@ -1,3 +1,6 @@
+import 'package:bantuin/models/post_user_model.dart';
+import 'package:bantuin/models/user_models.dart';
+import 'package:bantuin/view_models/user_viewmodel.dart';
 import 'package:bantuin/widgets/register/register_textfield_component.dart';
 import 'package:bantuin/constants/color/app_color.dart';
 import 'package:bantuin/constants/font/app_font.dart';
@@ -6,9 +9,12 @@ import 'package:bantuin/screens/profile/profile_screen.dart';
 import 'package:bantuin/widgets/bottom_navigation/bottom_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class EditProfile extends StatefulWidget {
-  const EditProfile({super.key});
+  final UsersDetailModel usersDetail;
+
+  const EditProfile({required this.usersDetail, Key? key}) : super(key: key);
 
   @override
   State<EditProfile> createState() => _EditProfileState();
@@ -19,7 +25,17 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _jobController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
   bool obscure = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _usernameController.text = widget.usersDetail.username;
+    _emailController.text = widget.usersDetail.email;
+    _jobController.text = widget.usersDetail.job;
+    _phoneController.text = widget.usersDetail.phone;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +48,11 @@ class _EditProfileState extends State<EditProfile> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => BottomMenu(
-                      currentTab: 3, currentScreen: const ProfileScreen())),
+                builder: (context) => BottomMenu(
+                  currentTab: 4,
+                  currentScreen: ProfileScreen(),
+                ),
+              ),
             );
           },
           icon: const Icon(
@@ -62,14 +81,14 @@ class _EditProfileState extends State<EditProfile> {
                   children: [
                     TextFieldComponent(
                       label: 'Username',
-                      hint: 'Masukan username',
+                      hint: 'Masukkan username',
                       type: 'username',
                       controller: _usernameController,
                     ),
                     const SizedBox(height: 20.0),
                     TextFieldComponent(
                       label: 'Email',
-                      hint: 'Masukan email',
+                      hint: 'Masukkan email',
                       type: 'email',
                       email: true,
                       controller: _emailController,
@@ -77,36 +96,57 @@ class _EditProfileState extends State<EditProfile> {
                     const SizedBox(height: 20.0),
                     TextFieldComponent(
                       label: 'Pekerjaan',
-                      hint: 'Masukan pekerjaan',
+                      hint: 'Masukkan pekerjaan',
                       type: 'pekerjaan',
                       controller: _jobController,
                     ),
+                    const SizedBox(height: 20.0),
+                    TextFieldComponent(
+                      label: 'Phone',
+                      hint: 'Masukkan phone',
+                      type: 'phone',
+                      controller: _phoneController,
+                    ),
                     const SizedBox(height: 36.0),
-                    ElevatedButton(
-                      onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) => const ProfileScreen()),
-                        // );
-                        final isValidForm = _formKey.currentState!.validate();
-                        if (isValidForm) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => BottomMenu(
-                                    currentTab: 3,
-                                    currentScreen: const ProfileScreen())),
-                          );
-                        }
-                      },
-                      style: const ButtonStyle(
-                        padding: MaterialStatePropertyAll(EdgeInsets.all(16.0)),
-                        elevation: MaterialStatePropertyAll(0),
-                        backgroundColor:
-                            MaterialStatePropertyAll(AppColor.activeColor),
-                      ),
-                      child: Center(
+                    Consumer<UsersViewModel>(
+                      builder: (context, user, _) => ElevatedButton(
+                        onPressed: () async {
+                          final isValidForm = _formKey.currentState!.validate();
+                          if (isValidForm) {
+                            await user
+                                .updateUsers(
+                                  PostUsersModel(
+                                    username: _usernameController.text,
+                                    email: _emailController.text,
+                                    job: _jobController.text,
+                                    phone: _phoneController.text,
+                                  ),
+                                  widget.usersDetail,
+                                )
+                                .then(
+                                  (value) => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => BottomMenu(
+                                        currentTab: 3,
+                                        currentScreen: ProfileScreen(),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Mohon isi semua data'),
+                              ),
+                            );
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.all(16.0),
+                          elevation: 0,
+                          backgroundColor: AppColor.activeColor,
+                        ),
                         child: Text(
                           'Simpan',
                           style: AppFont.textFillButtonActive,
