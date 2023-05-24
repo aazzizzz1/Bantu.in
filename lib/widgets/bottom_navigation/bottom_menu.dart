@@ -27,11 +27,14 @@ class _BottomMenuState extends State<BottomMenu> {
   late ListMenu statusLayar;
 
   @override
-void initState() {
-  statusLayar = ListMenu(currentTab, currentScreen, UsersDetailModel(email: '', id: 0, job: '', phone: '', username: '', photo: Photo(url: '')));
-  super.initState();
-}
-
+  void initState() {
+    statusLayar = ListMenu(
+        currentTab,
+        currentScreen,
+        UsersDetailModel(
+            email: '', id: 0, job: '', phone: '', username: '', photo: ''));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

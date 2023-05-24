@@ -21,14 +21,14 @@ class PostUsersModel {
         // "photo": photo,
       };
 }
-class Photo {
-  String url;
+// class Photo {
+//   String url;
 
-  Photo({required this.url});
+//   Photo({required this.url});
 
-  factory Photo.fromJson(Map<String, dynamic> json) {
-    return Photo(
-      url: json['url'],
-    );
-  }
-}
+//   factory Photo.fromJson(Map<String, dynamic> json) {
+//     return Photo(
+//       url: json['url'],
+//     );
+//   }
+// }

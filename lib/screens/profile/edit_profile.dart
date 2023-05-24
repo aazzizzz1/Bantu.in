@@ -49,8 +49,8 @@ class _EditProfileState extends State<EditProfile> {
               context,
               MaterialPageRoute(
                 builder: (context) => BottomMenu(
-                  currentTab: 3,
-                  currentScreen: ProfileScreen(users: widget.usersDetail),
+                  currentTab: 4,
+                  currentScreen: ProfileScreen(),
                 ),
               ),
             );
@@ -115,27 +115,25 @@ class _EditProfileState extends State<EditProfile> {
                           if (isValidForm) {
                             await user
                                 .updateUsers(
-                              PostUsersModel(
-                                username: _usernameController.text,
-                                email: _emailController.text,
-                                job: _jobController.text,
-                                phone: _phoneController.text,
-                              ),
-                              widget.usersDetail,
-                            )
+                                  PostUsersModel(
+                                    username: _usernameController.text,
+                                    email: _emailController.text,
+                                    job: _jobController.text,
+                                    phone: _phoneController.text,
+                                  ),
+                                  widget.usersDetail,
+                                )
                                 .then(
-                              (value) => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => BottomMenu(
-                                    currentTab: 3,
-                                    currentScreen: ProfileScreen(
-                                      users: widget.usersDetail,
+                                  (value) => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => BottomMenu(
+                                        currentTab: 3,
+                                        currentScreen: ProfileScreen(),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                            );
+                                );
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(

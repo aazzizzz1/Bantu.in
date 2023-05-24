@@ -11,7 +11,8 @@ import 'package:flutter/services.dart';
 class EditPasswordProfile extends StatefulWidget {
   final UsersDetailModel usersDetail;
 
-  const EditPasswordProfile({Key? key, required this.usersDetail}) : super(key: key);
+  const EditPasswordProfile({Key? key, required this.usersDetail})
+      : super(key: key);
 
   @override
   State<EditPasswordProfile> createState() => _EditPasswordProfileState();
@@ -20,7 +21,8 @@ class EditPasswordProfile extends StatefulWidget {
 class _EditPasswordProfileState extends State<EditPasswordProfile> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _passwordConfirmationController = TextEditingController();
+  final TextEditingController _passwordConfirmationController =
+      TextEditingController();
   bool obscure = true;
 
   @override
@@ -36,7 +38,7 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
               MaterialPageRoute(
                 builder: (context) => BottomMenu(
                   currentTab: 3,
-                  currentScreen: ProfileScreen(users: widget.usersDetail),
+                  currentScreen: ProfileScreen(),
                 ),
               ),
             );
@@ -87,7 +89,8 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                         if (value!.isEmpty) {
                           return 'Maaf anda belum memasukan kata sandi lama anda';
                         }
-                        if (_passwordConfirmationController.text != _passwordController.text) {
+                        if (_passwordConfirmationController.text !=
+                            _passwordController.text) {
                           return 'Maaf kata sandi lama anda tidak sesuai';
                         }
                         return null;
@@ -98,19 +101,23 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                         hintText: 'Masukan kata sandi lama anda',
                         hintStyle: AppFont.hintTextField,
                         focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: AppColorPrimary.primary6),
+                          borderSide:
+                              BorderSide(color: AppColorPrimary.primary6),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: AppColorNeutral.neutral2),
+                          borderSide:
+                              const BorderSide(color: AppColorNeutral.neutral2),
                           borderRadius: BorderRadius.circular(3),
                         ),
                         disabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: AppColorNeutral.neutral2),
+                          borderSide:
+                              const BorderSide(color: AppColorNeutral.neutral2),
                           borderRadius: BorderRadius.circular(3),
                         ),
                         errorBorder: InputBorder.none,
                         focusedErrorBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: AppColorPrimary.primary6),
+                          borderSide:
+                              BorderSide(color: AppColorPrimary.primary6),
                         ),
                         errorStyle: AppFont.errorTextForm,
                         suffixIcon: IconButton(
@@ -131,7 +138,8 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                       label: 'Kata sandi baru',
                       hint: 'Masukan kata sandi baru',
                       type: 'kata sandi baru',
-                      description: 'Kata sandi harus terdiri dari 8 huruf, 1 huruf besar, 1 angka',
+                      description:
+                          'Kata sandi harus terdiri dari 8 huruf, 1 huruf besar, 1 angka',
                       controller: _passwordController,
                       icon: Icons.remove_red_eye_outlined,
                       obscure: true,
@@ -160,7 +168,8 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                         if (value!.isEmpty) {
                           return 'Maaf anda belum memasukan ulang kata sandi baru anda';
                         }
-                        if (_passwordConfirmationController.text != _passwordController.text) {
+                        if (_passwordConfirmationController.text !=
+                            _passwordController.text) {
                           return 'Maaf kata sandi baru anda belum sesuai dengan sebelumnya';
                         }
                         return null;
@@ -171,19 +180,23 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                         hintText: 'Masukan kata sandi baru anda lagi',
                         hintStyle: AppFont.hintTextField,
                         focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: AppColorPrimary.primary6),
+                          borderSide:
+                              BorderSide(color: AppColorPrimary.primary6),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: AppColorNeutral.neutral2),
+                          borderSide:
+                              const BorderSide(color: AppColorNeutral.neutral2),
                           borderRadius: BorderRadius.circular(3),
                         ),
                         disabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: AppColorNeutral.neutral2),
+                          borderSide:
+                              const BorderSide(color: AppColorNeutral.neutral2),
                           borderRadius: BorderRadius.circular(3),
                         ),
                         errorBorder: InputBorder.none,
                         focusedErrorBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: AppColorPrimary.primary6),
+                          borderSide:
+                              BorderSide(color: AppColorPrimary.primary6),
                         ),
                         errorStyle: AppFont.errorTextForm,
                         suffixIcon: IconButton(
@@ -209,7 +222,7 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                             MaterialPageRoute(
                               builder: (context) => BottomMenu(
                                 currentTab: 3,
-                                currentScreen: ProfileScreen(users: widget.usersDetail),
+                                currentScreen: ProfileScreen(),
                               ),
                             ),
                           );

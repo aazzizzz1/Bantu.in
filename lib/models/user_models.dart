@@ -16,7 +16,7 @@ class UsersDetailModel {
   final String email;
   final String phone;
   final String job;
-  final Photo photo;
+  final String photo;
 
   UsersDetailModel({
     required this.id,
@@ -29,24 +29,24 @@ class UsersDetailModel {
 
   factory UsersDetailModel.fromJson(Map<String, dynamic> json) {
     return UsersDetailModel(
-      id: json['id'],
-      username: json['username'],
-      email: json['email'],
-      phone: json['phone'],
-      job: json['job'],
-      photo: Photo.fromJson(json['photo']),
+      id: json['id'] ?? 0,
+      username: json['username'] ?? 'null',
+      email: json['email'] ?? 'null',
+      phone: json['phone'] ?? 'null',
+      job: json['job'] ?? 'null',
+      photo: json['photo'] ?? 'lib/assets/images/exampleAvatar.png',
     );
   }
 }
 
 class Photo {
-  final String? url;
+  final String url;
 
-  Photo({this.url});
+  Photo({required this.url});
 
   factory Photo.fromJson(Map<String, dynamic> json) {
     return Photo(
-      url: json['url'],
+      url: json['url'] ?? 'null',
     );
   }
 }

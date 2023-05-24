@@ -109,10 +109,11 @@ class AppsRepository {
   }
 
   // profile user
-    Future getUsers() async {
+  Future getUsers() async {
     try {
-      final response = await _apiService.getRequest('/users');
-      print(response);
+      final response = await _apiService.getRequest('/active_user');
+      UsersDetailModel users = UsersDetailModel.fromJson(response['data']);
+      return users;
     } catch (_) {
       rethrow;
     }
@@ -149,5 +150,4 @@ class AppsRepository {
       rethrow;
     }
   }
-
 }

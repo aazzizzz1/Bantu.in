@@ -19,7 +19,7 @@ class ListMenu {
       const NoteScreen(),
       const TimScreen(),
       const InvitationScreen(),
-      ProfileScreen(users: users),
+      ProfileScreen(),
     ];
   }
 }
