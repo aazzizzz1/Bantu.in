@@ -20,10 +20,10 @@ class NoteDetailModel {
   final DateTime reminder;
   final String notesType;
   final String status;
-  final List owner;
+  final List<OwnerDetailModel> owner;
   final String ringtone;
   final List file;
-  final List member;
+  final List<MemberDetailModel> member;
 
   NoteDetailModel({
     required this.id,

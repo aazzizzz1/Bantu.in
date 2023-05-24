@@ -25,13 +25,13 @@ class MyReminder2 extends StatefulWidget {
 }
 
 class _MyReminder2State extends State<MyReminder2> {
-  DateTime? _selectedDates;
+  DateTime? _selectedDatesReminder;
   final _reminderController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _selectedDates = widget.initialDates;
+    _selectedDatesReminder = widget.initialDates;
     initializeDateFormatting('id_ID', null);
   }
 
@@ -73,7 +73,7 @@ class _MyReminder2State extends State<MyReminder2> {
           );
         } else {
           setState(() {
-            _selectedDates = selectedDateTime;
+            _selectedDatesReminder = selectedDateTime;
             widget.controller.text = DateFormat('dd/MM/yyyy hh:mm', 'en_US')
                 .format(selectedDateTime);
             // widget.controller.text =
@@ -111,15 +111,62 @@ class _MyReminder2State extends State<MyReminder2> {
   Widget build(BuildContext context) {
     return TextFormField(
       readOnly: true,
-      controller: widget.controller,
+      controller: _reminderController,
       keyboardType: TextInputType.multiline,
       style: AppFont.medium14,
-      onTap: () {
-        initializeDateFormatting().then(
-          (value) => _addNewReminder(),
+      onTap: () async {
+        final DateTime? selectedDate = await showDatePicker(
+          context: context,
+          initialDate: _selectedDatesReminder!,
+          firstDate: DateTime.now(),
+          lastDate: widget.initialLastDate,
         );
-        // initializeDateFormatting('id_ID', null)
-        //     .then((_) => _selectDate());
+        if (selectedDate != null) {
+          final DateTime now = DateTime.now();
+          final TimeOfDay? selectedTime = await showTimePicker(
+            context: context,
+            initialTime: TimeOfDay.now(),
+          );
+          if (selectedTime != null) {
+            final DateTime selectedDateTime = DateTime(
+              selectedDate.year,
+              selectedDate.month,
+              selectedDate.day,
+              selectedTime.hour,
+              selectedTime.minute,
+            );
+            if (selectedDateTime.isBefore(now)) {
+              showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                  title: Text('Peringatan'),
+                  content: Text(
+                      'Anda tidak dapat memilih waktu sebelum waktu saat ini.'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text('OK'),
+                    ),
+                  ],
+                ),
+              );
+            } else {
+              // setState(() {
+              //   // widget.controller.text =
+              //   //     DateFormat.yMd().add_jm().format(selectedDateTime);
+              //   // _reminderController.text =
+              //   //     DateFormat.yMMMMEEEEd('id_ID').format(selectedDateTime);
+              // });
+              _selectedDatesReminder = selectedDateTime;
+              widget.onChanged(selectedDateTime);
+              _reminderController.text = DateFormat('dd/MM/yyyy hh:mm', 'en_US')
+                  .format(selectedDateTime);
+              // setState(() {
+              // });
+              // _onReminderChanged(selectedDateTime);
+            }
+          }
+        }
       },
       validator: (value) {
         if (value!.isEmpty) {
@@ -158,6 +205,55 @@ class _MyReminder2State extends State<MyReminder2> {
             borderSide: BorderSide(color: AppColorPrimary.primary6)),
       ),
     );
+    // TextFormField(
+    //   readOnly: true,
+    //   controller: widget.controller,
+    //   keyboardType: TextInputType.multiline,
+    //   style: AppFont.medium14,
+    //   onTap: () {
+    //     initializeDateFormatting().then(
+    //       (value) => _addNewReminder(),
+    //     );
+    //     // initializeDateFormatting('id_ID', null)
+    //     //     .then((_) => _selectDate());
+    //   },
+    //   validator: (value) {
+    //     if (value!.isEmpty) {
+    //       return 'Anda belum memasukkan tanggal';
+    //     }
+    //   },
+    //   decoration: InputDecoration(
+    //     filled: true,
+    //     hintText: 'Pilih tanggal dan waktu pengingat.',
+    //     hintStyle: AppFont.hintTextField,
+    //     fillColor: AppColorNeutral.neutral1,
+    //     prefixIcon: Padding(
+    //       padding: const EdgeInsets.all(10),
+    //       child: SvgPicture.asset(
+    //         "lib/assets/icons/Alarm.svg",
+    //         height: 26,
+    //         width: 26,
+    //       ),
+    //     ),
+    //     prefixIconColor: Colors.black,
+    //     focusedBorder: const OutlineInputBorder(
+    //         borderSide: BorderSide(color: AppColorNeutral.neutral2)),
+    //     enabledBorder: OutlineInputBorder(
+    //       borderSide: const BorderSide(color: AppColorNeutral.neutral2),
+    //       borderRadius: BorderRadius.circular(3),
+    //     ),
+    //     disabledBorder: OutlineInputBorder(
+    //       borderSide: const BorderSide(color: AppColorNeutral.neutral2),
+    //       borderRadius: BorderRadius.circular(3),
+    //     ),
+    //     errorBorder: OutlineInputBorder(
+    //       borderSide: const BorderSide(color: AppColorNeutral.neutral2),
+    //       borderRadius: BorderRadius.circular(3),
+    //     ),
+    //     focusedErrorBorder: const OutlineInputBorder(
+    //         borderSide: BorderSide(color: AppColorPrimary.primary6)),
+    //   ),
+    // );
     // Column(
     //   crossAxisAlignment: CrossAxisAlignment.start,
     //   children: [

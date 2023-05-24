@@ -124,6 +124,37 @@ class ApiServices {
     }
   }
 
+  @override
+  Future postMultipart(String url, List<File>? files, Map<String, String> body,
+      String noteKey) async {
+    SharedPreferences? prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('token').toString();
+
+    try {
+      var request = http.MultipartRequest("POST", Uri.parse('$baseUrl$url'));
+
+      request.headers.addAll({
+        "Content-Type": "application/json; charset=UTF-8",
+        "Authorization": "Bearer $token"
+      });
+
+      request.fields.addAll(body);
+
+      if (files != null) {
+        for (var file in files) {
+          request.files
+              .add(await http.MultipartFile.fromPath(noteKey, file.path));
+        }
+      }
+
+      var sendRequest = await request.send();
+      var response = await http.Response.fromStream(sendRequest);
+      return returnResponse(response);
+    } on SocketException {
+      throw 'No Internet Connection';
+    }
+  }
+
   dynamic returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:

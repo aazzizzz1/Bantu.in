@@ -20,15 +20,21 @@ class CardIncomingNotesUpload extends StatelessWidget {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         String name = prefs.getString('username').toString();
         bool isOwner = false;
+        bool isUpload = false;
         if (name == noteDetail.owner[0].username) {
           isOwner = true;
         }
+        if (noteDetail.status != 'in_progress') {
+          isUpload = true;
+        }
+
         Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => NotesDetail(
                 noteDetail: noteDetail,
                 isOwner: isOwner,
+                isUpload: isUpload,
               ),
             ));
       },

@@ -10,6 +10,7 @@ import 'package:bantuin/view_models/password_viewmodel.dart';
 import 'package:bantuin/view_models/register_viewmodel.dart';
 import 'package:bantuin/view_models/ringtone_viewmodel.dart';
 import 'package:bantuin/view_models/user_viewmodel.dart';
+import 'package:bantuin/view_models/tim_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -38,6 +39,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => RingtoneViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => TeamViewModel(),
         ),
         ChangeNotifierProvider(
           create: (context) => UsersViewModel(),

@@ -1,12 +1,20 @@
+import 'package:bantuin/models/note_model.dart';
+import 'package:bantuin/view_models/note_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 import '../constants/color/app_color.dart';
 import '../constants/font/app_font.dart';
+import '../models/post_note_model.dart';
 
 class PopupUpdate extends StatelessWidget {
-  const PopupUpdate({super.key});
+  final NoteDetailModel noteDetail;
+  final PostNoteModel postNote;
+  const PopupUpdate(
+      {super.key, required this.noteDetail, required this.postNote});
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +131,7 @@ class PopupUpdate extends StatelessWidget {
                             onPressed: () {
                               // Perform delete operation and navigate back to previous screen
                               // ...
-                              // Navigator.pop(context);
+                              Navigator.pop(context);
                             },
                             child: Text(
                               'Batal',
@@ -135,28 +143,40 @@ class PopupUpdate extends StatelessWidget {
                           width: 8,
                         ),
                         Expanded(
-                          child: ElevatedButton(
-                            style: const ButtonStyle(
-                              overlayColor: MaterialStatePropertyAll(
-                                  AppColorPrimary.primary4),
-                              padding: MaterialStatePropertyAll(
-                                EdgeInsets.symmetric(
-                                    horizontal: 28, vertical: 10),
+                          child: Consumer<NoteViewModel>(
+                            builder: (context, value, child) => ElevatedButton(
+                              style: const ButtonStyle(
+                                overlayColor: MaterialStatePropertyAll(
+                                    AppColorPrimary.primary4),
+                                padding: MaterialStatePropertyAll(
+                                  EdgeInsets.symmetric(
+                                      horizontal: 28, vertical: 10),
+                                ),
+                                elevation: MaterialStatePropertyAll(0),
+                                // side: MaterialStatePropertyAll(
+                                //     BorderSide(color: AppColorPrimary.primary6)),
+                                backgroundColor: MaterialStatePropertyAll(
+                                    AppColorPrimary.primary5),
                               ),
-                              elevation: MaterialStatePropertyAll(0),
-                              // side: MaterialStatePropertyAll(
-                              //     BorderSide(color: AppColorPrimary.primary6)),
-                              backgroundColor: MaterialStatePropertyAll(
-                                  AppColorPrimary.primary5),
-                            ),
-                            onPressed: () {
-                              // Perform delete operation and navigate back to previous screen
-                              // ...
-                              // Navigator.pop(context);
-                            },
-                            child: Text(
-                              'Edit',
-                              style: AppFont.textFillButtonActive,
+                              onPressed: () async {
+                                // Perform delete operation and navigate back to previous screen
+                                // ...
+                                // Navigator.pop(context);
+                                try {
+                                  await value
+                                      .updatePersonalNote(postNote, noteDetail)
+                                      .then((value) => Fluttertoast.showToast(
+                                          msg: 'Berhasil mengubah note'))
+                                      .then((value) => Navigator.pop(context))
+                                      .then((value) => Navigator.pop(context));
+                                } catch (e) {
+                                  Fluttertoast.showToast(msg: e.toString());
+                                }
+                              },
+                              child: Text(
+                                'Edit',
+                                style: AppFont.textFillButtonActive,
+                              ),
                             ),
                           ),
                         ),

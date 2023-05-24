@@ -1,7 +1,9 @@
 import 'package:bantuin/models/note_tim_model.dart';
+import 'package:bantuin/models/tim_model.dart';
 import 'package:bantuin/models/user_note_model.dart';
 import 'package:bantuin/screens/note/notes_form.dart';
 import 'package:bantuin/screens/tim/tim_all_member.dart';
+import 'package:bantuin/screens/tim/tim_detail_screen.dart';
 import 'package:bantuin/screens/tim/tim_screen.dart';
 import 'package:bantuin/view_models/note_viewmodel.dart';
 import 'package:bantuin/widgets/bottom_navigation/bottom_menu.dart';
@@ -19,7 +21,8 @@ import '../../constants/color/app_color.dart';
 import '../../constants/font/app_font.dart';
 
 class TimCardScreen extends StatefulWidget {
-  const TimCardScreen({super.key});
+  final TeamDetailModel teamDetail;
+  const TimCardScreen({super.key, required this.teamDetail});
 
   @override
   State<TimCardScreen> createState() => _TimCardScreenState();
@@ -45,9 +48,18 @@ class _TimCardScreenState extends State<TimCardScreen> {
         backgroundColor: Colors.white,
         title: Row(
           children: [
-            Text(
-              'Tim Jarvis',
-              style: AppFont.textTitleScreen,
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) =>
+                      TimDetailScreen(teamDetail: widget.teamDetail),
+                ));
+              },
+              child: Text(
+                widget.teamDetail.title,
+                style: AppFont.textTitleScreen,
+                overflow: TextOverflow.fade,
+              ),
             ),
           ],
         ),
@@ -66,7 +78,7 @@ class _TimCardScreenState extends State<TimCardScreen> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => BottomMenu(
-                              currentTab: 1, currentScreen: const TimScreen())),
+                              currentTab: 2, currentScreen: const TimScreen())),
                     );
                   },
                   icon: Icon(
@@ -105,7 +117,7 @@ class _TimCardScreenState extends State<TimCardScreen> {
       body: DragAndDropLists(
         listWidth: 300,
         axis: Axis.horizontal,
-        lastItemTargetHeight: MediaQuery.of(context).size.height - 720,
+        // lastItemTargetHeight: MediaQuery.of(context).size.height - 720,
         // addLastItemTargetHeightToTop: true,
         // lastListTargetSize: 30,
         listPadding: const EdgeInsets.all(16),

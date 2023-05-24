@@ -18,6 +18,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../view_models/user_viewmodel.dart';
 
+import '../../view_models/ringtone_viewmodel.dart';
+import '../note/note_form2.dart';
+
 class HomePages extends StatefulWidget {
   const HomePages({Key? key}) : super(key: key);
 
@@ -32,6 +35,8 @@ class _HomePagesState extends State<HomePages> {
 
     Future.microtask(() =>
         Provider.of<NoteViewModel>(context, listen: false).getPersonalNote());
+    Future.microtask(() =>
+        Provider.of<RingtoneViewModel>(context, listen: false).fetchRingtone());
     Future.microtask(
         () => Provider.of<UsersViewModel>(context, listen: false).getUsers());
     super.initState();
@@ -108,7 +113,7 @@ class _HomePagesState extends State<HomePages> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const NoteForm()),
+            MaterialPageRoute(builder: (context) => const NoteForm2()),
           );
         },
       ),
