@@ -35,14 +35,15 @@ class ApiServices {
       
       return returnResponse(response);
     } else if (response.statusCode == 404) {
-      throw Exception("Endpoint not found");
+      throw json.decode(response.body)['error'];
     } else if (response.statusCode == 422) {
       final responseBody = json.decode(response.body);
-      throw Exception(responseBody['message']);
+      throw json.decode(response.body)['error'];
     } else {
       final responseBody = json.decode(response.body);
       print(responseBody);
-      throw Exception(responseBody['error']);
+      throw json.decode(response.body)['error'];
+      // throw Exception(responseBody['error']);
     }
   }
 
@@ -78,9 +79,6 @@ class ApiServices {
           'Authorization': 'Bearer $token',
         },
       );
-      // final responseBody = json.decode(response.body);
-      // print(responseBody);
-      print(response);
       return returnResponse(response);
     } on SocketException {
       throw 'No Internet Connection';
@@ -179,6 +177,8 @@ class ApiServices {
         throw json.decode(response.body)['message'];
       default:
         // throw Exception(
+        final responseBody = json.decode(response.body);
+        print(responseBody);
         //     "Error accourded while communicating with server with status code ${response.statusCode}");
         throw "Error accourded while communicating with server with status code ${response.statusCode}";
     }

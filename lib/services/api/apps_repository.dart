@@ -125,7 +125,6 @@ class AppsRepository {
     }
   }
 
-//profile
 // profile user
   Future getUsers() async {
     try {
@@ -153,11 +152,9 @@ class AppsRepository {
     }
   }
 
-  Future<void> postProfilePicture(
-      {required String id, required List<File> selectedFile}) async {
+  Future<void> postProfilePhoto(String photo, int id) async {
     try {
-      await _apiService.postMultipart(
-          '/users/$id', selectedFile, {"photo": id}, "photo");
+      await _apiService.putRequest('/users/$id', photo);
     } catch (_) {
       rethrow;
     }
@@ -192,35 +189,10 @@ class AppsRepository {
   }
 
   //passowrd
-  Future getPassword() async {
-    try {
-      final response = await _apiService.getRequest('/update_password');
-      PasswordModel pass = PasswordModel.fromJson(response['data']);
-      return pass;
-    } catch (_) {
-      rethrow;
-    }
-  }
 
-  Future<void> postPassword(PostPasswordModel passpost) async {
+  Future<void> updatePassword(PostPasswordModel passpost) async {
     try {
-      await _apiService.postRequest('/update_password', passpost);
-    } catch (_) {
-      rethrow;
-    }
-  }
-
-  Future<void> updatePassword(PostPasswordModel passpost, int id) async {
-    try {
-      await _apiService.putRequest('/update_password/$id', passpost);
-    } catch (_) {
-      rethrow;
-    }
-  }
-
-  Future<void> postProfilePhoto(UsersDetailModel user, int id) async {
-    try {
-      await _apiService.postRequest('/users/$id', user);
+      await _apiService.putRequest('/update_password', passpost);
     } catch (_) {
       rethrow;
     }

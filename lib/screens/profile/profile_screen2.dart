@@ -1,8 +1,12 @@
+import 'dart:io';
+
+import 'package:bantuin/models/post_user_model.dart';
 import 'package:bantuin/models/user_models.dart';
+import 'package:bantuin/screens/profile/edit_password_profile.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,7 +16,7 @@ import '../auth/login_screen.dart';
 import 'edit_profile.dart';
 
 class ProfileScreen2 extends StatefulWidget {
-  const ProfileScreen2({super.key});
+  const ProfileScreen2({Key? key}) : super(key: key);
 
   @override
   State<ProfileScreen2> createState() => _ProfileScreen2State();
@@ -20,67 +24,130 @@ class ProfileScreen2 extends StatefulWidget {
 
 class _ProfileScreen2State extends State<ProfileScreen2> {
   String password = '';
+  PlatformFile platformFileUrl = PlatformFile(name: '', size: 0, path: '');
+  File _fileUrl = File('');
+
   TextEditingController _passwordController = TextEditingController();
 
   @override
-  Future getDataUser() async {
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      Provider.of<UsersViewModel>(context, listen: false).getUsers();
+      getDataUser();
+    });
+    _passwordController.text = password;
+  }
+
+  Future<void> getDataUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      password = prefs.getString('password').toString();
+      password = prefs.getString('password') ?? '';
     });
   }
 
-  void initState() {
-    // TODO: implement initState
-    // Future.microtask(() =>
-    //     Provider.of<PasswordViewModel>(context, listen: false).getPassword());
-    Future.microtask(
-        () => Provider.of<UsersViewModel>(context, listen: false).getUsers());
-    getDataUser();
-    _passwordController.text = password;
-    setState(() {});
-    super.initState();
+  Future<void> _pickFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'png', 'jpeg'],
+    );
+
+    if (result != null && result.files.isNotEmpty) {
+      /// Load result and file details
+      PlatformFile file = result.files.first;
+      print(file.name);
+      print(file.bytes);
+      print(file.size);
+      print(file.extension);
+      print(file.path);
+
+      /// normal file
+      File _file = File(result.files.single.path!);
+      setState(() {
+        platformFileUrl = result.files.first;
+        _fileUrl = _file;
+      });
+    } else {
+      /// User canceled the picker
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      // appBar: AppBar(
-      //   toolbarHeight: 40,
-      //   backgroundColor: Colors.white,
-      //   automaticallyImplyLeading: false,
-      //   elevation: 0,
-      // ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
             margin: const EdgeInsets.all(16),
             child: Column(
               children: [
-                CachedNetworkImage(
-                  imageUrl:
-                      'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
-                  placeholder: (context, url) => CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
-                  imageBuilder: (context, imageProvider) => Container(
-                    width: 160,
-                    height: 160,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: imageProvider,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 14),
-                InkWell(
-                  child: Text(
-                    'Edit Foto Profil',
-                    style: AppFont.textButtonActive,
-                  ),
+                Consumer<UsersViewModel>(
+                  builder: (context, value, child) {
+                    var data = value.listOfUsers;
+                    return Column(
+                      children: [
+                        CachedNetworkImage(
+                          imageUrl: data.photo,
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
+                          imageBuilder: (context, imageProvider) => Container(
+                            width: 160,
+                            height: 160,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: imageProvider,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 14),
+                        Consumer<UsersViewModel>(
+                          builder: (context, value, child) {
+                            final UsersDetailModel data =
+                                value.listOfUsers;
+                            return InkWell(
+                              onTap: () async {
+                                try {
+                                  await _pickFile().then((_) =>
+                                      value.updateProfilePicture(
+                                          data, Photo(photo: _fileUrl))
+                                        .then((value) => Fluttertoast.showToast(
+                                            msg:
+                                                "Berhasil mengubah foto profil",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            timeInSecForIosWeb: 1,
+                                            backgroundColor: AppColor.activeColor,
+                                            textColor: Colors.white,
+                                            fontSize: 16.0)));
+                                  print(_fileUrl);
+                                } catch (e) {
+                                  await Fluttertoast.showToast(
+                                      msg: e.toString(),
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: AppColor.activeColor,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0);
+                                  print(e.toString());
+                                }
+                              },
+                              child: Text(
+                                'Edit Foto Profil',
+                                style: AppFont.textButtonActive,
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    );
+                  },
                 ),
                 const SizedBox(height: 24),
                 Row(
@@ -96,11 +163,12 @@ class _ProfileScreen2State extends State<ProfileScreen2> {
                         return InkWell(
                           onTap: () {
                             Navigator.push(
-                              (context),
+                              context,
                               MaterialPageRoute(
-                                  builder: (context) => EditProfile(
-                                        usersDetail: data,
-                                      )),
+                                builder: (context) => EditProfile(
+                                  usersDetail: data,
+                                ),
+                              ),
                             );
                           },
                           child: Text(
@@ -124,7 +192,6 @@ class _ProfileScreen2State extends State<ProfileScreen2> {
                           style: AppFont.textNotificationTime,
                         ),
                         SizedBox(height: 7),
-
                         Text(
                           data.username,
                           style: AppFont.medium14,
@@ -187,12 +254,13 @@ class _ProfileScreen2State extends State<ProfileScreen2> {
                                 textStyle: AppFont.semiBold16w500,
                               ),
                               onPressed: () {
-                                // Navigator.push(
-                                //   (context),
-                                //   MaterialPageRoute(
-                                //       builder: (context) =>
-                                //           EditPasswordProfile(users: users,)),
-                                // );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        EditPasswordProfile(),
+                                  ),
+                                );
                               },
                               child: const Text('Ubah'),
                             ),
@@ -202,15 +270,6 @@ class _ProfileScreen2State extends State<ProfileScreen2> {
                           height: 7,
                         ),
                         Text(' ${password.replaceAll(RegExp(r"."), "●")}'),
-                        // Consumer<PasswordViewModel>(
-                        //   builder: (context, pass, child) {
-                        //     var data = pass.listOfPassword;
-                        //     return Text(
-                        //       data.password,
-                        //       style: AppFont.regular16w500,
-                        //     );
-                        //   },
-                        // ),
                         SizedBox(
                           height: 20,
                         ),
@@ -236,8 +295,10 @@ class _ProfileScreen2State extends State<ProfileScreen2> {
                     ),
                     onPressed: () {
                       Navigator.push(
-                        (context),
-                        MaterialPageRoute(builder: (context) => LoginScreen()),
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LoginScreen(),
+                        ),
                       );
                     },
                     child: const Text('Keluar'),
@@ -251,3 +312,38 @@ class _ProfileScreen2State extends State<ProfileScreen2> {
     );
   }
 }
+                        // Get.bottomSheet(
+                        //   Container(
+                        //     decoration: BoxDecoration(
+                        //       color: Colors.white,
+                        //       borderRadius: const BorderRadius.only(
+                        //           topLeft: Radius.circular(16.0),
+                        //           topRight: Radius.circular(16.0)),
+                        //     ),
+                        //     child: Wrap(
+                        //       alignment: WrapAlignment.end,
+                        //       crossAxisAlignment: WrapCrossAlignment.end,
+                        //       children: [
+                        //         ListTile(
+                        //           leading: Icon(Icons.camera),
+                        //           title: Text('Camera'),
+                        //           onTap: () {
+                        //             Get.back();
+                        //             profilerController.uploadImage(ImageSource.camera);
+                        //           },
+                        //         ),
+                        //         ListTile(
+                        //           leading: Icon(Icons.image),
+                        //           title: Text('Gallery'),
+                        //           onTap: () {
+                        //             Get.back();
+                        //             profilerController
+                        //                 .uploadImage(ImageSource.gallery);
+                        //           },
+                        //         ),
+                        //       ],
+                        //     ),
+                        //   ),
+                        // );
+                      
+          
