@@ -34,19 +34,8 @@ class UsersDetailModel {
       email: json['email'] ?? 'null',
       phone: json['phone'] ?? 'null',
       job: json['job'] ?? 'null',
-      photo: json['photo'] ?? 'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
+      photo: json['photo'] ?? 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png',
     );
   }
 }
 
-class Photo {
-  final String url;
-
-  Photo({required this.url});
-
-  factory Photo.fromJson(Map<String, dynamic> json) {
-    return Photo(
-      url: json['url'] ?? 'null',
-    );
-  }
-}

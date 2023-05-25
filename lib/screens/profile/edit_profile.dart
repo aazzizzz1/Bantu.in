@@ -1,5 +1,6 @@
 import 'package:bantuin/models/post_user_model.dart';
 import 'package:bantuin/models/user_models.dart';
+import 'package:bantuin/screens/profile/profile_screen2.dart';
 import 'package:bantuin/view_models/user_viewmodel.dart';
 import 'package:bantuin/widgets/register/register_textfield_component.dart';
 import 'package:bantuin/constants/color/app_color.dart';
@@ -50,7 +51,7 @@ class _EditProfileState extends State<EditProfile> {
               MaterialPageRoute(
                 builder: (context) => BottomMenu(
                   currentTab: 4,
-                  currentScreen: ProfileScreen(),
+                  currentScreen: ProfileScreen2(),
                 ),
               ),
             );
@@ -113,7 +114,8 @@ class _EditProfileState extends State<EditProfile> {
                         onPressed: () async {
                           final isValidForm = _formKey.currentState!.validate();
                           if (isValidForm) {
-                            await user
+                            try {
+                              await user
                                 .updateUsers(
                                   PostUsersModel(
                                     username: _usernameController.text,
@@ -129,17 +131,18 @@ class _EditProfileState extends State<EditProfile> {
                                     MaterialPageRoute(
                                       builder: (context) => BottomMenu(
                                         currentTab: 4,
-                                        currentScreen: ProfileScreen(),
+                                        currentScreen: ProfileScreen2(),
                                       ),
                                     ),
                                   ),
                                 );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Mohon isi semua data'),
-                              ),
-                            );
+                            } catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(e.toString()),
+                                ),
+                              ); 
+                            }
                           }
                         },
                         style: ElevatedButton.styleFrom(

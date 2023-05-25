@@ -166,16 +166,84 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       controller: _jobController,
                     ),
                     const SizedBox(height: 20.0),
-                    TextFieldComponent(
-                      label: 'Kata sandi',
-                      hint: 'Masukan kata sandi',
-                      type: 'kata sandi',
-                      description:
-                          'Kata sandi harus terdiri dari 8 huruf, 1 huruf besar, dan 1 angka',
+                    TextFormField(
+                      scrollPadding: const EdgeInsets.only(left: 10),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       controller: _passwordController,
-                      icon: Icons.remove_red_eye_outlined,
-                      obscure: true,
+                      obscureText: obscure,
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(16),
+                        FilteringTextInputFormatter.allow(
+                          RegExp("[a-zA-Z0-9]"),
+                        ),
+                      ],
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Maaf anda belum memasukan kata sandi anda';
+                        } else if (value.length < 8) {
+                          return 'Maaf kata sandi lama anda kurang dari 8 karakter';
+                        } else if (value.length > 16) {
+                          return 'Maaf kata sandi lama anda lebih dari 16 karakter';
+                        } else if (value.contains(' ')) {
+                          return 'Maaf kata sandi anda tidak boleh mengandung spasi';
+                        } else if (value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+                          return 'Maaf kata sandi anda tidak boleh mengandung karakter spesial';
+                        } else if (value.contains(RegExp(r'[A-Z]')) &&
+                            value.contains(RegExp(r'[a-z]')) &&
+                            value.contains(RegExp(r'[0-9]'))) {
+                          return null;
+                        } else {
+                          return 'Maaf kata sandi anda harus mengandung huruf besar, huruf kecil, dan angka';
+                        }
+                      },
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: AppColorNeutral.neutral1,
+                        hintText: 'Masukan kata sandi anda',
+                        hintStyle: AppFont.hintTextField,
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: AppColorPrimary.primary6),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: AppColorNeutral.neutral2),
+                          borderRadius: BorderRadius.circular(3),
+                        ),
+                        disabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: AppColorNeutral.neutral2),
+                          borderRadius: BorderRadius.circular(3),
+                        ),
+                        errorBorder: InputBorder.none,
+                        focusedErrorBorder: const OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: AppColorPrimary.primary6),
+                        ),
+                        errorStyle: AppFont.errorTextForm,
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              obscure = !obscure;
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.remove_red_eye_outlined,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
                     ),
+                    // TextFieldComponent(
+                    //   label: 'Kata sandi',
+                    //   hint: 'Masukan kata sandi',
+                    //   type: 'kata sandi',
+                    //   description:
+                    //       'Kata sandi harus terdiri dari 8 huruf, 1 huruf besar, dan 1 angka',
+                    //   controller: _passwordController,
+                    //   icon: Icons.remove_red_eye_outlined,
+                    //   obscure: true,
+                    // ),
                     const SizedBox(height: 20.0),
                     // CONFIRM PASSWORD
                     Text(

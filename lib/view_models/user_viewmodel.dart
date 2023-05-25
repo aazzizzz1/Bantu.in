@@ -41,16 +41,16 @@ class UsersViewModel with ChangeNotifier {
     }
   }
 
-  Future<void> updateProfilePricture(
-      List<File> image, UsersDetailModel users) async {
-    print(users.id);
-    try {
-      await appsRepository.postProfilePicture(
-          id: users.id.toString(), selectedFile: image);
-      // await appsRepository.updateUsers(user, users.id);
-      notifyListeners();
-    } catch (error) {
-      rethrow;
-    }
+  Future<void> updateProfilePicture(
+    UsersDetailModel users, Photo photo) async {
+  print(users.id);
+  try {
+    await photo.upload(users.id); // Upload the image
+    await appsRepository.postProfilePhoto(photo.photo.path, users.id);
+    notifyListeners();
+  } catch (error) {
+    rethrow;
   }
+}
+
 }
