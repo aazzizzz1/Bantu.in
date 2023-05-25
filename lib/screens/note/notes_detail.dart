@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:bantuin/constants/color/app_color.dart';
 import 'package:bantuin/constants/font/app_font.dart';
 import 'package:bantuin/models/file_note_client.dart';
+import 'package:bantuin/models/note_detail_client_model.dart';
 import 'package:bantuin/screens/note/tracking_screen.dart';
+import 'package:bantuin/view_models/note_detail_viewmodel.dart';
 import 'package:bantuin/view_models/note_viewmodel.dart';
 import 'package:bantuin/widgets/detail_note/admin_appbar.dart';
 import 'package:bantuin/widgets/detail_note/admin_date.dart';
@@ -29,7 +31,11 @@ class NotesDetail extends StatefulWidget {
   final bool isOwner;
   final bool? isUpload;
 
-  NotesDetail({required this.noteDetail, required this.isOwner, this.isUpload});
+  NotesDetail({
+    required this.noteDetail,
+    required this.isOwner,
+    this.isUpload,
+  });
 
   @override
   State<NotesDetail> createState() => _NotesDetailState();
@@ -38,19 +44,27 @@ class NotesDetail extends StatefulWidget {
 class _NotesDetailState extends State<NotesDetail> {
   List<File> _fileUrl = [];
   List<PlatformFile> platformFileUrl = [];
+  bool isUpload = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    Future.microtask(() => Provider.of<NoteViewModel>(context, listen: false)
+        .getDetailNote(widget.noteDetail.id));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double heightAdmin = MediaQuery.of(context).size.height - 60;
     double heightClient = MediaQuery.of(context).size.height;
 
-    void _handleFileSelected(
-        List<File> selectedFile, List<PlatformFile> selectedPlatformFile) {
-      print("coba cek" + selectedPlatformFile.toString());
-      _fileUrl = selectedFile;
-      platformFileUrl = selectedPlatformFile;
-      // setState(() {
-      // });
-    }
+    // void _handleFileSelected(
+    //     List<File> selectedFile, List<PlatformFile> selectedPlatformFile) {
+    //   _fileUrl = selectedFile;
+    //   platformFileUrl = selectedPlatformFile;
+    //   // setState(() {
+    //   // });
+    // }
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -71,7 +85,7 @@ class _NotesDetailState extends State<NotesDetail> {
               ? const AdminAppbar(
                   progress: 0,
                 )
-              : ClientUploadStatus(isUpload: false)
+              : ClientUploadStatus(isUpload: isUpload)
         ],
       ),
       body: SingleChildScrollView(
@@ -149,7 +163,7 @@ class _NotesDetailState extends State<NotesDetail> {
                           ),
                           SizedBox(width: 8.0),
                           Text(
-                            widget.noteDetail.owner[0].username,
+                            widget.noteDetail.owner.first.username,
                             style: AppFont.textPersonOrTeam,
                           ),
                         ],
@@ -265,6 +279,22 @@ class _NotesDetailState extends State<NotesDetail> {
       }
     }
 
+    void _pickMultipleFiles() async {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowMultiple: true,
+        allowedExtensions: ['jpg', 'png', 'pdf'],
+      );
+
+      if (result != null) {
+        platformFileUrl = result.files;
+        _fileUrl = result.paths.map((path) => File(path!)).toList();
+        setState(() {});
+      } else {
+        // User canceled the picker
+      }
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -280,7 +310,11 @@ class _NotesDetailState extends State<NotesDetail> {
         const SizedBox(height: 16),
         ElevatedButton(
           onPressed: () async {
-            _pickFile();
+            if (platformFileUrl.isEmpty) {
+              _pickMultipleFiles();
+            } else {
+              _pickFile();
+            }
           },
           style: ButtonStyle(
             overlayColor: MaterialStateProperty.all(AppColorNeutral.neutral2),
@@ -304,28 +338,6 @@ class _NotesDetailState extends State<NotesDetail> {
             ),
           ),
         ),
-        _fileUrl.isEmpty
-            ? const SizedBox()
-            : Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "File yang telah diunggah",
-                        style: AppFont.semiBold14,
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          // Action to perform when the button is pressed
-                        },
-                        child: Text('Lihat Semua'),
-                      ),
-                    ],
-                  ),
-                  openFiles(platformFileUrl),
-                ],
-              ),
       ],
     );
   }
@@ -334,31 +346,146 @@ class _NotesDetailState extends State<NotesDetail> {
     return SizedBox(
       height: 150,
       width: MediaQuery.of(context).size.width,
-      child: ListView.builder(
-          itemCount: files.length,
-          scrollDirection: Axis.vertical,
-          itemBuilder: (context, index) {
-            final dataFile = files[index];
-            return GestureDetector(
-              onTap: () {
-                OpenFile.open(dataFile.path);
-              },
-              child: Container(
-                height: 56,
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.symmetric(horizontal: 10.0),
-                alignment: Alignment.centerLeft,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: AppColorNeutral.neutral2,
-                ),
-                child: Text(
-                  dataFile.name,
-                  style: AppFont.regular12,
-                ),
-              ),
-            );
-          }),
+      child: Column(
+          children:
+              // platformFileUrl
+              //     .map((e) => GestureDetector(
+              //           onTap: () {
+              //             OpenFile.open(e.path);
+              //           },
+              //           child: Container(
+              //             height: 120,
+              //             width: MediaQuery.of(context).size.width,
+              //             // padding: EdgeInsets.symmetric(horizontal: 10.0),
+              //             alignment: Alignment.bottomCenter,
+              //             decoration: BoxDecoration(
+              //                 borderRadius: BorderRadius.circular(8),
+              //                 color: AppColorNeutral.neutral2,
+              //                 image: DecorationImage(
+              //                     image: FileImage(File(e.path!)),
+              //                     fit: BoxFit.cover)),
+              //             child: Container(
+              //               height: 40,
+              //               width: MediaQuery.of(context).size.width,
+              //               padding: EdgeInsets.only(left: 10.0),
+              //               alignment: Alignment.centerLeft,
+              //               decoration: const BoxDecoration(
+              //                 borderRadius: BorderRadius.only(
+              //                   bottomLeft: Radius.circular(8),
+              //                   bottomRight: Radius.circular(8),
+              //                 ),
+              //                 color: AppColorNeutral.neutral2,
+              //               ),
+              //               child: Text(
+              //                 e.name,
+              //                 style: AppFont.regular12,
+              //               ),
+              //             ),
+              //           ),
+              //         ))
+              //     .toList()
+
+              widget.noteDetail.file.isEmpty
+                  ? platformFileUrl
+                      .map((e) => GestureDetector(
+                            onTap: () {
+                              OpenFile.open(e.path);
+                            },
+                            child: Container(
+                              height: 120,
+                              width: MediaQuery.of(context).size.width,
+                              // padding: EdgeInsets.symmetric(horizontal: 10.0),
+                              alignment: Alignment.bottomCenter,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: AppColorNeutral.neutral2,
+                                  image: DecorationImage(
+                                      image: FileImage(File(e.path!)),
+                                      fit: BoxFit.cover)),
+                              child: Container(
+                                height: 40,
+                                width: MediaQuery.of(context).size.width,
+                                padding: EdgeInsets.only(left: 10.0),
+                                alignment: Alignment.centerLeft,
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(8),
+                                    bottomRight: Radius.circular(8),
+                                  ),
+                                  color: AppColorNeutral.neutral2,
+                                ),
+                                child: Text(
+                                  e.name,
+                                  style: AppFont.regular12,
+                                ),
+                              ),
+                            ),
+                          ))
+                      .toList()
+                  : widget.noteDetail.file
+                      .map((e) => GestureDetector(
+                            onTap: () {
+                              OpenFile.open(e);
+                            },
+                            child: Container(
+                              height: 120,
+                              width: MediaQuery.of(context).size.width,
+                              // padding: EdgeInsets.symmetric(horizontal: 10.0),
+                              alignment: Alignment.bottomCenter,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: AppColorNeutral.neutral2,
+                                  image: DecorationImage(
+                                      image: NetworkImage(e),
+                                      fit: BoxFit.cover)),
+                              child: Container(
+                                height: 40,
+                                width: MediaQuery.of(context).size.width,
+                                padding: const EdgeInsets.only(left: 10.0),
+                                alignment: Alignment.centerLeft,
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(8),
+                                    bottomRight: Radius.circular(8),
+                                  ),
+                                  color: AppColorNeutral.neutral2,
+                                ),
+                                child: Text(
+                                  e,
+                                  style: AppFont.regular12,
+                                ),
+                              ),
+                            ),
+                          ))
+                      .toList()
+          //batas lama
+          // ListView.builder(
+          //     itemCount: files.length,
+          //     scrollDirection: Axis.vertical,
+          //     itemBuilder: (context, index) {
+          //       final dataFile = files[index];
+          //       return
+          // GestureDetector(
+          //         onTap: () {
+          //           OpenFile.open(dataFile.path);
+          //         },
+          //         child: Container(
+          //           height: 56,
+          //           width: MediaQuery.of(context).size.width,
+          //           padding: EdgeInsets.symmetric(horizontal: 10.0),
+          //           alignment: Alignment.centerLeft,
+          //           decoration: BoxDecoration(
+          //             borderRadius: BorderRadius.circular(8),
+          //             color: AppColorNeutral.neutral2,
+          //           ),
+          //           child: Text(
+          //             dataFile.name,
+          //             style: AppFont.regular12,
+          //           ),
+          //         ),
+          //       );
+          //     }),
+          ),
     );
   }
 }

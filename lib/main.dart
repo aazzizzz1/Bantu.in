@@ -5,6 +5,7 @@ import 'package:bantuin/screens/point/point_screen.dart';
 import 'package:bantuin/screens/splash/splash_screen.dart';
 import 'package:bantuin/utils/routes.dart';
 import 'package:bantuin/view_models/login_viewmodel.dart';
+import 'package:bantuin/view_models/note_detail_viewmodel.dart';
 import 'package:bantuin/view_models/note_viewmodel.dart';
 import 'package:bantuin/view_models/password_viewmodel.dart';
 import 'package:bantuin/view_models/register_viewmodel.dart';

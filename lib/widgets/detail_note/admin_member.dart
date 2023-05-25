@@ -1,4 +1,5 @@
 import 'package:bantuin/models/note_model.dart';
+import 'package:bantuin/screens/note/file_preview_screen.dart';
 import 'package:bantuin/screens/note/notes_all_file.dart';
 import 'package:bantuin/screens/note/notes_all_member.dart';
 import 'package:flutter/cupertino.dart';
@@ -96,9 +97,18 @@ class AdminMember extends StatelessWidget {
                 : Column(
                     children: noteDetail.file
                         .map((urlFile) => InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => FilePreviewScreen(
+                                        url: urlFile,
+                                        isAdmin: true,
+                                      ),
+                                    ));
+                              },
                               child: Text(
-                                urlFile,
+                                urlFile.substring(urlFile.lastIndexOf("/") + 1),
                                 style: AppFont.textButtonUnderline,
                               ),
                             ))

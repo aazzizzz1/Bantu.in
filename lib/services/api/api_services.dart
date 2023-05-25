@@ -32,7 +32,7 @@ class ApiServices {
       prefs.setString('email', json.decode(response.body)['data']['email']);
       prefs.setString('phone', json.decode(response.body)['data']['phone']);
       prefs.setString('job', json.decode(response.body)['data']['job']);
-      
+
       return returnResponse(response);
     } else if (response.statusCode == 404) {
       throw Exception("Endpoint not found");
@@ -78,9 +78,6 @@ class ApiServices {
           'Authorization': 'Bearer $token',
         },
       );
-      // final responseBody = json.decode(response.body);
-      // print(responseBody);
-      print(response);
       return returnResponse(response);
     } on SocketException {
       throw 'No Internet Connection';

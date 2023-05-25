@@ -118,3 +118,46 @@ class MemberDetailModel {
         photo: json['photo'] ?? 'null',
       );
 }
+
+/* "id": 417,
+        "subject": "tes kolab bersama",
+        "description": "tes colab",
+        "owner": [
+            {
+                "id": 48,
+                "username": "Abdul aziz",
+                "email": "azizvbi33@gmail.com",
+                "phone": "082237808721",
+                "job": "mobile developer",
+                "photo": null
+            }
+        ],
+        "member": [
+            {
+                "id": 39,
+                "username": "Putra",
+                "email": "putradaus10@gmail.com",
+                "phone": "081252222530",
+                "job": "Mahasiswa",
+                "photo": "https://res-3.cloudinary.com/dis2k0keq/image/upload/v1685022683/public/profile_picture/131defa052.png"
+            },
+            {
+                "id": 102,
+                "username": "Penghuni kos",
+                "email": "kosproblem2@gmail.com",
+                "phone": "0811111176",
+                "job": "Penjaga kos",
+                "photo": null
+            }
+        ],
+        "event_date": "2023-06-01 12:00",
+        "reminder": "2023-05-30 06:19",
+        "ringtone_id": 2,
+        "ringtone": "Destiny",
+        "file": [
+            "https://res-5.cloudinary.com/dis2k0keq/image/upload/v1685015281/public/files/IMG-20230517-WA0007.jpg.jpg"
+        ],
+        "note_type": "collaboration",
+        "status": "in_progress",
+        "column": null
+*/
