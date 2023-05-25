@@ -5,7 +5,6 @@ import 'package:bantuin/constants/font/app_font.dart';
 import 'package:bantuin/models/file_note_client.dart';
 import 'package:bantuin/models/note_detail_client_model.dart';
 import 'package:bantuin/screens/note/tracking_screen.dart';
-import 'package:bantuin/view_models/note_detail_viewmodel.dart';
 import 'package:bantuin/view_models/note_viewmodel.dart';
 import 'package:bantuin/widgets/detail_note/admin_appbar.dart';
 import 'package:bantuin/widgets/detail_note/admin_date.dart';

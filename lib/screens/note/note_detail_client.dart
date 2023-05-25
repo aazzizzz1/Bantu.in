@@ -14,7 +14,6 @@ import 'package:provider/provider.dart';
 
 import '../../constants/constant.dart';
 import '../../models/note_detail_client_model.dart';
-import '../../view_models/note_detail_viewmodel.dart';
 import '../../view_models/note_viewmodel.dart';
 import '../../widgets/detail_note/client_date.dart';
 import '../../widgets/detail_note/client_upload_status.dart';

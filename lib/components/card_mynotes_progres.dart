@@ -2,7 +2,6 @@ import 'package:bantuin/constants/color/app_color.dart';
 import 'package:bantuin/constants/font/app_font.dart';
 import 'package:bantuin/models/note_model.dart';
 import 'package:bantuin/screens/note/notes_detail.dart';
-import 'package:bantuin/view_models/note_detail_viewmodel.dart';
 import 'package:bantuin/view_models/note_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
