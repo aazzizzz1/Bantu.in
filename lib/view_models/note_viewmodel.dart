@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bantuin/models/note_detail_client_model.dart';
 import 'package:bantuin/models/note_model.dart';
 import 'package:bantuin/models/post_note_model.dart';
 import 'package:bantuin/models/user_note_model.dart';
@@ -18,6 +19,21 @@ class NoteViewModel with ChangeNotifier {
 
   List<NoteDetailModel> _listOfCompleteNote = [];
   List<NoteDetailModel> get listOfCompleteNote => _listOfCompleteNote;
+
+  late NoteDetailClientModel _notedetail = NoteDetailClientModel(
+    id: 0,
+    subject: 'null',
+    description: 'null',
+    eventDate: DateTime.now(),
+    reminder: DateTime.now(),
+    notesType: 'personal',
+    status: 'null',
+    owner: [],
+    ringtone: 'null',
+    file: [],
+    member: [],
+  );
+  NoteDetailClientModel get noteDetail => _notedetail;
 
   Future<void> postPersonalNote(PostNoteModel note) async {
     try {
@@ -60,6 +76,15 @@ class NoteViewModel with ChangeNotifier {
   Future<void> getCompleteNote() async {
     try {
       _listOfCompleteNote = await appsRepository.getNoteByStatus('complete');
+      notifyListeners();
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> getDetailNote(int id) async {
+    try {
+      _notedetail = await appsRepository.getDetailNote(id);
       notifyListeners();
     } catch (_) {
       rethrow;

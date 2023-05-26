@@ -146,6 +146,7 @@ class _NoteForm2State extends State<NoteForm2> {
                 const SizedBox(
                   height: 4,
                 ),
+                //EVENT DATE FEATURE =====
                 TextFormField(
                   readOnly: true,
                   controller: _dateController,
@@ -196,7 +197,8 @@ class _NoteForm2State extends State<NoteForm2> {
                         } else {
                           _selectedDate = selectedDate;
                           _dateController.text =
-                              DateFormat.yMMMMEEEEd().format(_selectedDate);
+                              DateFormat('EEEE, dd MMMM yyyy - hh:mm', 'id_ID')
+                                  .format(_selectedDate);
                           print(_dateController.text);
                         }
                       }
@@ -237,6 +239,7 @@ class _NoteForm2State extends State<NoteForm2> {
                             BorderSide(color: AppColorPrimary.primary6)),
                   ),
                 ),
+                //EVENT DATE FEATURE END =====
                 const SizedBox(
                   height: 24,
                 ),
@@ -253,6 +256,7 @@ class _NoteForm2State extends State<NoteForm2> {
                 const SizedBox(
                   height: 4,
                 ),
+                //REMINDER FEATURE BEGIN =====
                 TextFormField(
                   readOnly: true,
                   controller: _reminderController,
@@ -297,7 +301,7 @@ class _NoteForm2State extends State<NoteForm2> {
                         } else {
                           _selectedDatesReminder = selectedDateTime;
                           _reminderController.text =
-                              DateFormat('dd/MM/yyyy hh:mm', 'en_US')
+                              DateFormat('dd/MM/yyyy hh:mm', 'id_ID')
                                   .format(selectedDateTime);
                         }
                       }
@@ -346,6 +350,7 @@ class _NoteForm2State extends State<NoteForm2> {
                             BorderSide(color: AppColorPrimary.primary6)),
                   ),
                 ),
+                //REMINDER FEATURE END =====
                 const SizedBox(
                   height: 24,
                 ),

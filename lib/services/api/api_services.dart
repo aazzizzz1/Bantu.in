@@ -32,7 +32,7 @@ class ApiServices {
       prefs.setString('email', json.decode(response.body)['data']['email']);
       prefs.setString('phone', json.decode(response.body)['data']['phone']);
       prefs.setString('job', json.decode(response.body)['data']['job']);
-      
+
       return returnResponse(response);
     } else if (response.statusCode == 404) {
       throw json.decode(response.body)['error'];

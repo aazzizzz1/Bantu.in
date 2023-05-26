@@ -21,7 +21,6 @@ class EditDeleteNote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController messageDeleteController = TextEditingController();
     return Row(
       children: [
         InkWell(
@@ -46,14 +45,16 @@ class EditDeleteNote extends StatelessWidget {
                 barrierDismissible: false,
                 context: context,
                 builder: (BuildContext context) {
-                  return PopupDelete(noteDetail: note);
+                  return PopupDelete(
+                    noteDetail: note,
+                  );
                 },
-              ).then((value) => Navigator.pop(context));
-              //     : value
-              //         .deletePersonalNote(note)
-              //         .then((value) =>
-              //             Fluttertoast.showToast(msg: 'Note berhasil dihapus'))
-              //         .then((value) => Navigator.pop(context));
+              );
+              // : value
+              //     .deletePersonalNote(note)
+              //     .then((value) =>
+              //         Fluttertoast.showToast(msg: 'Note berhasil dihapus'))
+              //     .then((value) => Navigator.pop(context));
             },
             child: Text(
               'Hapus',

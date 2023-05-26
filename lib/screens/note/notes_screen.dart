@@ -9,6 +9,7 @@ import 'package:bantuin/screens/note/notes_form.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'note_form2.dart';
 
@@ -21,15 +22,23 @@ class NoteScreen extends StatefulWidget {
 
 class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
   late TabController tabController;
+  String name = '';
+
+  void getOwner() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    name = prefs.getString('username').toString();
+  }
+
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
     tabController = TabController(length: 2, vsync: this);
     Future.microtask(() =>
         Provider.of<NoteViewModel>(context, listen: false).getPersonalNote());
     Future.microtask(() =>
         Provider.of<NoteViewModel>(context, listen: false).getCompleteNote());
+    getOwner();
+    super.initState();
   }
 
   @override
@@ -95,14 +104,19 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                             itemBuilder: (context, index) {
                               var data = note.listOfPersonalNote[index];
                               initializeDateFormatting('id_ID', null);
-                              switch (data.notesType) {
-                                case "personal":
-                                  return CardMyNotesPersonal(noteDetail: data);
-                                case 'collaboration':
+                              bool isOwner = false;
+                              if (name == data.owner.first.username) {
+                                isOwner = true;
+                              }
+                              if (data.notesType == 'collaboration') {
+                                if (isOwner) {
                                   return CardMyNotesProgres(noteDetail: data);
-                                default:
+                                } else {
                                   return CardIncomingNotesUpload(
                                       noteDetail: data);
+                                }
+                              } else {
+                                return CardMyNotesPersonal(noteDetail: data);
                               }
                               // if (data.notesType == 'collaboration') {
                               //   switch (data.notesType) {
@@ -153,13 +167,18 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                         itemBuilder: (context, index) {
                           var data = note.listOfPersonalNote[index];
                           initializeDateFormatting('id_ID', null);
-                          switch (data.notesType) {
-                            case "personal":
-                              return CardMyNotesPersonal(noteDetail: data);
-                            case 'collaboration':
+                          bool isOwner = false;
+                          if (name == data.owner.first.username) {
+                            isOwner = true;
+                          }
+                          if (data.notesType == 'collaboration') {
+                            if (isOwner) {
                               return CardMyNotesProgres(noteDetail: data);
-                            default:
+                            } else {
                               return CardIncomingNotesUpload(noteDetail: data);
+                            }
+                          } else {
+                            return CardMyNotesPersonal(noteDetail: data);
                           }
                           // switch (convertType) {
                           //   case 1:

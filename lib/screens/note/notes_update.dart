@@ -79,6 +79,7 @@ class _NoteUpdateState extends State<NoteUpdate> {
     int? ringtoneId;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
@@ -87,7 +88,7 @@ class _NoteUpdateState extends State<NoteUpdate> {
               builder: (context) {
                 return AlertDialog(
                   title: Text(
-                    'Apakah anda yakin untuk membuang perubahan ini?',
+                    'Apakah anda yakin ingin tidak simpan perubahan catatan ini',
                     textAlign: TextAlign.center,
                     style: AppFont.textSubjectOrTitle,
                   ),
@@ -128,8 +129,8 @@ class _NoteUpdateState extends State<NoteUpdate> {
                           Expanded(
                             child: ElevatedButton(
                               style: const ButtonStyle(
-                                overlayColor: MaterialStatePropertyAll(
-                                    AppColorPrimary.primary4),
+                                overlayColor:
+                                    MaterialStatePropertyAll(AppColorRed.red4),
                                 padding: MaterialStatePropertyAll(
                                   EdgeInsets.symmetric(
                                       horizontal: 28, vertical: 10),
@@ -137,8 +138,8 @@ class _NoteUpdateState extends State<NoteUpdate> {
                                 elevation: MaterialStatePropertyAll(0),
                                 // side: MaterialStatePropertyAll(
                                 //     BorderSide(color: AppColorPrimary.primary6)),
-                                backgroundColor: MaterialStatePropertyAll(
-                                    AppColorPrimary.primary5),
+                                backgroundColor:
+                                    MaterialStatePropertyAll(AppColorRed.red6),
                               ),
                               onPressed: () async {
                                 // Perform delete operation and navigate back to previous screen
@@ -147,7 +148,7 @@ class _NoteUpdateState extends State<NoteUpdate> {
                                 Navigator.pop(context);
                               },
                               child: Text(
-                                'Ya',
+                                'Buang',
                                 style: AppFont.textFillButtonActive,
                               ),
                             ),
@@ -176,7 +177,7 @@ class _NoteUpdateState extends State<NoteUpdate> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Buat Catatan",
+                  "Edit Catatan",
                   style: AppFont.textTitleScreen,
                 ),
                 const SizedBox(

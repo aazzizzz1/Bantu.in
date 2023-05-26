@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bantuin/models/file_note_client.dart';
+import 'package:bantuin/models/note_detail_client_model.dart';
 import 'package:bantuin/models/note_model.dart';
 import 'package:bantuin/models/password_model.dart';
 import 'package:bantuin/models/post_password_model.dart';
@@ -16,7 +17,7 @@ import '../../models/ringtone_model.dart';
 
 class AppsRepository {
   final _apiService = ApiServices();
-
+  // AUTH
   Future<void> postLogin(LoginModel login) async {
     try {
       await _apiService.postLogin('/login', login);
@@ -53,7 +54,9 @@ class AppsRepository {
     //   throw Exception("Failed to post register");
     // }
   }
+  // AUTH END
 
+  //NOTE BEGIN
   Future<List<RingtoneDetailModel>> fetchRingtone() async {
     try {
       final response = await _apiService.getRequest('/ringtones');
@@ -125,6 +128,20 @@ class AppsRepository {
     }
   }
 
+  Future getDetailNote(int id) async {
+    try {
+      final response = await _apiService.getRequest('/notes/$id');
+      NoteDetailClientModel noteDetail =
+          NoteDetailClientModel.fromJson(response);
+      print(noteDetail);
+      return noteDetail;
+    } catch (_) {
+      rethrow;
+    }
+  }
+  //NOTE END
+
+//profile
 // profile user
   Future getUsers() async {
     try {

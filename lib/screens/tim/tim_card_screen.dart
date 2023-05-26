@@ -55,10 +55,13 @@ class _TimCardScreenState extends State<TimCardScreen> {
                       TimDetailScreen(teamDetail: widget.teamDetail),
                 ));
               },
-              child: Text(
-                widget.teamDetail.title,
-                style: AppFont.textTitleScreen,
-                overflow: TextOverflow.fade,
+              child: SizedBox(
+                width: 170,
+                child: Text(
+                  widget.teamDetail.title,
+                  style: AppFont.textTitleScreen,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ),
           ],
