@@ -5,6 +5,7 @@ import 'package:bantuin/models/user_models.dart';
 import 'package:bantuin/screens/profile/edit_password_profile.dart';
 import 'package:bantuin/utils/navigator_fade_transition.dart';
 import 'package:bantuin/view_models/login_viewmodel.dart';
+import 'package:bantuin/view_models/user_viewmodel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -71,7 +72,7 @@ class _ProfileScreen2State extends State<ProfileScreen2> {
         _fileUrl = _file;
       });
     } else {
-      /// User canceled the picker
+      // User canceled the picker
     }
   }
 
@@ -115,27 +116,31 @@ class _ProfileScreen2State extends State<ProfileScreen2> {
                             return InkWell(
                               onTap: () async {
                                 try {
-                                  await _pickFile().then((_) => value
-                                      .updateProfilePicture(
-                                          data, Photo(photo: _fileUrl))
-                                      .then((value) => Fluttertoast.showToast(
-                                          msg: "Berhasil mengubah foto profil",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          timeInSecForIosWeb: 1,
-                                          backgroundColor: AppColor.activeColor,
-                                          textColor: Colors.white,
-                                          fontSize: 16.0)));
-                                  print(_fileUrl);
-                                } catch (e) {
-                                  await Fluttertoast.showToast(
-                                      msg: e.toString(),
+                                  await _pickFile();
+                                  if (_fileUrl != null) {
+                                    await value.updateProfilePicture(
+                                        data, Photo(photo: _fileUrl));
+                                    Fluttertoast.showToast(
+                                      msg: "Berhasil mengubah foto profil",
                                       toastLength: Toast.LENGTH_SHORT,
                                       gravity: ToastGravity.BOTTOM,
                                       timeInSecForIosWeb: 1,
                                       backgroundColor: AppColor.activeColor,
                                       textColor: Colors.white,
-                                      fontSize: 16.0);
+                                      fontSize: 16.0,
+                                    );
+                                  }
+                                  print(_fileUrl);
+                                } catch (e) {
+                                  Fluttertoast.showToast(
+                                    msg: e.toString(),
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: AppColor.activeColor,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0,
+                                  );
                                   print(e.toString());
                                 }
                               },
@@ -285,40 +290,40 @@ class _ProfileScreen2State extends State<ProfileScreen2> {
       ),
     );
   }
-}
 
-Widget _logout({required BuildContext context}) {
-  return Consumer<LoginViewModel>(
-    builder: (context, login, _) => SizedBox(
-        width: 140,
-        child: Container(
-          width: MediaQuery.of(context).size.width * 0.8,
-          alignment: Alignment.center,
-          height: 37,
-          margin: EdgeInsets.only(bottom: 30),
-          decoration: BoxDecoration(
-            color: AppColor.errorColor,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: TextButton(
-            style: TextButton.styleFrom(
-              padding: const EdgeInsets.all(5.0),
-              primary: Colors.white,
-              shadowColor: Colors.black,
-              textStyle: AppFont.semiBold16w500,
+  Widget _logout({required BuildContext context}) {
+    return Consumer<LoginViewModel>(
+      builder: (context, login, _) => SizedBox(
+          width: 140,
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            alignment: Alignment.center,
+            height: 37,
+            margin: EdgeInsets.only(bottom: 30),
+            decoration: BoxDecoration(
+              color: AppColor.errorColor,
+              borderRadius: BorderRadius.circular(10),
             ),
-            onPressed: () async {
-              await login.logout().then(
-                    (_) => Fluttertoast.showToast(msg: "Berhasil Keluar").then(
-                      (_) => Navigator.of(context).pushAndRemoveUntil(
-                          NavigatorFadeTransitionHelper(
-                              child: const LoginScreen()),
-                          (route) => false),
-                    ),
-                  );
-            },
-            child: const Text('Keluar'),
-          ),
-        )),
-  );
+            child: TextButton(
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.all(5.0),
+                primary: Colors.white,
+                shadowColor: Colors.black,
+                textStyle: AppFont.semiBold16w500,
+              ),
+              onPressed: () async {
+                await login.logout().then(
+                      (_) => Fluttertoast.showToast(msg: "Berhasil Keluar").then(
+                        (_) => Navigator.of(context).pushAndRemoveUntil(
+                            NavigatorFadeTransitionHelper(
+                                child: const LoginScreen()),
+                            (route) => false),
+                      ),
+                    );
+              },
+              child: const Text('Keluar'),
+            ),
+          )),
+    );
+  }
 }

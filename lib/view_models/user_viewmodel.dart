@@ -41,9 +41,7 @@ class UsersViewModel with ChangeNotifier {
     }
   }
 
-  Future<void> updateProfilePicture(
-    UsersDetailModel users, Photo photo) async {
-  print(users.id);
+  Future<void> updateProfilePicture(UsersDetailModel users, Photo photo) async {
   try {
     await photo.upload(users.id); // Upload the image
     await appsRepository.updatePhotoProfile(users.id, photo.photo.path);
