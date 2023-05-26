@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -37,7 +38,16 @@ class _FilePreviewScreenState extends State<FilePreviewScreen> {
       ),
       body: Container(
         alignment: Alignment.center,
-        child: Image.network(widget.url),
+        child: CachedNetworkImage(
+          imageUrl: widget.url,
+          placeholder: (context, url) => const CircularProgressIndicator(),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
+          // imageBuilder: (context, imageProvider) =>
+          // CircleAvatar(
+          //   backgroundImage: imageProvider,
+          //   radius: 50.0,
+          // ),
+        ),
       ),
     );
   }

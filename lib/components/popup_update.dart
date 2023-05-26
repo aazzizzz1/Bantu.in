@@ -114,12 +114,39 @@ class _PopupUpdateState extends State<PopupUpdate> {
                             // side: MaterialStatePropertyAll(
                             //     BorderSide(color: AppColorPrimary.primary6)),
                             backgroundColor: MaterialStatePropertyAll(
-                                _isValidated
-                                    ? AppColorRed.red6
-                                    : AppColorNeutral.neutral2),
+                              widget.noteDetail.notesType == 'collaboration'
+                                  ? _isValidated
+                                      ? AppColorRed.red6
+                                      : AppColorNeutral.neutral2
+                                  : AppColorRed.red6,
+                            ),
                           ),
-                          onPressed: _isValidated
-                              ? () async {
+                          onPressed: widget.noteDetail.notesType ==
+                                  'collaboration'
+                              ? _isValidated
+                                  ? () async {
+                                      // Perform delete operation and navigate back to previous screen
+                                      // ...
+                                      // Navigator.pop(context);
+                                      try {
+                                        await value
+                                            .updatePersonalNote(widget.postNote,
+                                                widget.noteDetail)
+                                            .then((value) =>
+                                                Fluttertoast.showToast(
+                                                    msg:
+                                                        'Berhasil mengubah note'))
+                                            .then((value) =>
+                                                Navigator.pop(context))
+                                            .then((value) =>
+                                                Navigator.pop(context));
+                                      } catch (e) {
+                                        Fluttertoast.showToast(
+                                            msg: e.toString());
+                                      }
+                                    }
+                                  : null
+                              : () async {
                                   // Perform delete operation and navigate back to previous screen
                                   // ...
                                   // Navigator.pop(context);
@@ -135,8 +162,7 @@ class _PopupUpdateState extends State<PopupUpdate> {
                                   } catch (e) {
                                     Fluttertoast.showToast(msg: e.toString());
                                   }
-                                }
-                              : null,
+                                },
                           child: Text(
                             'Ya',
                             style: AppFont.textFillButtonActive,

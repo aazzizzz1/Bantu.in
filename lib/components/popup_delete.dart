@@ -124,34 +124,51 @@ class _PopupDeleteState extends State<PopupDelete> {
                             // side: MaterialStatePropertyAll(
                             //     BorderSide(color: AppColorPrimary.primary3)),
                             backgroundColor: MaterialStatePropertyAll(
-                                _isValidated
-                                    ? AppColorRed.red6
-                                    : AppColorNeutral.neutral2),
+                              widget.noteDetail.notesType == 'collaboration'
+                                  ? _isValidated
+                                      ? AppColorRed.red6
+                                      : AppColorNeutral.neutral2
+                                  : AppColorRed.red6,
+                            ),
                           ),
-                          onPressed: _isValidated
-                              ? () {
-                                  // Perform delete operation and navigate back to previous screen
-                                  // ...
-
+                          onPressed: widget.noteDetail.notesType ==
+                                  'collaboration'
+                              ? _isValidated
+                                  ? () async {
+                                      try {
+                                        await value
+                                            .deletePersonalNote(
+                                                widget.noteDetail)
+                                            .then((value) =>
+                                                Fluttertoast.showToast(
+                                                    msg:
+                                                        'Note berhasil dihapus'))
+                                            .then((value) =>
+                                                Navigator.pop(context))
+                                            .then((value) =>
+                                                Navigator.pop(context));
+                                      } catch (e) {
+                                        await Fluttertoast.showToast(
+                                            msg: e.toString());
+                                      }
+                                    }
+                                  : null
+                              : () {
                                   value
                                       .deletePersonalNote(widget.noteDetail)
                                       .then((value) => Fluttertoast.showToast(
                                           msg: 'Note berhasil dihapus'))
                                       .then((value) => Navigator.pop(context))
                                       .then((value) => Navigator.pop(context));
-                                  // Navigator.pushReplacement(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //       builder: (context) => NoteScreen(),
-                                  //     ))
-                                  // Navigator.pop(context);
-                                }
-                              : null,
+                                },
                           child: Text(
                             'Hapus',
-                            style: _isValidated
-                                ? AppFont.textFillButtonActive
-                                : AppFont.hintTextField,
+                            style:
+                                widget.noteDetail.notesType == 'collaboration'
+                                    ? _isValidated
+                                        ? AppFont.textFillButtonActive
+                                        : AppFont.hintTextField
+                                    : AppFont.textFillButtonActive,
                           ),
                         ),
                       ),

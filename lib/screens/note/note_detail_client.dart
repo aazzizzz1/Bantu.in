@@ -41,7 +41,7 @@ class _NoteDetailClientState extends State<NoteDetailClient> {
     if (widget.noteDetail.file.isNotEmpty) {
       isUpload = true;
     }
-    if (platformFileUrl.isNotEmpty || widget.noteDetail.file.isNotEmpty) {
+    if (widget.noteDetail.file.isNotEmpty) {
       setState(() {
         isActive = true;
       });
@@ -150,7 +150,7 @@ class _NoteDetailClientState extends State<NoteDetailClient> {
                       child: Align(
                         alignment: Alignment.bottomCenter,
                         child: ElevatedButton(
-                          onPressed: isActive
+                          onPressed: platformFileUrl.isNotEmpty
                               ? () async {
                                   try {
                                     await value
@@ -173,14 +173,15 @@ class _NoteDetailClientState extends State<NoteDetailClient> {
                                   horizontal: 100, vertical: 15),
                             ),
                             elevation: MaterialStatePropertyAll(0),
-                            backgroundColor: MaterialStatePropertyAll(isActive
-                                ? AppColor.activeColor
-                                : AppColorNeutral.neutral2),
+                            backgroundColor: MaterialStatePropertyAll(
+                                platformFileUrl.isNotEmpty
+                                    ? AppColor.activeColor
+                                    : AppColorNeutral.neutral2),
                           ),
                           child: Center(
                             child: Text(
                               'Simpan',
-                              style: isActive
+                              style: platformFileUrl.isNotEmpty
                                   ? AppFont.textFillButtonActive
                                   : AppFont.hintTextField,
                             ),
@@ -233,9 +234,10 @@ class _NoteDetailClientState extends State<NoteDetailClient> {
       );
 
       if (result != null) {
-        platformFileUrl = result.files;
-        _fileUrl = result.paths.map((path) => File(path!)).toList();
-        setState(() {});
+        setState(() {
+          platformFileUrl = result.files;
+          _fileUrl = result.paths.map((path) => File(path!)).toList();
+        });
       } else {
         // User canceled the picker
       }
@@ -323,7 +325,7 @@ class _NoteDetailClientState extends State<NoteDetailClient> {
                     .map((e) => GestureDetector(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => FilePreviewLocal(url: e),
+                              builder: (context) => FilePreviewScreen(url: e),
                             ));
                           },
                           child: Container(
