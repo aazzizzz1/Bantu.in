@@ -46,7 +46,7 @@ class UsersViewModel with ChangeNotifier {
   print(users.id);
   try {
     await photo.upload(users.id); // Upload the image
-    await appsRepository.postProfilePhoto(photo.photo.path, users.id);
+    await appsRepository.updatePhotoProfile(users.id, photo.photo.path);
     notifyListeners();
   } catch (error) {
     rethrow;
