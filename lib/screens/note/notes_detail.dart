@@ -178,7 +178,12 @@ class _NotesDetailState extends State<NotesDetail> {
                               .format(widget.noteDetail.reminder),
                           ringtone: widget.noteDetail.ringtone)
                       : widget.isOwner
-                          ? const SizedBox()
+                          ? AdminDate(
+                              eventDate: DateFormat('dd MMMM yyyy', 'id_ID')
+                                  .format(widget.noteDetail.eventDate),
+                              reminder: DateFormat('dd MMMM yyyy', 'id_ID')
+                                  .format(widget.noteDetail.reminder),
+                              ringtone: widget.noteDetail.ringtone)
                           : clientUpload()
                   // : ClientUploadFile2(onChanged: _handleFileSelected),
                 ],
