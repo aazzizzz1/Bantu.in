@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bantuin/models/note_model.dart';
+import 'package:bantuin/screens/note/file_preview_local.dart';
 import 'package:bantuin/screens/note/file_preview_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
@@ -322,21 +323,18 @@ class _NoteDetailClientState extends State<NoteDetailClient> {
                     .map((e) => GestureDetector(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => FilePreviewScreen(url: e),
+                              builder: (context) => FilePreviewLocal(url: e),
                             ));
                           },
                           child: Container(
-                            height: 120,
+                            height: 60,
                             width: MediaQuery.of(context).size.width,
                             // padding: EdgeInsets.symmetric(horizontal: 10.0),
                             alignment: Alignment.bottomCenter,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: AppColorNeutral.neutral2,
-                                image: DecorationImage(
-                                  image: NetworkImage(e),
-                                  fit: BoxFit.cover,
-                                )),
+                              borderRadius: BorderRadius.circular(8),
+                              color: AppColorNeutral.neutral2,
+                            ),
                             child: Container(
                               height: 40,
                               width: MediaQuery.of(context).size.width,
@@ -364,17 +362,14 @@ class _NoteDetailClientState extends State<NoteDetailClient> {
                             OpenFile.open(e.path);
                           },
                           child: Container(
-                            height: 120,
+                            height: 60,
                             width: MediaQuery.of(context).size.width,
                             // padding: EdgeInsets.symmetric(horizontal: 10.0),
                             alignment: Alignment.bottomCenter,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: AppColorNeutral.neutral2,
-                                image: DecorationImage(
-                                  image: FileImage(File(e.path!)),
-                                  fit: BoxFit.cover,
-                                )),
+                              borderRadius: BorderRadius.circular(8),
+                              color: AppColorNeutral.neutral2,
+                            ),
                             child: Container(
                               height: 40,
                               width: MediaQuery.of(context).size.width,
