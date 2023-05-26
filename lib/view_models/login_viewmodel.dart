@@ -8,6 +8,7 @@ import '../services/api/apps_repository.dart';
 class LoginViewModel with ChangeNotifier {
   final ApiServices _loginApi = ApiServices();
   final _appsRepository = AppsRepository();
+
   Future<void> postLogin(LoginModel login) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('password', login.password);
@@ -18,5 +19,11 @@ class LoginViewModel with ChangeNotifier {
     } catch (_) {
       rethrow;
     }
+  }
+
+  Future<void> logout() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('token');
+    notifyListeners();
   }
 }
