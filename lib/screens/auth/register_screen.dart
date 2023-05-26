@@ -130,6 +130,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Maaf anda belum memasukan nomor telepon anda';
+                        } else if (value.length < 12) {
+                          return 'Maaf nomor telepon anda kurang dari 12 digit';
+                        } else if (value.length > 13) {
+                          return 'Maaf nomor telepon anda lebih dari 13 digit';
+                        } else if (value.contains(' ')) {
+                          return 'Maaf nomor telepon anda tidak boleh mengandung spasi';
                         }
                       },
                       decoration: InputDecoration(
@@ -166,6 +172,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       controller: _jobController,
                     ),
                     const SizedBox(height: 20.0),
+                    Text(
+                      'Ulangi kata sandi',
+                      style: AppFont.labelTextForm,
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
                     TextFormField(
                       scrollPadding: const EdgeInsets.only(left: 10),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -196,6 +209,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           return 'Maaf kata sandi anda harus mengandung huruf besar, huruf kecil, dan angka';
                         }
                       },
+                      
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: AppColorNeutral.neutral1,

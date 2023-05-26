@@ -162,17 +162,28 @@ class ApiServices {
         dynamic responseJson = jsonDecode(response.body);
         return responseJson;
       case 400:
+              final responseBody = json.decode(response.body);
+        print(responseBody);
         throw json.decode(response.body)['message'];
       case 401:
+              final responseBody = json.decode(response.body);
+        print(responseBody);
         // throw Exception(json.decode(response.body)['message']);
         throw json.decode(response.body)['message'];
       case 404:
+              final responseBody = json.decode(response.body);
+        print(responseBody);
         // throw Exception(json.decode(response.body)['message']);
         throw json.decode(response.body)['message'];
       case 422:
+        final responseBody = json.decode(response.body);
+        print(responseBody);
         // throw Exception(json.decode(response.body)['message']);
-        throw json.decode(response.body)['message'];
+        // throw json.decode(response.body)['message'];
+        throw json.decode(response.body)['data'] ?? json.decode(response.body)['message'];
       case 500:
+              final responseBody = json.decode(response.body);
+        print(responseBody);
         // throw Exception(json.decode(response.body)['message']);
         throw json.decode(response.body)['message'];
       default:

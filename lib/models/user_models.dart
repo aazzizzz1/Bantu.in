@@ -37,5 +37,15 @@ class UsersDetailModel {
       photo: json['photo'] ?? 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png',
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'username': username,
+        'email': email,
+        'phone': phone,
+        'job': job,
+        'photo': photo,
+      };
+
 }
 

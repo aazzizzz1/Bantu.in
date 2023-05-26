@@ -44,13 +44,11 @@ class Photo {
   });
 
   Future<void> upload(int id) async {
-    // Create a multipart request
     var request = http.MultipartRequest(
-      'POST',
-      Uri.parse('https://bantuin.fly.dev/api/users/$id'), // Replace with your upload URL
+      'PUT',
+      Uri.parse('https://bantuin.fly.dev/api/users/$id'),
     );
 
-    // Attach the file to the request
     var fileStream = http.ByteStream(Stream.castFrom(photo.openRead()));
     var fileLength = await photo.length();
     var multipartFile = http.MultipartFile(
@@ -61,10 +59,8 @@ class Photo {
     );
     request.files.add(multipartFile);
 
-    // Send the request
     var response = await request.send();
 
-    // Check the response status
     if (response.statusCode == 200) {
       print('Image uploaded successfully');
     } else {

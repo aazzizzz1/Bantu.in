@@ -32,29 +32,7 @@ class AppsRepository {
     } catch (_) {
       rethrow;
     }
-    // var url = Uri.parse(baseUrl);
-    // var response = await http.post(
-    //   url,
-    //   body: json.encode(note.toJson()),
-    //   headers: ({
-    //     "Content-Type": "application/json; charset=UTF-8",
-    //     // "Authorization": "Bearer $token"
-    //   }),
-    // );
-
-    // if (response.statusCode == 200 || response.statusCode == 201) {
-    //   final responseBody = json.decode(response.body);
-    //   print(responseBody);
-    // } else if (response.statusCode == 404) {
-    //   throw Exception("Endpoint not found");
-    // } else if (response.statusCode == 422) {
-    //   final responseBody = json.decode(response.body);
-    //   throw Exception(responseBody['data']);
-    // } else {
-    //   throw Exception("Failed to post register");
-    // }
   }
-  // AUTH END
 
   //NOTE BEGIN
   Future<List<RingtoneDetailModel>> fetchRingtone() async {
@@ -141,7 +119,6 @@ class AppsRepository {
   }
   //NOTE END
 
-//profile
 // profile user
   Future getUsers() async {
     try {
@@ -169,7 +146,17 @@ class AppsRepository {
     }
   }
 
-  Future<void> postProfilePhoto(String photo, int id) async {
+  // Future<void> postFileClient(
+  //     {required String id, required List<File> selectedFile}) async {
+  //   try {
+  //     await _apiService.postMultipart(
+  //         '/attaches', selectedFile, {'note_id': id}, 'path[]');
+  //   } catch (_) {
+  //     rethrow;
+  //   }
+  // }
+
+  Future<void> updatePhotoProfile( int id, String photo) async {
     try {
       await _apiService.putRequest('/users/$id', photo);
     } catch (_) {
