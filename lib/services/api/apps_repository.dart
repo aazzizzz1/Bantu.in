@@ -146,17 +146,17 @@ class AppsRepository {
     }
   }
 
-  // Future<void> postFileClient(
-  //     {required String id, required List<File> selectedFile}) async {
-  //   try {
-  //     await _apiService.postMultipart(
-  //         '/attaches', selectedFile, {'note_id': id}, 'path[]');
-  //   } catch (_) {
-  //     rethrow;
-  //   }
-  // }
+  Future<void> updateImageProfile(
+      {required int id, required File selectedFile}) async {
+    try {
+      await _apiService.putMultipart(
+          '/users/$id', [selectedFile], {'photo': selectedFile.path}, 'photo');
+    } catch (_) {
+      rethrow;
+    }
+  }
 
-  Future<void> updatePhotoProfile( int id, String photo) async {
+  Future<void> updatePhotoProfile(int id, String photo) async {
     try {
       await _apiService.putRequest('/users/$id', photo);
     } catch (_) {
