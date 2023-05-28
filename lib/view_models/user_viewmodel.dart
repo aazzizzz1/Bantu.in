@@ -42,13 +42,23 @@ class UsersViewModel with ChangeNotifier {
   }
 
   Future<void> updateProfilePicture(UsersDetailModel users, Photo photo) async {
-  try {
-    await photo.upload(users.id); // Upload the image
-    await appsRepository.updatePhotoProfile(users.id, photo.photo.path);
-    notifyListeners();
-  } catch (error) {
-    rethrow;
+    try {
+      await photo.upload(users.id); // Upload the image
+      await appsRepository.updatePhotoProfile(users.id, photo.photo.path);
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
   }
-}
 
+  Future<void> updateImageProfile(
+      {required int id, required File selectedFile}) async {
+    try {
+      await appsRepository.updateImageProfile(
+          id: id, selectedFile: selectedFile);
+      notifyListeners();
+    } catch (_) {
+      rethrow;
+    }
+  }
 }

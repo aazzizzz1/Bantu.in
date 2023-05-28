@@ -50,6 +50,7 @@ class _NoteForm2State extends State<NoteForm2> {
 
     Future.microtask(() =>
         Provider.of<RingtoneViewModel>(context, listen: false).fetchRingtone());
+    initializeDateFormatting('id_ID', null);
     super.initState();
   }
 

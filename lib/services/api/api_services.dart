@@ -153,6 +153,37 @@ class ApiServices {
     }
   }
 
+  @override
+  Future putMultipart(String url, List<File>? files, Map<String, String> body,
+      String noteKey) async {
+    SharedPreferences? prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('token').toString();
+
+    try {
+      var request = http.MultipartRequest("PUT", Uri.parse('$baseUrl$url'));
+
+      request.headers.addAll({
+        "Content-Type": "application/json; charset=UTF-8",
+        "Authorization": "Bearer $token"
+      });
+
+      request.fields.addAll(body);
+
+      if (files != null) {
+        for (var file in files) {
+          request.files
+              .add(await http.MultipartFile.fromPath(noteKey, file.path));
+        }
+      }
+
+      var sendRequest = await request.send();
+      var response = await http.Response.fromStream(sendRequest);
+      return returnResponse(response);
+    } on SocketException {
+      throw 'No Internet Connection';
+    }
+  }
+
   dynamic returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
@@ -162,16 +193,16 @@ class ApiServices {
         dynamic responseJson = jsonDecode(response.body);
         return responseJson;
       case 400:
-              final responseBody = json.decode(response.body);
+        final responseBody = json.decode(response.body);
         print(responseBody);
         throw json.decode(response.body)['message'];
       case 401:
-              final responseBody = json.decode(response.body);
+        final responseBody = json.decode(response.body);
         print(responseBody);
         // throw Exception(json.decode(response.body)['message']);
         throw json.decode(response.body)['message'];
       case 404:
-              final responseBody = json.decode(response.body);
+        final responseBody = json.decode(response.body);
         print(responseBody);
         // throw Exception(json.decode(response.body)['message']);
         throw json.decode(response.body)['message'];
@@ -180,9 +211,10 @@ class ApiServices {
         print(responseBody);
         // throw Exception(json.decode(response.body)['message']);
         // throw json.decode(response.body)['message'];
-        throw json.decode(response.body)['data'] ?? json.decode(response.body)['message'];
+        throw json.decode(response.body)['data'] ??
+            json.decode(response.body)['message'];
       case 500:
-              final responseBody = json.decode(response.body);
+        final responseBody = json.decode(response.body);
         print(responseBody);
         // throw Exception(json.decode(response.body)['message']);
         throw json.decode(response.body)['message'];

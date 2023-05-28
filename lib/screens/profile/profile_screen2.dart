@@ -116,23 +116,34 @@ class _ProfileScreen2State extends State<ProfileScreen2> {
                             return InkWell(
                               onTap: () async {
                                 try {
-                                  await _pickFile();
-                                  if (_fileUrl != null) {
-                                    await value.updateProfilePicture(
-                                        data, Photo(photo: _fileUrl));
-                                    Fluttertoast.showToast(
-                                      msg: "Berhasil mengubah foto profil",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIosWeb: 1,
-                                      backgroundColor: AppColor.activeColor,
-                                      textColor: Colors.white,
-                                      fontSize: 16.0,
-                                    );
-                                  }
+                                  await _pickFile()
+                                      .then(
+                                        (_) => value.updateImageProfile(
+                                            id: data.id,
+                                            selectedFile: _fileUrl),
+                                      )
+                                      .then(
+                                        (value) => Fluttertoast.showToast(
+                                            msg:
+                                                'berhasil mengubah foto profile'),
+                                      );
+                                  // await _pickFile();
+                                  // if (_fileUrl != null) {
+                                  //   await value.updateImageProfile(
+                                  //       );
+                                  //   Fluttertoast.showToast(
+                                  //     msg: "Berhasil mengubah foto profil",
+                                  //     toastLength: Toast.LENGTH_SHORT,
+                                  //     gravity: ToastGravity.BOTTOM,
+                                  //     timeInSecForIosWeb: 1,
+                                  //     backgroundColor: AppColor.activeColor,
+                                  //     textColor: Colors.white,
+                                  //     fontSize: 16.0,
+                                  //   );
+                                  // }
                                   print(_fileUrl);
                                 } catch (e) {
-                                  Fluttertoast.showToast(
+                                  await Fluttertoast.showToast(
                                     msg: e.toString(),
                                     toastLength: Toast.LENGTH_SHORT,
                                     gravity: ToastGravity.BOTTOM,
@@ -313,7 +324,8 @@ class _ProfileScreen2State extends State<ProfileScreen2> {
               ),
               onPressed: () async {
                 await login.logout().then(
-                      (_) => Fluttertoast.showToast(msg: "Berhasil Keluar").then(
+                      (_) =>
+                          Fluttertoast.showToast(msg: "Berhasil Keluar").then(
                         (_) => Navigator.of(context).pushAndRemoveUntil(
                             NavigatorFadeTransitionHelper(
                                 child: const LoginScreen()),
