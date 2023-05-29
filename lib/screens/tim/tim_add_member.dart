@@ -1,21 +1,61 @@
+import 'package:bantuin/models/post_tim_model.dart';
+import 'package:bantuin/models/tim_model.dart';
+import 'package:bantuin/view_models/tim_view_model.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants/constant.dart';
 
 class TimAddMember extends StatefulWidget {
-  const TimAddMember({super.key});
+  final TeamDetailModel teamDetail;
+  const TimAddMember({super.key, required this.teamDetail});
 
   @override
   State<TimAddMember> createState() => _TimAddMemberState();
 }
 
 class _TimAddMemberState extends State<TimAddMember> {
-  final _emailController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  List<String> _emails = [];
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  void _addEmail() {
+    final String email = _emailController.text.trim();
+    if (email.isNotEmpty && EmailValidator.validate(email)) {
+      setState(() {
+        _emails.add(email);
+        _emailController.clear();
+      });
+    } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Email tidak valid"),
+              content: Text("Masukan email yang sesuai"),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text("OK"),
+                )
+              ],
+            );
+          });
+    }
+  }
+
+  void _removeEmail(int index) {
+    setState(() {
+      _emails.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +80,8 @@ class _TimAddMemberState extends State<TimAddMember> {
         elevation: 1,
       ),
       body: Container(
+        height: MediaQuery.of(context).size.height * 0.85,
+        width: MediaQuery.of(context).size.width,
         margin: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,17 +100,28 @@ class _TimAddMemberState extends State<TimAddMember> {
                     style: AppFont.labelTextForm,
                   ),
                   const SizedBox(height: 10.0),
+                  Wrap(
+                    spacing: 8.0,
+                    children: _emails.map((email) {
+                      return InputChip(
+                        label: Text(email),
+                        onDeleted: () => _removeEmail(_emails.indexOf(email)),
+                      );
+                    }).toList(),
+                  ),
                   TextFormField(
                     controller: _emailController,
                     scrollPadding: const EdgeInsets.only(left: 10),
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) {
-                      if (value == null) {
-                        return 'Anda belum mengisi email anggota';
+                      if (value != null) {
+                        final email = value.trim();
+                        if (email.isNotEmpty &&
+                            !EmailValidator.validate(email)) {
+                          return 'Masukan email yang sesuai';
+                        }
                       }
-                      if (EmailValidator.validate(_emailController.text)) {
-                        return 'Email yang anda masukan belum sesuai';
-                      }
+                      return null;
                     },
                     decoration: InputDecoration(
                       filled: true,
@@ -105,7 +158,7 @@ class _TimAddMemberState extends State<TimAddMember> {
                   ),
                   const SizedBox(height: 4.0),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: _addEmail,
                     style: ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll(Colors.white),
                       elevation: MaterialStatePropertyAll(0),
@@ -135,6 +188,49 @@ class _TimAddMemberState extends State<TimAddMember> {
                   ),
                 ],
               ),
+            ),
+            Consumer<TeamViewModel>(
+              builder: (context, team, child) {
+                return Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        try {
+                          await team
+                              .editTeam(
+                                widget.teamDetail,
+                                PostTimModel(
+                                  title: widget.teamDetail.title,
+                                  email: _emails,
+                                ),
+                              )
+                              .then((value) => Fluttertoast.showToast(
+                                  msg: 'Berhasil menambahkan anggota'))
+                              .then((value) => Navigator.pop(context));
+                        } catch (e) {
+                          await Fluttertoast.showToast(msg: e.toString());
+                        }
+                      },
+                      style: const ButtonStyle(
+                        padding: MaterialStatePropertyAll(EdgeInsets.all(16.0)),
+                        elevation: MaterialStatePropertyAll(0),
+                        backgroundColor:
+                            MaterialStatePropertyAll(AppColor.activeColor),
+                      ),
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 25,
+                        width: MediaQuery.of(context).size.width,
+                        child: Text(
+                          'Tambah anggota',
+                          style: AppFont.textFillButtonActive,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),

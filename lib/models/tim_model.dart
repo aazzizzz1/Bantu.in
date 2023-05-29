@@ -1,4 +1,5 @@
 import 'package:bantuin/models/note_model.dart';
+import 'package:bantuin/models/user_models.dart';
 
 class TeamModel {
   final List<TeamDetailModel> team;
@@ -19,7 +20,7 @@ class TeamDetailModel {
   final String title;
   final String photo;
   final List<OwnerDetailModel> owner;
-  final List participant;
+  final List<UsersDetailModel> participant;
 
   TeamDetailModel({
     required this.id,
@@ -39,6 +40,10 @@ class TeamDetailModel {
                 .toList()
             : [],
         photo: json['photo'] ?? 'null',
-        participant: json['participant'] ?? [],
+        participant: json['participant'] != null
+            ? (json['participant'] as List)
+                .map((e) => UsersDetailModel.fromJson(e))
+                .toList()
+            : [],
       );
 }

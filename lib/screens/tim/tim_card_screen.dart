@@ -1,4 +1,4 @@
-import 'package:bantuin/models/note_tim_model.dart';
+import 'package:bantuin/models/note_team_model.dart';
 import 'package:bantuin/models/tim_model.dart';
 import 'package:bantuin/models/user_note_model.dart';
 import 'package:bantuin/screens/note/notes_form.dart';
@@ -105,7 +105,8 @@ class _TimCardScreenState extends State<TimCardScreen> {
               splashRadius: 20,
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const TimAllMember(),
+                  builder: (context) =>
+                      TimAllMember(timdetail: widget.teamDetail),
                 ));
               },
               icon: SvgPicture.asset(

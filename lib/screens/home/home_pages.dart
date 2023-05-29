@@ -10,6 +10,7 @@ import 'package:bantuin/constants/font/app_font.dart';
 import 'package:bantuin/screens/note/notes_form.dart';
 import 'package:bantuin/screens/notification/notification_screen.dart';
 import 'package:bantuin/view_models/note_viewmodel.dart';
+import 'package:bantuin/view_models/product_viewmodel.dart';
 import 'package:bantuin/widgets/floating_button/floating_home.dart';
 import 'package:bantuin/widgets/home/filtering_data.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +38,8 @@ class _HomePagesState extends State<HomePages> {
         Provider.of<NoteViewModel>(context, listen: false).getPersonalNote());
     Future.microtask(() =>
         Provider.of<RingtoneViewModel>(context, listen: false).fetchRingtone());
+    Future.microtask(() =>
+        Provider.of<ProductViewModel>(context, listen: false).fetchProduct());
     Future.microtask(
         () => Provider.of<UsersViewModel>(context, listen: false).getUsers());
     super.initState();

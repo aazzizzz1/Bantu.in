@@ -150,7 +150,8 @@ class _NoteDetailClientState extends State<NoteDetailClient> {
                       child: Align(
                         alignment: Alignment.bottomCenter,
                         child: ElevatedButton(
-                          onPressed: platformFileUrl.isNotEmpty
+                          onPressed: platformFileUrl.isNotEmpty ||
+                                  widget.noteDetail.file.isNotEmpty
                               ? () async {
                                   try {
                                     await value
@@ -174,14 +175,16 @@ class _NoteDetailClientState extends State<NoteDetailClient> {
                             ),
                             elevation: MaterialStatePropertyAll(0),
                             backgroundColor: MaterialStatePropertyAll(
-                                platformFileUrl.isNotEmpty
+                                platformFileUrl.isNotEmpty ||
+                                        widget.noteDetail.file.isNotEmpty
                                     ? AppColor.activeColor
                                     : AppColorNeutral.neutral2),
                           ),
                           child: Center(
                             child: Text(
                               'Simpan',
-                              style: platformFileUrl.isNotEmpty
+                              style: platformFileUrl.isNotEmpty ||
+                                      widget.noteDetail.file.isNotEmpty
                                   ? AppFont.textFillButtonActive
                                   : AppFont.hintTextField,
                             ),
@@ -366,8 +369,7 @@ class _NoteDetailClientState extends State<NoteDetailClient> {
                           child: Container(
                             height: 60,
                             width: MediaQuery.of(context).size.width,
-                            // padding: EdgeInsets.symmetric(horizontal: 10.0),
-                            alignment: Alignment.bottomCenter,
+                            alignment: Alignment.center,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
                               color: AppColorNeutral.neutral2,
@@ -385,7 +387,10 @@ class _NoteDetailClientState extends State<NoteDetailClient> {
                                 color: AppColorNeutral.neutral2,
                               ),
                               child: Text(
-                                e.toString(),
+                                // e.substring(e.lastIndexOf("/") + 1)
+                                e.name,
+                                // e.toString().substring(
+                                //     e.toString().lastIndexOf("/") + 1),
                                 style: AppFont.regular12,
                               ),
                             ),

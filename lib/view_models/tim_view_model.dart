@@ -10,9 +10,9 @@ class TeamViewModel with ChangeNotifier {
   List<TeamDetailModel> _listOfTeam = [];
   List<TeamDetailModel> get listOfTeam => _listOfTeam;
 
-  Future<void> addTim(PostTimModel tim) async {
+  Future<void> addTeam(PostTimModel tim) async {
     try {
-      await appsRepository.postAddTim(tim);
+      await appsRepository.postAddTeam(tim);
       notifyListeners();
     } catch (_) {
       rethrow;
@@ -21,16 +21,25 @@ class TeamViewModel with ChangeNotifier {
 
   Future<void> fetchAllTeam() async {
     try {
-      _listOfTeam = await appsRepository.getAllTim();
+      _listOfTeam = await appsRepository.getAllTeam();
       notifyListeners();
     } catch (_) {
       rethrow;
     }
   }
 
-  Future<void> editNameTim(TeamDetailModel teamDetail, PostTimModel tim) async {
+  Future<void> editTeam(TeamDetailModel teamDetail, PostTimModel tim) async {
     try {
-      await appsRepository.updateTimName(teamDetail.id, tim);
+      await appsRepository.updateTeam(teamDetail.id, tim);
+      notifyListeners();
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> kickMemberTeam(TeamDetailModel tim, String email) async {
+    try {
+      await appsRepository.postKickMember(email, tim.id);
       notifyListeners();
     } catch (_) {
       rethrow;

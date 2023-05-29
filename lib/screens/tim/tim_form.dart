@@ -128,7 +128,7 @@ class _TimFormState extends State<TimForm> {
                       onPressed: () async {
                         try {
                           await value
-                              .addTim(PostTimModel(
+                              .addTeam(PostTimModel(
                                   title: timNameController.text,
                                   email: _selectedEmails))
                               .then((value) => Fluttertoast.showToast(

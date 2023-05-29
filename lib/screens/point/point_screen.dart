@@ -1,20 +1,31 @@
 import 'package:bantuin/components/card_redeem_point.dart';
+import 'package:bantuin/view_models/product_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants/color/app_color.dart';
 import '../../constants/font/app_font.dart';
 
 class PointScreen extends StatefulWidget {
-  const PointScreen({super.key});
+  final int point;
+  const PointScreen({super.key, required this.point});
 
   @override
   State<PointScreen> createState() => _PointScreenState();
 }
 
 class _PointScreenState extends State<PointScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.microtask(() =>
+        Provider.of<ProductViewModel>(context, listen: false).fetchProduct());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +42,8 @@ class _PointScreenState extends State<PointScreen> {
         elevation: 0,
       ),
       body: SingleChildScrollView(
-        child: Container(
+          child: Consumer<ProductViewModel>(
+        builder: (context, product, child) => Container(
           margin: EdgeInsets.symmetric(horizontal: 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,7 +90,7 @@ class _PointScreenState extends State<PointScreen> {
                           ],
                         ),
                         Text(
-                          "100",
+                          "${widget.point}",
                           style: AppFont.regular28,
                         ),
                       ],
@@ -104,21 +116,13 @@ class _PointScreenState extends State<PointScreen> {
                     child: ListView.builder(
                       physics: BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
-                      itemCount: 1,
+                      itemCount: product.listOfProduct.length,
                       itemBuilder: (context, index) {
-                        return Row(
-                          children: const [
-                            CardRedeemPoint(
-                                title:
-                                    'Berkah lebaran, tukar THR-mu dengan 10 note'),
-                            CardRedeemPoint(
-                                title:
-                                    'Dapatkan note dengan menukar 1000 point dengan 10 note'),
-                          ],
-                        );
+                        var data = product.listOfProduct[index];
+                        return CardRedeemPoint(product: data);
                       },
                     ),
-                  ),
+                  )
                 ],
               ),
               const SizedBox(height: 48.0),
@@ -133,35 +137,31 @@ class _PointScreenState extends State<PointScreen> {
                     ),
                   ),
                   const SizedBox(height: 8.0),
-                  SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: 200,
-                      child: ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 1,
-                        itemBuilder: (context, index) {
-                          return Row(
-                            children: const [
-                              CardRedeemPoint(
-                                  title:
-                                      'Berkah lebaran, tukar THR-mu dengan 10 note'),
-                              CardRedeemPoint(
-                                  title:
-                                      'Dapatkan note dengan menukar 1000 point dengan 10 note'),
-                            ],
-                          );
-                        },
-                      )
-                      // _cardRedeem(
-                      //     'Berkah lebaran, tukar THR-mu dengan 10 Notes'),
-                      ),
+                  product.listOfProduct.isEmpty
+                      ? SizedBox(
+                          child: Text('Kosong'),
+                        )
+                      : SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: 200,
+                          child: ListView.builder(
+                            physics: BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: product.listOfProduct.length,
+                            itemBuilder: (context, index) {
+                              var data = product.listOfProduct[index];
+                              return CardRedeemPoint(product: data);
+                            },
+                          )
+                          // _cardRedeem(
+                          //     'Berkah lebaran, tukar THR-mu dengan 10 Notes'),
+                          ),
                 ],
               ),
             ],
           ),
         ),
-      ),
+      )),
     );
   }
 }
