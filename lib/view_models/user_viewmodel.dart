@@ -10,7 +10,15 @@ class UsersViewModel with ChangeNotifier {
   final AppsRepository appsRepository = AppsRepository();
 
   late UsersDetailModel _listOfUsers = UsersDetailModel(
-      id: 0, username: '', email: '', phone: '', job: '', photo: '');
+    id: 0,
+    username: '',
+    email: '',
+    phone: '',
+    job: '',
+    photo: '',
+    notesCount: 0,
+    point: 0,
+  );
   UsersDetailModel get listOfUsers => _listOfUsers;
 
   Future<void> getUsers() async {

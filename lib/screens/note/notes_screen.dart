@@ -1,3 +1,4 @@
+import 'package:bantuin/components/bottom_sheet_filter.dart';
 import 'package:bantuin/components/card_mynotes_progres.dart';
 import 'package:bantuin/components/card_incoming_notes_upload.dart';
 import 'package:bantuin/components/card_mynotes_personal.dart';
@@ -7,10 +8,13 @@ import 'package:bantuin/widgets/floating_button/floating_notes.dart';
 import 'package:bantuin/constants/button/app_button.dart';
 import 'package:bantuin/screens/note/notes_form.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../components/btn_filter_passed.dart';
+import '../../components/btn_filter_upcoming.dart';
 import 'note_form2.dart';
 
 class NoteScreen extends StatefulWidget {
@@ -33,8 +37,10 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
   void initState() {
     // TODO: implement initState
     tabController = TabController(length: 2, vsync: this);
+    Future.microtask(() => Provider.of<NoteViewModel>(context, listen: false)
+        .filterUpcomingNote());
     Future.microtask(() =>
-        Provider.of<NoteViewModel>(context, listen: false).getPersonalNote());
+        Provider.of<NoteViewModel>(context, listen: false).filterPassedNote());
     Future.microtask(() =>
         Provider.of<NoteViewModel>(context, listen: false).getCompleteNote());
     getOwner();
@@ -99,40 +105,38 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                               style: AppFont.regular28,
                             ),
                           )
-                        : ListView.builder(
-                            itemCount: note.listOfPersonalNote.length,
-                            itemBuilder: (context, index) {
-                              var data = note.listOfPersonalNote[index];
-                              initializeDateFormatting('id_ID', null);
-                              bool isOwner = false;
-                              if (name == data.owner.first.username) {
-                                isOwner = true;
-                              }
-                              if (data.notesType == 'collaboration') {
-                                if (isOwner) {
-                                  return CardMyNotesProgres(noteDetail: data);
-                                } else {
-                                  return CardIncomingNotesUpload(
-                                      noteDetail: data);
-                                }
-                              } else {
-                                return CardMyNotesPersonal(noteDetail: data);
-                              }
-                              // if (data.notesType == 'collaboration') {
-                              //   switch (data.notesType) {
-                              //     case "personal":
-                              //       return CardMyNotesPersonal(
-                              //           noteDetail: data);
-                              //     case 'collaboration':
-                              //       return CardMyNotesProgres(noteDetail: data);
-                              //     default:
-                              //       return CardIncomingNotesUpload(
-                              //           noteDetail: data);
-                              //   }
-                              // } else {
-                              //   CardMyNotesPersonal(noteDetail: data);
-                              // }
-                            },
+                        : Column(
+                            children: [
+                              const BtnFilterUpcoming(),
+                              const SizedBox(height: 8.0),
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.65,
+                                child: ListView.builder(
+                                  itemCount: note.listOfUpcomingNote.length,
+                                  itemBuilder: (context, index) {
+                                    var data = note.listOfUpcomingNote[index];
+                                    initializeDateFormatting('id_ID', null);
+                                    bool isOwner = false;
+                                    if (name == data.owner.first.username) {
+                                      isOwner = true;
+                                    }
+                                    if (data.notesType == 'collaboration') {
+                                      if (isOwner) {
+                                        return CardMyNotesProgres(
+                                            noteDetail: data);
+                                      } else {
+                                        return CardIncomingNotesUpload(
+                                            noteDetail: data);
+                                      }
+                                    } else {
+                                      return CardMyNotesPersonal(
+                                          noteDetail: data);
+                                    }
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                   ),
                   Center(),
@@ -153,8 +157,10 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                 ],
               ),
               Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
                 padding: const EdgeInsets.all(16.0),
-                child: note.listOfCompleteNote.isEmpty
+                child: note.listOfPassedNote.isEmpty
                     ? Container(
                         alignment: Alignment.center,
                         child: Text(
@@ -162,33 +168,35 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                           style: AppFont.textScreenEmpty,
                         ),
                       )
-                    : ListView.builder(
-                        itemCount: note.listOfPersonalNote.length,
-                        itemBuilder: (context, index) {
-                          var data = note.listOfPersonalNote[index];
-                          initializeDateFormatting('id_ID', null);
-                          bool isOwner = false;
-                          if (name == data.owner.first.username) {
-                            isOwner = true;
-                          }
-                          if (data.notesType == 'collaboration') {
-                            if (isOwner) {
-                              return CardMyNotesProgres(noteDetail: data);
-                            } else {
-                              return CardIncomingNotesUpload(noteDetail: data);
-                            }
-                          } else {
-                            return CardMyNotesPersonal(noteDetail: data);
-                          }
-                          // switch (convertType) {
-                          //   case 1:
-                          //     return CardMyNotesProgres(noteDetail: data);
-                          //   case 2:
-                          //     return CardMyNotesPersonal(noteDetail: data);
-                          //   default:
-                          //   // return CardMyNotesPersonal(noteDetail: data);
-                          // }
-                        },
+                    : Column(
+                        children: [
+                          const BtnFilterPassed(),
+                          const SizedBox(height: 8.0),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.65,
+                            child: ListView.builder(
+                              itemCount: note.listOfPassedNote.length,
+                              itemBuilder: (context, index) {
+                                var data = note.listOfPassedNote[index];
+                                initializeDateFormatting('id_ID', null);
+                                bool isOwner = false;
+                                if (name == data.owner.first.username) {
+                                  isOwner = true;
+                                }
+                                if (data.notesType == 'collaboration') {
+                                  if (isOwner) {
+                                    return CardMyNotesProgres(noteDetail: data);
+                                  } else {
+                                    return CardIncomingNotesUpload(
+                                        noteDetail: data);
+                                  }
+                                } else {
+                                  return CardMyNotesPersonal(noteDetail: data);
+                                }
+                              },
+                            ),
+                          ),
+                        ],
                       ),
               ),
             ],

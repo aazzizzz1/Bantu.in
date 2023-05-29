@@ -32,7 +32,15 @@ class _BottomMenuState extends State<BottomMenu> {
         currentTab,
         currentScreen,
         UsersDetailModel(
-            email: '', id: 0, job: '', phone: '', username: '', photo: ''));
+          email: '',
+          id: 0,
+          job: '',
+          phone: '',
+          username: '',
+          photo: '',
+          notesCount: 0,
+          point: 0,
+        ));
     super.initState();
   }
 

@@ -8,7 +8,7 @@ import 'package:bantuin/services/api/api_services.dart';
 import 'package:bantuin/services/api/apps_repository.dart';
 import 'package:flutter/material.dart';
 import '../models/file_note_client.dart';
-import '../models/note_tim_model.dart';
+import '../models/note_team_model.dart';
 
 class NoteViewModel with ChangeNotifier {
   final appsRepository = AppsRepository();
@@ -19,6 +19,15 @@ class NoteViewModel with ChangeNotifier {
 
   List<NoteDetailModel> _listOfCompleteNote = [];
   List<NoteDetailModel> get listOfCompleteNote => _listOfCompleteNote;
+
+  List<NoteDetailModel> _listOfPassedNote = [];
+  List<NoteDetailModel> get listOfPassedNote => _listOfPassedNote;
+
+  List<NoteDetailModel> _listOfUpcomingNote = [];
+  List<NoteDetailModel> get listOfUpcomingNote => _listOfUpcomingNote;
+
+  List<NoteDetailModel> _listOfTeamNote = [];
+  List<NoteDetailModel> get listOfTeamNote => _listOfTeamNote;
 
   late NoteDetailClientModel _notedetail = NoteDetailClientModel(
     id: 0,
@@ -99,6 +108,91 @@ class NoteViewModel with ChangeNotifier {
     } catch (_) {
       rethrow;
     }
+  }
+
+  Future<void> filterPassedNote() async {
+    try {
+      _listOfPassedNote = await appsRepository.filterNote('?note=passed');
+      notifyListeners();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> filterUpcomingNote() async {
+    try {
+      _listOfUpcomingNote = await appsRepository.filterNote('?note=upcoming');
+      notifyListeners();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> filterCompleteNote() async {
+    try {
+      _listOfPassedNote = await appsRepository.filterNote('?completed=yes');
+      notifyListeners();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> filterLateNote() async {
+    try {
+      _listOfPassedNote = await appsRepository.filterNote('?late=yes');
+      notifyListeners();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> filterIsUploadNote(String status) async {
+    try {
+      _listOfUpcomingNote = await appsRepository.filterNote('?up=$status');
+      notifyListeners();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> filterIsOwnerUpcoming() async {
+    try {
+      _listOfUpcomingNote =
+          await appsRepository.filterNote('?note=upcoming&owner=yes');
+      notifyListeners();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> filterIsOwnerPassed() async {
+    try {
+      _listOfPassedNote =
+          await appsRepository.filterNote('?note=passed&owner=yes');
+      notifyListeners();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> filterDescUpcoming() async {
+    _listOfUpcomingNote.sort((a, b) => (b.eventDate).compareTo(a.eventDate));
+    notifyListeners();
+  }
+
+  Future<void> filterAscUpcoming() async {
+    _listOfUpcomingNote.sort((a, b) => (a.eventDate).compareTo(b.eventDate));
+    notifyListeners();
+  }
+
+  Future<void> filterDescPassed() async {
+    _listOfPassedNote.sort((a, b) => (b.eventDate).compareTo(a.eventDate));
+    notifyListeners();
+  }
+
+  Future<void> filterAscPassed() async {
+    _listOfPassedNote.sort((a, b) => (a.eventDate).compareTo(b.eventDate));
+    notifyListeners();
   }
 }
 

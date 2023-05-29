@@ -6,6 +6,7 @@ import 'package:bantuin/models/note_model.dart';
 import 'package:bantuin/models/password_model.dart';
 import 'package:bantuin/models/post_password_model.dart';
 import 'package:bantuin/models/post_user_model.dart';
+import 'package:bantuin/models/product_point_model.dart';
 import 'package:bantuin/models/tim_model.dart';
 import 'package:bantuin/models/user_models.dart';
 import 'package:bantuin/services/api/api_services.dart';
@@ -117,6 +118,17 @@ class AppsRepository {
       rethrow;
     }
   }
+
+  Future filterNote(String url) async {
+    try {
+      final response = await _apiService.getRequest('/notes$url');
+      NoteModel noteDetail = NoteModel.fromJson(response);
+      print(noteDetail);
+      return noteDetail.notes;
+    } catch (_) {
+      rethrow;
+    }
+  }
   //NOTE END
 
 // profile user
@@ -165,7 +177,7 @@ class AppsRepository {
   }
 
   // FEATURE TEAM
-  Future<void> postAddTim(PostTimModel tim) async {
+  Future<void> postAddTeam(PostTimModel tim) async {
     try {
       final response = await _apiService.postRequest('/teams', tim);
       print(response);
@@ -174,7 +186,7 @@ class AppsRepository {
     }
   }
 
-  Future getAllTim() async {
+  Future getAllTeam() async {
     try {
       final response = await _apiService.getRequest('/teams');
       TeamModel team = TeamModel.fromJson(response);
@@ -184,9 +196,23 @@ class AppsRepository {
     }
   }
 
-  Future updateTimName(int id, PostTimModel data) async {
+  Future updateTeam(int id, PostTimModel data) async {
     try {
       await _apiService.putRequest('/teams/$id', data);
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> postKickMember(String email, int id) async {
+    try {
+      final response = await _apiService.postRequest(
+        '/teams/$id/kick_member',
+        {
+          "email": [email]
+        },
+      );
+      print(response);
     } catch (_) {
       rethrow;
     }
@@ -201,4 +227,31 @@ class AppsRepository {
       rethrow;
     }
   }
+
+  //  FEATURE POINT BEGIN
+  Future getProduct() async {
+    try {
+      final response = await _apiService.getRequest('/products');
+      ProductPointModel point = ProductPointModel.fromJson(response);
+      return point.product;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> postTransaction(int id, String type) async {
+    try {
+      await _apiService.postRequest(
+        '/transactions',
+        {
+          "user_note_id": "$id",
+          "point_type": type,
+        },
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  //  FEATURE POINT END
 }

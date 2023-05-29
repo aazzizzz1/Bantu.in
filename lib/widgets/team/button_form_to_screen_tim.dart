@@ -32,7 +32,7 @@ class ButtonFormToScreenTim extends StatelessWidget {
                       print(timModel.title);
                       try {
                         await value
-                            .addTim(timModel)
+                            .addTeam(timModel)
                             .then((value) => Fluttertoast.showToast(
                                 msg: 'Berhasil membuat tim'))
                             .then((value) => Navigator.push(context,

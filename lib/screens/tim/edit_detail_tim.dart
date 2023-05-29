@@ -125,7 +125,7 @@ class _EditDetailTimState extends State<EditDetailTim> {
                         // print('simpan' + _fileUrl.toString());
                         try {
                           await value
-                              .editNameTim(
+                              .editTeam(
                                   widget.teamDetail,
                                   PostTimModel(
                                       title: _teamNameController.text,

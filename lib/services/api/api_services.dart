@@ -54,7 +54,7 @@ class ApiServices {
     try {
       final response = await http.post(
         Uri.parse('$baseUrl$url'),
-        body: json.encode(data.toJson()),
+        body: data is Map ? json.encode(data) : json.encode(data.toJson()),
         headers: {
           "Content-Type": "application/json; charset=UTF-8",
           "Authorization": "Bearer $token",

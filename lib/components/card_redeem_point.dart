@@ -1,3 +1,4 @@
+import 'package:bantuin/models/product_point_model.dart';
 import 'package:bantuin/screens/point/detail_product_redeem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +9,8 @@ import '../constants/color/app_color.dart';
 import '../constants/font/app_font.dart';
 
 class CardRedeemPoint extends StatelessWidget {
-  final String title;
-  const CardRedeemPoint({super.key, required this.title});
+  final DetailProductPointModel product;
+  const CardRedeemPoint({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +19,15 @@ class CardRedeemPoint extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const DetailProductRedeem(),
+              builder: (context) => DetailProductRedeem(
+                detailProduct: product,
+              ),
             ));
       },
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 12),
+        margin: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         alignment: Alignment.bottomCenter,
-        height: 180,
+        height: 160,
         width: 225,
         decoration: BoxDecoration(
           color: AppColorPrimary.primary1,
@@ -38,7 +41,8 @@ class CardRedeemPoint extends StatelessWidget {
           ],
         ),
         child: Container(
-          height: 75,
+          height: 70,
+          width: MediaQuery.of(context).size.width,
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
           decoration: const BoxDecoration(
               color: Colors.white,
@@ -47,7 +51,7 @@ class CardRedeemPoint extends StatelessWidget {
                 bottomRight: Radius.circular(8),
               )),
           child: Text(
-            title,
+            product.name,
             style: AppFont.medium12,
           ),
         ),

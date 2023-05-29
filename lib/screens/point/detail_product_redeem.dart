@@ -1,10 +1,12 @@
 import 'package:bantuin/constants/button/app_button.dart';
+import 'package:bantuin/models/product_point_model.dart';
 import 'package:flutter/material.dart';
 import 'package:bantuin/constants/constant.dart';
 import 'package:flutter_lorem/flutter_lorem.dart';
 
 class DetailProductRedeem extends StatefulWidget {
-  const DetailProductRedeem({super.key});
+  final DetailProductPointModel detailProduct;
+  const DetailProductRedeem({super.key, required this.detailProduct});
 
   @override
   State<DetailProductRedeem> createState() => _DetailProductRedeemState();
@@ -52,7 +54,7 @@ class _DetailProductRedeemState extends State<DetailProductRedeem> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Berkah hari raya',
+                          widget.detailProduct.name,
                           style: AppFont.semiBold20,
                         ),
                         const SizedBox(height: 20.0),

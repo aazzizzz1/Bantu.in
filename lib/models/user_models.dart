@@ -17,6 +17,8 @@ class UsersDetailModel {
   final String phone;
   final String job;
   final String photo;
+  final int notesCount;
+  final int point;
 
   UsersDetailModel({
     required this.id,
@@ -25,6 +27,8 @@ class UsersDetailModel {
     required this.phone,
     required this.job,
     required this.photo,
+    required this.notesCount,
+    required this.point,
   });
 
   factory UsersDetailModel.fromJson(Map<String, dynamic> json) {
@@ -34,7 +38,10 @@ class UsersDetailModel {
       email: json['email'] ?? 'null',
       phone: json['phone'] ?? 'null',
       job: json['job'] ?? 'null',
-      photo: json['photo'] ?? 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png',
+      photo: json['photo'] ??
+          'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png',
+      notesCount: json['notes_count'] ?? 0,
+      point: json['point'] ?? 0,
     );
   }
 
@@ -46,6 +53,4 @@ class UsersDetailModel {
         'job': job,
         'photo': photo,
       };
-
 }
-
