@@ -83,19 +83,19 @@ class AppsRepository {
     }
   }
 
-  Future getNoteByStatus(String value) async {
-    try {
-      final response = await _apiService.getRequest('/notes');
-      NoteModel ringtones = NoteModel.fromJson(response);
-      // print(response);
-      return ringtones.notes
-          .where((element) =>
-              element.status.toLowerCase().contains(value.toLowerCase()))
-          .toList();
-    } catch (_) {
-      rethrow;
-    }
-  }
+  // Future getNoteByStatus(String value) async {
+  //   try {
+  //     final response = await _apiService.getRequest('/notes');
+  //     NoteModel ringtones = NoteModel.fromJson(response);
+  //     // print(response);
+  //     return ringtones.notes
+  //         .where((element) =>
+  //             element.status.toLowerCase().contains(value.toLowerCase()))
+  //         .toList();
+  //   } catch (_) {
+  //     rethrow;
+  //   }
+  // }
 
   Future<void> postFileClient(
       {required String id, required List<File> selectedFile}) async {

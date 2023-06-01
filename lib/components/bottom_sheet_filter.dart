@@ -104,8 +104,8 @@ class _BottomSheetFilterState extends State<BottomSheetFilter> {
                             }
                           }
                         }
-                        setState(() {});
                         Navigator.pop(context);
+                        setState(() {});
                       } catch (e) {
                         await Fluttertoast.showToast(msg: e.toString());
                       }

@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:bantuin/models/post_user_model.dart';
 import 'package:bantuin/models/user_models.dart';
 import 'package:bantuin/screens/profile/edit_password_profile.dart';
+import 'package:bantuin/utils/app_state.dart';
 import 'package:bantuin/utils/navigator_fade_transition.dart';
 import 'package:bantuin/view_models/login_viewmodel.dart';
 import 'package:bantuin/view_models/user_viewmodel.dart';
+import 'package:bantuin/widgets/shimmer_loading/shimmer_container.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -89,81 +91,96 @@ class _ProfileScreen2State extends State<ProfileScreen2> {
                 Consumer<UsersViewModel>(
                   builder: (context, value, child) {
                     var data = value.listOfUsers;
-                    return Column(
-                      children: [
-                        CachedNetworkImage(
-                          imageUrl: data.photo,
-                          placeholder: (context, url) =>
-                              CircularProgressIndicator(),
-                          errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
-                          imageBuilder: (context, imageProvider) => Container(
-                            width: 160,
-                            height: 160,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                fit: BoxFit.fill,
-                                image: imageProvider,
+                    if (value.appState == AppState.loading) {
+                      return ShimmerContainer.circular(height: 160, width: 160);
+                    }
+                    if (value.appState == AppState.loaded) {
+                      return Column(
+                        children: [
+                          CachedNetworkImage(
+                            imageUrl: data.photo,
+                            imageBuilder: (context, imageProvider) => Container(
+                              width: 160,
+                              height: 160,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  fit: BoxFit.fill,
+                                  image: imageProvider,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 14),
-                        Consumer<UsersViewModel>(
-                          builder: (context, value, child) {
-                            final UsersDetailModel data = value.listOfUsers;
-                            return InkWell(
-                              onTap: () async {
-                                try {
-                                  await _pickFile()
-                                      .then(
-                                        (_) => value.updateImageProfile(
-                                            id: data.id,
-                                            selectedFile: _fileUrl),
-                                      )
-                                      .then(
-                                        (value) => Fluttertoast.showToast(
-                                            msg:
-                                                'berhasil mengubah foto profile'),
-                                      );
-                                  // await _pickFile();
-                                  // if (_fileUrl != null) {
-                                  //   await value.updateImageProfile(
-                                  //       );
-                                  //   Fluttertoast.showToast(
-                                  //     msg: "Berhasil mengubah foto profil",
-                                  //     toastLength: Toast.LENGTH_SHORT,
-                                  //     gravity: ToastGravity.BOTTOM,
-                                  //     timeInSecForIosWeb: 1,
-                                  //     backgroundColor: AppColor.activeColor,
-                                  //     textColor: Colors.white,
-                                  //     fontSize: 16.0,
-                                  //   );
-                                  // }
-                                  print(_fileUrl);
-                                } catch (e) {
-                                  await Fluttertoast.showToast(
-                                    msg: e.toString(),
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.BOTTOM,
-                                    timeInSecForIosWeb: 1,
-                                    backgroundColor: AppColor.activeColor,
-                                    textColor: Colors.white,
-                                    fontSize: 16.0,
-                                  );
-                                  print(e.toString());
-                                }
-                              },
-                              child: Text(
-                                'Edit Foto Profil',
-                                style: AppFont.textButtonActive,
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    );
+                          const SizedBox(height: 14),
+                          Consumer<UsersViewModel>(
+                            builder: (context, value, child) {
+                              final UsersDetailModel data = value.listOfUsers;
+                              return InkWell(
+                                onTap: () async {
+                                  try {
+                                    await _pickFile()
+                                        .then(
+                                          (_) => value.updateImageProfile(
+                                              id: data.id,
+                                              selectedFile: _fileUrl),
+                                        )
+                                        .then(
+                                          (value) => Fluttertoast.showToast(
+                                              msg:
+                                                  'berhasil mengubah foto profile'),
+                                        );
+                                  } catch (e) {
+                                    await Fluttertoast.showToast(
+                                      msg: e.toString(),
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: AppColor.activeColor,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0,
+                                    );
+                                  }
+                                },
+                                child: Text(
+                                  'Edit Foto Profil',
+                                  style: AppFont.textButtonActive,
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      );
+                    }
+                    if (value.appState == AppState.failure) {
+                      return Column(
+                        children: [
+                          Container(
+                            width: 160,
+                            height: 160,
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppColorNeutral.neutral3),
+                            child: const Text(
+                              'Gagal memuat foto',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ),
+                          const SizedBox(height: 14),
+                          Consumer<UsersViewModel>(
+                            builder: (context, value, child) {
+                              return InkWell(
+                                onTap: () async {},
+                                child: Text(
+                                  'Edit Foto Profil',
+                                  style: AppFont.textButtonActive,
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      );
+                    }
+                    return const SizedBox();
                   },
                 ),
                 const SizedBox(height: 24),
@@ -209,10 +226,11 @@ class _ProfileScreen2State extends State<ProfileScreen2> {
                           style: AppFont.textNotificationTime,
                         ),
                         SizedBox(height: 7),
-                        Text(
-                          data.username,
-                          style: AppFont.medium14,
-                        ),
+                        _loadingContainer(data.username),
+                        // Text(
+                        //   data.username,
+                        //   style: AppFont.medium14,
+                        // ),
                         SizedBox(
                           height: 20,
                         ),
@@ -223,10 +241,11 @@ class _ProfileScreen2State extends State<ProfileScreen2> {
                         SizedBox(
                           height: 7,
                         ),
-                        Text(
-                          data.email,
-                          style: AppFont.medium14,
-                        ),
+                        _loadingContainer(data.email),
+                        // Text(
+                        //   data.email,
+                        //   style: AppFont.medium14,
+                        // ),
                         SizedBox(
                           height: 20,
                         ),
@@ -237,10 +256,11 @@ class _ProfileScreen2State extends State<ProfileScreen2> {
                         SizedBox(
                           height: 7,
                         ),
-                        Text(
-                          data.job,
-                          style: AppFont.medium14,
-                        ),
+                        _loadingContainer(data.job),
+                        // Text(
+                        //   data.job,
+                        //   style: AppFont.medium14,
+                        // ),
                         SizedBox(
                           height: 20,
                         ),
@@ -251,10 +271,11 @@ class _ProfileScreen2State extends State<ProfileScreen2> {
                         SizedBox(
                           height: 7,
                         ),
-                        Text(
-                          data.phone,
-                          style: AppFont.medium14,
-                        ),
+                        _loadingContainer(data.phone),
+                        // Text(
+                        //   data.phone,
+                        //   style: AppFont.medium14,
+                        // ),
                         Divider(thickness: 1, color: AppColorNeutral.neutral2),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -299,6 +320,38 @@ class _ProfileScreen2State extends State<ProfileScreen2> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _loadingContainer(String data) {
+    return Consumer<UsersViewModel>(
+      builder: (context, user, child) {
+        if (user.appState == AppState.loading) {
+          return ShimmerContainer.rectangle(
+            height: 20,
+            width: MediaQuery.of(context).size.width * 0.5,
+          );
+        }
+        if (user.appState == AppState.loaded) {
+          return Text(
+            data,
+            style: AppFont.medium14,
+          );
+        }
+        if (user.appState == AppState.noData) {
+          return Text(
+            'kosong',
+            style: AppFont.medium14,
+          );
+        }
+        if (user.appState == AppState.failure) {
+          return Text(
+            'gagal',
+            style: AppFont.medium14,
+          );
+        }
+        return const SizedBox();
+      },
     );
   }
 

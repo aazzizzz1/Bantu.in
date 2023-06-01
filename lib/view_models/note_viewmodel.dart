@@ -9,6 +9,7 @@ import 'package:bantuin/services/api/apps_repository.dart';
 import 'package:flutter/material.dart';
 import '../models/file_note_client.dart';
 import '../models/note_team_model.dart';
+import 'package:bantuin/utils/app_state.dart';
 
 class NoteViewModel with ChangeNotifier {
   final appsRepository = AppsRepository();
@@ -29,6 +30,9 @@ class NoteViewModel with ChangeNotifier {
   List<NoteDetailModel> _listOfTeamNote = [];
   List<NoteDetailModel> get listOfTeamNote => _listOfTeamNote;
 
+  AppState _appState = AppState.loading;
+  AppState get appState => _appState;
+
   late NoteDetailClientModel _notedetail = NoteDetailClientModel(
     id: 0,
     subject: 'null',
@@ -44,6 +48,11 @@ class NoteViewModel with ChangeNotifier {
   );
   NoteDetailClientModel get noteDetail => _notedetail;
 
+  void changeAppState(AppState appState) {
+    _appState = appState;
+    notifyListeners();
+  }
+
   Future<void> postPersonalNote(PostNoteModel note) async {
     try {
       await appsRepository.postPersonalNote(note);
@@ -55,9 +64,15 @@ class NoteViewModel with ChangeNotifier {
 
   Future<void> getPersonalNote() async {
     try {
+      changeAppState(AppState.loading);
       _listOfPersonalNote = await appsRepository.getPersonalNote();
       notifyListeners();
+      changeAppState(AppState.loaded);
+      if (_listOfPersonalNote.isEmpty) {
+        changeAppState(AppState.noData);
+      }
     } catch (_) {
+      changeAppState(AppState.failure);
       rethrow;
     }
   }
@@ -82,20 +97,17 @@ class NoteViewModel with ChangeNotifier {
     }
   }
 
-  Future<void> getCompleteNote() async {
-    try {
-      _listOfCompleteNote = await appsRepository.getNoteByStatus('complete');
-      notifyListeners();
-    } catch (_) {
-      rethrow;
-    }
-  }
-
   Future<void> getDetailNote(int id) async {
     try {
+      changeAppState(AppState.loading);
       _notedetail = await appsRepository.getDetailNote(id);
       notifyListeners();
+      changeAppState(AppState.loaded);
+      if (_listOfPersonalNote.isEmpty) {
+        changeAppState(AppState.noData);
+      }
     } catch (_) {
+      changeAppState(AppState.failure);
       rethrow;
     }
   }
@@ -112,65 +124,107 @@ class NoteViewModel with ChangeNotifier {
 
   Future<void> filterPassedNote() async {
     try {
+      changeAppState(AppState.loading);
       _listOfPassedNote = await appsRepository.filterNote('?note=passed');
       notifyListeners();
+      changeAppState(AppState.loaded);
+      if (_listOfPassedNote.isEmpty) {
+        changeAppState(AppState.noData);
+      }
     } catch (e) {
+      changeAppState(AppState.failure);
       rethrow;
     }
   }
 
   Future<void> filterUpcomingNote() async {
     try {
+      changeAppState(AppState.loading);
       _listOfUpcomingNote = await appsRepository.filterNote('?note=upcoming');
       notifyListeners();
+      changeAppState(AppState.loaded);
+      if (_listOfUpcomingNote.isEmpty) {
+        changeAppState(AppState.noData);
+      }
     } catch (e) {
+      changeAppState(AppState.failure);
       rethrow;
     }
   }
 
   Future<void> filterCompleteNote() async {
     try {
+      changeAppState(AppState.loading);
       _listOfPassedNote = await appsRepository.filterNote('?completed=yes');
       notifyListeners();
+      changeAppState(AppState.loaded);
+      if (_listOfPassedNote.isEmpty) {
+        changeAppState(AppState.noData);
+      }
     } catch (e) {
+      changeAppState(AppState.failure);
       rethrow;
     }
   }
 
   Future<void> filterLateNote() async {
     try {
+      changeAppState(AppState.loading);
       _listOfPassedNote = await appsRepository.filterNote('?late=yes');
+      changeAppState(AppState.loaded);
+      if (_listOfPassedNote.isEmpty) {
+        changeAppState(AppState.noData);
+      }
       notifyListeners();
     } catch (e) {
+      changeAppState(AppState.failure);
       rethrow;
     }
   }
 
   Future<void> filterIsUploadNote(String status) async {
     try {
+      changeAppState(AppState.loading);
       _listOfUpcomingNote = await appsRepository.filterNote('?up=$status');
       notifyListeners();
+      changeAppState(AppState.loaded);
+      if (_listOfUpcomingNote.isEmpty) {
+        changeAppState(AppState.noData);
+      }
     } catch (e) {
+      changeAppState(AppState.failure);
       rethrow;
     }
   }
 
   Future<void> filterIsOwnerUpcoming() async {
     try {
+      changeAppState(AppState.loading);
       _listOfUpcomingNote =
           await appsRepository.filterNote('?note=upcoming&owner=yes');
       notifyListeners();
+      changeAppState(AppState.loaded);
+      if (_listOfUpcomingNote.isEmpty) {
+        changeAppState(AppState.noData);
+      }
     } catch (e) {
+      changeAppState(AppState.failure);
       rethrow;
     }
   }
 
   Future<void> filterIsOwnerPassed() async {
     try {
+      changeAppState(AppState.loading);
       _listOfPassedNote =
           await appsRepository.filterNote('?note=passed&owner=yes');
       notifyListeners();
+      changeAppState(AppState.loaded);
+      if (_listOfPassedNote.isEmpty) {
+        changeAppState(AppState.noData);
+      }
     } catch (e) {
+      changeAppState(AppState.failure);
       rethrow;
     }
   }

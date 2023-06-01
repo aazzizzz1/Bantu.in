@@ -19,7 +19,7 @@ class NoteDetailModel {
   final DateTime eventDate;
   final DateTime reminder;
   final String notesType;
-  final String status;
+  final List status;
   final List<OwnerDetailModel> owner;
   final String ringtone;
   final List file;
@@ -47,7 +47,7 @@ class NoteDetailModel {
         eventDate: DateTime.parse(json['event_date']),
         reminder: DateTime.parse(json['reminder']),
         notesType: json['note_type'] ?? 'null',
-        status: json['status'] ?? 'null',
+        status: json['status'] ?? [],
         owner: json['owner'] != null
             ? (json['owner'] as List)
                 .map((e) => OwnerDetailModel.fromJson(e))

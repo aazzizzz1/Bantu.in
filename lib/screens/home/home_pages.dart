@@ -9,10 +9,12 @@ import 'package:bantuin/constants/button/app_button.dart';
 import 'package:bantuin/constants/font/app_font.dart';
 import 'package:bantuin/screens/note/notes_form.dart';
 import 'package:bantuin/screens/notification/notification_screen.dart';
+import 'package:bantuin/utils/app_state.dart';
 import 'package:bantuin/view_models/note_viewmodel.dart';
 import 'package:bantuin/view_models/product_viewmodel.dart';
 import 'package:bantuin/widgets/floating_button/floating_home.dart';
 import 'package:bantuin/widgets/home/filtering_data.dart';
+import 'package:bantuin/widgets/shimmer_loading/shimmer_container.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -59,21 +61,65 @@ class _HomePagesState extends State<HomePages> {
             child: Image.asset("lib/assets/images/Switch.png"),
           ),
         ),
-        title: Consumer<UsersViewModel>(
-          builder: (context, value, child) => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                value.listOfUsers.username,
-                style: AppFont.semiBold14,
-              ),
-              Text(
-                value.listOfUsers.job,
-                style: AppFont.regular12,
-              ),
-            ],
-          ),
-        ),
+        title: Consumer<UsersViewModel>(builder: (context, user, child) {
+          if (user.appState == AppState.loading) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                ShimmerContainer.rectangle(height: 10, width: 50),
+                SizedBox(height: 10),
+                ShimmerContainer.rectangle(height: 10, width: 100),
+              ],
+            );
+          }
+
+          if (user.appState == AppState.loaded) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  user.listOfUsers.username,
+                  style: AppFont.semiBold14,
+                ),
+                Text(
+                  user.listOfUsers.job,
+                  style: AppFont.regular12,
+                ),
+              ],
+            );
+          }
+          if (user.appState == AppState.noData) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Kosong',
+                  style: AppFont.semiBold14,
+                ),
+                Text(
+                  'Kosong',
+                  style: AppFont.regular12,
+                ),
+              ],
+            );
+          }
+          if (user.appState == AppState.failure) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Pengguna',
+                  style: AppFont.semiBold14,
+                ),
+                Text(
+                  'Pekerjaan',
+                  style: AppFont.regular12,
+                ),
+              ],
+            );
+          }
+          return const SizedBox();
+        }),
         actions: [
           Container(
             margin: const EdgeInsets.only(right: 20),

@@ -24,7 +24,7 @@ class BtnFilterUpcoming extends StatelessWidget {
                 filter: ['Semua', 'Belum Upload', 'Sudah Upload', 'Pemilik'],
                 typeNote: 'upcoming',
               ),
-            );
+            ).then((value) => Navigator.pop(context));
           },
           style: ButtonStyle(
             backgroundColor: const MaterialStatePropertyAll(Colors.white),
