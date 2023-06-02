@@ -1,12 +1,16 @@
 import 'package:bantuin/constants/color/app_color.dart';
 import 'package:bantuin/constants/font/app_font.dart';
+import 'package:bantuin/models/post_forgot_password_model.dart';
 import 'package:bantuin/screens/auth/email_otp.dart';
 import 'package:bantuin/screens/auth/login_screen.dart';
+import 'package:bantuin/view_models/login_viewmodel.dart';
 import 'package:bantuin/widgets/register/register_textfield_component.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 class ForgotPassword extends StatefulWidget {
-  const ForgotPassword({super.key});
+  const ForgotPassword({Key? key}) : super(key: key);
 
   @override
   State<ForgotPassword> createState() => _ForgotPasswordState();
@@ -14,9 +18,7 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _jobController = TextEditingController();
   bool obscure = true;
 
   @override
@@ -74,33 +76,39 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       controller: _emailController,
                     ),
                     const SizedBox(height: 36.0),
-                    ElevatedButton(
-                      onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) => const ProfileScreen()),
-                        // );
-                        final isValidForm = _formKey.currentState!.validate();
-                        if (isValidForm) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EmailOtp(key: null),
-                            ),
-                          );
-                        }
-                      },
-                      style: const ButtonStyle(
-                        padding: MaterialStatePropertyAll(EdgeInsets.all(16.0)),
-                        elevation: MaterialStatePropertyAll(0),
-                        backgroundColor:
-                            MaterialStatePropertyAll(AppColor.activeColor),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Selanjutnya',
-                          style: AppFont.textFillButtonActive,
+                    Consumer<LoginViewModel>(
+                      builder: (context, value, child) => ElevatedButton(
+                        onPressed: () async {
+                          final isValidForm = _formKey.currentState!.validate();
+                          if (isValidForm) {
+                            try {
+                              await value.forgotPassword(
+                                  PostForgotPasswordModel(
+                                      email: _emailController.text));
+                              Fluttertoast.showToast(msg: 'Berhasil mengirim email');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LoginScreen(),
+                                ),
+                              );
+                            } catch (e) {
+                              Fluttertoast.showToast(msg: e.toString());
+                            }
+                          }
+                        },
+                        style: ButtonStyle(
+                          padding:
+                              MaterialStateProperty.all(EdgeInsets.all(16.0)),
+                          elevation: MaterialStateProperty.all(0),
+                          backgroundColor:
+                              MaterialStateProperty.all(AppColor.activeColor),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Kirim',
+                            style: AppFont.textFillButtonActive,
+                          ),
                         ),
                       ),
                     ),
