@@ -262,7 +262,7 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
   Widget _loadingContainer() {
     return Container(
       height: MediaQuery.of(context).size.height * 0.65,
-      padding: const EdgeInsets.all(16),
+      // padding: const EdgeInsets.all(16),
       child: ListView.builder(
         shrinkWrap: true,
         itemCount: 6,

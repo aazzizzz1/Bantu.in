@@ -39,7 +39,7 @@ class NoteViewModel with ChangeNotifier {
     eventDate: DateTime.now(),
     reminder: DateTime.now(),
     notesType: 'personal',
-    status: 'null',
+    status: [],
     owner: [],
     ringtone: 'null',
     file: [],
