@@ -5,6 +5,7 @@ import 'package:bantuin/models/invitation_model.dart';
 import 'package:bantuin/models/note_detail_client_model.dart';
 import 'package:bantuin/models/note_model.dart';
 import 'package:bantuin/models/password_model.dart';
+import 'package:bantuin/models/post_forgot_password_model.dart';
 import 'package:bantuin/models/post_password_model.dart';
 import 'package:bantuin/models/post_user_model.dart';
 import 'package:bantuin/models/product_point_model.dart';
@@ -172,6 +173,15 @@ class AppsRepository {
   Future<void> updatePhotoProfile(int id, String photo) async {
     try {
       await _apiService.putRequest('/users/$id', photo);
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+    Future<void> postForgotPassword(PostForgotPasswordModel email) async {
+    try {
+      final response = await _apiService.postRequest('/forgot_password', email);
+      print(response);
     } catch (_) {
       rethrow;
     }
