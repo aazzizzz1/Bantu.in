@@ -45,6 +45,9 @@ class _HomePagesState extends State<HomePages> {
         Provider.of<ProductViewModel>(context, listen: false).fetchProduct());
     Future.microtask(
         () => Provider.of<UsersViewModel>(context, listen: false).getUsers());
+    Future.microtask(() =>
+        Provider.of<InvitationViewModel>(context, listen: false)
+            .fetchInvitation());
     super.initState();
   }
 
@@ -157,7 +160,10 @@ class _HomePagesState extends State<HomePages> {
                     return HomeInvitaion();
                   }
                   if (inv.appState == AppState.noData) {
-                    return SizedBox();
+                    return const SizedBox();
+                  }
+                  if (inv.appState == AppState.failure) {
+                    return const SizedBox();
                   }
                   return const SizedBox();
                 },
@@ -191,7 +197,6 @@ class _HomePagesState extends State<HomePages> {
             'Permintaan Masuk',
             style: AppFont.textTitleScreen,
           ),
-          const SizedBox(height: 10),
           Container(
             height: 160,
             width: MediaQuery.of(context).size.width,
