@@ -18,6 +18,7 @@ class TextFieldComponent extends StatefulWidget {
   final String? confirm;
   final bool? email;
   final IconData? icon;
+  final bool? lowerCase;
 
   TextFieldComponent({
     super.key,
@@ -32,6 +33,7 @@ class TextFieldComponent extends StatefulWidget {
     this.confirm,
     this.email,
     this.icon,
+    this.lowerCase,
   });
 
   @override
@@ -54,24 +56,27 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: widget.controller,
           obscureText: widget.obscure == null ? false : widget.obscure!,
-          inputFormatters: widget.obscure != null
-              ? [
-                  LengthLimitingTextInputFormatter(16),
-                  FilteringTextInputFormatter.allow(
-                                RegExp("[a-zA-Z0-9 !@#\$%^&*()_+-]+"),
-                              ),
-                ]
-              : null,
+          inputFormatters: [
+            if (widget.lowerCase != null)
+              FilteringTextInputFormatter.deny(RegExp('[A-Z]')),
+            if (widget.obscure != null)
+              LengthLimitingTextInputFormatter(16),
+            if (widget.obscure != null)
+              FilteringTextInputFormatter.allow(
+                RegExp("[a-zA-Z0-9 !@#\$%^&*()_+-]+"),
+              ),
+          ],
           validator: (value) {
             print(value);
             if (value!.isEmpty) {
               return 'Maaf anda belum memasukan ${widget.type} anda';
             } else {
               if (widget.email != null) {
-                return EmailValidator.validate(value)
-                    ? null
-                    : 'Maaf email anda tidak valid';
-              } else if (widget.obscure != null) {
+                bool isEmailValid = EmailValidator.validate(value);
+                if (!isEmailValid) {
+                  return 'Maaf email anda tidak valid';
+                }
+              }else if (widget.obscure != null) {
                 bool passValid = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$').hasMatch(value);
                 return passValid
                     ? null
