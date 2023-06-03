@@ -39,6 +39,8 @@ class HomeInvitaionState extends State<HomeInvitaion> {
           Consumer<InvitationViewModel>(
             builder: (context, inv, child) {
               return ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
                 itemCount: 1,
                 itemBuilder: (context, index) {
                   if (inv.listOfInvitation.length > 1) {
