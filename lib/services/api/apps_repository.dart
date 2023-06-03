@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bantuin/models/file_note_client.dart';
+import 'package:bantuin/models/invitation_model.dart';
 import 'package:bantuin/models/note_detail_client_model.dart';
 import 'package:bantuin/models/note_model.dart';
 import 'package:bantuin/models/password_model.dart';
@@ -254,4 +255,28 @@ class AppsRepository {
   }
 
   //  FEATURE POINT END
+
+  //  FEATURE INVITATION BEGIN
+  Future getAllInvitation() async {
+    try {
+      final response = await _apiService.getRequest('/reqlist');
+      InvitationModel inv = InvitationModel.fromJson(response);
+      return inv.invitation;
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future getUrl(String url) async {
+    String secUrl = url.replaceFirst('https://bantuin.fly.dev/api', '');
+    print(secUrl);
+    try {
+      final response = await _apiService.getRequest(secUrl);
+      InvitationModel inv = InvitationModel.fromJson(response);
+      return inv.invitation;
+    } catch (_) {
+      rethrow;
+    }
+  }
+  //  FEATURE INVITATION END
 }

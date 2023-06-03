@@ -91,24 +91,23 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
       body: TabBarView(
         controller: tabController,
         children: [
-          Consumer<NoteViewModel>(
-            builder: (context, note, child) {
-              if (note.appState == AppState.loading) {
-                return _loadingContainer();
-              }
-
-              if (note.appState == AppState.loaded) {
-                return Stack(
+          Stack(
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
                   children: [
-                    // content of the page
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        children: [
-                          const BtnFilterUpcoming(),
-                          const SizedBox(height: 8.0),
-                          SizedBox(
+                    const BtnFilterUpcoming(),
+                    const SizedBox(height: 8.0),
+                    Consumer<NoteViewModel>(
+                      builder: (context, note, child) {
+                        if (note.appState == AppState.loading) {
+                          return _loadingContainer();
+                        }
+
+                        if (note.appState == AppState.loaded) {
+                          return SizedBox(
                             height: MediaQuery.of(context).size.height * 0.65,
                             child: ListView.builder(
                               itemCount: note.listOfUpcomingNote.length,
@@ -131,66 +130,79 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                                 }
                               },
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Center(),
-                    // floating button above bottom navbar
-                    Positioned(
-                      bottom: 20,
-                      right: 16.0,
-                      child: FloatingButtonNotes(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const NoteForm2()),
                           );
-                        },
-                      ),
+                        }
+
+                        if (note.appState == AppState.noData) {
+                          return Stack(
+                            children: [
+                              Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.6,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  'Catatan masih kosong',
+                                  style: AppFont.textScreenEmpty,
+                                ),
+                              ),
+                            ],
+                          );
+                        }
+
+                        if (note.appState == AppState.failure) {
+                          return Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Gagal mengambil catatan',
+                              style: AppFont.textScreenEmpty,
+                            ),
+                          );
+                        }
+                        return const SizedBox();
+                      },
                     ),
                   ],
-                );
-              }
+                ),
+              ),
+              //Consumer
 
-              if (note.appState == AppState.noData) {
-                return Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Catatan masih kosong',
-                    style: AppFont.regular28,
-                  ),
-                );
-              }
-
-              if (note.appState == AppState.failure) {
-                return Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Gagal mengambil catatan',
-                    style: AppFont.textScreenEmpty,
-                  ),
-                );
-              }
-              return const SizedBox();
-            },
+              //FAB
+              Center(),
+              // floating button above bottom navbar
+              Positioned(
+                bottom: 20,
+                right: 16.0,
+                child: FloatingButtonNotes(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const NoteForm2()),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
-          Consumer<NoteViewModel>(
-            builder: (context, note, child) {
-              if (note.appState == AppState.loading) {
-                return _loadingContainer();
-              }
-              if (note.appState == AppState.loaded) {
-                return Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      const BtnFilterPassed(),
-                      const SizedBox(height: 8.0),
-                      SizedBox(
+
+          //PASSED NOTE
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                const BtnFilterPassed(),
+                const SizedBox(height: 8.0),
+                //Consumer
+                Consumer<NoteViewModel>(
+                  builder: (context, note, child) {
+                    if (note.appState == AppState.loading) {
+                      return _loadingContainer();
+                    }
+                    if (note.appState == AppState.loaded &&
+                        note.listOfPassedNote.isNotEmpty) {
+                      return SizedBox(
                         height: MediaQuery.of(context).size.height * 0.65,
                         child: ListView.builder(
                           itemCount: note.listOfPassedNote.length,
@@ -213,32 +225,34 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                             }
                           },
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              }
-              if (note.appState == AppState.noData) {
-                return Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Catatan masih kosong',
-                    style: AppFont.regular28,
-                  ),
-                );
-              }
+                      );
+                    }
+                    if (note.appState == AppState.noData ||
+                        note.listOfPassedNote.isEmpty) {
+                      return Container(
+                        height: MediaQuery.of(context).size.height * 0.6,
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Catatan masih kosong',
+                          style: AppFont.textScreenEmpty,
+                        ),
+                      );
+                    }
 
-              if (note.appState == AppState.failure) {
-                return Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Gagal mengambil catatan',
-                    style: AppFont.textScreenEmpty,
-                  ),
-                );
-              }
-              return const SizedBox();
-            },
+                    if (note.appState == AppState.failure) {
+                      return Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Gagal mengambil catatan',
+                          style: AppFont.textScreenEmpty,
+                        ),
+                      );
+                    }
+                    return const SizedBox();
+                  },
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -247,7 +261,7 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
 
   Widget _loadingContainer() {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.8,
+      height: MediaQuery.of(context).size.height * 0.65,
       padding: const EdgeInsets.all(16),
       child: ListView.builder(
         shrinkWrap: true,

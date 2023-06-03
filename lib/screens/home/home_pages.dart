@@ -10,6 +10,7 @@ import 'package:bantuin/constants/font/app_font.dart';
 import 'package:bantuin/screens/note/notes_form.dart';
 import 'package:bantuin/screens/notification/notification_screen.dart';
 import 'package:bantuin/utils/app_state.dart';
+import 'package:bantuin/view_models/invitation_viewmodel.dart';
 import 'package:bantuin/view_models/note_viewmodel.dart';
 import 'package:bantuin/view_models/product_viewmodel.dart';
 import 'package:bantuin/widgets/floating_button/floating_home.dart';
@@ -147,17 +148,26 @@ class _HomePagesState extends State<HomePages> {
           child: Column(
             children: [
               PointRoyalty(),
-              HomeInvitaion(),
+              Consumer<InvitationViewModel>(
+                builder: (context, inv, child) {
+                  if (inv.appState == AppState.loading) {
+                    return _loadingInvitation();
+                  }
+                  if (inv.appState == AppState.loaded) {
+                    return HomeInvitaion();
+                  }
+                  if (inv.appState == AppState.noData) {
+                    return SizedBox();
+                  }
+                  return const SizedBox();
+                },
+              ),
               DaftarCatatan(),
               ListDaftarCatatan(),
             ],
           ),
         ),
       ),
-      // ListView(
-      //   children: const [
-      //   ],
-      // ),
       floatingActionButton: FloatingButtonHome(
         onPressed: () {
           Navigator.push(
@@ -165,6 +175,61 @@ class _HomePagesState extends State<HomePages> {
             MaterialPageRoute(builder: (context) => const NoteForm2()),
           );
         },
+      ),
+    );
+  }
+
+  Widget _loadingInvitation() {
+    return Container(
+      height: 250,
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Permintaan Masuk',
+            style: AppFont.textTitleScreen,
+          ),
+          const SizedBox(height: 10),
+          Container(
+            height: 160,
+            width: MediaQuery.of(context).size.width,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            decoration: BoxDecoration(
+              border: const Border.fromBorderSide(
+                BorderSide(color: AppColorNeutral.neutral2, width: 1),
+              ),
+              borderRadius: BorderRadius.circular(4),
+              color: AppColorNeutral.neutral1,
+            ),
+            child: Row(
+              children: [
+                const Align(
+                  alignment: Alignment.topCenter,
+                  child: ShimmerContainer.circular(height: 50, width: 50),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ShimmerContainer.rectangle(
+                          height: 20, width: MediaQuery.of(context).size.width),
+                      const SizedBox(height: 12),
+                      ShimmerContainer.rectangle(
+                          height: 20,
+                          width: MediaQuery.of(context).size.width * 0.3),
+                      const SizedBox(height: 12),
+                      ShimmerContainer.rectangle(
+                          height: 50, width: MediaQuery.of(context).size.width),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

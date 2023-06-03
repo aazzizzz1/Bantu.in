@@ -67,10 +67,10 @@ class _BottomSheetFilterState extends State<BottomSheetFilter> {
                                 await note.filterUpcomingNote();
                                 break;
                               case 1:
-                                await note.filterIsUploadNote('no');
+                                await note.filterIsUploadNote('notup');
                                 break;
                               case 2:
-                                await note.filterIsUploadNote('yes');
+                                await note.filterIsUploadNote('up');
                                 break;
                               default:
                                 await note.filterIsOwnerUpcoming();
@@ -104,8 +104,8 @@ class _BottomSheetFilterState extends State<BottomSheetFilter> {
                             }
                           }
                         }
-                        Navigator.pop(context);
                         setState(() {});
+                        // Navigator.pop(context);
                       } catch (e) {
                         await Fluttertoast.showToast(msg: e.toString());
                       }

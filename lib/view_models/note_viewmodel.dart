@@ -13,7 +13,6 @@ import 'package:bantuin/utils/app_state.dart';
 
 class NoteViewModel with ChangeNotifier {
   final appsRepository = AppsRepository();
-  final apiServise = ApiServices();
 
   List<NoteDetailModel> _listOfPersonalNote = [];
   List<NoteDetailModel> get listOfPersonalNote => _listOfPersonalNote;
@@ -125,7 +124,7 @@ class NoteViewModel with ChangeNotifier {
   Future<void> filterPassedNote() async {
     try {
       changeAppState(AppState.loading);
-      _listOfPassedNote = await appsRepository.filterNote('?note=passed');
+      _listOfPassedNote = await appsRepository.filterNote('?passed=yes');
       notifyListeners();
       changeAppState(AppState.loaded);
       if (_listOfPassedNote.isEmpty) {
@@ -140,7 +139,7 @@ class NoteViewModel with ChangeNotifier {
   Future<void> filterUpcomingNote() async {
     try {
       changeAppState(AppState.loading);
-      _listOfUpcomingNote = await appsRepository.filterNote('?note=upcoming');
+      _listOfUpcomingNote = await appsRepository.filterNote('?upcoming=yes');
       notifyListeners();
       changeAppState(AppState.loaded);
       if (_listOfUpcomingNote.isEmpty) {
@@ -185,7 +184,7 @@ class NoteViewModel with ChangeNotifier {
   Future<void> filterIsUploadNote(String status) async {
     try {
       changeAppState(AppState.loading);
-      _listOfUpcomingNote = await appsRepository.filterNote('?up=$status');
+      _listOfUpcomingNote = await appsRepository.filterNote('?$status=yes');
       notifyListeners();
       changeAppState(AppState.loaded);
       if (_listOfUpcomingNote.isEmpty) {
