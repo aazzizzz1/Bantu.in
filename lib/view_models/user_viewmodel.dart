@@ -6,6 +6,8 @@ import 'package:bantuin/services/api/apps_repository.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../utils/app_state.dart';
+
 class UsersViewModel with ChangeNotifier {
   final AppsRepository appsRepository = AppsRepository();
 
@@ -21,11 +23,26 @@ class UsersViewModel with ChangeNotifier {
   );
   UsersDetailModel get listOfUsers => _listOfUsers;
 
+  AppState _appState = AppState.loading;
+  AppState get appState => _appState;
+
+  void changeAppState(AppState appState) {
+    _appState = appState;
+    notifyListeners();
+  }
+
   Future<void> getUsers() async {
     try {
+      changeAppState(AppState.loading);
       _listOfUsers = await appsRepository.getUsers();
       notifyListeners();
+      changeAppState(AppState.loaded);
+      if (_listOfUsers.id == 0) {
+        changeAppState(AppState.noData);
+        notifyListeners();
+      }
     } catch (error) {
+      changeAppState(AppState.failure);
       rethrow;
     }
   }

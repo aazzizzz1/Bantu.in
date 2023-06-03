@@ -3,12 +3,21 @@ import 'package:flutter/material.dart';
 
 import '../models/tim_model.dart';
 import '../services/api/apps_repository.dart';
+import '../utils/app_state.dart';
 
 class TeamViewModel with ChangeNotifier {
   final appsRepository = AppsRepository();
 
   List<TeamDetailModel> _listOfTeam = [];
   List<TeamDetailModel> get listOfTeam => _listOfTeam;
+
+  AppState _appState = AppState.loading;
+  AppState get appState => _appState;
+
+  void changeAppState(AppState appState) {
+    _appState = appState;
+    notifyListeners();
+  }
 
   Future<void> addTeam(PostTimModel tim) async {
     try {
@@ -21,9 +30,16 @@ class TeamViewModel with ChangeNotifier {
 
   Future<void> fetchAllTeam() async {
     try {
+      changeAppState(AppState.loading);
       _listOfTeam = await appsRepository.getAllTeam();
       notifyListeners();
+      changeAppState(AppState.loaded);
+      if (_listOfTeam.isEmpty) {
+        changeAppState(AppState.noData);
+        notifyListeners();
+      }
     } catch (_) {
+      changeAppState(AppState.failure);
       rethrow;
     }
   }

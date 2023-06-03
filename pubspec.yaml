@@ -41,6 +41,7 @@ dependencies:
   dropdown_button2: ^2.1.0
   shared_preferences: ^2.1.1
   open_file: ^3.3.1
+  shimmer: ^3.0.0
   # alarm
   android_alarm_manager_plus: ^2.1.4
   flutter_fgbg: ^0.2.2

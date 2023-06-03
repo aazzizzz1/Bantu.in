@@ -9,10 +9,13 @@ import 'package:bantuin/constants/button/app_button.dart';
 import 'package:bantuin/constants/font/app_font.dart';
 import 'package:bantuin/screens/note/notes_form.dart';
 import 'package:bantuin/screens/notification/notification_screen.dart';
+import 'package:bantuin/utils/app_state.dart';
+import 'package:bantuin/view_models/invitation_viewmodel.dart';
 import 'package:bantuin/view_models/note_viewmodel.dart';
 import 'package:bantuin/view_models/product_viewmodel.dart';
 import 'package:bantuin/widgets/floating_button/floating_home.dart';
 import 'package:bantuin/widgets/home/filtering_data.dart';
+import 'package:bantuin/widgets/shimmer_loading/shimmer_container.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -59,21 +62,65 @@ class _HomePagesState extends State<HomePages> {
             child: Image.asset("lib/assets/images/Switch.png"),
           ),
         ),
-        title: Consumer<UsersViewModel>(
-          builder: (context, value, child) => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                value.listOfUsers.username,
-                style: AppFont.semiBold14,
-              ),
-              Text(
-                value.listOfUsers.job,
-                style: AppFont.regular12,
-              ),
-            ],
-          ),
-        ),
+        title: Consumer<UsersViewModel>(builder: (context, user, child) {
+          if (user.appState == AppState.loading) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                ShimmerContainer.rectangle(height: 10, width: 50),
+                SizedBox(height: 10),
+                ShimmerContainer.rectangle(height: 10, width: 100),
+              ],
+            );
+          }
+
+          if (user.appState == AppState.loaded) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  user.listOfUsers.username,
+                  style: AppFont.semiBold14,
+                ),
+                Text(
+                  user.listOfUsers.job,
+                  style: AppFont.regular12,
+                ),
+              ],
+            );
+          }
+          if (user.appState == AppState.noData) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Kosong',
+                  style: AppFont.semiBold14,
+                ),
+                Text(
+                  'Kosong',
+                  style: AppFont.regular12,
+                ),
+              ],
+            );
+          }
+          if (user.appState == AppState.failure) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Pengguna',
+                  style: AppFont.semiBold14,
+                ),
+                Text(
+                  'Pekerjaan',
+                  style: AppFont.regular12,
+                ),
+              ],
+            );
+          }
+          return const SizedBox();
+        }),
         actions: [
           Container(
             margin: const EdgeInsets.only(right: 20),
@@ -101,17 +148,26 @@ class _HomePagesState extends State<HomePages> {
           child: Column(
             children: [
               PointRoyalty(),
-              HomeInvitaion(),
+              Consumer<InvitationViewModel>(
+                builder: (context, inv, child) {
+                  if (inv.appState == AppState.loading) {
+                    return _loadingInvitation();
+                  }
+                  if (inv.appState == AppState.loaded) {
+                    return HomeInvitaion();
+                  }
+                  if (inv.appState == AppState.noData) {
+                    return SizedBox();
+                  }
+                  return const SizedBox();
+                },
+              ),
               DaftarCatatan(),
               ListDaftarCatatan(),
             ],
           ),
         ),
       ),
-      // ListView(
-      //   children: const [
-      //   ],
-      // ),
       floatingActionButton: FloatingButtonHome(
         onPressed: () {
           Navigator.push(
@@ -119,6 +175,61 @@ class _HomePagesState extends State<HomePages> {
             MaterialPageRoute(builder: (context) => const NoteForm2()),
           );
         },
+      ),
+    );
+  }
+
+  Widget _loadingInvitation() {
+    return Container(
+      height: 250,
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Permintaan Masuk',
+            style: AppFont.textTitleScreen,
+          ),
+          const SizedBox(height: 10),
+          Container(
+            height: 160,
+            width: MediaQuery.of(context).size.width,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            decoration: BoxDecoration(
+              border: const Border.fromBorderSide(
+                BorderSide(color: AppColorNeutral.neutral2, width: 1),
+              ),
+              borderRadius: BorderRadius.circular(4),
+              color: AppColorNeutral.neutral1,
+            ),
+            child: Row(
+              children: [
+                const Align(
+                  alignment: Alignment.topCenter,
+                  child: ShimmerContainer.circular(height: 50, width: 50),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ShimmerContainer.rectangle(
+                          height: 20, width: MediaQuery.of(context).size.width),
+                      const SizedBox(height: 12),
+                      ShimmerContainer.rectangle(
+                          height: 20,
+                          width: MediaQuery.of(context).size.width * 0.3),
+                      const SizedBox(height: 12),
+                      ShimmerContainer.rectangle(
+                          height: 50, width: MediaQuery.of(context).size.width),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

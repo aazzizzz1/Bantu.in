@@ -15,6 +15,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../components/btn_filter_passed.dart';
 import '../../components/btn_filter_upcoming.dart';
+import '../../utils/app_state.dart';
+import '../../widgets/shimmer_loading/shimmer_card_widget.dart';
 import 'note_form2.dart';
 
 class NoteScreen extends StatefulWidget {
@@ -41,8 +43,8 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
         .filterUpcomingNote());
     Future.microtask(() =>
         Provider.of<NoteViewModel>(context, listen: false).filterPassedNote());
-    Future.microtask(() =>
-        Provider.of<NoteViewModel>(context, listen: false).getCompleteNote());
+    // Future.microtask(() =>
+    //     Provider.of<NoteViewModel>(context, listen: false).getCompleteNote());
     getOwner();
     super.initState();
   }
@@ -86,98 +88,31 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
           ],
         ),
       ),
-      body: Consumer<NoteViewModel>(
-        builder: (context, note, child) {
-          return TabBarView(
-            controller: tabController,
+      body: TabBarView(
+        controller: tabController,
+        children: [
+          Stack(
             children: [
-              Stack(
-                children: [
-                  // content of the page
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    padding: const EdgeInsets.all(16.0),
-                    child: note.listOfPersonalNote.isEmpty
-                        ? Container(
-                            alignment: Alignment.center,
-                            child: Text(
-                              'Catatan masih kosong',
-                              style: AppFont.regular28,
-                            ),
-                          )
-                        : Column(
-                            children: [
-                              const BtnFilterUpcoming(),
-                              const SizedBox(height: 8.0),
-                              SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.65,
-                                child: ListView.builder(
-                                  itemCount: note.listOfUpcomingNote.length,
-                                  itemBuilder: (context, index) {
-                                    var data = note.listOfUpcomingNote[index];
-                                    initializeDateFormatting('id_ID', null);
-                                    bool isOwner = false;
-                                    if (name == data.owner.first.username) {
-                                      isOwner = true;
-                                    }
-                                    if (data.notesType == 'collaboration') {
-                                      if (isOwner) {
-                                        return CardMyNotesProgres(
-                                            noteDetail: data);
-                                      } else {
-                                        return CardIncomingNotesUpload(
-                                            noteDetail: data);
-                                      }
-                                    } else {
-                                      return CardMyNotesPersonal(
-                                          noteDetail: data);
-                                    }
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                  ),
-                  Center(),
-                  // floating button above bottom navbar
-                  Positioned(
-                    bottom: 20,
-                    right: 16.0,
-                    child: FloatingButtonNotes(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const NoteForm2()),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
                 padding: const EdgeInsets.all(16.0),
-                child: note.listOfPassedNote.isEmpty
-                    ? Container(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Belum ada catatan',
-                          style: AppFont.textScreenEmpty,
-                        ),
-                      )
-                    : Column(
-                        children: [
-                          const BtnFilterPassed(),
-                          const SizedBox(height: 8.0),
-                          SizedBox(
+                child: Column(
+                  children: [
+                    const BtnFilterUpcoming(),
+                    const SizedBox(height: 8.0),
+                    Consumer<NoteViewModel>(
+                      builder: (context, note, child) {
+                        if (note.appState == AppState.loading) {
+                          return _loadingContainer();
+                        }
+
+                        if (note.appState == AppState.loaded) {
+                          return SizedBox(
                             height: MediaQuery.of(context).size.height * 0.65,
                             child: ListView.builder(
-                              itemCount: note.listOfPassedNote.length,
+                              itemCount: note.listOfUpcomingNote.length,
                               itemBuilder: (context, index) {
-                                var data = note.listOfPassedNote[index];
+                                var data = note.listOfUpcomingNote[index];
                                 initializeDateFormatting('id_ID', null);
                                 bool isOwner = false;
                                 if (name == data.owner.first.username) {
@@ -195,12 +130,144 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                                 }
                               },
                             ),
-                          ),
-                        ],
-                      ),
+                          );
+                        }
+
+                        if (note.appState == AppState.noData) {
+                          return Stack(
+                            children: [
+                              Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.6,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  'Catatan masih kosong',
+                                  style: AppFont.textScreenEmpty,
+                                ),
+                              ),
+                            ],
+                          );
+                        }
+
+                        if (note.appState == AppState.failure) {
+                          return Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Gagal mengambil catatan',
+                              style: AppFont.textScreenEmpty,
+                            ),
+                          );
+                        }
+                        return const SizedBox();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              //Consumer
+
+              //FAB
+              Center(),
+              // floating button above bottom navbar
+              Positioned(
+                bottom: 20,
+                right: 16.0,
+                child: FloatingButtonNotes(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const NoteForm2()),
+                    );
+                  },
+                ),
               ),
             ],
-          );
+          ),
+
+          //PASSED NOTE
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                const BtnFilterPassed(),
+                const SizedBox(height: 8.0),
+                //Consumer
+                Consumer<NoteViewModel>(
+                  builder: (context, note, child) {
+                    if (note.appState == AppState.loading) {
+                      return _loadingContainer();
+                    }
+                    if (note.appState == AppState.loaded &&
+                        note.listOfPassedNote.isNotEmpty) {
+                      return SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.65,
+                        child: ListView.builder(
+                          itemCount: note.listOfPassedNote.length,
+                          itemBuilder: (context, index) {
+                            var data = note.listOfPassedNote[index];
+                            initializeDateFormatting('id_ID', null);
+                            bool isOwner = false;
+                            if (name == data.owner.first.username) {
+                              isOwner = true;
+                            }
+                            if (data.notesType == 'collaboration') {
+                              if (isOwner) {
+                                return CardMyNotesProgres(noteDetail: data);
+                              } else {
+                                return CardIncomingNotesUpload(
+                                    noteDetail: data);
+                              }
+                            } else {
+                              return CardMyNotesPersonal(noteDetail: data);
+                            }
+                          },
+                        ),
+                      );
+                    }
+                    if (note.appState == AppState.noData ||
+                        note.listOfPassedNote.isEmpty) {
+                      return Container(
+                        height: MediaQuery.of(context).size.height * 0.6,
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Catatan masih kosong',
+                          style: AppFont.textScreenEmpty,
+                        ),
+                      );
+                    }
+
+                    if (note.appState == AppState.failure) {
+                      return Container(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Gagal mengambil catatan',
+                          style: AppFont.textScreenEmpty,
+                        ),
+                      );
+                    }
+                    return const SizedBox();
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _loadingContainer() {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.65,
+      padding: const EdgeInsets.all(16),
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: 6,
+        itemBuilder: (context, index) {
+          return ShimmerCardWidget();
         },
       ),
     );

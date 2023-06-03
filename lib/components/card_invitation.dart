@@ -1,12 +1,18 @@
+import 'package:bantuin/view_models/invitation_viewmodel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../constants/color/app_color.dart';
 import '../constants/font/app_font.dart';
+import '../models/invitation_model.dart';
 
 class CardInvitation extends StatefulWidget {
-  const CardInvitation({super.key});
+  final InvitationDetailModel invitationDetail;
+  const CardInvitation({super.key, required this.invitationDetail});
 
   @override
   State<CardInvitation> createState() => _CardInvitationState();
@@ -65,11 +71,11 @@ class _CardInvitationState extends State<CardInvitation> {
                   child: RichText(
                     text: TextSpan(children: [
                       TextSpan(
-                        text: 'Nadim Makarim',
+                        text: widget.invitationDetail.from,
                         style: AppFont.semiBold14,
                       ),
                       TextSpan(
-                        text: ' mengirim anda sebuah catatan.',
+                        text: ' ${widget.invitationDetail.message}.',
                         style: AppFont.regular12,
                       ),
                       TextSpan(
@@ -89,14 +95,16 @@ class _CardInvitationState extends State<CardInvitation> {
                         color: AppColorPrimary.primary5,
                       ),
                       Text(
-                        'Membeli tiket pesawat',
+                        widget.invitationDetail.note,
                         style: AppFont.textInvitation,
                       )
                     ],
                   ),
                 ),
                 const SizedBox(height: 16),
-                _isDone ? textResponse(_isAccept) : buttonOffering(),
+                _isDone
+                    ? textResponse(_isAccept)
+                    : buttonOffering(widget.invitationDetail.actions),
               ],
             ),
           )
@@ -105,63 +113,85 @@ class _CardInvitationState extends State<CardInvitation> {
     );
   }
 
-  Widget buttonOffering() {
-    return SizedBox(
-      height: 40,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                _isAccept = false;
-                _isDone = true;
-              });
-            },
-            style: const ButtonStyle(
-              overlayColor: MaterialStatePropertyAll(AppColorRed.red3),
-              padding: MaterialStatePropertyAll(
-                EdgeInsets.symmetric(horizontal: 28, vertical: 10),
+  Widget buttonOffering(List<ActionModel> actions) {
+    return Consumer<InvitationViewModel>(
+      builder: (context, inv, child) {
+        return SizedBox(
+          height: 40,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ElevatedButton(
+                onPressed: () async {
+                  try {
+                    await inv.redirectLink(actions.last.url).then(
+                        (value) => Fluttertoast.showToast(msg: 'Berhasil'));
+                    setState(() {
+                      _isAccept = false;
+                      _isDone = true;
+                    });
+                  } catch (e) {
+                    await Fluttertoast.showToast(msg: e.toString());
+                  }
+                  // await launchUrl(Uri.parse(actions.last.url));
+                },
+                style: const ButtonStyle(
+                  overlayColor: MaterialStatePropertyAll(AppColorRed.red3),
+                  padding: MaterialStatePropertyAll(
+                    EdgeInsets.symmetric(horizontal: 28, vertical: 10),
+                  ),
+                  elevation: MaterialStatePropertyAll(0),
+                  side: MaterialStatePropertyAll(
+                      BorderSide(color: AppColor.borderErrorColor)),
+                  backgroundColor: MaterialStatePropertyAll(Colors.white),
+                ),
+                child: Center(
+                  child: Text(
+                    'Tolak',
+                    style: AppFont.textErrorOutlineButton,
+                  ),
+                ),
               ),
-              elevation: MaterialStatePropertyAll(0),
-              side: MaterialStatePropertyAll(
-                  BorderSide(color: AppColor.borderErrorColor)),
-              backgroundColor: MaterialStatePropertyAll(Colors.white),
-            ),
-            child: Center(
-              child: Text(
-                'Tolak',
-                style: AppFont.textErrorOutlineButton,
+              const SizedBox(
+                width: 10,
               ),
-            ),
+              ElevatedButton(
+                onPressed: () async {
+                  try {
+                    await inv
+                        .redirectLink(actions.first.url)
+                        .then((value) => Fluttertoast.showToast(msg: 'Tolak'));
+                    setState(() {
+                      _isAccept = true;
+                      _isDone = true;
+                    });
+                  } catch (e) {
+                    await Fluttertoast.showToast(msg: e.toString());
+                  }
+                  // await launchUrl(Uri.parse(actions.first.url))
+                  //     .then((value) => null);
+                },
+                style: const ButtonStyle(
+                  overlayColor:
+                      MaterialStatePropertyAll(AppColorPrimary.primary4),
+                  padding: MaterialStatePropertyAll(
+                    EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                  ),
+                  elevation: MaterialStatePropertyAll(0),
+                  backgroundColor:
+                      MaterialStatePropertyAll(AppColor.activeColor),
+                ),
+                child: Center(
+                  child: Text(
+                    'Terima',
+                    style: AppFont.textFillButtonActive,
+                  ),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(
-            width: 10,
-          ),
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                _isAccept = true;
-                _isDone = true;
-              });
-            },
-            style: const ButtonStyle(
-              overlayColor: MaterialStatePropertyAll(AppColorPrimary.primary4),
-              padding: MaterialStatePropertyAll(
-                EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-              ),
-              elevation: MaterialStatePropertyAll(0),
-              backgroundColor: MaterialStatePropertyAll(AppColor.activeColor),
-            ),
-            child: Center(
-              child: Text(
-                'Terima',
-                style: AppFont.textFillButtonActive,
-              ),
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 

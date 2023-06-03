@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 
 import '../../constants/color/app_color.dart';
 import '../../constants/font/app_font.dart';
+import '../../utils/app_state.dart';
+import '../../widgets/shimmer_loading/shimmer_card_widget.dart';
 
 class PointScreen extends StatefulWidget {
   final int point;
@@ -42,8 +44,7 @@ class _PointScreenState extends State<PointScreen> {
         elevation: 0,
       ),
       body: SingleChildScrollView(
-          child: Consumer<ProductViewModel>(
-        builder: (context, product, child) => Container(
+        child: Container(
           margin: EdgeInsets.symmetric(horizontal: 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,69 +100,141 @@ class _PointScreenState extends State<PointScreen> {
                 ),
               ),
               const SizedBox(height: 24.0),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 11),
+              Consumer<ProductViewModel>(builder: (context, product, child) {
+                if (product.appState == AppState.loading) {
+                  return _loadingContainer();
+                }
+                if (product.appState == AppState.loaded) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 11),
+                        child: Text(
+                          'Tawaran lebaran',
+                          style: AppFont.semiBold14,
+                        ),
+                      ),
+                      const SizedBox(height: 8.0),
+                      product.listOfProduct.isEmpty
+                          ? SizedBox(
+                              child: Text('Kosong'),
+                            )
+                          : SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              height: 200,
+                              child: ListView.builder(
+                                physics: BouncingScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
+                                itemCount: product.listOfProduct.length,
+                                itemBuilder: (context, index) {
+                                  var data = product.listOfProduct[index];
+                                  return CardRedeemPoint(product: data);
+                                },
+                              )
+                              // _cardRedeem(
+                              //     'Berkah lebaran, tukar THR-mu dengan 10 Notes'),
+                              ),
+                    ],
+                  );
+                }
+                if (product.appState == AppState.noData) {
+                  return Container(
+                    alignment: Alignment.center,
                     child: Text(
-                      'Tawaran lebaran',
-                      style: AppFont.semiBold14,
+                      'Tim masih kosong',
+                      style: AppFont.textScreenEmpty,
                     ),
-                  ),
-                  const SizedBox(height: 8.0),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: 200,
-                    child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: product.listOfProduct.length,
-                      itemBuilder: (context, index) {
-                        var data = product.listOfProduct[index];
-                        return CardRedeemPoint(product: data);
-                      },
+                  );
+                }
+                if (product.appState == AppState.failure) {
+                  return Container(
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Gagal mengambil data tim',
+                      style: AppFont.textScreenEmpty,
                     ),
-                  )
-                ],
-              ),
+                  );
+                }
+                return const SizedBox();
+              }),
               const SizedBox(height: 48.0),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 11),
+              Consumer<ProductViewModel>(builder: (context, product, child) {
+                if (product.appState == AppState.loading) {
+                  return _loadingContainer();
+                }
+                if (product.appState == AppState.loaded) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 11),
+                        child: Text(
+                          'Tawaran lainnya',
+                          style: AppFont.semiBold14,
+                        ),
+                      ),
+                      const SizedBox(height: 8.0),
+                      product.listOfProduct.isEmpty
+                          ? SizedBox(
+                              child: Text('Kosong'),
+                            )
+                          : SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              height: 200,
+                              child: ListView.builder(
+                                physics: BouncingScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
+                                itemCount: product.listOfProduct.length,
+                                itemBuilder: (context, index) {
+                                  var data = product.listOfProduct[index];
+                                  return CardRedeemPoint(product: data);
+                                },
+                              )
+                              // _cardRedeem(
+                              //     'Berkah lebaran, tukar THR-mu dengan 10 Notes'),
+                              ),
+                    ],
+                  );
+                }
+                if (product.appState == AppState.noData) {
+                  return Container(
+                    alignment: Alignment.center,
                     child: Text(
-                      'Tawaran lainnya',
-                      style: AppFont.semiBold14,
+                      'Tim masih kosong',
+                      style: AppFont.textScreenEmpty,
                     ),
-                  ),
-                  const SizedBox(height: 8.0),
-                  product.listOfProduct.isEmpty
-                      ? SizedBox(
-                          child: Text('Kosong'),
-                        )
-                      : SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: 200,
-                          child: ListView.builder(
-                            physics: BouncingScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            itemCount: product.listOfProduct.length,
-                            itemBuilder: (context, index) {
-                              var data = product.listOfProduct[index];
-                              return CardRedeemPoint(product: data);
-                            },
-                          )
-                          // _cardRedeem(
-                          //     'Berkah lebaran, tukar THR-mu dengan 10 Notes'),
-                          ),
-                ],
-              ),
+                  );
+                }
+                if (product.appState == AppState.failure) {
+                  return Container(
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Gagal mengambil data tim',
+                      style: AppFont.textScreenEmpty,
+                    ),
+                  );
+                }
+                return const SizedBox();
+              }),
             ],
           ),
         ),
-      )),
+      ),
+    );
+  }
+
+  Widget _loadingContainer() {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.8,
+      padding: const EdgeInsets.all(16),
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: 4,
+        itemBuilder: (context, index) {
+          return ShimmerCardWidget();
+        },
+      ),
     );
   }
 }
