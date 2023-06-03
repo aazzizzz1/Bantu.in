@@ -27,6 +27,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _passwordConfirmationController =
       TextEditingController();
   bool obscure = true;
+  bool obscure2 = true;
+  bool obscure3 = true;
 
   @override
   Widget build(BuildContext context) {
@@ -65,12 +67,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     TextFormField(
                       scrollPadding: const EdgeInsets.only(left: 10),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
-                      inputFormatters:[
-                              LengthLimitingTextInputFormatter(16),
-                              FilteringTextInputFormatter.allow(
-                                RegExp("[A-Za-z]"),
-                              ),
-                            ],
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(16),
+                        FilteringTextInputFormatter.allow(RegExp(r"[A-Za-z ]"))
+                      ],
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Maaf anda belum memasukan username anda';
@@ -108,11 +108,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       hint: 'Masukan email',
                       type: 'email',
                       email: true,
+                      lowerCase: true,
                       controller: _emailController,
                     ),
                     const SizedBox(height: 20.0),
                     Text(
-                      'Nomor telepon',
+                      'Nomor HP',
                       style: AppFont.labelTextForm,
                     ),
                     const SizedBox(
@@ -121,27 +122,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     TextFormField(
                       scrollPadding: const EdgeInsets.only(left: 10),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
-                      inputFormatters:[
-                              LengthLimitingTextInputFormatter(16),
-                              FilteringTextInputFormatter.allow(
-                                RegExp("[0-9]"),
-                              ),
-                            ],
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(16),
+                        FilteringTextInputFormatter.allow(
+                          RegExp("[0-9]"),
+                        ),
+                      ],
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return 'Maaf anda belum memasukan nomor telepon anda';
+                          return 'Maaf anda belum memasukan nomor hp anda';
                         } else if (value.length < 12) {
-                          return 'Maaf nomor telepon anda kurang dari 12 digit';
+                          return 'Maaf nomor hp anda kurang dari 12 digit';
                         } else if (value.length > 13) {
-                          return 'Maaf nomor telepon anda lebih dari 13 digit';
+                          return 'Maaf nomor hp anda lebih dari 13 digit';
                         } else if (value.contains(' ')) {
-                          return 'Maaf nomor telepon anda tidak boleh mengandung spasi';
+                          return 'Maaf nomor hp anda tidak boleh mengandung spasi';
                         }
                       },
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: AppColorNeutral.neutral1,
-                        hintText: 'Nomor telepon',
+                        hintText: 'Nomor HP',
                         hintStyle: AppFont.hintTextField,
                         focusedBorder: const OutlineInputBorder(
                             borderSide:
@@ -173,7 +174,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     const SizedBox(height: 20.0),
                     Text(
-                      'Ulangi kata sandi',
+                      'Kata sandi',
                       style: AppFont.labelTextForm,
                     ),
                     const SizedBox(
@@ -187,7 +188,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       inputFormatters: [
                         LengthLimitingTextInputFormatter(16),
                         FilteringTextInputFormatter.allow(
-                          RegExp("[a-zA-Z0-9]"),
+                          RegExp(
+                              "[a-zA-Z0-9!@#\$%^&*()_+-{}|<>?]"),
                         ),
                       ],
                       validator: (value) {
@@ -199,8 +201,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           return 'Maaf kata sandi lama anda lebih dari 16 karakter';
                         } else if (value.contains(' ')) {
                           return 'Maaf kata sandi anda tidak boleh mengandung spasi';
-                        } else if (value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
-                          return 'Maaf kata sandi anda tidak boleh mengandung karakter spesial';
                         } else if (value.contains(RegExp(r'[A-Z]')) &&
                             value.contains(RegExp(r'[a-z]')) &&
                             value.contains(RegExp(r'[0-9]'))) {
@@ -209,7 +209,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           return 'Maaf kata sandi anda harus mengandung huruf besar, huruf kecil, dan angka';
                         }
                       },
-                      
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: AppColorNeutral.neutral1,
@@ -248,16 +247,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                     ),
-                    // TextFieldComponent(
-                    //   label: 'Kata sandi',
-                    //   hint: 'Masukan kata sandi',
-                    //   type: 'kata sandi',
-                    //   description:
-                    //       'Kata sandi harus terdiri dari 8 huruf, 1 huruf besar, dan 1 angka',
-                    //   controller: _passwordController,
-                    //   icon: Icons.remove_red_eye_outlined,
-                    //   obscure: true,
-                    // ),
                     const SizedBox(height: 20.0),
                     // CONFIRM PASSWORD
                     Text(
@@ -271,12 +260,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       scrollPadding: const EdgeInsets.only(left: 10),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       controller: _passwordConfirmationController,
-                      obscureText: obscure == null ? false : obscure,
-                      inputFormatters: obscure != null
+                      obscureText: obscure2 == null ? false : obscure2,
+                      inputFormatters: obscure2 != null
                           ? [
                               LengthLimitingTextInputFormatter(16),
                               FilteringTextInputFormatter.allow(
-                                RegExp("[a-zA-Z0-9]+"),
+                                RegExp(
+                                    "[a-zA-Z0-9!@#\$%^&*()_+-{}|<>?]"),
                               ),
                             ]
                           : null,
@@ -315,10 +305,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         suffixIcon: IconButton(
                           onPressed: () {
                             setState(() {
-                              if (obscure) {
-                                obscure = false;
+                              if (obscure2) {
+                                obscure2 = false;
                               } else {
-                                obscure = true;
+                                obscure2 = true;
                               }
                             });
                           },

@@ -32,18 +32,19 @@ class ApiServices {
       prefs.setString('email', json.decode(response.body)['data']['email']);
       prefs.setString('phone', json.decode(response.body)['data']['phone']);
       prefs.setString('job', json.decode(response.body)['data']['job']);
-
       return returnResponse(response);
     } else if (response.statusCode == 404) {
-      throw json.decode(response.body)['error'];
+      throw json.decode(response.body)['error'] ?? json.decode(response.body)['message'];
+    } else if (response.statusCode == 403) {
+      final responseBody = json.decode(response.body);
+      throw json.decode(response.body)['error'] ?? json.decode(response.body)['message'];
     } else if (response.statusCode == 422) {
       final responseBody = json.decode(response.body);
-      throw json.decode(response.body)['error'];
+      throw json.decode(response.body)['error'] ?? json.decode(response.body)['message'];
     } else {
       final responseBody = json.decode(response.body);
       print(responseBody);
-      throw json.decode(response.body)['error'];
-      // throw Exception(responseBody['error']);
+      throw json.decode(response.body)['error'] ?? json.decode(response.body)['message'];
     }
   }
 
