@@ -24,6 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  
   bool obscure = true;
   @override
   Widget build(BuildContext context) {
@@ -54,6 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       hint: 'Masukan email',
                       type: 'email',
                       email: true,
+                      lowerCase: true,
                       controller: _emailController,
                     ),
                     const SizedBox(height: 20.0),
@@ -72,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       inputFormatters: [
                         LengthLimitingTextInputFormatter(16),
                         FilteringTextInputFormatter.allow(
-                          RegExp("[a-zA-Z0-9]"),
+                          RegExp("[a-zA-Z0-9!@#\$%^&*()_+-{}|<>?]"),
                         ),
                       ],
                       validator: (value) {
@@ -84,8 +86,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           return 'Maaf kata sandi lama anda lebih dari 16 karakter';
                         } else if (value.contains(' ')) {
                           return 'Maaf kata sandi anda tidak boleh mengandung spasi';
-                        } else if (value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
-                          return 'Maaf kata sandi anda tidak boleh mengandung karakter spesial';
                         } else if (value.contains(RegExp(r'[A-Z]')) &&
                             value.contains(RegExp(r'[a-z]')) &&
                             value.contains(RegExp(r'[0-9]'))) {

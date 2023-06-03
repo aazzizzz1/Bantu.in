@@ -28,6 +28,8 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
   final TextEditingController _passwordConfirmationController =
       TextEditingController();
   bool obscure = true;
+  bool obscure2 = true;
+  bool obscure3 = true;
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +88,7 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                       inputFormatters: [
                         LengthLimitingTextInputFormatter(16),
                         FilteringTextInputFormatter.allow(
-                          RegExp("[a-zA-Z0-9]"),
+                          RegExp("[a-zA-Z0-9!@#\$%^&*()_+-{}|<>?]"),
                         ),
                       ],
                       validator: (value) {
@@ -154,7 +156,7 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                       inputFormatters: [
                         LengthLimitingTextInputFormatter(16),
                         FilteringTextInputFormatter.allow(
-                          RegExp("[a-zA-Z0-9]"),
+                          RegExp("[a-zA-Z0-9!@#\$%^&*()_+-{}|<>?]"),
                         ),
                       ],
                       validator: (value) {
@@ -220,7 +222,7 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                       inputFormatters: [
                         LengthLimitingTextInputFormatter(16),
                         FilteringTextInputFormatter.allow(
-                          RegExp("[a-zA-Z0-9 ]"),
+                          RegExp("a-zA-Z0-9!@#\$%^&*()_+-{}|<>?]"),
                         ),
                       ],
                       validator: (value) {
