@@ -1,9 +1,8 @@
+import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'add_remainder.dart';
-import 'alarm.dart';
 
 class RemainderScreen extends StatefulWidget {
   const RemainderScreen({Key? key}) : super(key: key);
