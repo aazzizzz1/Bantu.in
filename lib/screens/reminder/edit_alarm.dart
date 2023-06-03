@@ -31,7 +31,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
       loopAudio = true;
       vibrate = true;
       showNotification = true;
-      assetAudio = 'assets/mozart.mp3';
+      assetAudio = 'lib/assets/ringtones/mozart.mp3';
     } else {
       selectedTime = TimeOfDay(
         hour: widget.alarmSettings!.dateTime.hour,
@@ -193,19 +193,19 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
                 value: assetAudio,
                 items: const [
                   DropdownMenuItem<String>(
-                    value: 'assets/mozart.mp3',
+                    value: 'lib/assets/ringtones/mozart.mp3',
                     child: Text('Mozart'),
                   ),
                   DropdownMenuItem<String>(
-                    value: 'assets/nokia.mp3',
+                    value: 'lib/assets/ringtones/nokia.mp3',
                     child: Text('Nokia'),
                   ),
                   DropdownMenuItem<String>(
-                    value: 'assets/one_piece.mp3',
+                    value: 'lib/assets/ringtones/one_piece.mp3',
                     child: Text('One Piece'),
                   ),
                   DropdownMenuItem<String>(
-                    value: 'assets/star_wars.mp3',
+                    value: 'lib/assets/ringtones/star_wars.mp3',
                     child: Text('Star Wars'),
                   ),
                 ],
