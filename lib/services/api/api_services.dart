@@ -205,8 +205,8 @@ class ApiServices {
       case 404:
         final responseBody = json.decode(response.body);
         print(responseBody);
-        // throw Exception(json.decode(response.body)['message']);
-        throw json.decode(response.body)['message'];
+        throw Exception(json.decode(response.body)['message']);
+      // throw json.decode(response.body)['message'];
       case 422:
         final responseBody = json.decode(response.body);
         print(responseBody);

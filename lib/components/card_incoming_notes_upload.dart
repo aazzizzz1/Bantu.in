@@ -27,8 +27,8 @@ class _CardIncomingNotesUploadState extends State<CardIncomingNotesUpload> {
   @override
   void initState() {
     // TODO: implement initState
-    Future.microtask(() => Provider.of<NoteViewModel>(context, listen: false)
-        .getDetailNote(widget.noteDetail.id));
+    // Future.microtask(() => Provider.of<NoteViewModel>(context, listen: false)
+    //     .getDetailNote(widget.noteDetail.id));
     super.initState();
   }
 

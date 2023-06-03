@@ -77,7 +77,7 @@ class CardMyNotesPersonal extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8.0),
                             ),
                             child: Text(
-                              noteDetail.status,
+                              noteDetail.status[0],
                               style: TextStyle(
                                 fontStyle: FontStyle.normal,
                                 color: AppColor.textprogresColor,
