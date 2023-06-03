@@ -13,8 +13,6 @@ class RemainderScreen extends StatefulWidget {
 }
 
 class _RemainderScreenState extends State<RemainderScreen> {
-  late SharedPreferences prefs;
-
   @override
   void initState() {
     super.initState();
@@ -22,20 +20,36 @@ class _RemainderScreenState extends State<RemainderScreen> {
   }
 
   Future<void> initializeApp() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     WidgetsFlutterBinding.ensureInitialized();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     await Alarm.init(showDebugLogs: true);
-    prefs = await SharedPreferences.getInstance(); // Initialize prefs
+    prefs;
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Remainder',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return Scaffold(
+      // appBar: AppBar(
+      //   title: const Text('Remainder'),
+      //   actions: [
+      //     IconButton(
+      //       onPressed: () {
+      //       },
+      //       icon: const Icon(Icons.add),
+      //     ),
+      //   ],
+      // ),
+      body: Container(
+        child: ExampleAlarmHomeScreen(),
       ),
-      home: ExampleAlarmHomeScreen(),
     );
+    // MaterialApp(
+    //   title: 'Remainder',
+    //   theme: ThemeData(
+    //     primarySwatch: Colors.blue,
+    //   ),
+    //   home: ExampleAlarmHomeScreen(),
+    // );
   }
 }
