@@ -105,7 +105,6 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                         if (note.appState == AppState.loading) {
                           return _loadingContainer();
                         }
-
                         if (note.appState == AppState.loaded) {
                           return SizedBox(
                             height: MediaQuery.of(context).size.height * 0.65,
@@ -132,7 +131,6 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                             ),
                           );
                         }
-
                         if (note.appState == AppState.noData) {
                           return Stack(
                             children: [

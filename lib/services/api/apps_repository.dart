@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bantuin/models/column_model.dart';
 import 'package:bantuin/models/file_note_client.dart';
 import 'package:bantuin/models/invitation_model.dart';
 import 'package:bantuin/models/note_detail_client_model.dart';
@@ -224,6 +225,19 @@ class AppsRepository {
         },
       );
       print(response);
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<List<ColumnModel>> fetchColumn() async {
+    int team = TeamDetailModel.fromJson(await getUsers()).id;
+    try {
+      final response = await _apiService.getRequest('/teams/$team/columns');
+
+      ColumnModelItem column = ColumnModelItem.fromJson(response);
+
+      return column.column;
     } catch (_) {
       rethrow;
     }
