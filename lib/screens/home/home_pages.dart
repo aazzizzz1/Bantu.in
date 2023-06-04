@@ -47,9 +47,8 @@ class _HomePagesState extends State<HomePages> {
     Future.microtask(
         () => Provider.of<UsersViewModel>(context, listen: false).getUsers());
     Future.microtask(() =>
-        Provider.of<InvitationViewModel>(context, listen: false)
-            .fetchInvitation());
-        Future.microtask(() =>
+        Provider.of<InvitationViewModel>(context, listen: false).fetchInvitation());
+    Future.microtask(() =>
         Provider.of<ColumnViewModel>(context, listen: false).fetchColumn());
     super.initState();
   }
