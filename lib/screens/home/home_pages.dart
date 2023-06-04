@@ -10,6 +10,7 @@ import 'package:bantuin/constants/font/app_font.dart';
 import 'package:bantuin/screens/note/notes_form.dart';
 import 'package:bantuin/screens/notification/notification_screen.dart';
 import 'package:bantuin/utils/app_state.dart';
+import 'package:bantuin/view_models/column_viewmodel.dart';
 import 'package:bantuin/view_models/invitation_viewmodel.dart';
 import 'package:bantuin/view_models/note_viewmodel.dart';
 import 'package:bantuin/view_models/product_viewmodel.dart';
@@ -46,8 +47,9 @@ class _HomePagesState extends State<HomePages> {
     Future.microtask(
         () => Provider.of<UsersViewModel>(context, listen: false).getUsers());
     Future.microtask(() =>
-        Provider.of<InvitationViewModel>(context, listen: false)
-            .fetchInvitation());
+        Provider.of<InvitationViewModel>(context, listen: false).fetchInvitation());
+    Future.microtask(() =>
+        Provider.of<ColumnViewModel>(context, listen: false).fetchColumn());
     super.initState();
   }
 

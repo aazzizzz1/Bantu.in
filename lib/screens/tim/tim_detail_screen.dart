@@ -1,10 +1,12 @@
 import 'package:bantuin/models/tim_model.dart';
 import 'package:bantuin/screens/tim/edit_detail_tim.dart';
+import 'package:bantuin/view_models/column_viewmodel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants/constant.dart';
 
@@ -20,6 +22,8 @@ class _TimDetailScreenState extends State<TimDetailScreen> {
   @override
   void initState() {
     // TODO: implement initState
+        Future.microtask(() =>
+        Provider.of<ColumnViewModel>(context, listen: false).fetchColumn());
     super.initState();
   }
 
