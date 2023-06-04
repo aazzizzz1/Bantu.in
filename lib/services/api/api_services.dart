@@ -34,17 +34,21 @@ class ApiServices {
       prefs.setString('job', json.decode(response.body)['data']['job']);
       return returnResponse(response);
     } else if (response.statusCode == 404) {
-      throw json.decode(response.body)['error'] ?? json.decode(response.body)['message'];
+      throw json.decode(response.body)['error'] ??
+          json.decode(response.body)['message'];
     } else if (response.statusCode == 403) {
       final responseBody = json.decode(response.body);
-      throw json.decode(response.body)['error'] ?? json.decode(response.body)['message'];
+      throw json.decode(response.body)['error'] ??
+          json.decode(response.body)['message'];
     } else if (response.statusCode == 422) {
       final responseBody = json.decode(response.body);
-      throw json.decode(response.body)['error'] ?? json.decode(response.body)['message'];
+      throw json.decode(response.body)['error'] ??
+          json.decode(response.body)['message'];
     } else {
       final responseBody = json.decode(response.body);
       print(responseBody);
-      throw json.decode(response.body)['error'] ?? json.decode(response.body)['message'];
+      throw json.decode(response.body)['error'] ??
+          json.decode(response.body)['message'];
     }
   }
 
@@ -111,7 +115,7 @@ class ApiServices {
     try {
       final response = await http.put(
         Uri.parse('$baseUrl$url'),
-        body: json.encode(data.toJson()),
+        body: data is Map ? json.encode(data) : json.encode(data.toJson()),
         headers: {
           "Content-Type": "application/json; charset=UTF-8",
           "Authorization": "Bearer $token"
