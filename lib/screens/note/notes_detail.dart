@@ -43,12 +43,16 @@ class NotesDetail extends StatefulWidget {
 class _NotesDetailState extends State<NotesDetail> {
   List<File> _fileUrl = [];
   List<PlatformFile> platformFileUrl = [];
+  late List status;
   bool isUpload = false;
   @override
   void initState() {
     // TODO: implement initState
     Future.microtask(() => Provider.of<NoteViewModel>(context, listen: false)
         .getDetailNote(widget.noteDetail.id));
+    status =
+        Provider.of<NoteViewModel>(context, listen: false).noteDetail.status;
+    print(status.first);
     super.initState();
   }
 
@@ -172,10 +176,15 @@ class _NotesDetailState extends State<NotesDetail> {
                   SizedBox(height: 24.0),
                   widget.noteDetail.notesType == "personal"
                       ? AdminDate(
-                          eventDate: DateFormat('dd MMMM yyyy', 'id_ID')
-                              .format(widget.noteDetail.eventDate),
-                          reminder: DateFormat('dd MMMM yyyy', 'id_ID')
+                          eventDate:
+                              DateFormat('dd MMMM yyyy hh:mm:ss aa', 'id_ID')
+                                  .format(widget.noteDetail.eventDate),
+                          reminder: DateFormat.yMd()
+                              .add_jm()
                               .format(widget.noteDetail.reminder),
+                          // reminder:
+                          //     DateFormat('dd MMMM yyyy hh:mm:ss aa', 'id_ID')
+                          //         .format(widget.noteDetail.reminder),
                           ringtone: widget.noteDetail.ringtone)
                       : widget.isOwner
                           ? AdminDate(
@@ -195,17 +204,34 @@ class _NotesDetailState extends State<NotesDetail> {
                     alignment: Alignment.bottomCenter,
                     child: widget.isOwner
                         ? ElevatedButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            style: const ButtonStyle(
-                              padding: MaterialStatePropertyAll(
+                            onPressed: widget.noteDetail.status.first ==
+                                    "completed"
+                                ? null
+                                : () async {
+                                    try {
+                                      await value
+                                          .completeNote(
+                                              'completed', widget.noteDetail)
+                                          .then((value) =>
+                                              Fluttertoast.showToast(
+                                                  msg: 'Catatan selesai'))
+                                          .then((value) =>
+                                              Navigator.pop(context));
+                                    } catch (e) {
+                                      await Fluttertoast.showToast(
+                                          msg: e.toString());
+                                    }
+                                  },
+                            style: ButtonStyle(
+                              padding: const MaterialStatePropertyAll(
                                 EdgeInsets.symmetric(
                                     horizontal: 100, vertical: 15),
                               ),
-                              elevation: MaterialStatePropertyAll(0),
+                              elevation: const MaterialStatePropertyAll(0),
                               backgroundColor: MaterialStatePropertyAll(
-                                  AppColor.activeColor),
+                                  widget.noteDetail.status.first == "completed"
+                                      ? AppColorNeutral.neutral2
+                                      : AppColor.activeColor),
                             ),
                             child: Center(
                               child: Text(

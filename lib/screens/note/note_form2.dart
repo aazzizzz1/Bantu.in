@@ -155,21 +155,17 @@ class _NoteForm2State extends State<NoteForm2> {
                   keyboardType: TextInputType.multiline,
                   style: AppFont.medium14,
                   onTap: () async {
-                    final DateTime now = DateTime.now();
                     final DateTime? selectedDate = await showDatePicker(
                       context: context,
-                      initialDate: _selectedDate,
-                      firstDate: now,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime.now(),
                       lastDate: _selectedDate.add(Duration(days: 365)),
                     );
                     if (selectedDate != null) {
-                      TimeOfDay initialTime = TimeOfDay.now();
-                      if (selectedDate == now) {
-                        initialTime = TimeOfDay.fromDateTime(now);
-                      }
+                      final DateTime now = DateTime.now();
                       final TimeOfDay? selectedTime = await showTimePicker(
                         context: context,
-                        initialTime: initialTime,
+                        initialTime: TimeOfDay.now(),
                       );
                       if (selectedTime != null) {
                         final DateTime selectedDateTime = DateTime(
@@ -180,7 +176,6 @@ class _NoteForm2State extends State<NoteForm2> {
                           selectedTime.minute,
                         );
                         if (selectedDateTime.isBefore(now)) {
-                          // Jika waktu yang dipilih sebelum waktu saat ini, tampilkan pesan kesalahan
                           showDialog(
                             context: context,
                             builder: (_) => AlertDialog(
@@ -196,11 +191,10 @@ class _NoteForm2State extends State<NoteForm2> {
                             ),
                           );
                         } else {
-                          _selectedDate = selectedDate;
+                          _selectedDate = selectedDateTime;
                           _dateController.text =
                               DateFormat('EEEE, dd MMMM yyyy - hh:mm', 'id_ID')
-                                  .format(_selectedDate);
-                          print(_dateController.text);
+                                  .format(selectedDateTime.toLocal());
                         }
                       }
                     }
@@ -302,8 +296,8 @@ class _NoteForm2State extends State<NoteForm2> {
                         } else {
                           _selectedDatesReminder = selectedDateTime;
                           _reminderController.text =
-                              DateFormat('dd/MM/yyyy hh:mm', 'id_ID')
-                                  .format(selectedDateTime);
+                              DateFormat('EEEE, dd MMMM yyyy - hh:mm', 'id_ID')
+                                  .format(selectedDateTime.toLocal());
                         }
                       }
                     }
