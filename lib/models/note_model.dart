@@ -44,8 +44,12 @@ class NoteDetailModel {
         id: json['id'] ?? 0,
         subject: json['subject'] ?? 'null',
         description: json['description'] ?? 'null',
-        eventDate: DateTime.parse(json['event_date']),
-        reminder: DateTime.parse(json['reminder']),
+        eventDate: DateTime.parse(
+                json['event_date'].replaceFirst(RegExp(r'-\d\d:\d\d'), ''))
+            .toLocal(),
+        reminder: DateTime.parse(
+                json['reminder'].replaceFirst(RegExp(r'-\d\d:\d\d'), ''))
+            .toLocal(),
         notesType: json['note_type'] ?? 'null',
         status: json['status'] ?? [],
         owner: json['owner'] != null

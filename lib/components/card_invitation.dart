@@ -124,8 +124,10 @@ class _CardInvitationState extends State<CardInvitation> {
               ElevatedButton(
                 onPressed: () async {
                   try {
-                    await inv.redirectLink(actions.last.url).then(
-                        (value) => Fluttertoast.showToast(msg: 'Berhasil'));
+                    // await inv.redirectLink(actions.last.url).then(
+                    //     (value) => Fluttertoast.showToast(msg: 'Berhasil'));
+                    await launchUrl(Uri.parse(actions.last.url)).then(
+                        (value) => Fluttertoast.showToast(msg: 'Ditolak'));
                     setState(() {
                       _isAccept = false;
                       _isDone = true;
@@ -133,7 +135,6 @@ class _CardInvitationState extends State<CardInvitation> {
                   } catch (e) {
                     await Fluttertoast.showToast(msg: e.toString());
                   }
-                  // await launchUrl(Uri.parse(actions.last.url));
                 },
                 style: const ButtonStyle(
                   overlayColor: MaterialStatePropertyAll(AppColorRed.red3),
@@ -158,9 +159,10 @@ class _CardInvitationState extends State<CardInvitation> {
               ElevatedButton(
                 onPressed: () async {
                   try {
-                    await inv
-                        .redirectLink(actions.first.url)
-                        .then((value) => Fluttertoast.showToast(msg: 'Tolak'));
+                    // await inv.redirectLink(actions.first.url).then(
+                    //     (value) => Fluttertoast.showToast(msg: 'Diterima'));
+                    await launchUrl(Uri.parse(actions.first.url)).then(
+                        (value) => Fluttertoast.showToast(msg: 'Diterima'));
                     setState(() {
                       _isAccept = true;
                       _isDone = true;
@@ -168,8 +170,6 @@ class _CardInvitationState extends State<CardInvitation> {
                   } catch (e) {
                     await Fluttertoast.showToast(msg: e.toString());
                   }
-                  // await launchUrl(Uri.parse(actions.first.url))
-                  //     .then((value) => null);
                 },
                 style: const ButtonStyle(
                   overlayColor:

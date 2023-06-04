@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:alarm/alarm.dart';
 import 'package:bantuin/components/bottom_sheet_filter.dart';
 import 'package:bantuin/components/card_mynotes_progres.dart';
 import 'package:bantuin/components/card_incoming_notes_upload.dart';
@@ -17,6 +20,7 @@ import '../../components/btn_filter_passed.dart';
 import '../../components/btn_filter_upcoming.dart';
 import '../../utils/app_state.dart';
 import '../../widgets/shimmer_loading/shimmer_card_widget.dart';
+import '../reminder/ring.dart';
 import 'note_form2.dart';
 
 class NoteScreen extends StatefulWidget {
@@ -28,6 +32,7 @@ class NoteScreen extends StatefulWidget {
 
 class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
   late TabController tabController;
+  static StreamSubscription? subscription;
   String name = '';
 
   void getOwner() async {
@@ -43,10 +48,21 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
         .filterUpcomingNote());
     Future.microtask(() =>
         Provider.of<NoteViewModel>(context, listen: false).filterPassedNote());
-    // Future.microtask(() =>
-    //     Provider.of<NoteViewModel>(context, listen: false).getCompleteNote());
+    subscription ??= Alarm.ringStream.stream.listen(
+      (alarmSettings) => navigateToRingScreen(alarmSettings),
+    );
+
     getOwner();
     super.initState();
+  }
+
+  Future<void> navigateToRingScreen(AlarmSettings alarmSettings) async {
+    await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              ExampleAlarmRingScreen(alarmSettings: alarmSettings),
+        ));
   }
 
   @override
@@ -260,7 +276,7 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
   Widget _loadingContainer() {
     return Container(
       height: MediaQuery.of(context).size.height * 0.65,
-      padding: const EdgeInsets.all(16),
+      // padding: const EdgeInsets.all(16),
       child: ListView.builder(
         shrinkWrap: true,
         itemCount: 6,

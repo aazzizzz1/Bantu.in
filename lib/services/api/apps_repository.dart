@@ -78,6 +78,14 @@ class AppsRepository {
     }
   }
 
+  Future<void> updateStatusNote(String status, int id) async {
+    try {
+      await _apiService.putRequest('/notes/$id', {'status': status});
+    } catch (_) {
+      rethrow;
+    }
+  }
+
   Future<void> deletePersonalNote(int id) async {
     try {
       await _apiService.deleteRequest('/notes/$id');
@@ -179,7 +187,7 @@ class AppsRepository {
     }
   }
 
-    Future<void> postForgotPassword(PostForgotPasswordModel email) async {
+  Future<void> postForgotPassword(PostForgotPasswordModel email) async {
     try {
       final response = await _apiService.postRequest('/forgot_password', email);
       print(response);

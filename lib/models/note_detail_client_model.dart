@@ -9,7 +9,7 @@ class NoteDetailClientModel {
   final DateTime eventDate;
   final DateTime reminder;
   final String notesType;
-  final String status;
+  final List status;
   final List<OwnerDetailModel> owner;
   final String ringtone;
   final List file;
@@ -36,7 +36,7 @@ class NoteDetailClientModel {
         description: json['data']['description'] ?? 'null',
         eventDate: DateTime.parse(json['data']['event_date']),
         reminder: DateTime.parse(json['data']['reminder']),
-        notesType: json['data']['note_type'] ?? 'null',
+        notesType: json['data']['note_type'] ?? [],
         status: json['data']['status'] ?? 'null',
         owner: json['data']['owner'] != null
             ? (json['data']['owner'] as List)

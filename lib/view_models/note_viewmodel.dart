@@ -1,18 +1,22 @@
 import 'dart:io';
 
+import 'package:alarm/alarm.dart';
 import 'package:bantuin/models/note_detail_client_model.dart';
 import 'package:bantuin/models/note_model.dart';
 import 'package:bantuin/models/post_note_model.dart';
 import 'package:bantuin/models/user_note_model.dart';
 import 'package:bantuin/services/api/api_services.dart';
 import 'package:bantuin/services/api/apps_repository.dart';
+import 'package:bantuin/view_models/ringtone_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../models/file_note_client.dart';
 import '../models/note_team_model.dart';
 import 'package:bantuin/utils/app_state.dart';
 
 class NoteViewModel with ChangeNotifier {
   final appsRepository = AppsRepository();
+  final ringtones = RingtoneViewModel();
 
   List<NoteDetailModel> _listOfPersonalNote = [];
   List<NoteDetailModel> get listOfPersonalNote => _listOfPersonalNote;
@@ -39,7 +43,7 @@ class NoteViewModel with ChangeNotifier {
     eventDate: DateTime.now(),
     reminder: DateTime.now(),
     notesType: 'personal',
-    status: 'null',
+    status: [],
     owner: [],
     ringtone: 'null',
     file: [],
@@ -80,6 +84,15 @@ class NoteViewModel with ChangeNotifier {
       PostNoteModel note, NoteDetailModel noteDetail) async {
     try {
       await appsRepository.updatePersonalNote(note, noteDetail.id);
+      notifyListeners();
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> completeNote(String status, NoteDetailModel noteDetail) async {
+    try {
+      await appsRepository.updateStatusNote(status, noteDetail.id);
       notifyListeners();
     } catch (_) {
       rethrow;
@@ -142,6 +155,7 @@ class NoteViewModel with ChangeNotifier {
       _listOfUpcomingNote = await appsRepository.filterNote('?upcoming=yes');
       notifyListeners();
       changeAppState(AppState.loaded);
+      setAlarm();
       if (_listOfUpcomingNote.isEmpty) {
         changeAppState(AppState.noData);
       }
@@ -225,6 +239,25 @@ class NoteViewModel with ChangeNotifier {
     } catch (e) {
       changeAppState(AppState.failure);
       rethrow;
+    }
+  }
+
+  Future<void> setAlarm() async {
+    for (int i = 0; i < listOfUpcomingNote.length; i++) {
+      if (listOfUpcomingNote[i].reminder.isAfter(DateTime.now())) {
+        final alarmSetting = AlarmSettings(
+          id: listOfUpcomingNote[i].id,
+          dateTime: listOfUpcomingNote[i].reminder,
+          assetAudioPath: 'lib/assets/ringtones/telolet.mp3',
+          // assetAudioPath: ringtones.listOfRingtone.,
+          notificationTitle: listOfUpcomingNote[i].subject,
+          notificationBody: listOfUpcomingNote[i].description,
+        );
+        await Alarm.set(alarmSettings: alarmSetting);
+        print(
+            'berhasil menambahkan ${DateFormat.yMd().add_jm().format(listOfUpcomingNote[i].reminder)}');
+      }
+      print('gagal $i');
     }
   }
 
