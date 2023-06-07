@@ -27,6 +27,13 @@ class _CardInvitationState extends State<CardInvitation> {
     super.initState();
   }
 
+  void refresh(bool isFalse) async {
+    setState(() {
+      _isAccept = isFalse;
+      _isDone = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -124,14 +131,15 @@ class _CardInvitationState extends State<CardInvitation> {
               ElevatedButton(
                 onPressed: () async {
                   try {
-                    // await inv.redirectLink(actions.last.url).then(
-                    //     (value) => Fluttertoast.showToast(msg: 'Berhasil'));
-                    await launchUrl(Uri.parse(actions.last.url)).then(
-                        (value) => Fluttertoast.showToast(msg: 'Ditolak'));
-                    setState(() {
-                      _isAccept = false;
-                      _isDone = true;
-                    });
+                    await inv.redirectLink(actions.last.url).then((value) =>
+                        Fluttertoast.showToast(msg: 'Catatan ditolak'));
+                    refresh(false);
+                    // await launchUrl(Uri.parse(actions.last.url)).then(
+                    //     (value) => Fluttertoast.showToast(msg: 'Ditolak'));
+                    // setState(() {
+                    //   _isAccept = false;
+                    //   _isDone = true;
+                    // });
                   } catch (e) {
                     await Fluttertoast.showToast(msg: e.toString());
                   }
@@ -159,14 +167,15 @@ class _CardInvitationState extends State<CardInvitation> {
               ElevatedButton(
                 onPressed: () async {
                   try {
-                    // await inv.redirectLink(actions.first.url).then(
+                    await inv.redirectLink(actions.first.url).then((value) =>
+                        Fluttertoast.showToast(msg: 'Catatan diterima'));
+                    refresh(true);
+                    // await launchUrl(Uri.parse(actions.first.url)).then(
                     //     (value) => Fluttertoast.showToast(msg: 'Diterima'));
-                    await launchUrl(Uri.parse(actions.first.url)).then(
-                        (value) => Fluttertoast.showToast(msg: 'Diterima'));
-                    setState(() {
-                      _isAccept = true;
-                      _isDone = true;
-                    });
+                    // setState(() {
+                    //   _isAccept = true;
+                    //   _isDone = true;
+                    // });
                   } catch (e) {
                     await Fluttertoast.showToast(msg: e.toString());
                   }

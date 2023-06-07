@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:alarm/alarm.dart';
 import 'package:bantuin/components/bottom_sheet_filter.dart';
-import 'package:bantuin/components/card_mynotes_progres.dart';
-import 'package:bantuin/components/card_incoming_notes_upload.dart';
+import 'package:bantuin/components/card_mynotes_admin.dart';
+import 'package:bantuin/components/card_mynotes_client.dart';
 import 'package:bantuin/components/card_mynotes_personal.dart';
 import 'package:bantuin/view_models/note_viewmodel.dart';
 import 'package:bantuin/widgets/detail_note/admin_member.dart';
@@ -130,15 +130,14 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                                 var data = note.listOfUpcomingNote[index];
                                 initializeDateFormatting('id_ID', null);
                                 bool isOwner = false;
-                                if (name == data.owner.first.username) {
+                                if (name == data.owner.username) {
                                   isOwner = true;
                                 }
                                 if (data.notesType == 'collaboration') {
                                   if (isOwner) {
-                                    return CardMyNotesProgres(noteDetail: data);
+                                    return CardMyNotesAdmin(noteDetail: data);
                                   } else {
-                                    return CardIncomingNotesUpload(
-                                        noteDetail: data);
+                                    return CardMyNotesClient(noteDetail: data);
                                   }
                                 } else {
                                   return CardMyNotesPersonal(noteDetail: data);
@@ -210,29 +209,28 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                 const SizedBox(height: 8.0),
                 //Consumer
                 Consumer<NoteViewModel>(
-                  builder: (context, note, child) {
-                    if (note.appState == AppState.loading) {
+                  builder: (context, passedNote, child) {
+                    if (passedNote.appState == AppState.loading) {
                       return _loadingContainer();
                     }
-                    if (note.appState == AppState.loaded &&
-                        note.listOfPassedNote.isNotEmpty) {
+                    if (passedNote.appState == AppState.loaded &&
+                        passedNote.listOfPassedNote.isNotEmpty) {
                       return SizedBox(
                         height: MediaQuery.of(context).size.height * 0.65,
                         child: ListView.builder(
-                          itemCount: note.listOfPassedNote.length,
+                          itemCount: passedNote.listOfPassedNote.length,
                           itemBuilder: (context, index) {
-                            var data = note.listOfPassedNote[index];
+                            var data = passedNote.listOfPassedNote[index];
                             initializeDateFormatting('id_ID', null);
                             bool isOwner = false;
-                            if (name == data.owner.first.username) {
+                            if (name == data.owner.username) {
                               isOwner = true;
                             }
                             if (data.notesType == 'collaboration') {
                               if (isOwner) {
-                                return CardMyNotesProgres(noteDetail: data);
+                                return CardMyNotesAdmin(noteDetail: data);
                               } else {
-                                return CardIncomingNotesUpload(
-                                    noteDetail: data);
+                                return CardMyNotesClient(noteDetail: data);
                               }
                             } else {
                               return CardMyNotesPersonal(noteDetail: data);
@@ -241,8 +239,8 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                         ),
                       );
                     }
-                    if (note.appState == AppState.noData ||
-                        note.listOfPassedNote.isEmpty) {
+                    if (passedNote.appState == AppState.noData ||
+                        passedNote.listOfPassedNote.isEmpty) {
                       return Container(
                         height: MediaQuery.of(context).size.height * 0.6,
                         alignment: Alignment.center,
@@ -253,7 +251,7 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
                       );
                     }
 
-                    if (note.appState == AppState.failure) {
+                    if (passedNote.appState == AppState.failure) {
                       return Container(
                         alignment: Alignment.center,
                         child: Text(

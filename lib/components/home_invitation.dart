@@ -25,7 +25,6 @@ class HomeInvitaionState extends State<HomeInvitaion> {
       height: 250,
       padding: EdgeInsets.symmetric(horizontal: 16),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
@@ -38,74 +37,77 @@ class HomeInvitaionState extends State<HomeInvitaion> {
           ),
           Consumer<InvitationViewModel>(
             builder: (context, inv, child) {
-              return ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: 1,
-                itemBuilder: (context, index) {
-                  if (inv.listOfInvitation.length > 1) {
-                    return Column(
-                      children: [
-                        CardInvitation(
-                            invitationDetail: inv.listOfInvitation.first),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${inv.listOfInvitation.length - 1} Permintaan masuk.',
-                              style: AppFont.medium14,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => BottomMenu(
-                                          currentTab: 3,
-                                          currentScreen:
-                                              const InvitationScreen())),
-                                );
-                              },
-                              child: Text(
-                                'Lihat permintaan.',
-                                style: AppFont.textButtonActive,
+              return SizedBox(
+                height: 200,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: 1,
+                  itemBuilder: (context, index) {
+                    if (inv.listOfInvitation.length > 1) {
+                      return Column(
+                        children: [
+                          CardInvitation(
+                              invitationDetail: inv.listOfInvitation.first),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${inv.listOfInvitation.length - 1} Permintaan masuk.',
+                                style: AppFont.medium14,
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    );
-                  }
-                  return CardInvitation(
-                      invitationDetail: inv.listOfInvitation.first);
-                },
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => BottomMenu(
+                                            currentTab: 3,
+                                            currentScreen:
+                                                const InvitationScreen())),
+                                  );
+                                },
+                                child: Text(
+                                  'Lihat permintaan.',
+                                  style: AppFont.textButtonActive,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      );
+                    }
+                    return CardInvitation(
+                        invitationDetail: inv.listOfInvitation.first);
+                  },
+                ),
               );
             },
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                '3 Permintaan masuk.',
-                style: AppFont.medium14,
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => BottomMenu(
-                            currentTab: 3,
-                            currentScreen: const InvitationScreen())),
-                  );
-                },
-                child: Text(
-                  'Lihat permintaan.',
-                  style: AppFont.textButtonActive,
-                ),
-              ),
-            ],
-          ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.start,
+          //   children: [
+          //     Text(
+          //       '3 Permintaan masuk.',
+          //       style: AppFont.medium14,
+          //     ),
+          //     InkWell(
+          //       onTap: () {
+          //         Navigator.push(
+          //           context,
+          //           MaterialPageRoute(
+          //               builder: (context) => BottomMenu(
+          //                   currentTab: 3,
+          //                   currentScreen: const InvitationScreen())),
+          //         );
+          //       },
+          //       child: Text(
+          //         'Lihat permintaan.',
+          //         style: AppFont.textButtonActive,
+          //       ),
+          //     ),
+          //   ],
+          // ),
         ],
       ),
     );

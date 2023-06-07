@@ -129,6 +129,7 @@ class _EditProfileState extends State<EditProfile> {
                       label: 'Email',
                       hint: 'Masukkan email',
                       type: 'email',
+                      isEnabled: false,
                       email: true,
                       lowerCase: true,
                       controller: _emailController,
@@ -154,31 +155,27 @@ class _EditProfileState extends State<EditProfile> {
                           final isValidForm = _formKey.currentState!.validate();
                           if (isValidForm) {
                             try {
-                              await user.updateUsers(
-                                PostUsersModel(
-                                  username: _usernameController.text,
-                                  email: _emailController.text,
-                                  job: _jobController.text,
-                                  phone: _phoneController.text,
-                                ),
-                                widget.usersDetail,
-                              ).then((value) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => BottomMenu(
-                                      currentTab: 4,
-                                      currentScreen: ProfileScreen2(),
+                              await user
+                                  .updateUsers(
+                                    PostUsersModel(
+                                      username: _usernameController.text,
+                                      email: _emailController.text,
+                                      job: _jobController.text,
+                                      phone: _phoneController.text,
                                     ),
-                                  ),
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('Perbarui pengguna berhasil'),
-                                    backgroundColor: Colors.green, // Warna latar belakang notifikasi berhasil
-                                  ),
-                                );
-                              });
+                                    widget.usersDetail,
+                                  )
+                                  .then(
+                                    (value) => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => BottomMenu(
+                                          currentTab: 4,
+                                          currentScreen: ProfileScreen2(),
+                                        ),
+                                      ),
+                                    ),
+                                  );
                             } catch (e) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -193,9 +190,13 @@ class _EditProfileState extends State<EditProfile> {
                           elevation: 0,
                           backgroundColor: AppColor.activeColor,
                         ),
-                        child: Text(
-                          'Simpan',
-                          style: AppFont.textFillButtonActive,
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: Text(
+                            'Simpan',
+                            style: AppFont.textFillButtonActive,
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                     ),

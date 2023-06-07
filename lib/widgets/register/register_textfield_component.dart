@@ -17,6 +17,7 @@ class TextFieldComponent extends StatefulWidget {
   final String? password;
   final String? confirm;
   final bool? email;
+  final bool? isEnabled;
   final IconData? icon;
   final bool? lowerCase;
 
@@ -32,6 +33,7 @@ class TextFieldComponent extends StatefulWidget {
     this.password,
     this.confirm,
     this.email,
+    this.isEnabled,
     this.icon,
     this.lowerCase,
   });
@@ -52,6 +54,8 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
         ),
         const SizedBox(height: 4),
         TextFormField(
+          enabled: widget.isEnabled != null ? false : true,
+          // readOnly: widget.email != null ? true : false,
           scrollPadding: const EdgeInsets.only(left: 10),
           autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: widget.controller,
@@ -59,8 +63,7 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
           inputFormatters: [
             if (widget.lowerCase != null)
               FilteringTextInputFormatter.deny(RegExp('[A-Z]')),
-            if (widget.obscure != null)
-              LengthLimitingTextInputFormatter(16),
+            if (widget.obscure != null) LengthLimitingTextInputFormatter(16),
             if (widget.obscure != null)
               FilteringTextInputFormatter.allow(
                 RegExp("[a-zA-Z0-9 !@#\$%^&*()_+-]+"),
@@ -76,8 +79,10 @@ class _TextFieldComponentState extends State<TextFieldComponent> {
                 if (!isEmailValid) {
                   return 'Maaf email anda tidak valid';
                 }
-              }else if (widget.obscure != null) {
-                bool passValid = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$').hasMatch(value);
+              } else if (widget.obscure != null) {
+                bool passValid =
+                    RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$')
+                        .hasMatch(value);
                 return passValid
                     ? null
                     : 'Maaf kata sandi anda belum memenuhi kriteria';

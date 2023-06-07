@@ -6,6 +6,7 @@ import 'package:bantuin/screens/point/point_screen.dart';
 import 'package:bantuin/screens/splash/splash_screen.dart';
 import 'package:bantuin/utils/routes.dart';
 import 'package:bantuin/view_models/column_viewmodel.dart';
+import 'package:bantuin/view_models/history_viewmodel.dart';
 import 'package:bantuin/view_models/invitation_viewmodel.dart';
 import 'package:bantuin/view_models/login_viewmodel.dart';
 import 'package:bantuin/view_models/note_viewmodel.dart';
@@ -20,7 +21,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'screens/auth/register_screen.dart';
 
 void main() async {
@@ -71,6 +71,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => NotificationViewModel(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => HistoryViewModel(),
+        ),
       ],
       child: MaterialApp(
         title: 'Bantuin',
@@ -78,6 +81,11 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
+        // localizationsDelegates: [
+        //   GlobalMaterialLocalizations.delegate,
+        //   GlobalWidgetsLocalizations.delegate,
+        //   GlobalCupertinoLocalizations.delegate,
+        // ],
         home: const SplashScreen(),
       ),
     );

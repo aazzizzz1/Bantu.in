@@ -9,6 +9,7 @@ import 'package:bantuin/services/api/api_services.dart';
 import 'package:bantuin/services/api/apps_repository.dart';
 import 'package:bantuin/view_models/ringtone_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import '../models/file_note_client.dart';
 import '../models/note_team_model.dart';
@@ -36,20 +37,51 @@ class NoteViewModel with ChangeNotifier {
   AppState _appState = AppState.loading;
   AppState get appState => _appState;
 
-  late NoteDetailClientModel _notedetail = NoteDetailClientModel(
+  late NoteDetailClientModel _noteDetailClient = NoteDetailClientModel(
     id: 0,
     subject: 'null',
     description: 'null',
     eventDate: DateTime.now(),
     reminder: DateTime.now(),
     notesType: 'personal',
-    status: [],
-    owner: [],
+    status: 'null',
+    owner: OwnerDetailModel(
+      id: 0,
+      username: 'null',
+      email: 'null',
+      phone: 'null',
+      job: 'null',
+      photo:
+          'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png',
+    ),
     ringtone: 'null',
     file: [],
     member: [],
   );
-  NoteDetailClientModel get noteDetail => _notedetail;
+  NoteDetailClientModel get noteDetailClient => _noteDetailClient;
+
+  late NoteDetailModel _noteDetailAdmin = NoteDetailModel(
+    id: 0,
+    subject: 'null',
+    description: 'null',
+    eventDate: DateTime.now(),
+    reminder: DateTime.now(),
+    notesType: 'personal',
+    status: 'null',
+    owner: OwnerDetailModel(
+      id: 0,
+      username: 'null',
+      email: 'null',
+      phone: 'null',
+      job: 'null',
+      photo:
+          'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png',
+    ),
+    ringtone: 'null',
+    file: [],
+    member: [],
+  );
+  NoteDetailModel get noteDetailAdmin => _noteDetailAdmin;
 
   void changeAppState(AppState appState) {
     _appState = appState;
@@ -90,6 +122,23 @@ class NoteViewModel with ChangeNotifier {
     }
   }
 
+  Future<void> updateCollaborationNote(
+      PostNoteModel note, String msg, NoteDetailModel noteDetail) async {
+    try {
+      await appsRepository.updateCollborationNote({
+        "subject": note.subject,
+        "description": note.description,
+        "event_date": note.eventDate,
+        "reminder": note.reminder,
+        "ringtone_id": note.ringtoneId,
+        "body": msg
+      }, noteDetail.id);
+      notifyListeners();
+    } catch (_) {
+      rethrow;
+    }
+  }
+
   Future<void> completeNote(String status, NoteDetailModel noteDetail) async {
     try {
       await appsRepository.updateStatusNote(status, noteDetail.id);
@@ -99,9 +148,10 @@ class NoteViewModel with ChangeNotifier {
     }
   }
 
-  Future<void> deletePersonalNote(NoteDetailModel noteDetail) async {
+  Future<void> deletePersonalNote(
+      NoteDetailModel noteDetail, String msg) async {
     try {
-      await appsRepository.deletePersonalNote(noteDetail.id);
+      await appsRepository.deletePersonalNote(noteDetail.id, msg);
       getPersonalNote();
       notifyListeners();
     } catch (_) {
@@ -109,10 +159,27 @@ class NoteViewModel with ChangeNotifier {
     }
   }
 
-  Future<void> getDetailNote(int id) async {
+  Future<void> getDetailNoteClient(int id) async {
     try {
       changeAppState(AppState.loading);
-      _notedetail = await appsRepository.getDetailNote(id);
+      final response = await appsRepository.getDetailNote(id);
+      _noteDetailClient = NoteDetailClientModel.fromJson(response);
+      notifyListeners();
+      changeAppState(AppState.loaded);
+      if (_listOfPersonalNote.isEmpty) {
+        changeAppState(AppState.noData);
+      }
+    } catch (_) {
+      changeAppState(AppState.failure);
+      rethrow;
+    }
+  }
+
+  Future<void> getDetailNoteAdmin(int id) async {
+    try {
+      changeAppState(AppState.loading);
+      final response = await appsRepository.getDetailNote(id);
+      _noteDetailAdmin = NoteDetailModel.fromJson(response['data']);
       notifyListeners();
       changeAppState(AppState.loaded);
       if (_listOfPersonalNote.isEmpty) {
@@ -214,7 +281,7 @@ class NoteViewModel with ChangeNotifier {
     try {
       changeAppState(AppState.loading);
       _listOfUpcomingNote =
-          await appsRepository.filterNote('?note=upcoming&owner=yes');
+          await appsRepository.filterNote('?upcoming=yes&owner=yes');
       notifyListeners();
       changeAppState(AppState.loaded);
       if (_listOfUpcomingNote.isEmpty) {
@@ -230,7 +297,7 @@ class NoteViewModel with ChangeNotifier {
     try {
       changeAppState(AppState.loading);
       _listOfPassedNote =
-          await appsRepository.filterNote('?note=passed&owner=yes');
+          await appsRepository.filterNote('?passed=yes&owner=yes');
       notifyListeners();
       changeAppState(AppState.loaded);
       if (_listOfPassedNote.isEmpty) {

@@ -1,23 +1,24 @@
 import 'package:bantuin/components/component_tracking.dart';
 import 'package:bantuin/screens/note/notes_detail.dart';
+import 'package:bantuin/utils/app_state.dart';
+import 'package:bantuin/view_models/history_viewmodel.dart';
+import 'package:bantuin/widgets/shimmer_loading/shimmer_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 import '../../constants/color/app_color.dart';
 import '../../constants/font/app_font.dart';
 
 class TracingScreen extends StatelessWidget {
-  final double progress;
-  final bool? isFirst;
-  final bool? iEnd;
+  final String progress;
 
   const TracingScreen({
     super.key,
     required this.progress,
-    this.isFirst,
-    this.iEnd,
   });
 
   @override
@@ -52,8 +53,7 @@ class TracingScreen extends StatelessWidget {
                     color: AppColor.completeColor,
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  child: Text('${(progress * 100).toStringAsFixed(0)}%',
-                      style: AppFont.regularprogres12),
+                  child: Text(progress, style: AppFont.regularprogres12),
                 ),
               ],
             ),
@@ -72,27 +72,91 @@ class TracingScreen extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height - 218,
-              margin: const EdgeInsets.only(left: 28),
-              alignment: Alignment.center,
-              child: ListView.builder(
-                itemCount: 4,
-                itemBuilder: (context, index) {
-                  return Expanded(
+            Consumer<HistoryViewModel>(
+              builder: (context, history, child) {
+                if (history.appState == AppState.loading) {
+                  return Column(
+                    children: const [
+                      ShimmerContainer.rectangle(height: 25, width: 150),
+                      SizedBox(height: 10),
+                      ShimmerContainer.rectangle(height: 25, width: 150),
+                      SizedBox(height: 10),
+                      ShimmerContainer.rectangle(height: 25, width: 150),
+                      SizedBox(height: 10),
+                    ],
+                  );
+                }
+                if (history.appState == AppState.loaded) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height - 218,
+                    margin: const EdgeInsets.only(left: 28),
+                    alignment: Alignment.center,
                     child: Column(
                       children: [
                         ComponentTracking(
-                            index: index,
-                            user: 'Admin',
-                            massage: 'Membuat pesan',
-                            date: '02/03/2023')
+                          index: 0,
+                          user: 'Anda',
+                          massage: 'telah membuat catatan',
+                          date: DateFormat('dd/MM/yyyy')
+                              .format(history.noteHistory.noteCreated)
+                              .toString(),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.6,
+                          child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: history.listOfHistory.length,
+                            itemBuilder: (context, index) {
+                              final data = history.listOfHistory[index];
+                              String dateUpload =
+                                  DateFormat('dd/MM/yyyy').format(data.date);
+                              return ComponentTracking(
+                                index: index + 1,
+                                user: data.user,
+                                massage: data.status,
+                                date: dateUpload.toString(),
+                                // date:
+                                //     DateFormat('dd/MM/yyyy').format(data.date),
+                              );
+                            },
+                          ),
+                        ),
                       ],
                     ),
                   );
-                },
-              ),
+                }
+                if (history.appState == AppState.noData) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height - 218,
+                    margin: const EdgeInsets.only(left: 28),
+                    alignment: Alignment.center,
+                    child: Column(
+                      children: [
+                        ComponentTracking(
+                          index: 0,
+                          user: 'Anda',
+                          massage: 'telah membuat catatan',
+                          date: DateFormat('dd/MM/yyyy')
+                              .format(history.noteHistory.noteCreated)
+                              .toString(),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                if (history.appState == AppState.failure) {
+                  return Container(
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Gagal mengambil progress',
+                      style: AppFont.textScreenEmpty,
+                    ),
+                  );
+                }
+                return const SizedBox();
+              },
             ),
           ],
         ),

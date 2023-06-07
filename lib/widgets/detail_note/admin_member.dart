@@ -23,61 +23,92 @@ class AdminMember extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Container(
-            //   padding: EdgeInsets.all(8),
-            //   decoration: BoxDecoration(
-            //       color: AppColorPrimary.primary3,
-            //       shape: BoxShape.rectangle,
-            //       borderRadius: BorderRadius.circular(20)),
-            //   child: ,
-            //     // children: _emails.map((email) {
-            //     //   return InputChip(
-            //     //     label: Text(email),
-            //     //     onDeleted: () => _removeEmail(_emails.indexOf(email)),
-            //     //   );
-            //     // }).toList(),
-            //   ),
-            //   // Text('Kak Lea', style: AppFont.textNameTimActive),
-            // ),
-            Wrap(
-              spacing: 8.0,
-              children: noteDetail.member.map((member) {
-                return InputChip(
-                  label: Text('${member.username}'),
-                  labelStyle: AppFont.textNameTimActive,
-                  disabledColor: AppColorPrimary.primary2,
-                  padding: EdgeInsets.all(8),
-                );
-              }).toList(),
+            SizedBox(
+              height: noteDetail.member.length * 35,
+              width: MediaQuery.of(context).size.width,
+              child: noteDetail.member.length > 3
+                  // If member more than 3
+                  ? Column(
+                      children: [
+                        SizedBox(
+                          height: noteDetail.member.length * 30,
+                          child: ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: 3,
+                            itemBuilder: (context, index) {
+                              final data = noteDetail.member[index];
+                              return Align(
+                                alignment: Alignment.centerLeft,
+                                child: Container(
+                                  height: 40,
+                                  width: data.username.characters.length * 11,
+                                  margin: const EdgeInsets.only(bottom: 6),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: AppColorPrimary.primary3,
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: Text(data.username,
+                                      style: AppFont.textNameTimActive),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        // Text when member more than 3
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              'dan ${noteDetail.member.length - 3} orang lagi.',
+                              style: AppFont.medium14,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => NotesAllMember(
+                                            member: noteDetail.member,
+                                          )),
+                                );
+                              },
+                              child: Text(
+                                'Lihat semua.',
+                                style: AppFont.textButtonActive,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
+                  // If member less than 3
+                  : ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: noteDetail.member.length,
+                      itemBuilder: (context, index) {
+                        final data = noteDetail.member[index];
+                        return Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 40,
+                            width: data.username.characters.length * 11,
+                            // margin: EdgeInsets.only(
+                            //     right: data.username.characters.length * 10),
+                            decoration: BoxDecoration(
+                                color: AppColorPrimary.primary3,
+                                borderRadius: BorderRadius.circular(20)),
+                            child: Text(data.username,
+                                style: AppFont.textNameTimActive),
+                          ),
+                        );
+                      },
+                    ),
             ),
             const SizedBox(height: 12.0),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.start,
-            //   children: [
-            //     // Text(
-            //     //   'dan 3 orang lagi.',
-            //     //   style: AppFont.medium14,
-            //     // ),
-            //     InkWell(
-            //       onTap: () {
-            //         Navigator.push(
-            //           context,
-            //           MaterialPageRoute(
-            //               builder: (context) => NotesAllMember(
-            //                     member: noteDetail.member,
-            //                   )),
-            //         );
-            //       },
-            //       child: Text(
-            //         'Lihat semua.',
-            //         style: AppFont.textButtonActive,
-            //       ),
-            //     ),
-            //   ],
-            // ),
           ],
         ),
-        SizedBox(height: 24.0),
+        const SizedBox(height: 12.0),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -86,57 +117,101 @@ class AdminMember extends StatelessWidget {
               'File Dokumen : ',
               style: AppFont.medium14,
             ),
-            SizedBox(height: 7),
-            noteDetail.file.isEmpty
-                ? SizedBox(
-                    child: Text(
-                      'Belum ada file yang di upload',
-                      style: AppFont.regular12,
-                    ),
-                  )
-                : Column(
-                    children: noteDetail.file
-                        .map((urlFile) => InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => FilePreviewScreen(
-                                        url: urlFile,
-                                        isAdmin: true,
-                                      ),
-                                    ));
-                              },
-                              child: Text(
-                                urlFile.substring(urlFile.lastIndexOf("/") + 1),
-                                style: AppFont.textButtonUnderline,
+            const SizedBox(height: 8),
+            SizedBox(
+              height:
+                  noteDetail.file.isEmpty ? 20 : noteDetail.file.length * 10,
+              child: noteDetail.file.isEmpty
+                  ? SizedBox(
+                      child: Text(
+                        'Belum ada file yang di upload',
+                        style: AppFont.regular12,
+                      ),
+                    )
+                  : noteDetail.file.length > 3
+                      ? Column(
+                          children: [
+                            SizedBox(
+                              height: 80,
+                              child: ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: 3,
+                                itemBuilder: (context, index) {
+                                  final data = noteDetail.file[index];
+                                  return InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                FilePreviewScreen(
+                                              url: data,
+                                              isAdmin: true,
+                                            ),
+                                          ));
+                                    },
+                                    child: Text(
+                                      data.substring(data.lastIndexOf("/") + 1),
+                                      style: AppFont.textButtonUnderline,
+                                    ),
+                                  );
+                                },
                               ),
-                            ))
-                        .toList(),
-                  ),
-            SizedBox(height: 11),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.start,
-            //   children: [
-            //     Text(
-            //       'dan 3 file lagi.',
-            //       style: AppFont.medium14,
-            //     ),
-            //     InkWell(
-            //       onTap: () {
-            //         Navigator.push(
-            //           context,
-            //           MaterialPageRoute(
-            //               builder: (context) => const NotesAllFile()),
-            //         );
-            //       },
-            //       child: Text(
-            //         'Lihat semua.',
-            //         style: AppFont.textButtonActive,
-            //       ),
-            //     ),
-            //   ],
-            // ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'dan ${noteDetail.file.length - 3} file lagi.',
+                                  style: AppFont.medium14,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => NotesAllFile(
+                                                file: noteDetail.file,
+                                              )),
+                                    );
+                                  },
+                                  child: Text(
+                                    'Lihat semua.',
+                                    style: AppFont.textButtonActive,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
+                      : SizedBox(
+                          height: 100,
+                          child: ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: noteDetail.file.length,
+                            itemBuilder: (context, index) {
+                              final data = noteDetail.file[index];
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => FilePreviewScreen(
+                                          url: data,
+                                          isAdmin: true,
+                                        ),
+                                      ));
+                                },
+                                child: Text(
+                                  data.substring(data.lastIndexOf("/") + 1),
+                                  style: AppFont.textButtonUnderline,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+            ),
+            const SizedBox(height: 11),
           ],
         ),
       ],
