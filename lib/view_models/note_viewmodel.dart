@@ -322,7 +322,7 @@ class NoteViewModel with ChangeNotifier {
         );
         await Alarm.set(alarmSettings: alarmSetting);
         print(
-            'berhasil menambahkan ${DateFormat.yMd().add_jm().format(listOfUpcomingNote[i].reminder)}');
+            'berhasil menambahkan ${_listOfUpcomingNote[i].subject } ${DateFormat.yMd().add_jm().format(listOfUpcomingNote[i].reminder)}');
       }
       print('gagal $i');
     }

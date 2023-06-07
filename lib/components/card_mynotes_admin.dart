@@ -30,22 +30,6 @@ class CardMyNotesAdmin extends StatelessWidget {
             if (name == noteDetail.owner.username) {
               isOwner = true;
             }
-
-            // try {
-            //   await noteView
-            //       .getDetailNote(noteDetail.id)
-            //       .then((value) => Fluttertoast.showToast(msg: 'berhasil get'))
-            //       .then((value) => Navigator.push(
-            //           context,
-            //           MaterialPageRoute(
-            //             builder: (context) => NoteDetailClient(
-            //               noteDetail: noteView.noteDetail,
-            //               // isOwner: isOwner,
-            //             ),
-            //           )));
-            // } catch (e) {
-            //   await Fluttertoast.showToast(msg: e.toString());
-            // }
             Navigator.push(
                 context,
                 MaterialPageRoute(

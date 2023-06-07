@@ -42,7 +42,10 @@ dependencies:
   shared_preferences: ^2.1.1
   open_file: ^3.3.1
   shimmer: ^3.0.0
-  flowder: ^0.2.0
+  # flowder: ^0.2.0
+  flowder:
+    git:
+      url: https://github.com/Harsh223/flowder.git
   # alarm
   alarm: ^1.0.5
 
