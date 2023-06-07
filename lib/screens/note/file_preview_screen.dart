@@ -6,6 +6,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flowder/flowder.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 
 class FilePreviewScreen extends StatefulWidget {
@@ -69,9 +70,21 @@ class _FilePreviewScreenState extends State<FilePreviewScreen> {
                       progress: ProgressImplementation(),
                       file: File(
                           '$path/${widget.url.substring(widget.url.lastIndexOf("/") + 1)}'),
-                      onDone: () =>
-                          Fluttertoast.showToast(msg: 'Download berhasil')
-                              .then((value) => Navigator.pop(context)),
+                      onDone: () {
+                        // setState(() {
+                        //   fileList[index].progress = 0.0;
+                        // });
+                        OpenFile.open(
+                                '$path/${widget.url.substring(widget.url.lastIndexOf("/") + 1)}')
+                            .then((value) {
+                          // delete the file.
+                          File f = File(
+                              '$path/${widget.url.substring(widget.url.lastIndexOf("/") + 1)}');
+                          f.delete();
+                        });
+                      },
+                      // onDone: () =>
+                      //     Fluttertoast.showToast(msg: 'Download berhasil'),
                       progressCallback: (current, total) {
                         final progress = (current / total) * 100;
                         print('Downloading: $progress');
@@ -88,17 +101,17 @@ class _FilePreviewScreenState extends State<FilePreviewScreen> {
                     //   },
                     //   file: File('$path/${fileList[index].fileName}'),
                     //   progress: ProgressImplementation(),
-                    //   onDone: () {
-                    //     setState(() {
-                    //       fileList[index].progress = 0.0;
-                    //     });
-                    //     OpenFile.open('$path/${fileList[index].fileName}')
-                    //         .then((value) {
-                    //       // delete the file.
-                    //       File f = File('$path/${fileList[index].fileName}');
-                    //       f.delete();
-                    //     });
-                    //   },
+                    // onDone: () {
+                    //   setState(() {
+                    //     fileList[index].progress = 0.0;
+                    //   });
+                    //   OpenFile.open('$path/${fileList[index].fileName}')
+                    //       .then((value) {
+                    //     // delete the file.
+                    //     File f = File('$path/${fileList[index].fileName}');
+                    //     f.delete();
+                    //   });
+                    // },
                     //   deleteOnCancel: true,
                     // );
                     core = await Flowder.download(
