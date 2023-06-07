@@ -36,7 +36,7 @@ class AdminDate extends StatelessWidget {
             text: TextSpan(
               children: [
                 TextSpan(text: 'Ringtone : ', style: AppFont.textDescription),
-                TextSpan(text: ringtone, style: AppFont.textButtonActive),
+                TextSpan(text: ringtone, style: AppFont.textDescription),
               ],
             ),
           ),

@@ -5,7 +5,8 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import '../../constants/constant.dart';
 
 class NotesAllFile extends StatelessWidget {
-  const NotesAllFile({super.key});
+  final List file;
+  const NotesAllFile({super.key, required this.file});
 
   @override
   Widget build(BuildContext context) {
@@ -33,35 +34,42 @@ class NotesAllFile extends StatelessWidget {
       body: Container(
         margin: const EdgeInsets.all(16),
         child: ListView.builder(
-          itemCount: 2,
-          itemBuilder: (context, index) => Column(
-            children: [
-              Container(
-                height: 64,
-                margin: const EdgeInsets.only(bottom: 12.0),
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: AppColorNeutral.neutral2),
-                  borderRadius: BorderRadius.circular(6.0),
-                ),
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.note_add_outlined,
-                      color: AppColorPrimary.primary6,
+            itemCount: file.length,
+            itemBuilder: (context, index) {
+              final data = file[index];
+              return Column(
+                children: [
+                  Container(
+                    height: 64,
+                    margin: const EdgeInsets.only(bottom: 12.0),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: AppColorNeutral.neutral2),
+                      borderRadius: BorderRadius.circular(6.0),
                     ),
-                    const SizedBox(width: 18),
-                    Text(
-                      'File Dokumen.pdf',
-                      style: AppFont.semiBold14,
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.note_add_outlined,
+                          color: AppColorPrimary.primary6,
+                        ),
+                        const SizedBox(width: 18),
+                        SizedBox(
+                          width: 280,
+                          child: Text(
+                            data.substring(data.lastIndexOf("/") + 1),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: AppFont.semiBold14,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            }),
       ),
     );
   }

@@ -1,8 +1,10 @@
 import 'dart:ui';
 
+import 'package:bantuin/view_models/history_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:provider/provider.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 import '../constants/font/app_font.dart';
@@ -22,6 +24,7 @@ class ComponentTracking extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final history = Provider.of<HistoryViewModel>(context, listen: false);
     return TimelineTile(
       indicatorStyle: const IndicatorStyle(
         width: 12,
@@ -36,8 +39,7 @@ class ComponentTracking extends StatelessWidget {
         thickness: 1,
       ),
       isFirst: index == 0 ? true : false,
-      // index == data.length
-      isLast: index == 3 ? true : false,
+      isLast: index == history.listOfHistory.length ? true : false,
       endChild: Container(
         margin: const EdgeInsets.symmetric(horizontal: 27, vertical: 16),
         child: Column(

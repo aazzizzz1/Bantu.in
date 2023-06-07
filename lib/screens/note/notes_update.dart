@@ -118,9 +118,10 @@ class _NoteUpdateState extends State<NoteUpdate> {
                                 // Perform delete operation and navigate back to previous screen
                                 // ...
                                 Navigator.pop(context);
+                                Navigator.pop(context);
                               },
                               child: Text(
-                                'Kembali',
+                                'Buang',
                                 style: AppFont.textButtonDisable,
                               ),
                             ),
@@ -145,10 +146,9 @@ class _NoteUpdateState extends State<NoteUpdate> {
                                 // Perform delete operation and navigate back to previous screen
                                 // ...
                                 Navigator.pop(context);
-                                Navigator.pop(context);
                               },
                               child: Text(
-                                'Buang',
+                                'Kembali',
                                 style: AppFont.textFillButtonActive,
                               ),
                             ),
@@ -328,7 +328,7 @@ class _NoteUpdateState extends State<NoteUpdate> {
                             context: context,
                             builder: (context) => PopupUpdate(
                               noteDetail: widget.noteDetail,
-                              postNote: PostNoteModel(
+                              postNotePersonal: PostNoteModel(
                                 subject: _subjectController.text,
                                 description: _descriptionController.text,
                                 eventDate: _eventDateController.text,

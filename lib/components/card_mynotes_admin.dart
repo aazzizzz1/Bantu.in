@@ -13,10 +13,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../screens/note/note_detail_client.dart';
 
-class CardMyNotesProgres extends StatelessWidget {
+class CardMyNotesAdmin extends StatelessWidget {
   final NoteDetailModel noteDetail;
 
-  CardMyNotesProgres({required this.noteDetail});
+  CardMyNotesAdmin({required this.noteDetail});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class CardMyNotesProgres extends StatelessWidget {
             SharedPreferences prefs = await SharedPreferences.getInstance();
             String name = prefs.getString('username').toString();
             bool isOwner = false;
-            if (name == noteDetail.owner[0].username) {
+            if (name == noteDetail.owner.username) {
               isOwner = true;
             }
 
@@ -99,11 +99,24 @@ class CardMyNotesProgres extends StatelessWidget {
                               Container(
                                 padding: const EdgeInsets.all(4.0),
                                 decoration: BoxDecoration(
-                                  color: AppColor.completeColor,
+                                  color: noteDetail.status != '0%'
+                                      ? AppColor.completeColor
+                                      : AppColor.zeroColor,
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
-                                child: Text('${(0 * 100).toStringAsFixed(0)}%'),
-                                // Text(noteDetail.status),
+                                child: Text(
+                                  noteDetail.status,
+
+                                  style: noteDetail.status != '0%'
+                                      ? AppFont.textUploadDone
+                                      : AppFont.textUploadError,
+                                  // TextStyle(
+                                  //   fontStyle: FontStyle.normal,
+                                  //   color: noteDetail.status == '0%'
+                                  //       ? AppColor.errorColor
+                                  //       : AppColor.textprogresColor,
+                                  // ),
+                                ),
                               ),
                             ],
                           ),
@@ -111,6 +124,8 @@ class CardMyNotesProgres extends StatelessWidget {
                           Text(
                             noteDetail.description,
                             style: AppFont.regular12,
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ],
                       ),
@@ -134,7 +149,7 @@ class CardMyNotesProgres extends StatelessWidget {
                               ),
                               const SizedBox(width: 8.0),
                               Text(
-                                noteDetail.owner[0].username,
+                                noteDetail.owner.username,
                                 style: AppFont.regular12,
                               ),
                             ],

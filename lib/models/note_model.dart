@@ -19,8 +19,8 @@ class NoteDetailModel {
   final DateTime eventDate;
   final DateTime reminder;
   final String notesType;
-  final List status;
-  final List<OwnerDetailModel> owner;
+  final String status;
+  final OwnerDetailModel owner;
   final String ringtone;
   final List file;
   final List<MemberDetailModel> member;
@@ -51,12 +51,8 @@ class NoteDetailModel {
                 json['reminder'].replaceFirst(RegExp(r'-\d\d:\d\d'), ''))
             .toLocal(),
         notesType: json['note_type'] ?? 'null',
-        status: json['status'] ?? [],
-        owner: json['owner'] != null
-            ? (json['owner'] as List)
-                .map((e) => OwnerDetailModel.fromJson(e))
-                .toList()
-            : [],
+        status: json['status'][0] ?? 'null',
+        owner: OwnerDetailModel.fromJson(json['owner'][0]),
         ringtone: json['ringtone'] ?? 'null',
         file: json['file'] ?? [],
         member: json['member'] != null
@@ -91,7 +87,8 @@ class OwnerDetailModel {
         email: json['email'] ?? 'null',
         phone: json['phone'] ?? 'null',
         job: json['job'] ?? 'null',
-        photo: json['photo'] ?? 'null',
+        photo: json['photo'] ??
+            'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png',
       );
 }
 
@@ -119,7 +116,8 @@ class MemberDetailModel {
         email: json['email'] ?? 'null',
         phone: json['phone'] ?? 'null',
         job: json['job'] ?? 'null',
-        photo: json['photo'] ?? 'null',
+        photo: json['photo'] ??
+            'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png',
       );
 }
 

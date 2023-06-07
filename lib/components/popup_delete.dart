@@ -82,53 +82,25 @@ class _PopupDeleteState extends State<PopupDelete> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        style: const ButtonStyle(
-                          overlayColor: MaterialStatePropertyAll(
-                              AppColorNeutral.neutral2),
-                          padding: MaterialStatePropertyAll(
-                            EdgeInsets.symmetric(horizontal: 28, vertical: 10),
-                          ),
-                          elevation: MaterialStatePropertyAll(0),
-                          side: MaterialStatePropertyAll(
-                              BorderSide(color: AppColorNeutral.neutral2)),
-                          backgroundColor:
-                              MaterialStatePropertyAll(Colors.white),
-                        ),
-                        onPressed: () {
-                          // Perform delete operation and navigate back to previous screen
-                          // ...
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          'Batal',
-                          style: AppFont.textButtonDisable,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
                     Consumer<NoteViewModel>(
                       builder: (context, value, child) => Expanded(
                         child: ElevatedButton(
                           style: ButtonStyle(
                             overlayColor: MaterialStatePropertyAll(
-                                AppColorPrimary.primary4),
+                                AppColorNeutral.neutral2),
                             padding: MaterialStatePropertyAll(
                               EdgeInsets.symmetric(
                                   horizontal: 28, vertical: 10),
                             ),
                             elevation: MaterialStatePropertyAll(0),
-                            // side: MaterialStatePropertyAll(
-                            //     BorderSide(color: AppColorPrimary.primary3)),
+                            side: MaterialStatePropertyAll(
+                                BorderSide(color: AppColorNeutral.neutral2)),
                             backgroundColor: MaterialStatePropertyAll(
                               widget.noteDetail.notesType == 'collaboration'
                                   ? _isValidated
-                                      ? AppColorRed.red6
+                                      ? Colors.white
                                       : AppColorNeutral.neutral2
-                                  : AppColorRed.red6,
+                                  : Colors.white,
                             ),
                           ),
                           onPressed: widget.noteDetail.notesType ==
@@ -138,7 +110,8 @@ class _PopupDeleteState extends State<PopupDelete> {
                                       try {
                                         await value
                                             .deletePersonalNote(
-                                                widget.noteDetail)
+                                                widget.noteDetail,
+                                                _deleteController.text)
                                             .then((value) =>
                                                 Fluttertoast.showToast(
                                                     msg:
@@ -155,7 +128,7 @@ class _PopupDeleteState extends State<PopupDelete> {
                                   : null
                               : () {
                                   value
-                                      .deletePersonalNote(widget.noteDetail)
+                                      .deletePersonalNote(widget.noteDetail, '')
                                       .then((value) => Fluttertoast.showToast(
                                           msg: 'Note berhasil dihapus'))
                                       .then((value) => Navigator.pop(context))
@@ -166,10 +139,36 @@ class _PopupDeleteState extends State<PopupDelete> {
                             style:
                                 widget.noteDetail.notesType == 'collaboration'
                                     ? _isValidated
-                                        ? AppFont.textFillButtonActive
+                                        ? AppFont.textButtonDisable
                                         : AppFont.hintTextField
-                                    : AppFont.textFillButtonActive,
+                                    : AppFont.textButtonDisable,
                           ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Expanded(
+                      child: ElevatedButton(
+                        style: const ButtonStyle(
+                          overlayColor:
+                              MaterialStatePropertyAll(AppColorRed.red4),
+                          padding: MaterialStatePropertyAll(
+                            EdgeInsets.symmetric(horizontal: 28, vertical: 10),
+                          ),
+                          elevation: MaterialStatePropertyAll(0),
+                          backgroundColor:
+                              MaterialStatePropertyAll(AppColorRed.red6),
+                        ),
+                        onPressed: () {
+                          // Perform delete operation and navigate back to previous screen
+                          // ...
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'Batal',
+                          style: AppFont.textFillButtonActive,
                         ),
                       ),
                     ),

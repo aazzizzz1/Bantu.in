@@ -91,13 +91,14 @@ class ApiServices {
   }
 
   @override
-  Future deleteRequest(String url) async {
+  Future deleteRequest(String url, data) async {
     SharedPreferences? prefs = await SharedPreferences.getInstance();
     String token = prefs.getString('token').toString();
 
     try {
       final response = await http.delete(
         Uri.parse('$baseUrl$url'),
+        body: data is Map ? json.encode(data) : json.encode(data.toJson()),
         headers: {
           "Content-Type": "application/json; charset=UTF-8",
           'Authorization': 'Bearer $token',

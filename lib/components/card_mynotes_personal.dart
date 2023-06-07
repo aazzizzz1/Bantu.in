@@ -22,7 +22,7 @@ class CardMyNotesPersonal extends StatelessWidget {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         String name = prefs.getString('username').toString();
         bool isOwner = false;
-        if (name == noteDetail.owner[0].username) {
+        if (name == noteDetail.owner.username) {
           isOwner = true;
         }
         Navigator.push(
@@ -73,16 +73,22 @@ class CardMyNotesPersonal extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.all(4.0),
                             decoration: BoxDecoration(
-                              color: AppColor.completeColor,
+                              color: noteDetail.status != '0%'
+                                  ? AppColor.completeColor
+                                  : AppColor.zeroColor,
                               borderRadius: BorderRadius.circular(8.0),
                             ),
-                            child: Text(
-                              noteDetail.status[0],
-                              style: TextStyle(
-                                fontStyle: FontStyle.normal,
-                                color: AppColor.textprogresColor,
-                              ),
-                            ),
+                            child: Text(noteDetail.status,
+                                style: noteDetail.status != '0%'
+                                    ? AppFont.textUploadDone
+                                    : AppFont.textUploadError
+                                // TextStyle(
+                                //   fontStyle: FontStyle.normal,
+                                //   color: noteDetail.status == '0%'
+                                //       ? AppColor.errorColor
+                                //       : AppColor.textprogresColor,
+                                // ),
+                                ),
                           ),
                         ],
                       ),
@@ -90,6 +96,8 @@ class CardMyNotesPersonal extends StatelessWidget {
                       Text(
                         noteDetail.description,
                         style: AppFont.regular12,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
@@ -138,7 +146,7 @@ class CardMyNotesPersonal extends StatelessWidget {
                           ),
                           const SizedBox(width: 8.0),
                           Text(
-                            noteDetail.owner[0].username,
+                            noteDetail.owner.username,
                             style: AppFont.regular12,
                           )
                           // SizedBox(
