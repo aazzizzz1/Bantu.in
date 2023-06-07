@@ -40,7 +40,8 @@ class CardNotification extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 110,
+      margin: const EdgeInsets.only(bottom: 8),
+      height: MediaQuery.of(context).size.height * 0.15,
       width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -82,7 +83,7 @@ class CardNotification extends StatelessWidget {
             children: [
               SizedBox(
                 width: MediaQuery.of(context).size.width - 100,
-                height: 50,
+                height: 55,
                 child: RichText(
                   overflow: TextOverflow.visible,
                   text: TextSpan(
@@ -128,6 +129,8 @@ class CardNotification extends StatelessWidget {
                   ),
                   Text(
                     notif.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: AppFont.textInvitation,
                   ),
                 ],
@@ -139,3 +142,10 @@ class CardNotification extends StatelessWidget {
     );
   }
 }
+
+  // final String title;
+  // final String body;
+  // final String recipient;
+  // final bool read;
+  // final String sender;
+  // final String senderPlace;

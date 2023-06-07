@@ -48,13 +48,11 @@ class _HomePagesState extends State<HomePages> {
     Future.microtask(
         () => Provider.of<UsersViewModel>(context, listen: false).getUsers());
     Future.microtask(() =>
-        Provider.of<InvitationViewModel>(context, listen: false).fetchInvitation());
-    // Future.microtask(() =>
-    //     Provider.of<ColumnViewModel>(context, listen: false).fetchColumn());
+        Provider.of<InvitationViewModel>(context, listen: false)
+            .fetchInvitation());
     Future.microtask(() =>
-        Provider.of<NotificationViewModel>(context, listen: false).fetchNotif());
-    Future.microtask(() =>
-        Provider.of<InvitationViewModel>(context, listen: false).fetchInvitation());
+        Provider.of<NotificationViewModel>(context, listen: false)
+            .fetchNotif());
     // Future.microtask(() =>
     //     Provider.of<ColumnViewModel>(context, listen: false).fetchColumn());
     super.initState();
@@ -135,19 +133,65 @@ class _HomePagesState extends State<HomePages> {
         }),
         actions: [
           Container(
-            margin: const EdgeInsets.only(right: 20),
-            child: IconButton(
-              splashRadius: 20,
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const NotificationScreen(),
-                ));
-              },
-              icon: const Icon(
-                Icons.notifications_none_outlined,
-                color: AppColorNeutral.neutral4,
-                size: 30,
-              ),
+            margin: const EdgeInsets.only(right: 20, top: 20),
+            child: Stack(
+              children: [
+                IconButton(
+                  splashRadius: 20,
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const NotificationScreen(),
+                    ));
+                  },
+                  icon: const Icon(
+                    Icons.notifications_none_outlined,
+                    color: AppColorNeutral.neutral4,
+                    size: 30,
+                  ),
+                ),
+                Positioned(
+                  right: 0,
+                  top: 0,
+                  child: Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    constraints: const BoxConstraints(
+                      minWidth: 16,
+                      minHeight: 16,
+                    ),
+                    child: Consumer<NotificationViewModel>(
+                      builder: (context, notif, child) {
+                        if (notif.appState == AppState.loaded) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            constraints: const BoxConstraints(
+                              minWidth: 16,
+                              minHeight: 16,
+                            ),
+                            child: Text(
+                              notif.listOfNotif.length.toString(),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          );
+                        } else {
+                          return const SizedBox(); // Widget kosong jika state bukan "loaded"
+                        }
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

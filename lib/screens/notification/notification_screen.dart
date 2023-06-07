@@ -66,8 +66,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           itemCount: notif.listOfNotif.length,
                           itemBuilder: (context, index) {
                             var data = notif.listOfNotif[index];
-                            return CardNotification(
-                              notif: data,
+                            return Column(
+                              children: [
+                                  CardNotificationUpdate(notif: data),
+                                  CardNotification(notif: data),
+                              ],
                             );
                           },
                         ),
@@ -75,7 +78,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               ],
             );
           } else {
-            return const SizedBox(); // Handle other app states if needed
+            return Container();
           }
         },
       ),
