@@ -8,8 +8,8 @@ import '../../constants/font/app_font.dart';
 import '../../screens/note/tracking_screen.dart';
 
 class AdminAppbar extends StatelessWidget {
-  final double? progress;
-  const AdminAppbar({super.key, this.progress});
+  final String progress;
+  const AdminAppbar({super.key, required this.progress});
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +21,7 @@ class AdminAppbar extends StatelessWidget {
           InkWell(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => TracingScreen(
-                    progress: this.progress == null ? 0 : this.progress!),
+                builder: (context) => TracingScreen(progress: progress),
               ));
             },
             child: Text(
@@ -34,13 +33,15 @@ class AdminAppbar extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
             decoration: BoxDecoration(
-              color: AppColor.completeColor,
+              color: progress != '0%'
+                  ? AppColor.completeColor
+                  : AppColor.zeroColor,
               borderRadius: BorderRadius.circular(16.0),
             ),
-            child: progress == null
-                ? Text('0%', style: AppFont.regularprogres12)
-                : Text('${(progress! * 100).toStringAsFixed(0)}%',
-                    style: AppFont.regularprogres12),
+            child: Text(progress,
+                style: progress != '0%'
+                    ? AppFont.textUploadDone
+                    : AppFont.textUploadError),
           ),
         ],
       ),

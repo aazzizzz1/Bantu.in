@@ -13,16 +13,16 @@ import '../models/post_note_model.dart';
 
 class PopupUpdate extends StatefulWidget {
   final NoteDetailModel noteDetail;
-  final PostNoteModel postNote;
+  final PostNoteModel postNotePersonal;
   const PopupUpdate(
-      {super.key, required this.noteDetail, required this.postNote});
+      {super.key, required this.noteDetail, required this.postNotePersonal});
 
   @override
   State<PopupUpdate> createState() => _PopupUpdateState();
 }
 
 class _PopupUpdateState extends State<PopupUpdate> {
-  late TextEditingController _deleteController;
+  late TextEditingController _updateController;
   final formKey = GlobalKey<FormState>();
   bool _isValidated = false;
 
@@ -30,9 +30,9 @@ class _PopupUpdateState extends State<PopupUpdate> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _deleteController = TextEditingController();
-    _deleteController.addListener(() {
-      final _buttonEnable = _deleteController.text.isNotEmpty;
+    _updateController = TextEditingController();
+    _updateController.addListener(() {
+      final _buttonEnable = _updateController.text.isNotEmpty;
       setState(() {
         this._isValidated = _buttonEnable;
       });
@@ -42,7 +42,7 @@ class _PopupUpdateState extends State<PopupUpdate> {
   @override
   void dispose() {
     // TODO: implement dispose
-    _deleteController.dispose();
+    _updateController.dispose();
     super.dispose();
   }
 
@@ -116,21 +116,24 @@ class _PopupUpdateState extends State<PopupUpdate> {
                             backgroundColor: MaterialStatePropertyAll(
                               widget.noteDetail.notesType == 'collaboration'
                                   ? _isValidated
-                                      ? AppColorRed.red6
+                                      ? AppColorPrimary.primary6
                                       : AppColorNeutral.neutral2
-                                  : AppColorRed.red6,
+                                  : AppColorPrimary.primary6,
                             ),
                           ),
                           onPressed: widget.noteDetail.notesType ==
                                   'collaboration'
                               ? _isValidated
+                                  //ISSCOLLAAABB
                                   ? () async {
                                       // Perform delete operation and navigate back to previous screen
                                       // ...
                                       // Navigator.pop(context);
                                       try {
                                         await value
-                                            .updatePersonalNote(widget.postNote,
+                                            .updateCollaborationNote(
+                                                widget.postNotePersonal,
+                                                _updateController.text,
                                                 widget.noteDetail)
                                             .then((value) =>
                                                 Fluttertoast.showToast(
@@ -146,6 +149,7 @@ class _PopupUpdateState extends State<PopupUpdate> {
                                       }
                                     }
                                   : null
+                              //ISSPERSONAALLL
                               : () async {
                                   // Perform delete operation and navigate back to previous screen
                                   // ...
@@ -153,7 +157,8 @@ class _PopupUpdateState extends State<PopupUpdate> {
                                   try {
                                     await value
                                         .updatePersonalNote(
-                                            widget.postNote, widget.noteDetail)
+                                            widget.postNotePersonal,
+                                            widget.noteDetail)
                                         .then((value) => Fluttertoast.showToast(
                                             msg: 'Berhasil mengubah note'))
                                         .then((value) => Navigator.pop(context))
@@ -164,7 +169,7 @@ class _PopupUpdateState extends State<PopupUpdate> {
                                   }
                                 },
                           child: Text(
-                            'Ya',
+                            'Ubah',
                             style: AppFont.textFillButtonActive,
                           ),
                         ),
@@ -225,7 +230,7 @@ class _PopupUpdateState extends State<PopupUpdate> {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: '${_deleteController.text.length}',
+                            text: '${_updateController.text.length}',
                             style: AppFont.labelTextForm,
                           ),
                           TextSpan(
@@ -239,7 +244,7 @@ class _PopupUpdateState extends State<PopupUpdate> {
                 ),
                 const SizedBox(height: 8),
                 TextFormField(
-                  controller: _deleteController,
+                  controller: _updateController,
                   maxLines: 5,
                   // maxLength: maxLength,
                   keyboardType: TextInputType.multiline,

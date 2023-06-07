@@ -90,7 +90,7 @@ class _CreateNoteTextFieldState extends State<CreateNoteTextField> {
           keyboardType:
               widget.isSubject == null ? TextInputType.multiline : null,
           maxLines: widget.isSubject == null ? 5 : null,
-          maxLength: widget.isSubject == null ? 250 : null,
+          maxLength: widget.isSubject == false ? 250 : 30,
           inputFormatters: widget.isSubject == null
               ? [LengthLimitingTextInputFormatter(maxLength)]
               : [],

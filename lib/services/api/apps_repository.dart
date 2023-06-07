@@ -4,6 +4,7 @@ import 'package:bantuin/models/column_model.dart';
 import 'package:bantuin/models/file_note_client.dart';
 import 'package:bantuin/models/invitation_model.dart';
 import 'package:bantuin/models/note_detail_client_model.dart';
+import 'package:bantuin/models/note_history_model.dart';
 import 'package:bantuin/models/note_model.dart';
 import 'package:bantuin/models/password_model.dart';
 import 'package:bantuin/models/post_forgot_password_model.dart';
@@ -78,6 +79,14 @@ class AppsRepository {
     }
   }
 
+  Future<void> updateCollborationNote(Map<String, dynamic> note, int id) async {
+    try {
+      await _apiService.putRequest('/notes/$id', note);
+    } catch (_) {
+      rethrow;
+    }
+  }
+
   Future<void> updateStatusNote(String status, int id) async {
     try {
       await _apiService.putRequest('/notes/$id', {'status': status});
@@ -86,9 +95,9 @@ class AppsRepository {
     }
   }
 
-  Future<void> deletePersonalNote(int id) async {
+  Future<void> deletePersonalNote(int id, String msg) async {
     try {
-      await _apiService.deleteRequest('/notes/$id');
+      await _apiService.deleteRequest('/notes/$id', {"body": msg});
     } catch (_) {
       rethrow;
     }
@@ -121,10 +130,7 @@ class AppsRepository {
   Future getDetailNote(int id) async {
     try {
       final response = await _apiService.getRequest('/notes/$id');
-      NoteDetailClientModel noteDetail =
-          NoteDetailClientModel.fromJson(response);
-      print(noteDetail);
-      return noteDetail;
+      return response;
     } catch (_) {
       rethrow;
     }
@@ -134,8 +140,27 @@ class AppsRepository {
     try {
       final response = await _apiService.getRequest('/notes$url');
       NoteModel noteDetail = NoteModel.fromJson(response);
-      print(noteDetail);
       return noteDetail.notes;
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future getHistory(int id) async {
+    try {
+      final response = await _apiService.getRequest('/notes/$id/history');
+      NoteHistoryModel noteHistory = NoteHistoryModel.fromJson(response);
+      return noteHistory.history;
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future getHistoryNote(int id) async {
+    try {
+      final response = await _apiService.getRequest('/notes/$id/history');
+      NoteHistoryModel noteHistory = NoteHistoryModel.fromJson(response);
+      return noteHistory;
     } catch (_) {
       rethrow;
     }
@@ -300,12 +325,9 @@ class AppsRepository {
   }
 
   Future getUrl(String url) async {
-    String secUrl = url.replaceFirst('https://bantuin.fly.dev/api', '');
-    print(secUrl);
     try {
-      final response = await _apiService.getRequest(secUrl);
-      InvitationModel inv = InvitationModel.fromJson(response);
-      return inv.invitation;
+      final response = await _apiService.getRequest(url);
+      return response;
     } catch (_) {
       rethrow;
     }

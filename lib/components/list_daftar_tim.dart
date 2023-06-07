@@ -1,5 +1,5 @@
-import 'package:bantuin/components/card_mynotes_progres.dart';
-import 'package:bantuin/components/card_incoming_notes_upload.dart';
+import 'package:bantuin/components/card_mynotes_admin.dart';
+import 'package:bantuin/components/card_mynotes_client.dart';
 import 'package:bantuin/components/card_mynotes_personal.dart';
 import 'package:bantuin/screens/tim/tim_card_group.dart';
 import 'package:bantuin/utils/app_state.dart';

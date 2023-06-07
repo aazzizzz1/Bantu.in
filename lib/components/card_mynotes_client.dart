@@ -13,84 +13,29 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../screens/note/note_detail_client.dart';
 
-class CardIncomingNotesUpload extends StatefulWidget {
+class CardMyNotesClient extends StatelessWidget {
   final NoteDetailModel noteDetail;
 
-  CardIncomingNotesUpload({required this.noteDetail});
-
-  @override
-  State<CardIncomingNotesUpload> createState() =>
-      _CardIncomingNotesUploadState();
-}
-
-class _CardIncomingNotesUploadState extends State<CardIncomingNotesUpload> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    // Future.microtask(() => Provider.of<NoteViewModel>(context, listen: false)
-    //     .getDetailNote(widget.noteDetail.id));
-    super.initState();
-  }
+  CardMyNotesClient({required this.noteDetail});
 
   @override
   Widget build(BuildContext context) {
     return Consumer<NoteViewModel>(
-      builder: (context, val, child) {
-        bool isUploaded = false;
-        if (val.noteDetail.file.isNotEmpty) {
-          isUploaded = true;
-        }
+      builder: (context, note, child) {
         return GestureDetector(
           onTap: () async {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            String name = prefs.getString('username').toString();
-            bool isOwner = false;
-            bool isUpload = false;
-            if (name == widget.noteDetail.owner[0].username) {
-              isOwner = true;
-            }
-            if (widget.noteDetail.status != 'in_progress') {
-              isUpload = true;
-            }
-            try {
-              await val
-                  .getDetailNote(widget.noteDetail.id)
-                  .then((value) => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => NoteDetailClient(
-                          noteDetail: val.noteDetail,
-                        ),
-                      )));
-            } catch (e) {
-              await Fluttertoast.showToast(msg: e.toString());
-            }
-
-            // Provider.of<NoteViewModel>(context)
-            //     .getDetailNote(noteDetail.id)
-            //     .then((value) => Navigator.push(
-            //         context,
-            //         MaterialPageRoute(
-            //           builder: (context) => Consumer<NoteViewModel>(
-            //             builder: (context, note, child) {
-            //               var data = note.noteDetail;
-            //               return NotesDetail(
-            //                 noteDetail: data,
-            // isOwner: isOwner,
-            //                 isUpload: isUpload,
-            //               );
-            //             },
-            //           ),
-            //         )));
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //       builder: (context) => NotesDetail(
-            //         noteDetail: noteDetail,
-            //         isOwner: isOwner,
-            //         isUpload: isUpload,
-            //       ),
-            //     ));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => NoteDetailClient(
+                    id: noteDetail.id,
+                  ),
+                ));
+            // try {
+            //   ;
+            // } catch (e) {
+            //   await Fluttertoast.showToast(msg: e.toString());
+            // }
           },
           child: Container(
             height: 135,
@@ -129,34 +74,35 @@ class _CardIncomingNotesUploadState extends State<CardIncomingNotesUpload> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  widget.noteDetail.subject,
+                                  noteDetail.subject,
                                   style: AppFont.semiBold16w500,
                                 ),
                               ),
                               Container(
                                 padding: EdgeInsets.all(4.0),
                                 decoration: BoxDecoration(
-                                  color: isUploaded
+                                  color: noteDetail.status != 'not_upload_yet'
                                       ? AppColor.completeColor
-                                      : AppColorRed.red4,
+                                      : AppColor.zeroColor,
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
                                 child: Text(
-                                  isUploaded ? 'Sudah Upload' : 'Belum Upload',
-                                  style: TextStyle(
-                                    fontStyle: FontStyle.normal,
-                                    color: isUploaded
-                                        ? AppColor.textprogresColor
-                                        : AppColor.errorColor,
-                                  ),
+                                  noteDetail.status != 'not_upload_yet'
+                                      ? 'Sudah Upload'
+                                      : 'Belum Upload',
+                                  style: noteDetail.status != 'not_upload_yet'
+                                      ? AppFont.textUploadDone
+                                      : AppFont.textUploadError,
                                 ),
                               ),
                             ],
                           ),
                           const SizedBox(height: 8.0),
                           Text(
-                            widget.noteDetail.description,
+                            noteDetail.description,
                             style: AppFont.regular12,
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ],
                       ),
@@ -180,7 +126,7 @@ class _CardIncomingNotesUploadState extends State<CardIncomingNotesUpload> {
                               ),
                               const SizedBox(width: 8.0),
                               Text(
-                                widget.noteDetail.owner.first.username,
+                                noteDetail.owner.username,
                                 style: AppFont.regular12,
                               ),
                             ],
@@ -188,7 +134,7 @@ class _CardIncomingNotesUploadState extends State<CardIncomingNotesUpload> {
                           Container(
                             child: Text(
                               DateFormat('dd MMMM yyyy', 'id_ID')
-                                  .format(widget.noteDetail.eventDate),
+                                  .format(noteDetail.eventDate),
                               style: AppFont.regular12,
                             ),
                           ),

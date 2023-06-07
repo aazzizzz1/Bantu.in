@@ -1,6 +1,6 @@
-import 'package:bantuin/components/card_incoming_notes_upload.dart';
+import 'package:bantuin/components/card_mynotes_client.dart';
 import 'package:bantuin/components/card_mynotes_personal.dart';
-import 'package:bantuin/components/card_mynotes_progres.dart';
+import 'package:bantuin/components/card_mynotes_admin.dart';
 import 'package:bantuin/components/daftar_catatan.dart';
 import 'package:bantuin/components/home_invitation.dart';
 import 'package:bantuin/components/list_daftar_catatan.dart';
@@ -47,9 +47,10 @@ class _HomePagesState extends State<HomePages> {
     Future.microtask(
         () => Provider.of<UsersViewModel>(context, listen: false).getUsers());
     Future.microtask(() =>
-        Provider.of<InvitationViewModel>(context, listen: false).fetchInvitation());
-    Future.microtask(() =>
-        Provider.of<ColumnViewModel>(context, listen: false).fetchColumn());
+        Provider.of<InvitationViewModel>(context, listen: false)
+            .fetchInvitation());
+    // Future.microtask(() =>
+    //     Provider.of<ColumnViewModel>(context, listen: false).fetchColumn());
     super.initState();
   }
 

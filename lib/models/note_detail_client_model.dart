@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'note_model.dart';
 
 class NoteDetailClientModel {
@@ -9,8 +7,8 @@ class NoteDetailClientModel {
   final DateTime eventDate;
   final DateTime reminder;
   final String notesType;
-  final List status;
-  final List<OwnerDetailModel> owner;
+  final String status;
+  final OwnerDetailModel owner;
   final String ringtone;
   final List file;
   final List<MemberDetailModel> member;
@@ -38,11 +36,7 @@ class NoteDetailClientModel {
         reminder: DateTime.parse(json['data']['reminder']),
         notesType: json['data']['note_type'] ?? [],
         status: json['data']['status'] ?? 'null',
-        owner: json['data']['owner'] != null
-            ? (json['data']['owner'] as List)
-                .map((e) => OwnerDetailModel.fromJson(e))
-                .toList()
-            : [],
+        owner: OwnerDetailModel.fromJson(json['data']['owner'][0]),
         ringtone: json['data']['ringtone'] ?? 'null',
         file: json['data']['file'],
         member: json['data']['member'] != null
