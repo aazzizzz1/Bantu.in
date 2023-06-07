@@ -1,14 +1,16 @@
+import 'package:bantuin/screens/note/file_preview_local.dart';
 import 'package:bantuin/screens/note/file_preview_screen.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
 import '../../constants/constant.dart';
 
-class NotesAllFile extends StatelessWidget {
-  final bool isClient;
-  final List file;
-  const NotesAllFile({super.key, required this.file, required this.isClient});
+class AllFileClient extends StatelessWidget {
+  final List<PlatformFile> file;
+
+  const AllFileClient({super.key, required this.file});
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +48,8 @@ class NotesAllFile extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => FilePreviewScreen(
+                            builder: (context) => FilePreviewLocal(
                               url: data,
-                              isAdmin: isClient == true ? false : true,
                             ),
                           ));
                     },
@@ -71,7 +72,8 @@ class NotesAllFile extends StatelessWidget {
                           SizedBox(
                             width: 280,
                             child: Text(
-                              data.substring(data.lastIndexOf("/") + 1),
+                              data.path.toString().substring(
+                                  data.path.toString().lastIndexOf("/") + 1),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                               style: AppFont.semiBold14,

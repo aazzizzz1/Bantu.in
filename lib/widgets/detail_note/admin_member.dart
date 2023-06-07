@@ -172,6 +172,7 @@ class AdminMember extends StatelessWidget {
                                       MaterialPageRoute(
                                           builder: (context) => NotesAllFile(
                                                 file: noteDetail.file,
+                                                isClient: false,
                                               )),
                                     );
                                   },

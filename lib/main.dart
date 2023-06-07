@@ -18,6 +18,7 @@ import 'package:bantuin/view_models/user_viewmodel.dart';
 import 'package:bantuin/view_models/tim_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/auth/register_screen.dart';
@@ -26,6 +27,7 @@ void main() async {
   runApp(const MyApp());
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   WidgetsFlutterBinding.ensureInitialized();
+  await FlutterDownloader.initialize(debug: true);
   await Alarm.init(showDebugLogs: true);
 }
 
