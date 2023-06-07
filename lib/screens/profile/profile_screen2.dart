@@ -316,26 +316,6 @@ class _ProfileScreen2State extends State<ProfileScreen2> {
                   },
                 ),
                 const SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RemainderScreen(),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'Buat remainder',
-                    style: AppFont.medium14,
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: AppColor.activeColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
                 _logout(context: context),
               ],
             ),

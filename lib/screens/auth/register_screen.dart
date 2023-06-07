@@ -131,8 +131,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Maaf anda belum memasukan nomor hp anda';
-                        } else if (value.length < 12) {
-                          return 'Maaf nomor hp anda kurang dari 12 digit';
+                        } else if (value.length < 10) {
+                          return 'Maaf nomor hp anda kurang dari 10 digit';
                         } else if (value.length > 13) {
                           return 'Maaf nomor hp anda lebih dari 13 digit';
                         } else if (value.contains(' ')) {

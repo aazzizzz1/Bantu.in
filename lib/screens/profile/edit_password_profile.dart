@@ -152,7 +152,7 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                       scrollPadding: const EdgeInsets.only(left: 10),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       controller: _passwordNewController,
-                      obscureText: obscure,
+                      obscureText: obscure2,
                       inputFormatters: [
                         LengthLimitingTextInputFormatter(16),
                         FilteringTextInputFormatter.allow(
@@ -195,7 +195,7 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                         suffixIcon: IconButton(
                           onPressed: () {
                             setState(() {
-                              obscure = !obscure;
+                              obscure2 = !obscure2;
                             });
                           },
                           icon: const Icon(
@@ -218,11 +218,11 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                       scrollPadding: const EdgeInsets.only(left: 10),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       controller: _passwordConfirmationController,
-                      obscureText: obscure,
+                      obscureText: obscure3,
                       inputFormatters: [
                         LengthLimitingTextInputFormatter(16),
                         FilteringTextInputFormatter.allow(
-                          RegExp("a-zA-Z0-9!@#\$%^&*()_+-{}|<>?]"),
+                          RegExp("[a-zA-Z0-9!@#\$%^&*()_+-{}|<>?]"),
                         ),
                       ],
                       validator: (value) {
@@ -265,7 +265,7 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                         suffixIcon: IconButton(
                           onPressed: () {
                             setState(() {
-                              obscure = !obscure;
+                              obscure3 = !obscure3;
                             });
                           },
                           icon: const Icon(

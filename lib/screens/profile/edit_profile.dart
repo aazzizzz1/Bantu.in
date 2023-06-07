@@ -27,7 +27,6 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _jobController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  bool obscure = true;
 
   @override
   void initState() {
@@ -80,10 +79,49 @@ class _EditProfileState extends State<EditProfile> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextFieldComponent(
-                      label: 'Username',
-                      hint: 'Masukkan username',
-                      type: 'username',
+                    Text(
+                      'Username',
+                      style: AppFont.labelTextForm,
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    TextFormField(
+                      scrollPadding: const EdgeInsets.only(left: 10),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(16),
+                        FilteringTextInputFormatter.allow(RegExp(r"[A-Za-z ]"))
+                      ],
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Maaf anda belum memasukan username anda';
+                        }
+                      },
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: AppColorNeutral.neutral1,
+                        hintText: 'Username',
+                        hintStyle: AppFont.hintTextField,
+                        focusedBorder: const OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: AppColorPrimary.primary6)),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: AppColorNeutral.neutral2),
+                          borderRadius: BorderRadius.circular(3),
+                        ),
+                        disabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: AppColorNeutral.neutral2),
+                          borderRadius: BorderRadius.circular(3),
+                        ),
+                        errorBorder: InputBorder.none,
+                        focusedErrorBorder: const OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: AppColorPrimary.primary6)),
+                        errorStyle: AppFont.errorTextForm,
+                      ),
                       controller: _usernameController,
                     ),
                     const SizedBox(height: 20.0),
@@ -92,6 +130,7 @@ class _EditProfileState extends State<EditProfile> {
                       hint: 'Masukkan email',
                       type: 'email',
                       email: true,
+                      lowerCase: true,
                       controller: _emailController,
                     ),
                     const SizedBox(height: 20.0),
@@ -115,33 +154,37 @@ class _EditProfileState extends State<EditProfile> {
                           final isValidForm = _formKey.currentState!.validate();
                           if (isValidForm) {
                             try {
-                              await user
-                                .updateUsers(
-                                  PostUsersModel(
-                                    username: _usernameController.text,
-                                    email: _emailController.text,
-                                    job: _jobController.text,
-                                    phone: _phoneController.text,
-                                  ),
-                                  widget.usersDetail,
-                                )
-                                .then(
-                                  (value) => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => BottomMenu(
-                                        currentTab: 4,
-                                        currentScreen: ProfileScreen2(),
-                                      ),
+                              await user.updateUsers(
+                                PostUsersModel(
+                                  username: _usernameController.text,
+                                  email: _emailController.text,
+                                  job: _jobController.text,
+                                  phone: _phoneController.text,
+                                ),
+                                widget.usersDetail,
+                              ).then((value) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => BottomMenu(
+                                      currentTab: 4,
+                                      currentScreen: ProfileScreen2(),
                                     ),
                                   ),
                                 );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Perbarui pengguna berhasil'),
+                                    backgroundColor: Colors.green, // Warna latar belakang notifikasi berhasil
+                                  ),
+                                );
+                              });
                             } catch (e) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(e.toString()),
                                 ),
-                              ); 
+                              );
                             }
                           }
                         },

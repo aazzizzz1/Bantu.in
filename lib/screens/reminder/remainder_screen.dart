@@ -29,26 +29,9 @@ class _RemainderScreenState extends State<RemainderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Remainder'),
-      //   actions: [
-      //     IconButton(
-      //       onPressed: () {
-      //       },
-      //       icon: const Icon(Icons.add),
-      //     ),
-      //   ],
-      // ),
       body: Container(
         child: ExampleAlarmHomeScreen(),
       ),
     );
-    // MaterialApp(
-    //   title: 'Remainder',
-    //   theme: ThemeData(
-    //     primarySwatch: Colors.blue,
-    //   ),
-    //   home: ExampleAlarmHomeScreen(),
-    // );
   }
 }

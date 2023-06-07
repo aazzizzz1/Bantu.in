@@ -9,6 +9,7 @@ import 'package:bantuin/view_models/column_viewmodel.dart';
 import 'package:bantuin/view_models/invitation_viewmodel.dart';
 import 'package:bantuin/view_models/login_viewmodel.dart';
 import 'package:bantuin/view_models/note_viewmodel.dart';
+import 'package:bantuin/view_models/notification_viewmodel.dart';
 import 'package:bantuin/view_models/password_viewmodel.dart';
 import 'package:bantuin/view_models/product_viewmodel.dart';
 import 'package:bantuin/view_models/register_viewmodel.dart';
@@ -66,6 +67,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => ColumnViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => NotificationViewModel(),
         ),
       ],
       child: MaterialApp(

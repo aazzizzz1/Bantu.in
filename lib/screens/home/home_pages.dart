@@ -13,6 +13,7 @@ import 'package:bantuin/utils/app_state.dart';
 import 'package:bantuin/view_models/column_viewmodel.dart';
 import 'package:bantuin/view_models/invitation_viewmodel.dart';
 import 'package:bantuin/view_models/note_viewmodel.dart';
+import 'package:bantuin/view_models/notification_viewmodel.dart';
 import 'package:bantuin/view_models/product_viewmodel.dart';
 import 'package:bantuin/widgets/floating_button/floating_home.dart';
 import 'package:bantuin/widgets/home/filtering_data.dart';
@@ -48,8 +49,10 @@ class _HomePagesState extends State<HomePages> {
         () => Provider.of<UsersViewModel>(context, listen: false).getUsers());
     Future.microtask(() =>
         Provider.of<InvitationViewModel>(context, listen: false).fetchInvitation());
+    // Future.microtask(() =>
+    //     Provider.of<ColumnViewModel>(context, listen: false).fetchColumn());
     Future.microtask(() =>
-        Provider.of<ColumnViewModel>(context, listen: false).fetchColumn());
+        Provider.of<NotificationViewModel>(context, listen: false).fetchNotif());
     super.initState();
   }
 
