@@ -6,6 +6,7 @@ import 'package:bantuin/models/invitation_model.dart';
 import 'package:bantuin/models/note_detail_client_model.dart';
 import 'package:bantuin/models/note_history_model.dart';
 import 'package:bantuin/models/note_model.dart';
+import 'package:bantuin/models/notification.dart';
 import 'package:bantuin/models/password_model.dart';
 import 'package:bantuin/models/post_forgot_password_model.dart';
 import 'package:bantuin/models/post_password_model.dart';
@@ -333,4 +334,16 @@ class AppsRepository {
     }
   }
   //  FEATURE INVITATION END
+
+  //NOTIFICATION
+  Future getNotif() async {
+    try {
+      final response = await _apiService.getRequest('/notifications');
+      NotificationModel notif = NotificationModel.fromJson(response);
+      return notif.notif;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 }

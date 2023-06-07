@@ -14,12 +14,21 @@ class ExampleAlarmRingScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Text(
-              "${alarmSettings.notificationTitle}",
-              style: Theme.of(context).textTheme.titleLarge,
+            Container(
+              alignment: Alignment.center,
+              child: Image.asset('lib/assets/images/Bantuin 2 GIF.gif'),
             ),
             Text("${alarmSettings.notificationTitle}",
                 style: TextStyle(fontSize: 50)),
+            Text(
+              "${alarmSettings.notificationBody}",
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            Text(
+              "Tanggal dan jam acara : ",
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            Text("${alarmSettings.dateTime}", style: TextStyle(fontSize: 25)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -41,7 +50,7 @@ class ExampleAlarmRingScreen extends StatelessWidget {
                     ).then((_) => Navigator.pop(context));
                   },
                   child: Text(
-                    "Snooze",
+                    "Tunda",
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
@@ -51,7 +60,7 @@ class ExampleAlarmRingScreen extends StatelessWidget {
                         .then((_) => Navigator.pop(context));
                   },
                   child: Text(
-                    "Stop",
+                    "Berhenti",
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),

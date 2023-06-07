@@ -1,3 +1,4 @@
+import 'package:bantuin/models/notification.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,28 +9,40 @@ import '../constants/color/app_color.dart';
 import '../constants/font/app_font.dart';
 
 class CardNotificationUpdate extends StatelessWidget {
-  final String user;
-  final String status;
-  final int time;
-  final String subject;
-  final bool accepted;
-  final String massage;
-  final bool? tim;
+  final DetailNotificationModel notif;
+  
+  // final String user;
+  // final String status;
+  // final int time;
+  // final String subject;
+  // final bool accepted;
+  // final String massage;
+  // final bool? tim;
+
+  // final String title;
+  // final String body;
+  // final String recipient;
+  // final bool read;
+  // final String sender;
+  // final String senderPlace;
+
   const CardNotificationUpdate({
     super.key,
-    required this.user,
-    required this.status,
-    required this.time,
-    required this.subject,
-    required this.accepted,
-    required this.massage,
-    this.tim,
+    // required this.user,
+    // required this.status,
+    // required this.time,
+    // required this.subject,
+    // required this.accepted,
+    // required this.massage,
+    // this.tim,
+    required this.notif,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 120,
+      margin: const EdgeInsets.only(bottom: 8),
+      height: MediaQuery.of(context).size.height * 0.2,
       width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -71,17 +84,18 @@ class CardNotificationUpdate extends StatelessWidget {
             children: [
               SizedBox(
                 width: MediaQuery.of(context).size.width - 100,
+                height: 50,
                 child: RichText(
                   overflow: TextOverflow.visible,
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: user,
+                        text: notif.sender,
                         style: AppFont.semiBold14,
                       ),
                       TextSpan(
-                        text: " $status",
-                        style: accepted
+                        text: notif.read == true ? " mengupdate " : " menghapus ",
+                        style: notif.read == true
                             ? AppFont.textNotificationActive
                             : AppFont.textNotificationError,
                       ),
@@ -90,7 +104,7 @@ class CardNotificationUpdate extends StatelessWidget {
                         style: AppFont.medium14,
                       ),
                       TextSpan(
-                        text: "\n$time menit lalu",
+                        text:  "\n ${notif.body} menit lalu",
                         style: AppFont.textNotificationTime,
                       ),
                     ],
@@ -100,7 +114,7 @@ class CardNotificationUpdate extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  tim != null
+                  notif.senderPlace != null
                       ? SvgPicture.asset(
                           'lib/assets/icons/Team.svg',
                           color: AppColorPrimary.primary6,
@@ -115,7 +129,9 @@ class CardNotificationUpdate extends StatelessWidget {
                     width: 8,
                   ),
                   Text(
-                    subject,
+                    notif.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: AppFont.textInvitation,
                   ),
                 ],
@@ -130,7 +146,10 @@ class CardNotificationUpdate extends StatelessWidget {
                       width: 8,
                     ),
                     Text(
-                      massage,
+                      notif.title,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      // massage,
                       style: AppFont.medium14,
                     ),
                   ],
