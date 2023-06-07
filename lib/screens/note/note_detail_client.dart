@@ -1,21 +1,23 @@
 import 'dart:io';
 
-import 'package:bantuin/models/note_model.dart';
+import 'package:bantuin/screens/note/all_file_client.dart';
 import 'package:bantuin/screens/note/file_preview_local.dart';
 import 'package:bantuin/screens/note/file_preview_screen.dart';
+import 'package:bantuin/screens/note/notes_all_file.dart';
+import 'package:bantuin/widgets/detail_note/client_camera.dart';
 import 'package:bantuin/widgets/shimmer_loading/shimmer_container.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+// import 'package:path/path.dart';
 
 import '../../constants/constant.dart';
-import '../../models/note_detail_client_model.dart';
 import '../../utils/app_state.dart';
 import '../../view_models/note_viewmodel.dart';
 import '../../widgets/detail_note/client_date.dart';
@@ -34,6 +36,8 @@ class _NoteDetailClientState extends State<NoteDetailClient> {
   List<PlatformFile> platformFileUrl = [];
   bool isUpload = false;
   bool isActive = false;
+  List<File> images = [];
+  File? image;
 
   @override
   void initState() {
@@ -294,6 +298,8 @@ class _NoteDetailClientState extends State<NoteDetailClient> {
       }
     }
 
+    // CAMERA FEATURE
+
     return Consumer<NoteViewModel>(
       builder: (context, value, child) {
         return Column(
@@ -311,11 +317,67 @@ class _NoteDetailClientState extends State<NoteDetailClient> {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () async {
-                if (platformFileUrl.isEmpty) {
-                  _pickMultipleFiles();
-                } else {
-                  _pickFile();
-                }
+                showModalBottomSheet(
+                  backgroundColor: Colors.transparent,
+                  context: context,
+                  builder: (context) => Container(
+                    height: MediaQuery.of(context).size.height / 4.5,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10))),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        //CAMERA FAETURED
+                        // ClientCamera(
+                        //   onChanged: (value) async {
+                        //     print('Uhuuuy $value');
+                        //     setState(() {
+                        //       image = value;
+                        //       // images.add(value);
+                        //     });
+                        //   },
+                        // ),
+                        ElevatedButton(
+                          onPressed: () async {
+                            if (platformFileUrl.isEmpty) {
+                              _pickMultipleFiles();
+                            } else {
+                              _pickFile();
+                            }
+                          },
+                          style: ButtonStyle(
+                            overlayColor: MaterialStateProperty.all(
+                                AppColorNeutral.neutral2),
+                            padding: MaterialStateProperty.all(
+                              const EdgeInsets.symmetric(vertical: 10),
+                            ),
+                            elevation: MaterialStateProperty.all(0),
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.white),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.phone_iphone_rounded,
+                                color: Colors.black,
+                              ),
+                              SizedBox(width: 32),
+                              Text(
+                                "Pilih file di HP",
+                                style: AppFont.textBottomSheet,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
               },
               style: ButtonStyle(
                 overlayColor:
@@ -352,14 +414,31 @@ class _NoteDetailClientState extends State<NoteDetailClient> {
                             style: AppFont.semiBold14,
                           ),
                           TextButton(
-                            onPressed: () {
+                            onPressed: () async {
+                              if (value.noteDetailClient.file.isEmpty) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          AllFileClient(file: platformFileUrl),
+                                    ));
+                              } else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => NotesAllFile(
+                                        file: value.noteDetailClient.file,
+                                        isClient: true,
+                                      ),
+                                    ));
+                              }
                               // Action to perform when the button is pressed
                             },
                             child: Text('Lihat Semua'),
                           ),
                         ],
                       ),
-                      openFiles(platformFileUrl),
+                      openFiles(),
                     ],
                   )
                 : const SizedBox(),
@@ -369,7 +448,7 @@ class _NoteDetailClientState extends State<NoteDetailClient> {
     );
   }
 
-  Widget openFiles(List<PlatformFile> files) {
+  Widget openFiles() {
     return SizedBox(
       height: 150,
       width: MediaQuery.of(context).size.width,
@@ -381,7 +460,10 @@ class _NoteDetailClientState extends State<NoteDetailClient> {
                     .map((e) => GestureDetector(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => FilePreviewScreen(url: e),
+                              builder: (context) => FilePreviewScreen(
+                                url: e,
+                                isAdmin: false,
+                              ),
                             ));
                           },
                           child: Container(
@@ -417,7 +499,9 @@ class _NoteDetailClientState extends State<NoteDetailClient> {
                 : platformFileUrl
                     .map((e) => GestureDetector(
                           onTap: () {
-                            OpenFile.open(e.path);
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => FilePreviewLocal(url: e),
+                            ));
                           },
                           child: Container(
                             height: 60,
@@ -450,6 +534,44 @@ class _NoteDetailClientState extends State<NoteDetailClient> {
                           ),
                         ))
                     .toList(),
+            // [Image.file(image!)]
+            // images
+            //     .map((e) => GestureDetector(
+            //           onTap: () {
+            //             OpenFile.open(e.path);
+            //           },
+            //           child: Container(
+            //             height: 60,
+            //             width: MediaQuery.of(context).size.width,
+            //             alignment: Alignment.center,
+            //             decoration: BoxDecoration(
+            //               borderRadius: BorderRadius.circular(8),
+            //               color: AppColorNeutral.neutral2,
+            //             ),
+            //             child: Container(
+            //               height: 40,
+            //               width: MediaQuery.of(context).size.width,
+            //               padding: const EdgeInsets.only(left: 10.0),
+            //               alignment: Alignment.centerLeft,
+            //               decoration: const BoxDecoration(
+            //                 borderRadius: BorderRadius.only(
+            //                   bottomLeft: Radius.circular(8),
+            //                   bottomRight: Radius.circular(8),
+            //                 ),
+            //                 color: AppColorNeutral.neutral2,
+            //               ),
+            //               child: Text(
+            //                 // e.substring(e.lastIndexOf("/") + 1)
+            //                 e.path,
+            //                 // e.toString().substring(
+            //                 //     e.toString().lastIndexOf("/") + 1),
+            //                 style: AppFont.regular12,
+            //               ),
+            //             ),
+            //           ),
+            //         ))
+            //     .toList(),
+            // ======== FILE FROM PHONE
           );
         },
       ),

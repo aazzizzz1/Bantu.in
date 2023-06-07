@@ -1,12 +1,13 @@
 import 'dart:io';
+import 'dart:isolate';
+import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:flowder/flowder.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 class FilePreviewScreen extends StatefulWidget {
   final String url;
@@ -18,34 +19,91 @@ class FilePreviewScreen extends StatefulWidget {
 }
 
 class _FilePreviewScreenState extends State<FilePreviewScreen> {
-  late DownloaderUtils options;
-  late DownloaderCore core;
+  // late DownloaderUtils options;
+  // late DownloaderCore core;
   late final String path;
+  ReceivePort _port = ReceivePort();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    initPlatformState();
+    // NEW DOWNLOADER
+    IsolateNameServer.registerPortWithName(
+        _port.sendPort, 'downloader_send_port');
+    _port.listen((dynamic data) {
+      String id = data[0];
+      DownloadTaskStatus status = DownloadTaskStatus(data[1]);
+      int progress = data[2];
+      if (status == DownloadTaskStatus.complete) {
+        ScaffoldMessenger.of(context).showMaterialBanner(
+          MaterialBanner(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            forceActionsBelow: true,
+            content: AwesomeSnackbarContent(
+              title: 'Selesai!!',
+              message:
+                  'Berhasil download ${widget.url.substring(data.lastIndexOf("/") + 1)}',
+              contentType: ContentType.success,
+              inMaterialBanner: true,
+            ),
+            actions: const [SizedBox.shrink()],
+          ),
+        );
+      }
+
+      if (status == DownloadTaskStatus.failed) {
+        ScaffoldMessenger.of(context).showMaterialBanner(
+          MaterialBanner(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            forceActionsBelow: true,
+            content: AwesomeSnackbarContent(
+              title: 'Gagal!!',
+              message: 'Gagal unduh file',
+              contentType: ContentType.failure,
+              inMaterialBanner: true,
+            ),
+            actions: const [SizedBox.shrink()],
+          ),
+        );
+      }
+      setState(() {});
+    });
+
+    FlutterDownloader.registerCallback(downloadCallback);
   }
 
-  void _setPath() async {
-    Directory _path = await getApplicationDocumentsDirectory();
+  @override
+  void dispose() {
+    IsolateNameServer.removePortNameMapping('downloader_send_port');
+    super.dispose();
+  }
 
-    String _localPath = _path.path + Platform.pathSeparator + 'Download';
+  @pragma('vm:entry-point')
+  static void downloadCallback(String id, int status, int progress) {
+    final SendPort? send =
+        IsolateNameServer.lookupPortByName('downloader_send_port');
+    send!.send([id, status, progress]);
+  }
 
-    final savedDir = Directory(_localPath);
-    bool hasExisted = await savedDir.exists();
-    if (!hasExisted) {
-      savedDir.create();
+  Future download(String url) async {
+    var status = await Permission.storage.request();
+    final baseStorage = await getExternalStorageDirectories();
+    if (status.isGranted) {
+      // We didn't ask for permission yet or the permission has been denied before but not permanently.
+      await FlutterDownloader.enqueue(
+        url: url,
+        headers: {}, // optional: header send with url (auth token etc)
+        savedDir: baseStorage!.first.path,
+        showNotification:
+            true, // show download progress in status bar (for Android)
+        openFileFromNotification:
+            true, // click on notification to open downloaded file (for Android)
+      );
     }
-
-    path = _localPath;
-  }
-
-  Future<void> initPlatformState() async {
-    _setPath();
-    if (!mounted) return;
   }
 
   @override
@@ -62,69 +120,11 @@ class _FilePreviewScreenState extends State<FilePreviewScreen> {
           color: Colors.black,
         ),
         actions: [
-          widget.isAdmin != null
+          widget.isAdmin != false
               ? IconButton(
                   onPressed: () async {
-                    options = DownloaderUtils(
-                      progress: ProgressImplementation(),
-                      file: File(
-                          '$path/${widget.url.substring(widget.url.lastIndexOf("/") + 1)}'),
-                      onDone: () =>
-                          Fluttertoast.showToast(msg: 'Download berhasil')
-                              .then((value) => Navigator.pop(context)),
-                      progressCallback: (current, total) {
-                        final progress = (current / total) * 100;
-                        print('Downloading: $progress');
-                      },
-                    );
-                    // options = DownloaderUtils(
-                    //   progressCallback: (current, total) {
-                    //     final progress = (current / total) * 100;
-                    //     print('Downloading: $progress');
-
-                    //     setState(() {
-                    //       fileList[index].progress = (current / total);
-                    //     });
-                    //   },
-                    //   file: File('$path/${fileList[index].fileName}'),
-                    //   progress: ProgressImplementation(),
-                    //   onDone: () {
-                    //     setState(() {
-                    //       fileList[index].progress = 0.0;
-                    //     });
-                    //     OpenFile.open('$path/${fileList[index].fileName}')
-                    //         .then((value) {
-                    //       // delete the file.
-                    //       File f = File('$path/${fileList[index].fileName}');
-                    //       f.delete();
-                    //     });
-                    //   },
-                    //   deleteOnCancel: true,
-                    // );
-                    core = await Flowder.download(
-                      widget.url,
-                      options,
-                    );
+                    download(widget.url);
                   },
-                  // icon: Column(
-                  //   children: [
-                  //     if (fileList[index].progress == 0.0)
-                  //       Icon(
-                  //         Icons.download,
-
-                  //       ),
-                  //     if (fileList[index].progress != 0.0)
-                  //       LinearPercentIndicator(
-                  //         width: 100.0,
-                  //         lineHeight: 14.0,
-                  //         percent: fileList[index].progress!,
-                  //         backgroundColor: Colors.blue,
-                  //         progressColor: Colors.white,
-                  //       ),
-                  //   ],
-                  // )
-                  // fileList[index].progress != 0.0 ?
-                  // ,
                   icon: Icon(Icons.download_sharp),
                   color: Colors.black,
                 )
