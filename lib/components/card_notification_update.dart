@@ -11,14 +11,6 @@ import '../constants/font/app_font.dart';
 class CardNotificationUpdate extends StatelessWidget {
   final DetailNotificationModel notif;
 
-  // final String user;
-  // final String status;
-  // final int time;
-  // final String subject;
-  // final bool accepted;
-  // final String massage;
-  // final bool? tim;
-
   // final String title;
   // final String body;
   // final String recipient;
@@ -28,13 +20,6 @@ class CardNotificationUpdate extends StatelessWidget {
 
   const CardNotificationUpdate({
     super.key,
-    // required this.user,
-    // required this.status,
-    // required this.time,
-    // required this.subject,
-    // required this.accepted,
-    // required this.massage,
-    // this.tim,
     required this.notif,
   });
 
@@ -114,28 +99,35 @@ class CardNotificationUpdate extends StatelessWidget {
                     ),
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    notif.senderPlace != null
-                        ? SvgPicture.asset(
-                            'lib/assets/icons/Team.svg',
-                            color: AppColorPrimary.primary6,
-                            height: 24,
-                          )
-                        : SvgPicture.asset(
-                            'lib/assets/icons/Task 2.svg',
-                            color: AppColorPrimary.primary6,
-                            height: 24,
-                          ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Text(
-                      notif.title,
-                      style: AppFont.textInvitation,
-                    ),
-                  ],
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 100,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      notif.senderPlace != null
+                          ? SvgPicture.asset(
+                              'lib/assets/icons/Team.svg',
+                              color: AppColorPrimary.primary6,
+                              height: 24,
+                            )
+                          : SvgPicture.asset(
+                              'lib/assets/icons/Task 2.svg',
+                              color: AppColorPrimary.primary6,
+                              height: 24,
+                            ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Flexible(
+                        child: Text(
+                          notif.title,
+                          style: AppFont.medium14,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width - 100,
@@ -146,15 +138,14 @@ class CardNotificationUpdate extends StatelessWidget {
                         'Pesan :',
                         style: AppFont.semiBold14,
                       ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Text(
-                        notif.body,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        // massage,
-                        style: AppFont.medium14,
+                      SizedBox(width: 8),
+                      Flexible(
+                        child: Text(
+                          notif.body,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: AppFont.medium14,
+                        ),
                       ),
                     ],
                   ),

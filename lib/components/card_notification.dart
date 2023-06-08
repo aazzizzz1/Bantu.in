@@ -111,30 +111,35 @@ class CardNotification extends StatelessWidget {
                     ),
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    notif.senderPlace != null
-                        ? SvgPicture.asset(
-                            'lib/assets/icons/Team.svg',
-                            color: AppColorPrimary.primary6,
-                            height: 24,
-                          )
-                        : SvgPicture.asset(
-                            'lib/assets/icons/Task 2.svg',
-                            color: AppColorPrimary.primary6,
-                            height: 24,
-                          ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Text(
-                      notif.title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppFont.textInvitation,
-                    ),
-                  ],
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 100,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      notif.senderPlace != null
+                          ? SvgPicture.asset(
+                              'lib/assets/icons/Team.svg',
+                              color: AppColorPrimary.primary6,
+                              height: 24,
+                            )
+                          : SvgPicture.asset(
+                              'lib/assets/icons/Task 2.svg',
+                              color: AppColorPrimary.primary6,
+                              height: 24,
+                            ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Flexible(
+                        child: Text(
+                          notif.title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppFont.textInvitation,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
