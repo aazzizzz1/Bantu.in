@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../constants/color/app_color.dart';
 import '../constants/font/app_font.dart';
@@ -30,7 +31,9 @@ class CardRedeemPoint extends StatelessWidget {
         height: 160,
         width: 225,
         decoration: BoxDecoration(
-          color: AppColorPrimary.primary1,
+          image: DecorationImage(
+              image: NetworkImage(product.photoProduct), fit: BoxFit.fill),
+          // color: AppColorPrimary.primary1,
           borderRadius: BorderRadius.circular(8),
           boxShadow: const [
             BoxShadow(

@@ -303,9 +303,20 @@ class AppsRepository {
       await _apiService.postRequest(
         '/transactions',
         {
-          "user_note_id": "$id",
-          "point_type": type,
+          "product_id": id,
+          "point_type": "redeemed",
         },
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> earnedPoint(int id) async {
+    try {
+      await _apiService.postRequest(
+        '/transactions',
+        {"user_note_id": "$id", "point_type": "earned"},
       );
     } catch (e) {
       rethrow;
@@ -345,5 +356,4 @@ class AppsRepository {
       rethrow;
     }
   }
-
 }
