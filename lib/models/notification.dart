@@ -19,7 +19,7 @@ class DetailNotificationModel {
   final String recipient;
   final bool read;
   final String sender;
-  final String senderPlace;
+  final int senderPlace;
 
   DetailNotificationModel({
     required this.title,
@@ -37,6 +37,6 @@ class DetailNotificationModel {
         recipient: json['recipient'] ?? 'null',
         read: json['read'] ?? false,
         sender: json['sender'] ?? 'null',
-        senderPlace: json['sender_place'] ?? 'null',
+        senderPlace: json['sender_place'] ?? 0, // Ubah menjadi 0 sebagai nilai default
       );
 }
