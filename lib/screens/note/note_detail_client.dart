@@ -534,44 +534,6 @@ class _NoteDetailClientState extends State<NoteDetailClient> {
                           ),
                         ))
                     .toList(),
-            // [Image.file(image!)]
-            // images
-            //     .map((e) => GestureDetector(
-            //           onTap: () {
-            //             OpenFile.open(e.path);
-            //           },
-            //           child: Container(
-            //             height: 60,
-            //             width: MediaQuery.of(context).size.width,
-            //             alignment: Alignment.center,
-            //             decoration: BoxDecoration(
-            //               borderRadius: BorderRadius.circular(8),
-            //               color: AppColorNeutral.neutral2,
-            //             ),
-            //             child: Container(
-            //               height: 40,
-            //               width: MediaQuery.of(context).size.width,
-            //               padding: const EdgeInsets.only(left: 10.0),
-            //               alignment: Alignment.centerLeft,
-            //               decoration: const BoxDecoration(
-            //                 borderRadius: BorderRadius.only(
-            //                   bottomLeft: Radius.circular(8),
-            //                   bottomRight: Radius.circular(8),
-            //                 ),
-            //                 color: AppColorNeutral.neutral2,
-            //               ),
-            //               child: Text(
-            //                 // e.substring(e.lastIndexOf("/") + 1)
-            //                 e.path,
-            //                 // e.toString().substring(
-            //                 //     e.toString().lastIndexOf("/") + 1),
-            //                 style: AppFont.regular12,
-            //               ),
-            //             ),
-            //           ),
-            //         ))
-            //     .toList(),
-            // ======== FILE FROM PHONE
           );
         },
       ),

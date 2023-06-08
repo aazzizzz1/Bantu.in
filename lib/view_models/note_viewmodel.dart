@@ -322,7 +322,7 @@ class NoteViewModel with ChangeNotifier {
         );
         await Alarm.set(alarmSettings: alarmSetting);
         print(
-            'berhasil menambahkan ${_listOfUpcomingNote[i].subject } ${DateFormat.yMd().add_jm().format(listOfUpcomingNote[i].reminder)}');
+            'berhasil menambahkan ${_listOfUpcomingNote[i].subject} ${DateFormat.yMd().add_jm().format(listOfUpcomingNote[i].reminder)}');
       }
       print('gagal $i');
     }
@@ -346,6 +346,15 @@ class NoteViewModel with ChangeNotifier {
   Future<void> filterAscPassed() async {
     _listOfPassedNote.sort((a, b) => (a.eventDate).compareTo(b.eventDate));
     notifyListeners();
+  }
+
+  Future<void> earnedPoint(NoteDetailModel note) async {
+    try {
+      await appsRepository.earnedPoint(note.id);
+      notifyListeners();
+    } catch (_) {
+      rethrow;
+    }
   }
 }
 

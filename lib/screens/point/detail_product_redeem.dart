@@ -1,8 +1,10 @@
 import 'package:bantuin/constants/button/app_button.dart';
 import 'package:bantuin/models/product_point_model.dart';
+import 'package:bantuin/view_models/product_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:bantuin/constants/constant.dart';
 import 'package:flutter_lorem/flutter_lorem.dart';
+import 'package:provider/provider.dart';
 
 class DetailProductRedeem extends StatefulWidget {
   final DetailProductPointModel detailProduct;
@@ -75,65 +77,78 @@ class _DetailProductRedeemState extends State<DetailProductRedeem> {
                       ],
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        showDialog(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text(
-                                'Yeaay, anda berhasil menukarkan point dengan 10 notes',
-                                textAlign: TextAlign.center,
-                                style: AppFont.textSubjectOrTitle,
-                              ),
-                              content: Text(
-                                'Anda mendapatkan 10 notes untuk pekerjaan anda sehari-hari. Selamat menggunakan.',
-                                textAlign: TextAlign.center,
-                                style: AppFont.textDescription,
-                              ),
-                              actionsPadding: const EdgeInsets.only(
-                                  left: 18, right: 18, bottom: 16),
-                              actions: [
-                                ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  style: const ButtonStyle(
-                                    padding: MaterialStatePropertyAll(
-                                        EdgeInsets.all(16.0)),
-                                    elevation: MaterialStatePropertyAll(0),
-                                    backgroundColor: MaterialStatePropertyAll(
-                                        AppColor.activeColor),
+                  Consumer<ProductViewModel>(
+                    builder: (context, product, child) {
+                      return Align(
+                        alignment: Alignment.bottomCenter,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            await product
+                                .reedemPoint(widget.detailProduct)
+                                .then(
+                                  (value) => showDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text(
+                                          'Yeaay, anda berhasil menukarkan point dengan 10 notes',
+                                          textAlign: TextAlign.center,
+                                          style: AppFont.textSubjectOrTitle,
+                                        ),
+                                        content: Text(
+                                          'Anda mendapatkan 10 notes untuk pekerjaan anda sehari-hari. Selamat menggunakan.',
+                                          textAlign: TextAlign.center,
+                                          style: AppFont.textDescription,
+                                        ),
+                                        actionsPadding: const EdgeInsets.only(
+                                            left: 18, right: 18, bottom: 16),
+                                        actions: [
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            style: const ButtonStyle(
+                                              padding: MaterialStatePropertyAll(
+                                                  EdgeInsets.all(16.0)),
+                                              elevation:
+                                                  MaterialStatePropertyAll(0),
+                                              backgroundColor:
+                                                  MaterialStatePropertyAll(
+                                                      AppColor.activeColor),
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                'Kembali ke tawaran',
+                                                style: AppFont
+                                                    .textFillButtonActive,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
                                   ),
-                                  child: Center(
-                                    child: Text(
-                                      'Kembali ke tawaran',
-                                      style: AppFont.textFillButtonActive,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
+                                );
+
+                            // Navigator.pop(context);
                           },
-                        );
-                        // Navigator.pop(context);
-                      },
-                      style: const ButtonStyle(
-                        padding: MaterialStatePropertyAll(EdgeInsets.all(16.0)),
-                        elevation: MaterialStatePropertyAll(0),
-                        backgroundColor:
-                            MaterialStatePropertyAll(AppColor.activeColor),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Tukarkan point',
-                          style: AppFont.textFillButtonActive,
+                          style: const ButtonStyle(
+                            padding:
+                                MaterialStatePropertyAll(EdgeInsets.all(16.0)),
+                            elevation: MaterialStatePropertyAll(0),
+                            backgroundColor:
+                                MaterialStatePropertyAll(AppColor.activeColor),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Tukarkan point',
+                              style: AppFont.textFillButtonActive,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                 ],
               ),

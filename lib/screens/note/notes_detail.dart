@@ -213,14 +213,87 @@ class _NotesDetailState extends State<NotesDetail> {
                                     ? null
                                     : () async {
                                         try {
-                                          await noteView
-                                              .completeNote('completed',
-                                                  widget.noteDetail)
-                                              .then((value) =>
-                                                  Fluttertoast.showToast(
-                                                      msg: 'Catatan selesai'))
-                                              .then((value) =>
-                                                  Navigator.pop(context));
+                                          await noteView.completeNote(
+                                              'completed', widget.noteDetail);
+
+                                          setState(() {});
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return AlertDialog(
+                                                title: Text(
+                                                  'Selamat, anda telah menyelesaikan catatan ini',
+                                                  textAlign: TextAlign.center,
+                                                  style: AppFont
+                                                      .textSubjectOrTitle,
+                                                ),
+                                                content: Text(
+                                                  'Anda mendapatkan point sebesar 100. Semangat terus mengerjakan tugasnya.',
+                                                  textAlign: TextAlign.center,
+                                                  style:
+                                                      AppFont.textDescription,
+                                                ),
+                                                actionsPadding:
+                                                    const EdgeInsets.only(
+                                                        left: 18,
+                                                        right: 18,
+                                                        bottom: 16),
+                                                actions: [
+                                                  ElevatedButton(
+                                                    onPressed: () async {
+                                                      try {
+                                                        await noteView
+                                                            .earnedPoint(widget
+                                                                .noteDetail)
+                                                            .then((value) =>
+                                                                Fluttertoast
+                                                                    .showToast(
+                                                                        msg:
+                                                                            'Horeeeee!!!!!'))
+                                                            .then((value) =>
+                                                                Navigator.pop(
+                                                                    context));
+                                                      } catch (e) {
+                                                        await Fluttertoast
+                                                            .showToast(
+                                                                msg: e
+                                                                    .toString());
+                                                      }
+                                                      setState(() {});
+                                                    },
+                                                    style: const ButtonStyle(
+                                                      padding:
+                                                          MaterialStatePropertyAll(
+                                                              EdgeInsets.all(
+                                                                  16.0)),
+                                                      elevation:
+                                                          MaterialStatePropertyAll(
+                                                              0),
+                                                      backgroundColor:
+                                                          MaterialStatePropertyAll(
+                                                              AppColor
+                                                                  .activeColor),
+                                                    ),
+                                                    child: Center(
+                                                      child: Text(
+                                                        'Terima',
+                                                        style: AppFont
+                                                            .textFillButtonActive,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                          // await noteView
+                                          //     .completeNote('completed',
+                                          //         widget.noteDetail)
+                                          //     .then((value) =>
+                                          //         Fluttertoast.showToast(
+                                          //             msg: 'Catatan selesai'))
+                                          //     .then((value) =>
+                                          //         Navigator.pop(context));
                                         } catch (e) {
                                           await Fluttertoast.showToast(
                                               msg: e.toString());
