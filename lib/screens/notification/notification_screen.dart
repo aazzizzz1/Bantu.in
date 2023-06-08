@@ -59,7 +59,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       )
                     : SizedBox(
                         width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height * 0.895,
+                        height: MediaQuery.of(context).size.height * 0.885,
                         child: ListView.builder(
                           physics: BouncingScrollPhysics(),
                           scrollDirection: Axis.vertical,
@@ -78,7 +78,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               ],
             );
           } else {
-            return Container();
+            return SizedBox();
           }
         },
       ),
