@@ -39,7 +39,11 @@ class _DetailProductRedeemState extends State<DetailProductRedeem> {
               width: MediaQuery.of(context).size.width,
               height: 200,
               decoration: BoxDecoration(
-                color: AppColorPrimary.primary1,
+                image: DecorationImage(
+                  image: NetworkImage(widget.detailProduct.photoProduct),
+                  fit: BoxFit.fill,
+                ),
+                // color: AppColorPrimary.primary1,
               ),
               child: Text(''),
             ),

@@ -16,19 +16,27 @@ class ExampleAlarmRingScreen extends StatelessWidget {
           children: [
             Container(
               alignment: Alignment.center,
-              child: Image.asset('lib/assets/images/Bantuin 2 GIF.gif'),
+              child: Column(
+                children: [
+                  Image.asset('lib/assets/images/Bantuin 2 GIF.gif'),                  
+                  SizedBox(height: 130,),
+                  Text("${alarmSettings.notificationTitle}",
+                      style: TextStyle(fontSize: 50)),
+                  SizedBox(height: 20,),
+                  Text(
+                    "${alarmSettings.notificationBody}",
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  SizedBox(height: 20,),
+                  Text(
+                    "Tanggal dan jam acara : ",
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  SizedBox(height: 20,),
+                  Text("${alarmSettings.dateTime}", style: TextStyle(fontSize: 25)),
+                ],
+              ),
             ),
-            Text("${alarmSettings.notificationTitle}",
-                style: TextStyle(fontSize: 50)),
-            Text(
-              "${alarmSettings.notificationBody}",
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            Text(
-              "Tanggal dan jam acara : ",
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            Text("${alarmSettings.dateTime}", style: TextStyle(fontSize: 25)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [

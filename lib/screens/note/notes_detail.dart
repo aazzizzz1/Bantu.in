@@ -193,10 +193,12 @@ class _NotesDetailState extends State<NotesDetail> {
                         ),
                         SizedBox(height: 24.0),
                         AdminDate(
-                            eventDate: DateFormat('dd MMMM yyyy', 'id_ID')
-                                .format(noteView.noteDetailAdmin.eventDate),
-                            reminder: DateFormat('dd MMMM yyyy', 'id_ID')
-                                .format(noteView.noteDetailAdmin.reminder),
+                            eventDate:
+                                DateFormat('dd MMMM yyyy hh:mm aa', 'id_ID')
+                                    .format(noteView.noteDetailAdmin.eventDate),
+                            reminder:
+                                DateFormat('dd MMMM yyyy hh:mm aa', 'id_ID')
+                                    .format(noteView.noteDetailAdmin.reminder),
                             ringtone: noteView.noteDetailAdmin.ringtone),
                       ],
                     ),

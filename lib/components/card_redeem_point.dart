@@ -32,7 +32,9 @@ class CardRedeemPoint extends StatelessWidget {
         width: 225,
         decoration: BoxDecoration(
           image: DecorationImage(
-              image: NetworkImage(product.photoProduct), fit: BoxFit.fill),
+            image: NetworkImage(product.photoProduct),
+            fit: BoxFit.fill,
+          ),
           // color: AppColorPrimary.primary1,
           borderRadius: BorderRadius.circular(8),
           boxShadow: const [

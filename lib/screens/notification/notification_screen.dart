@@ -59,7 +59,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       )
                     : SizedBox(
                         width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height * 0.8,
+                        height: MediaQuery.of(context).size.height * 0.885,
                         child: ListView.builder(
                           physics: BouncingScrollPhysics(),
                           scrollDirection: Axis.vertical,
@@ -78,7 +78,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               ],
             );
           } else {
-            return Container();
+            return SizedBox();
           }
         },
       ),
@@ -99,3 +99,50 @@ class _NotificationScreenState extends State<NotificationScreen> {
     );
   }
 }
+
+// CardNotificationUpdate(
+//   user: 'Masbro',
+//   status: 'mengedit',
+//   time: 6,
+//   subject: 'Ulang Tahun Adik',
+//   massage: 'Halo, aku mau mengedit acara ',
+//   accepted: true,
+// ),
+// CardNotificationUpdate(
+//   user: 'Masbro',
+//   status: 'menghapus',
+//   time: 6,
+//   subject: 'Ulang Tahun Adik',
+//   massage: 'Halo, aku mau menghapus acara ',
+//   accepted: false,
+// ),
+// CardNotification(
+//   user: 'Nadim Makrim',
+//   status: 'menolak',
+//   time: 10,
+//   subject: 'Membeli tiket pesawat',
+//   accepted: false,
+// ),
+// CardNotification(
+//   user: 'Asep',
+//   status: 'menerima',
+//   time: 10,
+//   subject: 'Membeli tiket pesawat',
+//   accepted: true,
+// ),
+// CardNotification(
+//   user: 'Asep',
+//   status: 'menerima',
+//   time: 1,
+//   tim: true,
+//   subject: 'Tim 4 - Qatros',
+//   accepted: true,
+// ),
+// CardNotification(
+//   user: 'John',
+//   status: 'menolak',
+//   time: 10,
+//   tim: true,
+//   subject: 'Tim 4 - Qatros',
+//   accepted: false,
+// ),
