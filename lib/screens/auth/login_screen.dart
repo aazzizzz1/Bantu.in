@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  
+
   bool obscure = true;
   @override
   Widget build(BuildContext context) {
