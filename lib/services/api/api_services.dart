@@ -203,16 +203,16 @@ class ApiServices {
       case 400:
         final responseBody = json.decode(response.body);
         print(responseBody);
-        throw json.decode(response.body)['message'];
+        throw json.decode(response.body)['message'] ?? json.decode(response.body)['error'];
       case 401:
         final responseBody = json.decode(response.body);
         print(responseBody);
         // throw Exception(json.decode(response.body)['message']);
-        throw json.decode(response.body)['message'];
+        throw json.decode(response.body)['message'] ?? json.decode(response.body)['error'];
       case 404:
         final responseBody = json.decode(response.body);
         print(responseBody);
-        throw Exception(json.decode(response.body)['message']);
+        throw Exception(json.decode(response.body)['message'] ?? json.decode(response.body)['error']);
       // throw json.decode(response.body)['message'];
       case 422:
         final responseBody = json.decode(response.body);
@@ -220,12 +220,12 @@ class ApiServices {
         // throw Exception(json.decode(response.body)['message']);
         // throw json.decode(response.body)['message'];
         throw json.decode(response.body)['data'] ??
-            json.decode(response.body)['message'];
+            json.decode(response.body)['message'] ?? json.decode(response.body)['error'];
       case 500:
         final responseBody = json.decode(response.body);
         print(responseBody);
         // throw Exception(json.decode(response.body)['message']);
-        throw json.decode(response.body)['message'];
+        throw json.decode(response.body)['message'] ?? json.decode(response.body)['error'];
       default:
         // throw Exception(
         final responseBody = json.decode(response.body);

@@ -1,3 +1,6 @@
+import 'dart:ffi';
+
+import 'package:bantuin/models/note_model.dart';
 import 'package:bantuin/models/notification.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,67 +13,67 @@ import '../constants/font/app_font.dart';
 
 class CardNotificationUpdate extends StatelessWidget {
   final DetailNotificationModel notif;
-
-  // final String title;
-  // final String body;
-  // final String recipient;
-  // final bool read;
-  // final String sender;
-  // final String senderPlace;
+//  final NoteModel note;
 
   const CardNotificationUpdate({
     super.key,
     required this.notif,
+    // required this.note,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (notif.sender != null) {
-      return Container(
-        margin: const EdgeInsets.only(bottom: 8),
-        height: MediaQuery.of(context).size.height * 0.2,
-        width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          border: const Border.fromBorderSide(
-              BorderSide(color: AppColorNeutral.neutral2, width: 1)),
-          borderRadius: BorderRadius.circular(4),
-          color: AppColorNeutral.neutral1,
-        ),
-        child: Row(
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                CachedNetworkImage(
-                  imageUrl:
-                      'https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?w=900&t=st=1680684886~exp=1680685486~hmac=b9176641b65dc64df37ed7f0cfba49259ea8908fbe7bd96cecc07b7d42e46633',
-                  placeholder: (context, url) => CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
-                  imageBuilder: (context, imageProvider) => Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: imageProvider,
-                      ),
+    final pesan = notif.body.length;
+    // int id = notif.senderPlace;
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 8),
+      height: pesan > 180
+          ? MediaQuery.of(context).size.height * 0.32
+          : MediaQuery.of(context).size.height * 0.22,
+      width: MediaQuery.of(context).size.width,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        border: const Border.fromBorderSide(
+            BorderSide(color: AppColorNeutral.neutral2, width: 1)),
+        borderRadius: BorderRadius.circular(4),
+        color: AppColorNeutral.neutral1,
+      ),
+      child: Row(
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              CachedNetworkImage(
+                imageUrl:
+                    '${notif.photo}', // Ubah menjadi notif.photo sebagai sumber gambar
+                placeholder: (context, url) => CircularProgressIndicator(),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+                imageBuilder: (context, imageProvider) => Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: imageProvider,
                     ),
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(
-              width: 12,
-            ),
-            Column(
+              ),
+            ],
+          ),
+          const SizedBox(
+            width: 12,
+          ),
+          Expanded(
+            // Menggunakan Expanded untuk mengatur tinggi kontainer
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width - 100,
-                  height: 50,
+                Flexible(
+                  // Menggunakan Flexible untuk mengatur tinggi pada RichText
                   child: RichText(
                     overflow: TextOverflow.visible,
                     text: TextSpan(
@@ -80,19 +83,11 @@ class CardNotificationUpdate extends StatelessWidget {
                           style: AppFont.semiBold14,
                         ),
                         TextSpan(
-                          text: notif.read == true
-                              ? " mengupdate "
-                              : " menghapus ",
-                          style: notif.read == true
-                              ? AppFont.textNotificationActive
-                              : AppFont.textNotificationError,
-                        ),
-                        TextSpan(
-                          text: " catatan dibawah ini",
+                          text: " ${notif.title}",
                           style: AppFont.medium14,
                         ),
                         TextSpan(
-                          text: "\n ${notif.title} menit lalu",
+                          text: "\n ${notif.send}",
                           style: AppFont.textNotificationTime,
                         ),
                       ],
@@ -104,7 +99,7 @@ class CardNotificationUpdate extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      notif.senderPlace != null
+                      notif.notifType == 'client'
                           ? SvgPicture.asset(
                               'lib/assets/icons/Team.svg',
                               color: AppColorPrimary.primary6,
@@ -120,8 +115,10 @@ class CardNotificationUpdate extends StatelessWidget {
                       ),
                       Flexible(
                         child: Text(
-                          notif.title,
-                          style: AppFont.medium14,
+                          notif.senderPlace == 0
+                              ? 'Team / Notes tidak ada'
+                              : notif.senderPlace.toString(),
+                          style: AppFont.textInvitation,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                         ),
@@ -129,35 +126,33 @@ class CardNotificationUpdate extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width - 100,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Pesan :',
-                        style: AppFont.semiBold14,
-                      ),
-                      SizedBox(width: 8),
-                      Flexible(
-                        child: Text(
-                          notif.body,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: AppFont.medium14,
+                if (notif.notifType == 'client')
+                  Flexible(
+                    // Menggunakan Flexible untuk mengatur tinggi pada RichText
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width - 100,
+                      child: RichText(
+                        overflow: TextOverflow.visible,
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: "Pesan :",
+                              style: AppFont.semiBold14,
+                            ),
+                            TextSpan(
+                              text: " ${notif.body}",
+                              style: AppFont.medium14,
+                            ),
+                          ],
                         ),
                       ),
-                    ],
+                    ),
                   ),
-                ),
               ],
             ),
-          ],
-        ),
-      );
-    } else {
-      return SizedBox
-          .shrink(); // Mengembalikan widget kosong jika notif.sender null
-    }
+          ),
+        ],
+      ),
+    );
   }
 }

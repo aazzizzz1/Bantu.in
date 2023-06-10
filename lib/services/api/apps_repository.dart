@@ -344,12 +344,11 @@ class AppsRepository {
       rethrow;
     }
   }
-  //  FEATURE INVITATION END
 
   //NOTIFICATION
   Future getNotif() async {
     try {
-      final response = await _apiService.getRequest('/notifications');
+      final response = await _apiService.getRequest('/client_notif');
       NotificationModel notif = NotificationModel.fromJson(response);
       return notif.notif;
     } catch (e) {

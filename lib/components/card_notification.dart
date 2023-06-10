@@ -12,28 +12,8 @@ import '../constants/font/app_font.dart';
 class CardNotification extends StatelessWidget {
   final DetailNotificationModel notif;
 
-  // final String user;
-  // final String status;
-  // final int time;
-  // final String subject;
-  // final bool accepted;
-  // final bool? tim;
-
-  // final String title;
-  // final String body;
-  // final String recipient;
-  // final bool read;
-  // final String sender;
-  // final String senderPlace;
-
   const CardNotification({
     super.key,
-    // required this.user,
-    // required this.status,
-    // required this.time,
-    // required this.subject,
-    // required this.accepted,
-    // this.tim,
     required this.notif,
   });
 
@@ -58,7 +38,7 @@ class CardNotification extends StatelessWidget {
               children: [
                 CachedNetworkImage(
                   imageUrl:
-                      'https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?w=900&t=st=1680684886~exp=1680685486~hmac=b9176641b65dc64df37ed7f0cfba49259ea8908fbe7bd96cecc07b7d42e46633',
+                      '${notif.photo}', // Ubah menjadi notif.photo sebagai sumber gambar
                   placeholder: (context, url) => CircularProgressIndicator(),
                   errorWidget: (context, url, error) => Icon(Icons.error),
                   imageBuilder: (context, imageProvider) => Container(
@@ -94,17 +74,21 @@ class CardNotification extends StatelessWidget {
                           style: AppFont.semiBold14,
                         ),
                         TextSpan(
-                          text: notif.read == true ? " menerima " : " menolak ",
-                          style: notif.read == true
+                          text: notif.title == "menerima"
+                              ? " menerima "
+                              : " menolak ", 
+                          style: notif.title == "menerima"
                               ? AppFont.textNotificationActive
                               : AppFont.textNotificationError,
                         ),
                         TextSpan(
-                          text: " catatan anda",
+                          text: notif.notifType == "collab"
+                              ? " catatan anda"
+                              : " undangan tim anda",
                           style: AppFont.medium14,
                         ),
                         TextSpan(
-                          text: "\n ${notif.body} menit lalu",
+                          text: "\n ${notif.send}",
                           style: AppFont.textNotificationTime,
                         ),
                       ],
@@ -116,7 +100,7 @@ class CardNotification extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      notif.senderPlace != null
+                      notif.notifType == "team"
                           ? SvgPicture.asset(
                               'lib/assets/icons/Team.svg',
                               color: AppColorPrimary.primary6,
@@ -132,7 +116,9 @@ class CardNotification extends StatelessWidget {
                       ),
                       Flexible(
                         child: Text(
-                          notif.title,
+                          notif.senderPlace == 0
+                              ? "Tidak ada lokasi"
+                              : notif.senderPlace.toString(),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: AppFont.textInvitation,
@@ -152,10 +138,13 @@ class CardNotification extends StatelessWidget {
     }
   }
 }
-
-  // final String title;
-  // final String body;
-  // final String recipient;
-  // final bool read;
-  // final String sender;
-  // final String senderPlace;
+  // "title": "telah menerima catatan anda",
+  // "body": "nil",
+  // "recipient": "Abdul aziz",
+  // "read": false,
+  // "sender": "Dausmini",
+  // "photo": "https://res-5.cloudinary.com/dis2k0keq/image/upload/v1685800569/public/profile_picture/f6ca2ac641.jpg",
+  // "sender_place": 382,
+  // "created": "2023-06-10T07:46:56.005+07:00",
+  // "send": "2 menit yang lalu",
+  // "notif_type": "invite"
