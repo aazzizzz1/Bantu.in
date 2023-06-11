@@ -6,11 +6,15 @@ import '../../constants/constant.dart';
 import '../../constants/font/app_font.dart';
 
 class ClientUploadStatus extends StatelessWidget {
-  final String isUpload;
+  final bool isLate;
+  final bool isCompleted;
+  final bool isUpload;
 
   const ClientUploadStatus({
     super.key,
     required this.isUpload,
+    required this.isCompleted,
+    required this.isLate,
   });
 
   @override
@@ -22,15 +26,25 @@ class ClientUploadStatus extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
         decoration: BoxDecoration(
-          color: isUpload != 'not_upload_yet'
-              ? AppColor.completeColor
-              : AppColor.zeroColor,
+          color: isUpload
+              ? isCompleted
+                  ? AppColorPrimary.primary2
+                  : AppColor.completeColor
+              : AppColor.zeroToHalf,
           borderRadius: BorderRadius.circular(16.0),
         ),
         child: Text(
-          isUpload != 'not_upload_yet' ? 'Sudah Upload' : 'Belum Upload',
-          style: isUpload != 'not_upload_yet'
-              ? AppFont.textUploadDone
+          isUpload
+              ? isCompleted
+                  ? 'Catatan Selesai'
+                  : 'Sudah Upload'
+              : isLate
+                  ? 'Anda Telat'
+                  : 'Belum Upload',
+          style: isUpload
+              ? isCompleted
+                  ? AppFont.textCompletedNote
+                  : AppFont.textUploadDone
               : AppFont.textUploadError,
         ),
       ),

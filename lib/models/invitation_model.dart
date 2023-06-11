@@ -17,6 +17,8 @@ class InvitationDetailModel {
   final String from;
   final String message;
   final String note;
+  final String photo;
+  final String dateInvite;
   final List<ActionModel> actions;
 
   InvitationDetailModel({
@@ -24,6 +26,8 @@ class InvitationDetailModel {
     required this.from,
     required this.message,
     required this.note,
+    required this.photo,
+    required this.dateInvite,
     required this.actions,
   });
 
@@ -33,6 +37,8 @@ class InvitationDetailModel {
         from: json['from'] ?? 'null',
         message: json['message'] ?? 'null',
         note: json['note'] ?? 'null',
+        photo: json['photo'] ?? 'null',
+        dateInvite: json['date_invite'] ?? 'null',
         actions: json['actions'] != null
             ? (json['actions'] as List)
                 .map((e) => ActionModel.fromJson(e))

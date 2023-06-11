@@ -22,6 +22,7 @@ import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../models/note_model.dart';
 import '../../utils/app_state.dart';
@@ -31,12 +32,16 @@ import '../../widgets/shimmer_loading/shimmer_container.dart';
 class NotesDetail extends StatefulWidget {
   final NoteDetailModel noteDetail;
   final bool isOwner;
-  final bool? isUpload;
+  // final bool isHalf;
+  // final bool isFull;
+  // final bool isCompleted;
 
   NotesDetail({
     required this.noteDetail,
     required this.isOwner,
-    this.isUpload,
+    // required this.isHalf,
+    // required this.isFull,
+    // required this.isCompleted,
   });
 
   @override
@@ -51,12 +56,18 @@ class _NotesDetailState extends State<NotesDetail> {
   @override
   void initState() {
     // TODO: implement initState
+    super.initState();
     Future.microtask(() => Provider.of<NoteViewModel>(context, listen: false)
         .getDetailNoteAdmin(widget.noteDetail.id));
     Future.microtask(() => Provider.of<HistoryViewModel>(context, listen: false)
         .fetchHistory(widget.noteDetail));
-    super.initState();
   }
+
+  // @override
+  // void dispose() {
+  //   // TODO: implement dispose
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -95,6 +106,9 @@ class _NotesDetailState extends State<NotesDetail> {
                 return AdminAppbar(
                   progress: widget.noteDetail.status,
                 );
+                // return AdminAppbar(
+                //   progress: widget.noteDetail.status,
+                // );
               }
               if (value.appState == AppState.noData) {
                 return Container(
@@ -213,87 +227,12 @@ class _NotesDetailState extends State<NotesDetail> {
                                     ? null
                                     : () async {
                                         try {
-                                          await noteView.completeNote(
-                                              'completed', widget.noteDetail);
-
-                                          setState(() {});
+                                          // await noteView.completeNote(
+                                          //     widget.noteDetail);
                                           showDialog(
                                             context: context,
-                                            builder: (context) {
-                                              return AlertDialog(
-                                                title: Text(
-                                                  'Selamat, anda telah menyelesaikan catatan ini',
-                                                  textAlign: TextAlign.center,
-                                                  style: AppFont
-                                                      .textSubjectOrTitle,
-                                                ),
-                                                content: Text(
-                                                  'Anda mendapatkan point sebesar 100. Semangat terus mengerjakan tugasnya.',
-                                                  textAlign: TextAlign.center,
-                                                  style:
-                                                      AppFont.textDescription,
-                                                ),
-                                                actionsPadding:
-                                                    const EdgeInsets.only(
-                                                        left: 18,
-                                                        right: 18,
-                                                        bottom: 16),
-                                                actions: [
-                                                  ElevatedButton(
-                                                    onPressed: () async {
-                                                      try {
-                                                        await noteView
-                                                            .earnedPoint(widget
-                                                                .noteDetail)
-                                                            .then((value) =>
-                                                                Fluttertoast
-                                                                    .showToast(
-                                                                        msg:
-                                                                            'Horeeeee!!!!!'))
-                                                            .then((value) =>
-                                                                Navigator.pop(
-                                                                    context));
-                                                      } catch (e) {
-                                                        await Fluttertoast
-                                                            .showToast(
-                                                                msg: e
-                                                                    .toString());
-                                                      }
-                                                      setState(() {});
-                                                    },
-                                                    style: const ButtonStyle(
-                                                      padding:
-                                                          MaterialStatePropertyAll(
-                                                              EdgeInsets.all(
-                                                                  16.0)),
-                                                      elevation:
-                                                          MaterialStatePropertyAll(
-                                                              0),
-                                                      backgroundColor:
-                                                          MaterialStatePropertyAll(
-                                                              AppColor
-                                                                  .activeColor),
-                                                    ),
-                                                    child: Center(
-                                                      child: Text(
-                                                        'Terima',
-                                                        style: AppFont
-                                                            .textFillButtonActive,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              );
-                                            },
+                                            builder: (context) => dialogPoint(),
                                           );
-                                          // await noteView
-                                          //     .completeNote('completed',
-                                          //         widget.noteDetail)
-                                          //     .then((value) =>
-                                          //         Fluttertoast.showToast(
-                                          //             msg: 'Catatan selesai'))
-                                          //     .then((value) =>
-                                          //         Navigator.pop(context));
                                         } catch (e) {
                                           await Fluttertoast.showToast(
                                               msg: e.toString());
@@ -324,8 +263,7 @@ class _NotesDetailState extends State<NotesDetail> {
                                     : () async {
                                         try {
                                           await noteView
-                                              .completeNote('completed',
-                                                  widget.noteDetail)
+                                              .completeNote(widget.noteDetail)
                                               .then((value) =>
                                                   Fluttertoast.showToast(
                                                       msg: 'Catatan selesai'))
@@ -419,6 +357,55 @@ class _NotesDetailState extends State<NotesDetail> {
               SizedBox(width: 16),
               ShimmerContainer.rectangle(height: 20, width: 120),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget dialogPoint() {
+    return Consumer<NoteViewModel>(
+      builder: (context, noteView, child) => AlertDialog(
+        title: Text(
+          'Selamat, anda telah menyelesaikan catatan ini',
+          textAlign: TextAlign.center,
+          style: AppFont.textSubjectOrTitle,
+        ),
+        content: Text(
+          'Anda mendapatkan point sebesar 100. Semangat terus mengerjakan tugasnya.',
+          textAlign: TextAlign.center,
+          style: AppFont.textDescription,
+        ),
+        actionsPadding: const EdgeInsets.only(left: 18, right: 18, bottom: 16),
+        actions: [
+          ElevatedButton(
+            onPressed: () async {
+              try {
+                await noteView
+                    .completeNote(widget.noteDetail)
+                    .then(
+                        (value) => Fluttertoast.showToast(msg: 'Horeeeee!!!!!'))
+                    .then((value) => Navigator.pop(context));
+                await noteView.getDetailNoteAdmin(widget.noteDetail.id);
+                setState(() {
+                  noteView.noteDetailAdmin;
+                });
+              } catch (e) {
+                await Fluttertoast.showToast(msg: e.toString());
+              }
+              setState(() {});
+            },
+            style: const ButtonStyle(
+              padding: MaterialStatePropertyAll(EdgeInsets.all(16.0)),
+              elevation: MaterialStatePropertyAll(0),
+              backgroundColor: MaterialStatePropertyAll(AppColor.activeColor),
+            ),
+            child: Center(
+              child: Text(
+                'Terima',
+                style: AppFont.textFillButtonActive,
+              ),
+            ),
           ),
         ],
       ),

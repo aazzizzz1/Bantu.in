@@ -1,19 +1,24 @@
 import 'package:bantuin/constants/constant.dart';
 import 'package:bantuin/constants/font/app_font.dart';
+import 'package:bantuin/view_models/note_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/note_model.dart';
 
 class UpdateEmailPicker extends StatefulWidget {
   final void Function(List<String> selectedEmails) onChanged;
   final List<MemberDetailModel> memberEmails;
+  final NoteDetailModel noteDetail;
 
   const UpdateEmailPicker({
     Key? key,
     required this.onChanged,
     required this.memberEmails,
+    required this.noteDetail,
   }) : super(key: key);
 
   @override
@@ -77,9 +82,24 @@ class _UpdateEmailPickerState extends State<UpdateEmailPicker> {
         Wrap(
           spacing: 8.0,
           children: _emails.map((email) {
-            return InputChip(
-              label: Text(email),
-              onDeleted: () => _removeEmail(_emails.indexOf(email)),
+            return Consumer<NoteViewModel>(
+              builder: (context, note, child) {
+                return InputChip(
+                  label: Text(email),
+                  onDeleted: () async {
+                    try {
+                      await note
+                          .removeMember(widget.noteDetail, email)
+                          .then((value) => _removeEmail(_emails.indexOf(email)))
+                          .then((value) => Fluttertoast.showToast(
+                              msg: 'Member berhasil di hapus'));
+                    } catch (e) {
+                      await Fluttertoast.showToast(msg: e.toString());
+                    }
+                    // _removeEmail(_emails.indexOf(email));
+                  },
+                );
+              },
             );
           }).toList(),
         ),

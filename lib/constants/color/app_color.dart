@@ -7,7 +7,8 @@ class AppColor {
   static const Color halfColor = Color.fromARGB(255, 255, 128, 134);
   static const Color completeColor = Color.fromARGB(255, 167, 240, 186);
   static const Color textprogresColor = Color.fromARGB(255, 14, 96, 39);
-  static const Color zeroColor = Color.fromARGB(255, 255, 215, 217);
+  static const Color zeroToHalf = Color.fromARGB(255, 255, 215, 217);
+  static const Color halfToFull = Color.fromARGB(255, 255, 241, 208);
   static const Color borderErrorColor = Color.fromARGB(255, 255, 128, 134);
   static const Color textActiveColor = Color.fromARGB(255, 242, 244, 248);
   static const Color secondColor = Color(0xFF00d1ff);

@@ -24,15 +24,19 @@ class EditDeleteNote extends StatelessWidget {
     return Row(
       children: [
         InkWell(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => NoteUpdate(noteDetail: note)));
-          },
+          onTap: note.status == 'completed'
+              ? null
+              : () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NoteUpdate(noteDetail: note)));
+                },
           child: Text(
             'Edit',
-            style: AppFont.textButtonActive,
+            style: note.status == 'completed'
+                ? AppFont.editDisable
+                : AppFont.textButtonActive,
           ),
         ),
         SizedBox(width: 24),

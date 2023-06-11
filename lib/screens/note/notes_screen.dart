@@ -43,6 +43,7 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     // TODO: implement initState
+    super.initState();
     tabController = TabController(length: 2, vsync: this);
     Future.microtask(() => Provider.of<NoteViewModel>(context, listen: false)
         .filterUpcomingNote());
@@ -53,7 +54,6 @@ class _NoteScreenState extends State<NoteScreen> with TickerProviderStateMixin {
     );
 
     getOwner();
-    super.initState();
   }
 
   Future<void> navigateToRingScreen(AlarmSettings alarmSettings) async {

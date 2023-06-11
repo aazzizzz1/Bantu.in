@@ -69,7 +69,7 @@ class NotesAllFile extends StatelessWidget {
                           ),
                           const SizedBox(width: 18),
                           SizedBox(
-                            width: 280,
+                            width: 250,
                             child: Text(
                               data.substring(data.lastIndexOf("/") + 1),
                               overflow: TextOverflow.ellipsis,

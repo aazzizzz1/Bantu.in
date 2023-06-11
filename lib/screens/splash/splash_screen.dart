@@ -49,7 +49,11 @@ class _SplashScreenState extends State<SplashScreen> {
       backgroundColor: Colors.white,
       body: Container(
         alignment: Alignment.center,
-        child: Image.asset('lib/assets/images/Bantuin 2 GIF.gif'),
+        child: Image.asset(
+          'lib/assets/images/Bantuin 2 GIF.gif',
+          height: 180,
+          width: 180,
+        ),
       ),
     );
   }

@@ -28,10 +28,9 @@ class _CardInvitationState extends State<CardInvitation> {
   }
 
   void refresh(bool isFalse) async {
-    setState(() {
-      _isAccept = isFalse;
-      _isDone = true;
-    });
+    _isAccept = isFalse;
+    _isDone = true;
+    setState(() {});
   }
 
   @override
@@ -52,10 +51,9 @@ class _CardInvitationState extends State<CardInvitation> {
           Container(
             alignment: Alignment.topCenter,
             child: CachedNetworkImage(
-              imageUrl:
-                  'https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?w=900&t=st=1680684886~exp=1680685486~hmac=b9176641b65dc64df37ed7f0cfba49259ea8908fbe7bd96cecc07b7d42e46633',
-              placeholder: (context, url) => CircularProgressIndicator(),
-              errorWidget: (context, url, error) => Icon(Icons.error),
+              imageUrl: widget.invitationDetail.photo,
+              // placeholder: (context, url) => CircularProgressIndicator(),
+              // errorWidget: (context, url, error) => Icon(Icons.error),
               imageBuilder: (context, imageProvider) => Container(
                 width: 50,
                 height: 50,
@@ -86,7 +84,7 @@ class _CardInvitationState extends State<CardInvitation> {
                         style: AppFont.regular12,
                       ),
                       TextSpan(
-                        text: ' 10 menit lalu',
+                        text: ' ${widget.invitationDetail.dateInvite}',
                         style: AppFont.textDescription,
                       ),
                     ]),
@@ -133,13 +131,13 @@ class _CardInvitationState extends State<CardInvitation> {
                   try {
                     await inv.redirectLink(actions.last.url).then((value) =>
                         Fluttertoast.showToast(msg: 'Catatan ditolak'));
-                    refresh(false);
+                    // refresh(false);
                     // await launchUrl(Uri.parse(actions.last.url)).then(
                     //     (value) => Fluttertoast.showToast(msg: 'Ditolak'));
-                    // setState(() {
-                    //   _isAccept = false;
-                    //   _isDone = true;
-                    // });
+                    setState(() {
+                      // _isAccept = false;
+                      // _isDone = true;
+                    });
                   } catch (e) {
                     await Fluttertoast.showToast(msg: e.toString());
                   }
@@ -169,13 +167,13 @@ class _CardInvitationState extends State<CardInvitation> {
                   try {
                     await inv.redirectLink(actions.first.url).then((value) =>
                         Fluttertoast.showToast(msg: 'Catatan diterima'));
-                    refresh(true);
+                    // refresh(true);
                     // await launchUrl(Uri.parse(actions.first.url)).then(
                     //     (value) => Fluttertoast.showToast(msg: 'Diterima'));
-                    // setState(() {
-                    //   _isAccept = true;
-                    //   _isDone = true;
-                    // });
+                    setState(() {
+                      // _isAccept = true;
+                      // _isDone = true;
+                    });
                   } catch (e) {
                     await Fluttertoast.showToast(msg: e.toString());
                   }

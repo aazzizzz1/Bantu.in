@@ -13,10 +13,40 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../screens/note/note_detail_client.dart';
 
-class CardMyNotesClient extends StatelessWidget {
+class CardMyNotesClient extends StatefulWidget {
   final NoteDetailModel noteDetail;
 
   CardMyNotesClient({required this.noteDetail});
+
+  @override
+  State<CardMyNotesClient> createState() => _CardMyNotesClientState();
+}
+
+class _CardMyNotesClientState extends State<CardMyNotesClient> {
+  bool isLate = false;
+  bool isCompleted = false;
+  bool isUpload = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    switch (widget.noteDetail.status) {
+      case 'late':
+        isLate = true;
+        break;
+      case 'completed':
+        isCompleted = true;
+        break;
+      case 'have_upload':
+        isUpload = true;
+        break;
+      default:
+        isUpload = false;
+        isCompleted = false;
+        isLate = false;
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +58,8 @@ class CardMyNotesClient extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => NoteDetailClient(
-                    id: noteDetail.id,
+                    id: widget.noteDetail.id,
+                    status: widget.noteDetail.status,
                   ),
                 ));
             // try {
@@ -74,24 +105,32 @@ class CardMyNotesClient extends StatelessWidget {
                             children: [
                               Expanded(
                                 child: Text(
-                                  noteDetail.subject,
+                                  widget.noteDetail.subject,
                                   style: AppFont.semiBold16w500,
                                 ),
                               ),
                               Container(
                                 padding: EdgeInsets.all(4.0),
                                 decoration: BoxDecoration(
-                                  color: noteDetail.status != 'not_upload_yet'
-                                      ? AppColor.completeColor
-                                      : AppColor.zeroColor,
+                                  color: isUpload
+                                      ? isCompleted
+                                          ? AppColorPrimary.primary2
+                                          : AppColor.completeColor
+                                      : AppColor.zeroToHalf,
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
                                 child: Text(
-                                  noteDetail.status != 'not_upload_yet'
-                                      ? 'Sudah Upload'
-                                      : 'Belum Upload',
-                                  style: noteDetail.status != 'not_upload_yet'
-                                      ? AppFont.textUploadDone
+                                  isUpload
+                                      ? isCompleted
+                                          ? 'Catatan Selesai'
+                                          : 'Sudah Upload'
+                                      : isLate
+                                          ? 'Anda Telat'
+                                          : 'Belum Upload',
+                                  style: isUpload
+                                      ? isCompleted
+                                          ? AppFont.textCompletedNote
+                                          : AppFont.textUploadDone
                                       : AppFont.textUploadError,
                                 ),
                               ),
@@ -99,7 +138,7 @@ class CardMyNotesClient extends StatelessWidget {
                           ),
                           const SizedBox(height: 8.0),
                           Text(
-                            noteDetail.description,
+                            widget.noteDetail.description,
                             style: AppFont.regular12,
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
@@ -112,12 +151,11 @@ class CardMyNotesClient extends StatelessWidget {
                           Row(
                             children: [
                               CachedNetworkImage(
-                                imageUrl:
-                                    'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
-                                placeholder: (context, url) =>
-                                    const CircularProgressIndicator(),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
+                                imageUrl: widget.noteDetail.owner.photo,
+                                // placeholder: (context, url) =>
+                                //     const CircularProgressIndicator(),
+                                // errorWidget: (context, url, error) =>
+                                //     const Icon(Icons.error),
                                 imageBuilder: (context, imageProvider) =>
                                     CircleAvatar(
                                   backgroundImage: imageProvider,
@@ -126,7 +164,7 @@ class CardMyNotesClient extends StatelessWidget {
                               ),
                               const SizedBox(width: 8.0),
                               Text(
-                                noteDetail.owner.username,
+                                widget.noteDetail.owner.username,
                                 style: AppFont.regular12,
                               ),
                             ],
@@ -134,7 +172,7 @@ class CardMyNotesClient extends StatelessWidget {
                           Container(
                             child: Text(
                               DateFormat('dd MMMM yyyy', 'id_ID')
-                                  .format(noteDetail.eventDate),
+                                  .format(widget.noteDetail.eventDate),
                               style: AppFont.regular12,
                             ),
                           ),

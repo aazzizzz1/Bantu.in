@@ -25,7 +25,8 @@ import '../../widgets/detail_note/client_upload_status.dart';
 
 class NoteDetailClient extends StatefulWidget {
   final int id;
-  const NoteDetailClient({super.key, required this.id});
+  final String status;
+  const NoteDetailClient({super.key, required this.id, required this.status});
 
   @override
   State<NoteDetailClient> createState() => _NoteDetailClientState();
@@ -35,7 +36,10 @@ class _NoteDetailClientState extends State<NoteDetailClient> {
   List<File> _fileUrl = [];
   List<PlatformFile> platformFileUrl = [];
   bool isUpload = false;
+  bool isLate = false;
+  bool isCompleted = false;
   bool isActive = false;
+
   List<File> images = [];
   File? image;
 
@@ -44,7 +48,21 @@ class _NoteDetailClientState extends State<NoteDetailClient> {
     // TODO: implement initState
     Future.microtask(() => Provider.of<NoteViewModel>(context, listen: false)
         .getDetailNoteClient(widget.id));
-
+    switch (widget.status) {
+      case 'late':
+        isLate = true;
+        break;
+      case 'completed':
+        isCompleted = true;
+        break;
+      case 'have_upload':
+        isUpload = true;
+        break;
+      default:
+        isUpload = false;
+        isCompleted = false;
+        isLate = false;
+    }
     super.initState();
   }
 
@@ -79,7 +97,11 @@ class _NoteDetailClientState extends State<NoteDetailClient> {
               );
             }
             if (note.appState == AppState.loaded) {
-              return ClientUploadStatus(isUpload: note.noteDetailClient.status);
+              return ClientUploadStatus(
+                isUpload: isUpload,
+                isCompleted: isCompleted,
+                isLate: isLate,
+              );
             }
             if (note.appState == AppState.noData) {
               return Container(

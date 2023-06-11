@@ -193,8 +193,8 @@ class _NoteForm2State extends State<NoteForm2> {
                         } else {
                           _selectedDate = selectedDateTime;
                           _dateController.text =
-                              DateFormat('EEEE, dd MMMM yyyy - hh:mm', 'id_ID')
-                                  .format(selectedDateTime.toLocal());
+                              DateFormat('EEEE, dd MMMM yyyy - HH:mm', 'id_ID')
+                                  .format(selectedDateTime);
                         }
                       }
                     }
@@ -296,7 +296,7 @@ class _NoteForm2State extends State<NoteForm2> {
                         } else {
                           _selectedDatesReminder = selectedDateTime;
                           _reminderController.text =
-                              DateFormat('EEEE, dd MMMM yyyy - hh:mm', 'id_ID')
+                              DateFormat('EEEE, dd MMMM yyyy - HH:mm', 'id_ID')
                                   .format(selectedDateTime.toLocal());
                         }
                       }

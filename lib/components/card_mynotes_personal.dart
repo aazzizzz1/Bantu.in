@@ -22,8 +22,13 @@ class CardMyNotesPersonal extends StatelessWidget {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         String name = prefs.getString('username').toString();
         bool isOwner = false;
+        bool isCompleted = false;
+
         if (name == noteDetail.owner.username) {
           isOwner = true;
+        }
+        if (noteDetail.status == 'completed') {
+          isCompleted = true;
         }
         Navigator.push(
             context,
@@ -74,13 +79,16 @@ class CardMyNotesPersonal extends StatelessWidget {
                             padding: const EdgeInsets.all(4.0),
                             decoration: BoxDecoration(
                               color: noteDetail.status != '0%'
-                                  ? AppColor.completeColor
-                                  : AppColor.zeroColor,
+                                  ? AppColorPrimary.primary2
+                                  : AppColor.zeroToHalf,
                               borderRadius: BorderRadius.circular(8.0),
                             ),
-                            child: Text(noteDetail.status,
+                            child: Text(
+                                noteDetail.status != '0%'
+                                    ? 'Catatan selesai'
+                                    : '0%',
                                 style: noteDetail.status != '0%'
-                                    ? AppFont.textUploadDone
+                                    ? AppFont.textCompletedNote
                                     : AppFont.textUploadError
                                 // TextStyle(
                                 //   fontStyle: FontStyle.normal,
@@ -132,12 +140,11 @@ class CardMyNotesPersonal extends StatelessWidget {
                           //         ),
                           //       ),
                           CachedNetworkImage(
-                            imageUrl:
-                                'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
-                            placeholder: (context, url) =>
-                                const CircularProgressIndicator(),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
+                            imageUrl: noteDetail.owner.photo,
+                            // placeholder: (context, url) =>
+                            //     const CircularProgressIndicator(),
+                            // errorWidget: (context, url, error) =>
+                            //     const Icon(Icons.error),
                             imageBuilder: (context, imageProvider) =>
                                 CircleAvatar(
                               backgroundImage: imageProvider,

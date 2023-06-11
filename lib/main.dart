@@ -26,9 +26,9 @@ import 'screens/auth/register_screen.dart';
 
 void main() async {
   runApp(const MyApp());
+  await FlutterDownloader.initialize(debug: true);
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   WidgetsFlutterBinding.ensureInitialized();
-  await FlutterDownloader.initialize(debug: true);
   await Alarm.init(showDebugLogs: true);
 }
 
