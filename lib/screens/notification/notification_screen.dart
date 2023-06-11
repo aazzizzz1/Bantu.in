@@ -68,7 +68,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                             var data = notif.listOfNotif[index];
                             return Column(
                               children: [
+                                if (data.notifType == 'client')
                                   CardNotificationUpdate(notif: data),
+                                if (data.notifType == 'team' || data.notifType == 'collab' )
                                   CardNotification(notif: data),
                               ],
                             );
@@ -99,6 +101,16 @@ class _NotificationScreenState extends State<NotificationScreen> {
     );
   }
 }
+
+// "title": "Abdul aziz Telah Mengubah Deskripsi Catatan coba notif colab",
+// "body": "Cobain si",
+// "recipient": "Abdul aziz",
+// "read": false,
+// "sender": "Abdul aziz",
+// "photo": "https://res-4.cloudinary.com/dis2k0keq/image/upload/v1685772003/public/profile_picture/5bb8c28d57.jpg",
+// "sender_place": 377,
+// "created": "2023-06-09T23:27:54.096+07:00",
+// "send": "1 menit yang lalu"
 
 // CardNotificationUpdate(
 //   user: 'Masbro',
