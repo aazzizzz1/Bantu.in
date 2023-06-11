@@ -219,6 +219,7 @@ class _NoteUpdateState extends State<NoteUpdate> {
                 UpdateEmailPicker(
                   onChanged: _handleEmailsChanged,
                   memberEmails: widget.noteDetail.member,
+                  noteDetail: widget.noteDetail,
                 ),
                 // MultipleEmailPicker(onChanged: _handleEmailsChanged),
                 // const SizedBox(

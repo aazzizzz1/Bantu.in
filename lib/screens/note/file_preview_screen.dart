@@ -28,7 +28,6 @@ class _FilePreviewScreenState extends State<FilePreviewScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
     // NEW DOWNLOADER
     IsolateNameServer.registerPortWithName(
         _port.sendPort, 'downloader_send_port');
@@ -52,9 +51,29 @@ class _FilePreviewScreenState extends State<FilePreviewScreen> {
             actions: const [SizedBox.shrink()],
           ),
         );
+        print('Completed');
       }
 
+      // if (status == DownloadTaskStatus.running) {
+      //   // print('running');
+      //   ScaffoldMessenger.of(context).showMaterialBanner(
+      //     MaterialBanner(
+      //       elevation: 0,
+      //       backgroundColor: Colors.transparent,
+      //       forceActionsBelow: true,
+      //       content: AwesomeSnackbarContent(
+      //         title: 'Gagal!!',
+      //         message: 'Gagal unduh file',
+      //         contentType: ContentType.failure,
+      //         inMaterialBanner: true,
+      //       ),
+      //       actions: const [SizedBox.shrink()],
+      //     ),
+      //   );
+      // }
+
       if (status == DownloadTaskStatus.failed) {
+        // print('GAGALLLLL');
         ScaffoldMessenger.of(context).showMaterialBanner(
           MaterialBanner(
             elevation: 0,
@@ -70,6 +89,13 @@ class _FilePreviewScreenState extends State<FilePreviewScreen> {
           ),
         );
       }
+      // if (status == DownloadTaskStatus.canceled) {
+      //   print('TERCANCELL');
+      // }
+      // if (status == DownloadTaskStatus.paused) {
+      //   print('PAUSSED');
+      // }
+
       setState(() {});
     });
 
@@ -95,6 +121,7 @@ class _FilePreviewScreenState extends State<FilePreviewScreen> {
     if (status.isGranted) {
       // We didn't ask for permission yet or the permission has been denied before but not permanently.
       await FlutterDownloader.enqueue(
+        fileName: url,
         url: url,
         headers: {}, // optional: header send with url (auth token etc)
         savedDir: baseStorage!.first.path,
@@ -103,6 +130,7 @@ class _FilePreviewScreenState extends State<FilePreviewScreen> {
         openFileFromNotification:
             true, // click on notification to open downloaded file (for Android)
         saveInPublicStorage: true,
+        requiresStorageNotLow: false,
       );
     }
   }
@@ -123,7 +151,8 @@ class _FilePreviewScreenState extends State<FilePreviewScreen> {
         actions: [
           widget.isAdmin != false
               ? IconButton(
-                  onPressed: () async {
+                  onPressed: () {
+                    print("ini URL ${widget.url}");
                     download(widget.url);
                   },
                   icon: Icon(Icons.download_sharp),

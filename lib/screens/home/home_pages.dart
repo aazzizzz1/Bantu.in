@@ -18,6 +18,7 @@ import 'package:bantuin/view_models/product_viewmodel.dart';
 import 'package:bantuin/widgets/floating_button/floating_home.dart';
 import 'package:bantuin/widgets/home/filtering_data.dart';
 import 'package:bantuin/widgets/shimmer_loading/shimmer_container.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -65,12 +66,49 @@ class _HomePagesState extends State<HomePages> {
       appBar: AppBar(
         toolbarHeight: 76,
         titleSpacing: 15,
-        leading: CircleAvatar(
-          backgroundColor: Colors.transparent,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: Image.asset("lib/assets/images/Switch.png"),
-          ),
+        leading: Consumer<UsersViewModel>(
+          builder: (context, user, child) {
+            if (user.appState == AppState.loading) {
+              return const Padding(
+                padding: EdgeInsets.only(left: 20.0),
+                child: ShimmerContainer.circular(height: 5, width: 5),
+              );
+            }
+            if (user.appState == AppState.loaded) {
+              return Padding(
+                padding: const EdgeInsets.only(left: 20.0),
+                child: CachedNetworkImage(
+                  imageUrl: user.listOfUsers.photo,
+                  // placeholder: (context, url) => CircularProgressIndicator(),
+                  // errorWidget: (context, url, error) => Icon(Icons.error),
+                  imageBuilder: (context, imageProvider) => Container(
+                    width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: imageProvider,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+              // CircleAvatar(
+              //   backgroundColor: Colors.transparent,
+              //   child: Padding(
+              //     padding: const EdgeInsets.only(left: 20),
+              //     child: Image.network(
+              //       user.listOfUsers.photo,
+              //       fit: BoxFit.cover,
+              //       height: 50,
+              //       width: 50,
+              //     ),
+              //   ),
+              // );
+            }
+            return const SizedBox();
+          },
         ),
         title: Consumer<UsersViewModel>(builder: (context, user, child) {
           if (user.appState == AppState.loading) {

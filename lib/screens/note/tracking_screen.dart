@@ -50,10 +50,25 @@ class TracingScreen extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.all(4.0),
                   decoration: BoxDecoration(
-                    color: AppColor.completeColor,
+                    color: progress == '0%'
+                        ? AppColor.zeroToHalf
+                        : progress == '100%'
+                            ? AppColor.completeColor
+                            : progress == 'completed'
+                                ? AppColorPrimary.primary2
+                                : AppColor.halfToFull,
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  child: Text(progress, style: AppFont.regularprogres12),
+                  child: Text(
+                    progress != 'completed' ? progress : 'Catatan selesai',
+                    style: progress == '0%'
+                        ? AppFont.textUploadError
+                        : progress == '100%'
+                            ? AppFont.textUploadDone
+                            : progress == 'completed'
+                                ? AppFont.textCompletedNote
+                                : AppFont.textHalfStatusNote,
+                  ),
                 ),
               ],
             ),

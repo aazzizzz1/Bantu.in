@@ -206,10 +206,10 @@ class _HomeCardInvitationState extends State<HomeCardInvitation> {
         children: [
           ElevatedButton(
             onPressed: () {
-              setState(() {
-                _isAccept = false;
-                _isDone = true;
-              });
+              _isAccept = false;
+              _isDone = true;
+              // setState(() {
+              // });
             },
             style: const ButtonStyle(
               overlayColor: MaterialStatePropertyAll(AppColorRed.red3),

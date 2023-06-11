@@ -36,9 +36,6 @@ class CardMyNotesPersonal extends StatelessWidget {
               builder: (context) => NotesDetail(
                 noteDetail: noteDetail,
                 isOwner: isOwner,
-                isFull: false,
-                isCompleted: isCompleted,
-                isHalf: false,
               ),
             ));
       },

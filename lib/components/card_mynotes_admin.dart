@@ -25,24 +25,28 @@ class CardMyNotesAdmin extends StatefulWidget {
 }
 
 class _CardMyNotesAdminState extends State<CardMyNotesAdmin> {
-  bool isHalf = false;
-  bool isFull = false;
-  bool isCompleted = false;
-  late String sts = widget.noteDetail.status;
-  late double status = double.parse(sts.substring(0, sts.lastIndexOf('%')));
+  // bool isHalf = false;
+  // bool isFull = false;
+  // bool isCompleted = false;
+  // late String sts = widget.noteDetail.status;
+  // late String statusComplete = widget.noteDetail.status;
+  // late double status;
   @override
   void initState() {
     // TODO: implement initState
-    print(status);
-    if (status > 49) {
-      isHalf = true;
-    }
-    if (status == 100) {
-      isFull = true;
-    }
-    if (widget.noteDetail.status == 'completed') {
-      isCompleted = true;
-    }
+    // print(status);
+    // if (statusComplete != 'completed') {
+    //   status = double.parse(sts.substring(0, sts.lastIndexOf('%')));
+    // }
+    // if (status > 49) {
+    //   isHalf = true;
+    // }
+    // if (status == 100) {
+    //   isFull = true;
+    // }
+    // if (widget.noteDetail.status == 'completed') {
+    //   isCompleted = true;
+    // }
     super.initState();
   }
 
@@ -64,9 +68,6 @@ class _CardMyNotesAdminState extends State<CardMyNotesAdmin> {
                   builder: (context) => NotesDetail(
                     noteDetail: widget.noteDetail,
                     isOwner: isOwner,
-                    isHalf: isHalf,
-                    isCompleted: isCompleted,
-                    isFull: isFull,
                   ),
                 ));
           },
@@ -114,26 +115,28 @@ class _CardMyNotesAdminState extends State<CardMyNotesAdmin> {
                               Container(
                                 padding: const EdgeInsets.all(4.0),
                                 decoration: BoxDecoration(
-                                  color: isHalf
-                                      ? AppColor.halfToFull
-                                      : isFull
+                                  color: widget.noteDetail.status == '0%'
+                                      ? AppColor.zeroToHalf
+                                      : widget.noteDetail.status == '100%'
                                           ? AppColor.completeColor
-                                          : isCompleted
+                                          : widget.noteDetail.status ==
+                                                  'completed'
                                               ? AppColorPrimary.primary2
-                                              : AppColor.zeroToHalf,
+                                              : AppColor.halfToFull,
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
                                 child: Text(
                                   widget.noteDetail.status != 'completed'
                                       ? widget.noteDetail.status
                                       : 'Catatan selesai',
-                                  style: isHalf
-                                      ? AppFont.textHalfStatusNote
-                                      : isFull
+                                  style: widget.noteDetail.status == '0%'
+                                      ? AppFont.textUploadError
+                                      : widget.noteDetail.status == '100%'
                                           ? AppFont.textUploadDone
-                                          : isCompleted
+                                          : widget.noteDetail.status ==
+                                                  'completed'
                                               ? AppFont.textCompletedNote
-                                              : AppFont.textUploadError,
+                                              : AppFont.textHalfStatusNote,
                                 ),
                               ),
                             ],

@@ -242,6 +242,12 @@ class AppFont {
         fontWeight: FontWeight.w400,
         color: AppColorNeutral.neutral6,
       );
+  static TextStyle get editDisable => GoogleFonts.ibmPlexSans(
+        fontSize: 14,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w400,
+        color: AppColorNeutral.neutral3,
+      );
   static TextStyle get textButtonError => GoogleFonts.ibmPlexSans(
         fontSize: 14,
         fontStyle: FontStyle.normal,

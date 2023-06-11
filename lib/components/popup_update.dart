@@ -104,8 +104,8 @@ class _PopupUpdateState extends State<PopupUpdate> {
                       child: Consumer<NoteViewModel>(
                         builder: (context, value, child) => ElevatedButton(
                           style: ButtonStyle(
-                            overlayColor:
-                                MaterialStatePropertyAll(AppColorRed.red4),
+                            overlayColor: MaterialStatePropertyAll(
+                                AppColorPrimary.primary2),
                             padding: MaterialStatePropertyAll(
                               EdgeInsets.symmetric(
                                   horizontal: 28, vertical: 10),

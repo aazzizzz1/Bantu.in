@@ -35,6 +35,7 @@ class InvitationViewModel with ChangeNotifier {
 
   Future<void> redirectLink(String url) async {
     String secUrl = url.replaceFirst('https://bantuin.fly.dev/api', '');
+    print(secUrl);
     try {
       changeAppState(AppState.loading);
       await appsRepository.getUrl(secUrl);

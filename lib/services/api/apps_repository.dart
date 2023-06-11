@@ -166,6 +166,24 @@ class AppsRepository {
       rethrow;
     }
   }
+
+  Future<void> postRemoveMember(int id, String email) async {
+    try {
+      await _apiService.postRequest('/notes/$id/remove', {
+        "email": [email]
+      });
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<void> putCompletedNote(int id) async {
+    try {
+      await _apiService.putRequest('/notes/$id/complete', {});
+    } catch (_) {
+      rethrow;
+    }
+  }
   //NOTE END
 
 // profile user

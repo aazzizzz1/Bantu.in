@@ -59,7 +59,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       )
                     : SizedBox(
                         width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height * 0.885,
+                        height: MediaQuery.of(context).size.height * 0.867,
                         child: ListView.builder(
                           physics: BouncingScrollPhysics(),
                           scrollDirection: Axis.vertical,
@@ -70,7 +70,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               children: [
                                 if (data.notifType == 'client')
                                   CardNotificationUpdate(notif: data),
-                                if (data.notifType == 'team' || data.notifType == 'collab' )
+                                if (data.notifType == 'team' ||
+                                    data.notifType == 'collab')
                                   CardNotification(notif: data),
                               ],
                             );

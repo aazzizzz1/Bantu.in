@@ -9,15 +9,15 @@ import '../../screens/note/tracking_screen.dart';
 
 class AdminAppbar extends StatelessWidget {
   final String progress;
-  final bool isHalf;
-  final bool isFull;
-  final bool isCompleted;
+  // final bool isHalf;
+  // final bool isFull;
+  // final bool isCompleted;
   const AdminAppbar({
     super.key,
     required this.progress,
-    required this.isHalf,
-    required this.isFull,
-    required this.isCompleted,
+    // required this.isHalf,
+    // required this.isFull,
+    // required this.isCompleted,
   });
 
   @override
@@ -42,24 +42,24 @@ class AdminAppbar extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
             decoration: BoxDecoration(
-              color: isHalf
-                  ? AppColor.halfToFull
-                  : isFull
+              color: progress == '0%'
+                  ? AppColor.zeroToHalf
+                  : progress == '100%'
                       ? AppColor.completeColor
-                      : isCompleted
+                      : progress == 'completed'
                           ? AppColorPrimary.primary2
-                          : AppColor.zeroToHalf,
+                          : AppColor.halfToFull,
               borderRadius: BorderRadius.circular(16.0),
             ),
             child: Text(
               progress != 'completed' ? progress : 'Catatan selesai',
-              style: isHalf
-                  ? AppFont.textHalfStatusNote
-                  : isFull
+              style: progress == '0%'
+                  ? AppFont.textUploadError
+                  : progress == '100%'
                       ? AppFont.textUploadDone
-                      : isCompleted
+                      : progress == 'completed'
                           ? AppFont.textCompletedNote
-                          : AppFont.textUploadError,
+                          : AppFont.textHalfStatusNote,
             ),
           ),
         ],

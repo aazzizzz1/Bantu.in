@@ -22,6 +22,7 @@ import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../models/note_model.dart';
 import '../../utils/app_state.dart';
@@ -31,16 +32,16 @@ import '../../widgets/shimmer_loading/shimmer_container.dart';
 class NotesDetail extends StatefulWidget {
   final NoteDetailModel noteDetail;
   final bool isOwner;
-  final bool isHalf;
-  final bool isFull;
-  final bool isCompleted;
+  // final bool isHalf;
+  // final bool isFull;
+  // final bool isCompleted;
 
   NotesDetail({
     required this.noteDetail,
     required this.isOwner,
-    required this.isHalf,
-    required this.isFull,
-    required this.isCompleted,
+    // required this.isHalf,
+    // required this.isFull,
+    // required this.isCompleted,
   });
 
   @override
@@ -104,9 +105,6 @@ class _NotesDetailState extends State<NotesDetail> {
               if (value.appState == AppState.loaded) {
                 return AdminAppbar(
                   progress: widget.noteDetail.status,
-                  isHalf: widget.isHalf,
-                  isFull: widget.isFull,
-                  isCompleted: widget.isCompleted,
                 );
                 // return AdminAppbar(
                 //   progress: widget.noteDetail.status,
@@ -229,16 +227,12 @@ class _NotesDetailState extends State<NotesDetail> {
                                     ? null
                                     : () async {
                                         try {
-                                          await noteView.completeNote(
-                                              'completed', widget.noteDetail);
+                                          // await noteView.completeNote(
+                                          //     widget.noteDetail);
                                           showDialog(
                                             context: context,
                                             builder: (context) => dialogPoint(),
                                           );
-                                          setState(() {
-                                            noteView.getDetailNoteAdmin(
-                                                widget.noteDetail.id);
-                                          });
                                         } catch (e) {
                                           await Fluttertoast.showToast(
                                               msg: e.toString());
@@ -269,8 +263,7 @@ class _NotesDetailState extends State<NotesDetail> {
                                     : () async {
                                         try {
                                           await noteView
-                                              .completeNote('completed',
-                                                  widget.noteDetail)
+                                              .completeNote(widget.noteDetail)
                                               .then((value) =>
                                                   Fluttertoast.showToast(
                                                       msg: 'Catatan selesai'))
@@ -389,10 +382,14 @@ class _NotesDetailState extends State<NotesDetail> {
             onPressed: () async {
               try {
                 await noteView
-                    .earnedPoint(widget.noteDetail)
+                    .completeNote(widget.noteDetail)
                     .then(
                         (value) => Fluttertoast.showToast(msg: 'Horeeeee!!!!!'))
                     .then((value) => Navigator.pop(context));
+                await noteView.getDetailNoteAdmin(widget.noteDetail.id);
+                setState(() {
+                  noteView.noteDetailAdmin;
+                });
               } catch (e) {
                 await Fluttertoast.showToast(msg: e.toString());
               }

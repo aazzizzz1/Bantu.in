@@ -122,6 +122,15 @@ class NoteViewModel with ChangeNotifier {
     }
   }
 
+  Future<void> removeMember(NoteDetailModel noteDetail, String email) async {
+    try {
+      await appsRepository.postRemoveMember(noteDetail.id, email);
+      notifyListeners();
+    } catch (_) {
+      rethrow;
+    }
+  }
+
   Future<void> updateCollaborationNote(
       PostNoteModel note, String msg, NoteDetailModel noteDetail) async {
     try {
@@ -139,9 +148,9 @@ class NoteViewModel with ChangeNotifier {
     }
   }
 
-  Future<void> completeNote(String status, NoteDetailModel noteDetail) async {
+  Future<void> completeNote(NoteDetailModel noteDetail) async {
     try {
-      await appsRepository.updateStatusNote(status, noteDetail.id);
+      await appsRepository.putCompletedNote(noteDetail.id);
       notifyListeners();
     } catch (_) {
       rethrow;
@@ -200,6 +209,8 @@ class NoteViewModel with ChangeNotifier {
       rethrow;
     }
   }
+
+  //FILTER BEGIN
 
   Future<void> filterPassedNote() async {
     try {
