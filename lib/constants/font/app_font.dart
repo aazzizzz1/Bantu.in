@@ -182,6 +182,18 @@ class AppFont {
         fontWeight: FontWeight.w400,
         color: AppColorRed.red5,
       );
+  static TextStyle get textCompletedNote => GoogleFonts.ibmPlexSans(
+        fontSize: 14,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w400,
+        color: AppColorPrimary.primary9,
+      );
+  static TextStyle get textHalfStatusNote => GoogleFonts.ibmPlexSans(
+        fontSize: 14,
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w400,
+        color: Color.fromARGB(255, 197, 79, 0),
+      );
   static TextStyle get textZeroProgress => GoogleFonts.ibmPlexSans(
         fontSize: 12,
         fontStyle: FontStyle.normal,
