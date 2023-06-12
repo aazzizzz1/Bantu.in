@@ -32,11 +32,11 @@ class ClientDate extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Tanggal Acara : ${DateFormat('EEEE dd MMMM yyyy hh:mm aa', 'id_ID').format(eventDate)}',
+                'Tanggal Acara : ${DateFormat('EEEE dd MMMM yyyy HH:mm aa', 'id_ID').format(eventDate)}',
                 style: AppFont.clientTextDate,
               ),
               Text(
-                'Reminder : ${DateFormat('EEEE dd MMMM yyyy hh:mm aa', 'id_ID').format(reminder)}',
+                'Reminder : ${DateFormat('EEEE dd MMMM yyyy HH:mm aa', 'id_ID').format(reminder)}',
                 style: AppFont.clientTextDate,
               ),
             ],

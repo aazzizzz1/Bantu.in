@@ -1,5 +1,6 @@
 import 'package:bantuin/components/card_redeem_point.dart';
 import 'package:bantuin/view_models/product_viewmodel.dart';
+import 'package:bantuin/widgets/shimmer_loading/shimmer_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -226,14 +227,34 @@ class _PointScreenState extends State<PointScreen> {
 
   Widget _loadingContainer() {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.8,
+      // height: MediaQuery.of(context).size.height * 0.5,
       padding: const EdgeInsets.all(16),
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: 4,
-        itemBuilder: (context, index) {
-          return ShimmerCardWidget();
-        },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const ShimmerContainer.rectangle(height: 16, width: 100),
+          const SizedBox(height: 16),
+          SizedBox(
+            width: MediaQuery.of(context).size.width - 10,
+            height: 150,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              itemCount: 4,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 24.0),
+                  child: ShimmerContainer.circular(
+                    height: 150,
+                    width: 225,
+                    shapeBorder: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

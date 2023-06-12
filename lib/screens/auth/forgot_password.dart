@@ -1,7 +1,7 @@
 import 'package:bantuin/constants/color/app_color.dart';
 import 'package:bantuin/constants/font/app_font.dart';
 import 'package:bantuin/models/post_forgot_password_model.dart';
-import 'package:bantuin/screens/auth/email_otp.dart';
+import 'package:bantuin/screens/auth/forgot_password_confirmation.dart';
 import 'package:bantuin/screens/auth/login_screen.dart';
 import 'package:bantuin/view_models/login_viewmodel.dart';
 import 'package:bantuin/widgets/register/register_textfield_component.dart';
@@ -85,11 +85,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               await value.forgotPassword(
                                   PostForgotPasswordModel(
                                       email: _emailController.text));
-                              Fluttertoast.showToast(msg: 'Berhasil mengirim email');
+                              Fluttertoast.showToast(
+                                  msg: 'Berhasil mengirim email');
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => LoginScreen(),
+                                  builder: (context) =>
+                                      ForgotPasswordConfirmation(),
                                 ),
                               );
                             } catch (e) {

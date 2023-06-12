@@ -73,7 +73,7 @@ class _NotesDetailState extends State<NotesDetail> {
 
   @override
   Widget build(BuildContext context) {
-    double heightAdmin = MediaQuery.of(context).size.height - 60;
+    double heightAdmin = MediaQuery.of(context).size.height * 0.8;
     double heightClient = MediaQuery.of(context).size.height;
 
     return Scaffold(
@@ -106,7 +106,7 @@ class _NotesDetailState extends State<NotesDetail> {
               }
               if (value.appState == AppState.loaded) {
                 return AdminAppbar(
-                  progress: widget.noteDetail.status,
+                  progress: value.noteDetailAdmin.status,
                 );
                 // return AdminAppbar(
                 //   progress: widget.noteDetail.status,
@@ -137,7 +137,9 @@ class _NotesDetailState extends State<NotesDetail> {
             }
             if (noteView.appState == AppState.loaded) {
               return Container(
-                height: widget.isOwner ? heightAdmin : heightClient,
+                height: widget.noteDetail.notesType == 'personal'
+                    ? heightAdmin
+                    : heightClient,
                 margin: const EdgeInsets.all(16.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -172,7 +174,8 @@ class _NotesDetailState extends State<NotesDetail> {
                                                       noteDetail: noteView
                                                           .noteDetailAdmin))).then(
                                               (value) {
-                                            setState(() {});
+                                            noteView.getDetailNoteAdmin(
+                                                widget.noteDetail.id);
                                           });
                                         },
                                   child: Text(
@@ -265,92 +268,93 @@ class _NotesDetailState extends State<NotesDetail> {
                         SizedBox(height: 24.0),
                         AdminDate(
                             eventDate:
-                                DateFormat('dd MMMM yyyy hh:mm aa', 'id_ID')
+                                DateFormat('dd MMMM yyyy HH:mm aa', 'id_ID')
                                     .format(noteView.noteDetailAdmin.eventDate),
                             reminder:
-                                DateFormat('dd MMMM yyyy hh:mm aa', 'id_ID')
+                                DateFormat('dd MMMM yyyy HH:mm aa', 'id_ID')
                                     .format(noteView.noteDetailAdmin.reminder),
                             ringtone: noteView.noteDetailAdmin.ringtone),
                       ],
                     ),
-                    SizedBox(
-                      height: 48,
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: noteView.noteDetailAdmin.notesType == 'personal'
-                            ? ElevatedButton(
-                                onPressed: noteView.noteDetailAdmin.status ==
-                                        "completed"
-                                    ? null
-                                    : () async {
-                                        try {
-                                          // await noteView.completeNote(
-                                          //     widget.noteDetail);
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) => dialogPoint(),
-                                          );
-                                        } catch (e) {
-                                          await Fluttertoast.showToast(
-                                              msg: e.toString());
-                                        }
-                                      },
-                                style: ButtonStyle(
-                                  padding: const MaterialStatePropertyAll(
-                                    EdgeInsets.symmetric(
-                                        horizontal: 100, vertical: 15),
-                                  ),
-                                  elevation: const MaterialStatePropertyAll(0),
-                                  backgroundColor: MaterialStatePropertyAll(
-                                      widget.noteDetail.status == "completed"
-                                          ? AppColorNeutral.neutral2
-                                          : AppColor.activeColor),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    'Selesaikan Catatan',
-                                    style: AppFont.textFillButtonActive,
-                                  ),
-                                ),
-                              )
-                            : ElevatedButton(
-                                onPressed: noteView.noteDetailAdmin.status !=
-                                        "100%"
-                                    ? null
-                                    : () async {
-                                        try {
-                                          await noteView
-                                              .completeNote(widget.noteDetail)
-                                              .then((value) =>
-                                                  Fluttertoast.showToast(
-                                                      msg: 'Catatan selesai'))
-                                              .then((value) =>
-                                                  Navigator.pop(context));
-                                        } catch (e) {
-                                          await Fluttertoast.showToast(
-                                              msg: e.toString());
-                                        }
-                                      },
-                                style: ButtonStyle(
-                                  padding: const MaterialStatePropertyAll(
-                                    EdgeInsets.symmetric(
-                                        horizontal: 100, vertical: 15),
-                                  ),
-                                  elevation: const MaterialStatePropertyAll(0),
-                                  backgroundColor: MaterialStatePropertyAll(
-                                      widget.noteDetail.status != "100%"
-                                          ? AppColorNeutral.neutral2
-                                          : AppColor.activeColor),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    'Selesaikan Catatan',
-                                    style: AppFont.textFillButtonActive,
-                                  ),
-                                ),
-                              ),
-                      ),
-                    ),
+                    //Old
+                    // SizedBox(
+                    //   height: 48,
+                    //   child: Align(
+                    //     alignment: Alignment.bottomCenter,
+                    //     child: noteView.noteDetailAdmin.notesType == 'personal'
+                    //         ? ElevatedButton(
+                    //             onPressed: noteView.noteDetailAdmin.status ==
+                    //                     "completed"
+                    //                 ? null
+                    //                 : () async {
+                    //                     try {
+                    //                       // await noteView.completeNote(
+                    //                       //     widget.noteDetail);
+                    //                       showDialog(
+                    //                         context: context,
+                    //                         builder: (context) => dialogPoint(),
+                    //                       );
+                    //                     } catch (e) {
+                    //                       await Fluttertoast.showToast(
+                    //                           msg: e.toString());
+                    //                     }
+                    //                   },
+                    //             style: ButtonStyle(
+                    //               padding: const MaterialStatePropertyAll(
+                    //                 EdgeInsets.symmetric(
+                    //                     horizontal: 100, vertical: 15),
+                    //               ),
+                    //               elevation: const MaterialStatePropertyAll(0),
+                    //               backgroundColor: MaterialStatePropertyAll(
+                    //                   widget.noteDetail.status == "completed"
+                    //                       ? AppColorNeutral.neutral2
+                    //                       : AppColor.activeColor),
+                    //             ),
+                    //             child: Center(
+                    //               child: Text(
+                    //                 'Selesaikan Catatan',
+                    //                 style: AppFont.textFillButtonActive,
+                    //               ),
+                    //             ),
+                    //           )
+                    //         : ElevatedButton(
+                    //             onPressed: noteView.noteDetailAdmin.status !=
+                    //                     "100%"
+                    //                 ? null
+                    //                 : () async {
+                    //                     try {
+                    //                       await noteView
+                    //                           .completeNote(widget.noteDetail)
+                    //                           .then((value) =>
+                    //                               Fluttertoast.showToast(
+                    //                                   msg: 'Catatan selesai'))
+                    //                           .then((value) =>
+                    //                               Navigator.pop(context));
+                    //                     } catch (e) {
+                    //                       await Fluttertoast.showToast(
+                    //                           msg: e.toString());
+                    //                     }
+                    //                   },
+                    //             style: ButtonStyle(
+                    //               padding: const MaterialStatePropertyAll(
+                    //                 EdgeInsets.symmetric(
+                    //                     horizontal: 100, vertical: 15),
+                    //               ),
+                    //               elevation: const MaterialStatePropertyAll(0),
+                    //               backgroundColor: MaterialStatePropertyAll(
+                    //                   widget.noteDetail.status != "100%"
+                    //                       ? AppColorNeutral.neutral2
+                    //                       : AppColor.activeColor),
+                    //             ),
+                    //             child: Center(
+                    //               child: Text(
+                    //                 'Selesaikan Catatan',
+                    //                 style: AppFont.textFillButtonActive,
+                    //               ),
+                    //             ),
+                    //           ),
+                    //   ),
+                    // ),
                     // Consumer<NoteViewModel>(
                     //   builder: (context, value, child) =>
                     //   ,
@@ -380,6 +384,79 @@ class _NotesDetailState extends State<NotesDetail> {
             return const SizedBox();
           },
         ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Consumer<NoteViewModel>(
+        builder: (context, noteView, child) {
+          return Container(
+            height: 48,
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: noteView.noteDetailAdmin.notesType == 'personal'
+                ? ElevatedButton(
+                    onPressed: noteView.noteDetailAdmin.status == "completed"
+                        ? null
+                        : () async {
+                            try {
+                              // await noteView.completeNote(
+                              //     widget.noteDetail);
+                              showDialog(
+                                context: context,
+                                builder: (context) => dialogPoint(),
+                              );
+                            } catch (e) {
+                              await Fluttertoast.showToast(msg: e.toString());
+                            }
+                          },
+                    style: ButtonStyle(
+                      padding: const MaterialStatePropertyAll(
+                        EdgeInsets.symmetric(horizontal: 100, vertical: 15),
+                      ),
+                      elevation: const MaterialStatePropertyAll(0),
+                      backgroundColor: MaterialStatePropertyAll(
+                          noteView.noteDetailAdmin.status == "completed"
+                              ? AppColorNeutral.neutral2
+                              : AppColor.activeColor),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Selesaikan Catatan',
+                        style: AppFont.textFillButtonActive,
+                      ),
+                    ),
+                  )
+                : ElevatedButton(
+                    onPressed: noteView.noteDetailAdmin.status != "100%"
+                        ? null
+                        : () async {
+                            try {
+                              await noteView
+                                  .completeNote(widget.noteDetail)
+                                  .then((value) => Fluttertoast.showToast(
+                                      msg: 'Catatan selesai'))
+                                  .then((value) => Navigator.pop(context));
+                            } catch (e) {
+                              await Fluttertoast.showToast(msg: e.toString());
+                            }
+                          },
+                    style: ButtonStyle(
+                      padding: const MaterialStatePropertyAll(
+                        EdgeInsets.symmetric(horizontal: 100, vertical: 15),
+                      ),
+                      elevation: const MaterialStatePropertyAll(0),
+                      backgroundColor: MaterialStatePropertyAll(
+                          noteView.noteDetailAdmin.status != "100%"
+                              ? AppColorNeutral.neutral2
+                              : AppColor.activeColor),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Selesaikan Catatan',
+                        style: AppFont.textFillButtonActive,
+                      ),
+                    ),
+                  ),
+          );
+        },
       ),
     );
   }
@@ -442,11 +519,9 @@ class _NotesDetailState extends State<NotesDetail> {
                     .completeNote(widget.noteDetail)
                     .then(
                         (value) => Fluttertoast.showToast(msg: 'Horeeeee!!!!!'))
-                    .then((value) => Navigator.pop(context));
-                await noteView.getDetailNoteAdmin(widget.noteDetail.id);
-                setState(() {
-                  noteView.noteDetailAdmin;
-                });
+                    .then((value) {
+                  noteView.getDetailNoteAdmin(widget.noteDetail.id);
+                }).then((value) => Navigator.pop(context));
               } catch (e) {
                 await Fluttertoast.showToast(msg: e.toString());
               }

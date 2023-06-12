@@ -192,7 +192,7 @@ class AdminMember extends StatelessWidget {
                         )
                       // File less than 2
                       : SizedBox(
-                          height: 30,
+                          height: 40,
                           child: ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: noteDetail.file.length,

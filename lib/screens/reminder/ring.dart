@@ -1,5 +1,6 @@
 import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ExampleAlarmRingScreen extends StatelessWidget {
   final AlarmSettings alarmSettings;
@@ -15,25 +16,40 @@ class ExampleAlarmRingScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Container(
+              height: MediaQuery.of(context).size.height * 0.7,
               alignment: Alignment.center,
               child: Column(
                 children: [
-                  Image.asset('lib/assets/images/Bantuin 2 GIF.gif'),                  
-                  SizedBox(height: 130,),
+                  Image.asset(
+                    'lib/assets/images/Bantuin 2 GIF.gif',
+                    height: 150,
+                    width: 150,
+                  ),
+                  SizedBox(
+                    height: 130,
+                  ),
                   Text("${alarmSettings.notificationTitle}",
-                      style: TextStyle(fontSize: 50)),
-                  SizedBox(height: 20,),
+                      style: TextStyle(fontSize: 40)),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Text(
                     "${alarmSettings.notificationBody}",
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Text(
                     "Tanggal dan jam acara : ",
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
-                  SizedBox(height: 20,),
-                  Text("${alarmSettings.dateTime}", style: TextStyle(fontSize: 25)),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                      "${DateFormat('EEEE dd/MM/yyyy HH:mm aa', 'id_ID').format(alarmSettings.dateTime)}",
+                      style: TextStyle(fontSize: 25)),
                 ],
               ),
             ),

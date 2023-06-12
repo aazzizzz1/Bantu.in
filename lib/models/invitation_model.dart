@@ -17,6 +17,7 @@ class InvitationDetailModel {
   final String from;
   final String message;
   final String note;
+  final String team;
   final String photo;
   final String dateInvite;
   final List<ActionModel> actions;
@@ -26,6 +27,7 @@ class InvitationDetailModel {
     required this.from,
     required this.message,
     required this.note,
+    required this.team,
     required this.photo,
     required this.dateInvite,
     required this.actions,
@@ -37,7 +39,9 @@ class InvitationDetailModel {
         from: json['from'] ?? 'null',
         message: json['message'] ?? 'null',
         note: json['note'] ?? 'null',
-        photo: json['photo'] ?? 'null',
+        team: json['team'] ?? 'null',
+        photo: json['photo'] ??
+            'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png',
         dateInvite: json['date_invite'] ?? 'null',
         actions: json['actions'] != null
             ? (json['actions'] as List)

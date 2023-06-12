@@ -57,6 +57,7 @@ class _RingtonePickerWidgetState extends State<RingtonePickerWidget> {
     // String selectedValue = '';
     return DropdownButtonFormField(
       value: _selectedRingtone,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         if (value == null) {
           return 'Anda belum memilih nada dering';

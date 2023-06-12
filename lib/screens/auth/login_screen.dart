@@ -1,4 +1,6 @@
 import 'package:bantuin/models/login_model.dart';
+import 'package:bantuin/screens/auth/email_confirmation.dart';
+import 'package:bantuin/screens/auth/forgot_password_confirmation.dart';
 import 'package:bantuin/view_models/login_viewmodel.dart';
 import 'package:bantuin/widgets/register/register_textfield_component.dart';
 import 'package:bantuin/constants/button/app_button.dart';

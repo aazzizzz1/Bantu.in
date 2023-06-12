@@ -199,6 +199,7 @@ class _NoteUpdateState extends State<NoteUpdate> {
                   hint: 'Deskripsi',
                   message: 'deskripsi',
                   controller: _descriptionController,
+                  isSubject: false,
                 ),
                 const SizedBox(
                   height: 24,
@@ -334,6 +335,7 @@ class _NoteUpdateState extends State<NoteUpdate> {
                                 description: _descriptionController.text,
                                 eventDate: _eventDateController.text,
                                 reminder: _reminderController.text,
+                                email: _selectedEmails,
                                 ringtoneId: ringtones.listOfRingtone
                                     .where((element) => _selectedRingtone!
                                         .contains(element.name))
@@ -365,7 +367,6 @@ class _NoteUpdateState extends State<NoteUpdate> {
                                     (value) => Navigator.pop(context),
                                   ),
                                 );
-                            // setState(() {});
                           } catch (e) {
                             Fluttertoast.showToast(msg: e.toString());
                           }

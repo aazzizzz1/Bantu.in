@@ -107,6 +107,7 @@ class _NoteForm2State extends State<NoteForm2> {
                   hint: 'Deskripsi',
                   message: 'deskripsi',
                   controller: _descriptionController,
+                  isSubject: false,
                 ),
                 const SizedBox(
                   height: 24,
@@ -192,9 +193,9 @@ class _NoteForm2State extends State<NoteForm2> {
                           );
                         } else {
                           _selectedDate = selectedDateTime;
-                          _dateController.text =
-                              DateFormat('EEEE, dd MMMM yyyy - HH:mm', 'id_ID')
-                                  .format(selectedDateTime);
+                          _dateController.text = DateFormat(
+                                  'EEEE, dd MMMM yyyy - HH:mm aa', 'id_ID')
+                              .format(selectedDateTime);
                         }
                       }
                     }
@@ -295,9 +296,9 @@ class _NoteForm2State extends State<NoteForm2> {
                           );
                         } else {
                           _selectedDatesReminder = selectedDateTime;
-                          _reminderController.text =
-                              DateFormat('EEEE, dd MMMM yyyy - HH:mm', 'id_ID')
-                                  .format(selectedDateTime.toLocal());
+                          _reminderController.text = DateFormat(
+                                  'EEEE, dd MMMM yyyy - HH:mm aa', 'id_ID')
+                              .format(selectedDateTime.toLocal());
                         }
                       }
                     }

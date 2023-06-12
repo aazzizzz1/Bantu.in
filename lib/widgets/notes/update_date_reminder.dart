@@ -39,7 +39,7 @@ class _UpdateDateReminderState extends State<UpdateDateReminder> {
     final DateTime? selectedDate = await showDatePicker(
       context: context,
       initialDate: widget.initialDates,
-      firstDate: widget.initialDates,
+      firstDate: DateTime.now(),
       lastDate: widget.initialLastDate,
     );
     if (selectedDate != null) {

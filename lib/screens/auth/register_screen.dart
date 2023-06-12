@@ -1,4 +1,5 @@
 import 'package:bantuin/models/register_model.dart';
+import 'package:bantuin/screens/auth/email_confirmation.dart';
 import 'package:bantuin/screens/auth/login_screen.dart';
 import 'package:bantuin/view_models/register_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -188,8 +189,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       inputFormatters: [
                         LengthLimitingTextInputFormatter(16),
                         FilteringTextInputFormatter.allow(
-                          RegExp(
-                              "[a-zA-Z0-9!@#\$%^&*()_+-{}|<>?]"),
+                          RegExp("[a-zA-Z0-9!@#\$%^&*()_+-{}|<>?]"),
                         ),
                       ],
                       validator: (value) {
@@ -265,8 +265,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ? [
                               LengthLimitingTextInputFormatter(16),
                               FilteringTextInputFormatter.allow(
-                                RegExp(
-                                    "[a-zA-Z0-9!@#\$%^&*()_+-{}|<>?]"),
+                                RegExp("[a-zA-Z0-9!@#\$%^&*()_+-{}|<>?]"),
                               ),
                             ]
                           : null,
@@ -349,7 +348,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               await Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const LoginScreen(),
+                                  builder: (context) =>
+                                      const EmailConfirmation(),
                                 ),
                               );
                             } catch (e) {

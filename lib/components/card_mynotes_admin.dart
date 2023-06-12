@@ -69,7 +69,10 @@ class _CardMyNotesAdminState extends State<CardMyNotesAdmin> {
                     noteDetail: widget.noteDetail,
                     isOwner: isOwner,
                   ),
-                ));
+                )).then((value) {
+              noteView.filterUpcomingNote();
+              noteView.filterPassedNote();
+            });
           },
           child: Container(
             height: 135,
@@ -142,11 +145,14 @@ class _CardMyNotesAdminState extends State<CardMyNotesAdmin> {
                             ],
                           ),
                           const SizedBox(height: 8.0),
-                          Text(
-                            widget.noteDetail.description,
-                            style: AppFont.regular12,
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
+                          SizedBox(
+                            height: 40,
+                            child: Text(
+                              widget.noteDetail.description,
+                              style: AppFont.regular12,
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ],
                       ),

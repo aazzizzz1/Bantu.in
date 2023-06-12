@@ -1,3 +1,4 @@
+import 'package:bantuin/components/card_notification_team.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -7,8 +8,8 @@ import '../../constants/font/app_font.dart';
 import '../../utils/app_state.dart';
 import '../../view_models/notification_viewmodel.dart';
 import '../../widgets/shimmer_loading/shimmer_card_widget.dart';
-import '../../components/card_notification.dart';
-import '../../components/card_notification_update.dart';
+import '../../components/card_notification_collab.dart';
+import '../../components/card_notification_client.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({Key? key}) : super(key: key);
@@ -48,7 +49,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
         builder: (context, notif, child) {
           if (notif.appState == AppState.loading) {
             return _loadingContainer();
-          } else if (notif.appState == AppState.loaded) {
+          }
+          if (notif.appState == AppState.loaded) {
             return Column(
               children: [
                 notif.listOfNotif.isEmpty
@@ -66,13 +68,21 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           itemCount: notif.listOfNotif.length,
                           itemBuilder: (context, index) {
                             var data = notif.listOfNotif[index];
+
                             return Column(
                               children: [
                                 if (data.notifType == 'client')
-                                  CardNotificationUpdate(notif: data),
-                                if (data.notifType == 'team' ||
-                                    data.notifType == 'collab')
-                                  CardNotification(notif: data),
+                                  CardNotificationClient(
+                                    notif: data,
+                                  ),
+                                if (data.notifType == 'team')
+                                  CardNotificationTeam(
+                                    notif: data,
+                                  ),
+                                if (data.notifType == 'collab')
+                                  CardNotificationCollab(
+                                    notif: data,
+                                  ),
                               ],
                             );
                           },
@@ -80,9 +90,28 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       ),
               ],
             );
-          } else {
-            return SizedBox();
           }
+          if (notif.appState == AppState.noData) {
+            return Container(
+              height: MediaQuery.of(context).size.height * 0.6,
+              alignment: Alignment.center,
+              child: Text(
+                'Notifikasi belum ada',
+                style: AppFont.textScreenEmpty,
+              ),
+            );
+          }
+          if (notif.appState == AppState.failure) {
+            return Container(
+              height: MediaQuery.of(context).size.height * 0.6,
+              alignment: Alignment.center,
+              child: Text(
+                'Gagal mengambil notifikasi',
+                style: AppFont.textScreenEmpty,
+              ),
+            );
+          }
+          return SizedBox();
         },
       ),
     );

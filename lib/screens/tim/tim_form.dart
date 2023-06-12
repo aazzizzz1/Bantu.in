@@ -4,6 +4,7 @@ import 'package:bantuin/screens/tim/tim_screen.dart';
 import 'package:bantuin/widgets/notes/email_picker.dart';
 import 'package:bantuin/widgets/team/button_form_to_screen_tim.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
@@ -65,6 +66,7 @@ class _TimFormState extends State<TimForm> {
                 ),
                 TextFormField(
                   controller: timNameController,
+                  inputFormatters: [LengthLimitingTextInputFormatter(100)],
                   decoration: InputDecoration(
                     filled: true,
                     hintText: 'Tulis Nama Tim',

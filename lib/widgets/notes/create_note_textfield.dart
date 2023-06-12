@@ -30,24 +30,24 @@ class CreateNoteTextField extends StatefulWidget {
 class _CreateNoteTextFieldState extends State<CreateNoteTextField> {
   late var timer;
   @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   if (mounted) {
-  //     widget.controller.addListener(() {
-  //       // setState(() {});KU
-  //     });
-  //     // timer =
-  //     //     Timer.periodic(Duration(seconds: 60), (Timer t) => setState(() {}));
-  //   }
-  // }
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (mounted) {
+      widget.controller.addListener(() {
+        setState(() {});
+      });
+      // timer =
+      //     Timer.periodic(Duration(seconds: 60), (Timer t) => setState(() {}));
+    }
+  }
 
-  @override
-  // void dispose() {
-  //   // timer.cancel();
-  //   // widget.controller.dispose();
-  //   super.dispose();
-  // }
+  // @override
+  // // void dispose() {
+  // //   // timer.cancel();
+  // //   // widget.controller.dispose();
+  // //   super.dispose();
+  // // }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class _CreateNoteTextFieldState extends State<CreateNoteTextField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        widget.isSubject != null
+        widget.label == 'Subjek'
             //Another field
             ? RichText(
                 text: TextSpan(
@@ -103,11 +103,11 @@ class _CreateNoteTextFieldState extends State<CreateNoteTextField> {
               const SizedBox(),
           keyboardType:
               widget.isSubject == null ? TextInputType.multiline : null,
-          maxLines: widget.isSubject == null ? 5 : null,
-          maxLength: widget.isSubject == false ? 250 : 30,
-          inputFormatters: widget.isSubject == null
-              ? [LengthLimitingTextInputFormatter(maxLength)]
-              : [],
+          maxLines: widget.label == 'Subjek' ? null : 5,
+          maxLength: widget.label == 'Subjek' ? 30 : maxLength,
+          inputFormatters: widget.label == 'Subjek'
+              ? []
+              : [LengthLimitingTextInputFormatter(maxLength)],
           validator: (value) {
             if (value!.isEmpty) {
               return 'Anda belum mengisi ${widget.message}';
@@ -115,7 +115,7 @@ class _CreateNoteTextFieldState extends State<CreateNoteTextField> {
           },
           decoration: InputDecoration(
             filled: true,
-            hintText: widget.isSubject != null
+            hintText: widget.label == 'Subjek'
                 ? 'Tulis ${widget.hint}'
                 : 'Tulis ${widget.hint} catatan',
             hintStyle: AppFont.hintTextField,

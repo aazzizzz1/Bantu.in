@@ -5,21 +5,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import '../constants/color/app_color.dart';
 import '../constants/font/app_font.dart';
+import '../view_models/notification_viewmodel.dart';
 
-class CardNotification extends StatelessWidget {
+class CardNotificationTeam extends StatefulWidget {
   final DetailNotificationModel notif;
 
-  const CardNotification({
+  const CardNotificationTeam({
     super.key,
     required this.notif,
   });
 
   @override
+  State<CardNotificationTeam> createState() => _CardNotificationTeamState();
+}
+
+class _CardNotificationTeamState extends State<CardNotificationTeam> {
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   Future.microtask(() =>
+  //       Provider.of<NotificationViewModel>(context, listen: false)
+  //           .getDetailTeamNotif(widget.notif.senderPlace));
+  //   super.initState();
+  // }
+
+  @override
   Widget build(BuildContext context) {
-    if (notif.sender != null) {
+    if (widget.notif.sender != null) {
       return Container(
         margin: const EdgeInsets.only(bottom: 8),
         height: MediaQuery.of(context).size.height * 0.15,
@@ -33,27 +50,23 @@ class CardNotification extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                CachedNetworkImage(
-                  imageUrl:
-                      '${notif.photo}', // Ubah menjadi notif.photo sebagai sumber gambar
-                  placeholder: (context, url) => CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
-                  imageBuilder: (context, imageProvider) => Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: imageProvider,
-                      ),
-                    ),
-                  ),
+            Container(
+              alignment: Alignment.center,
+              height: 50,
+              width: 50,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+              child: Text(
+                "${widget.notif.sender[0].toUpperCase()}",
+                style: GoogleFonts.ibmPlexSans(
+                  fontSize: 24,
+                  fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
                 ),
-              ],
+              ),
             ),
             const SizedBox(
               width: 12,
@@ -70,25 +83,25 @@ class CardNotification extends StatelessWidget {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: notif.sender,
+                          text: widget.notif.sender,
                           style: AppFont.semiBold14,
                         ),
                         TextSpan(
-                          text: notif.title == "menerima"
+                          text: widget.notif.title == "menerima"
                               ? " menerima "
-                              : " menolak ", 
-                          style: notif.title == "menerima"
+                              : " menolak ",
+                          style: widget.notif.title == "menerima"
                               ? AppFont.textNotificationActive
                               : AppFont.textNotificationError,
                         ),
                         TextSpan(
-                          text: notif.notifType == "collab"
+                          text: widget.notif.notifType == "collab"
                               ? " catatan anda"
                               : " undangan tim anda",
                           style: AppFont.medium14,
                         ),
                         TextSpan(
-                          text: "\n ${notif.send}",
+                          text: "\n ${widget.notif.send}",
                           style: AppFont.textNotificationTime,
                         ),
                       ],
@@ -100,7 +113,7 @@ class CardNotification extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      notif.notifType == "team"
+                      widget.notif.notifType == "team"
                           ? SvgPicture.asset(
                               'lib/assets/icons/Team.svg',
                               color: AppColorPrimary.primary6,
@@ -116,9 +129,9 @@ class CardNotification extends StatelessWidget {
                       ),
                       Flexible(
                         child: Text(
-                          notif.senderPlace == 0
+                          widget.notif.senderPlace == 0
                               ? "Tidak ada lokasi"
-                              : notif.senderPlace.toString(),
+                              : widget.notif.placeName,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: AppFont.textInvitation,
