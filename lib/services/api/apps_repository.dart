@@ -55,7 +55,7 @@ class AppsRepository {
 
   Future getPersonalNote() async {
     try {
-      final response = await _apiService.getRequest('/notes');
+      final response = await _apiService.getRequest('/notes?upcoming=yes');
       NoteModel ringtones = NoteModel.fromJson(response);
       // print(response);
       return ringtones.notes;
@@ -255,6 +255,15 @@ class AppsRepository {
       final response = await _apiService.getRequest('/teams');
       TeamModel team = TeamModel.fromJson(response);
       return team.team;
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  Future getDetailTeam(int id) async {
+    try {
+      final response = await _apiService.getRequest('/teams/$id');
+      return response;
     } catch (_) {
       rethrow;
     }

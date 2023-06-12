@@ -302,7 +302,7 @@ class _BottomMenuState extends State<BottomMenu> {
                             Text(
                               'Undangan',
                               style: GoogleFonts.ibmPlexSans(
-                                fontSize: 9,
+                                fontSize: 8,
                                 fontStyle: FontStyle.normal,
                                 fontWeight: FontWeight.w500,
                                 color: statusLayar.currentTab == 3

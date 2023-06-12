@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -20,12 +21,12 @@ class CardInvitation extends StatefulWidget {
 
 class _CardInvitationState extends State<CardInvitation> {
   bool _isDone = false;
-  @override
   bool _isAccept = false;
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  // }
 
   void refresh(bool isFalse) async {
     _isAccept = isFalse;
@@ -95,21 +96,42 @@ class _CardInvitationState extends State<CardInvitation> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const Icon(
-                        Icons.note_add_outlined,
-                        color: AppColorPrimary.primary5,
+                      widget.invitationDetail.note == 'null'
+                          ? SvgPicture.asset(
+                              'lib/assets/icons/Team.svg',
+                              height: 25,
+                              width: 25,
+                              color: AppColorPrimary.primary6,
+                            )
+                          : const Icon(
+                              Icons.note_add_outlined,
+                              color: AppColorPrimary.primary5,
+                            ),
+                      const SizedBox(width: 5),
+                      SizedBox(
+                        width: 150,
+                        child: widget.invitationDetail.note == 'null'
+                            ? Text(
+                                widget.invitationDetail.team,
+                                style: AppFont.textInvitation,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              )
+                            : Text(
+                                widget.invitationDetail.note,
+                                style: AppFont.textInvitation,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
                       ),
-                      Text(
-                        widget.invitationDetail.note,
-                        style: AppFont.textInvitation,
-                      )
                     ],
                   ),
                 ),
                 const SizedBox(height: 16),
-                _isDone
-                    ? textResponse(_isAccept)
-                    : buttonOffering(widget.invitationDetail.actions),
+                buttonOffering(widget.invitationDetail.actions)
+                // _isDone
+                //     ? textResponse(_isAccept)
+                //     : buttonOffering(widget.invitationDetail.actions),
               ],
             ),
           )
@@ -129,15 +151,10 @@ class _CardInvitationState extends State<CardInvitation> {
               ElevatedButton(
                 onPressed: () async {
                   try {
-                    await inv.redirectLink(actions.last.url).then((value) =>
+                    await inv.redirectLink(actions.last.url).then((value) {
+                      inv.fetchInvitation();
+                    }).then((value) =>
                         Fluttertoast.showToast(msg: 'Catatan ditolak'));
-                    // refresh(false);
-                    // await launchUrl(Uri.parse(actions.last.url)).then(
-                    //     (value) => Fluttertoast.showToast(msg: 'Ditolak'));
-                    setState(() {
-                      // _isAccept = false;
-                      // _isDone = true;
-                    });
                   } catch (e) {
                     await Fluttertoast.showToast(msg: e.toString());
                   }
@@ -165,15 +182,10 @@ class _CardInvitationState extends State<CardInvitation> {
               ElevatedButton(
                 onPressed: () async {
                   try {
-                    await inv.redirectLink(actions.first.url).then((value) =>
+                    await inv.redirectLink(actions.first.url).then((value) {
+                      inv.fetchInvitation();
+                    }).then((value) =>
                         Fluttertoast.showToast(msg: 'Catatan diterima'));
-                    // refresh(true);
-                    // await launchUrl(Uri.parse(actions.first.url)).then(
-                    //     (value) => Fluttertoast.showToast(msg: 'Diterima'));
-                    setState(() {
-                      // _isAccept = true;
-                      // _isDone = true;
-                    });
                   } catch (e) {
                     await Fluttertoast.showToast(msg: e.toString());
                   }

@@ -96,7 +96,7 @@ class _InvitationScreenState extends State<InvitationScreen> {
           if (inv.appState == AppState.loaded) {
             return SizedBox(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.6,
+              height: MediaQuery.of(context).size.height * 0.8,
               child: ListView.builder(
                 shrinkWrap: true,
                 itemCount: inv.listOfInvitation.length,

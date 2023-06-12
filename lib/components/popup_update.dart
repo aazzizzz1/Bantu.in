@@ -29,6 +29,7 @@ class _PopupUpdateState extends State<PopupUpdate> {
   @override
   void initState() {
     // TODO: implement initState
+    print(widget.postNotePersonal.email);
     super.initState();
     _updateController = TextEditingController();
     _updateController.addListener(() {

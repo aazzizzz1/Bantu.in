@@ -27,7 +27,7 @@ class _DaftarCatatanState extends State<DaftarCatatan> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Sortir berdasarkan',
+                  'Mendekati tanggal acara.',
                   style: GoogleFonts.ibmPlexSans(
                       fontSize: 16,
                       fontStyle: FontStyle.normal,

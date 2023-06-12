@@ -138,6 +138,7 @@ class NoteViewModel with ChangeNotifier {
         "subject": note.subject,
         "description": note.description,
         "event_date": note.eventDate,
+        "email": note.email,
         "reminder": note.reminder,
         "ringtone_id": note.ringtoneId,
         "body": msg
@@ -215,7 +216,8 @@ class NoteViewModel with ChangeNotifier {
   Future<void> filterPassedNote() async {
     try {
       changeAppState(AppState.loading);
-      _listOfPassedNote = await appsRepository.filterNote('?passed=yes');
+      _listOfPassedNote =
+          await appsRepository.filterNote('?passed=yes&sort=desc');
       notifyListeners();
       changeAppState(AppState.loaded);
       if (_listOfPassedNote.isEmpty) {

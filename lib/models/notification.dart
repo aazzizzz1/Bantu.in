@@ -23,6 +23,7 @@ class DetailNotificationModel {
   final int senderPlace;
   final DateTime created;
   final String send;
+  final String placeName;
   final String notifType;
 
   DetailNotificationModel({
@@ -35,6 +36,7 @@ class DetailNotificationModel {
     required this.senderPlace,
     required this.created,
     required this.send,
+    required this.placeName,
     required this.notifType,
   });
 
@@ -45,10 +47,14 @@ class DetailNotificationModel {
         recipient: json['recipient'] ?? 'null',
         read: json['read'] ?? false,
         sender: json['sender'] ?? 'null',
-        photo: json['photo'] ?? 'null',
-        senderPlace: json['sender_place'] ?? null, // Ubah menjadi 0 sebagai nilai default
+        photo: json['photo'] ??
+            'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png',
+        senderPlace: json['sender_place'] ??
+            null, // Ubah menjadi 0 sebagai nilai default
         created: DateTime.parse(json['created'] ?? 'null'),
         send: json['send'] ?? 'null',
+        placeName: json['place_name'] ?? 'null',
         notifType: json['notif_type'] ?? 'null',
       );
 }
+//

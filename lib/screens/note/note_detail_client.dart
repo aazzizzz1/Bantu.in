@@ -196,57 +196,6 @@ class _NoteDetailClientState extends State<NoteDetailClient> {
                         clientUpload()
                       ],
                     ),
-                    Consumer<NoteViewModel>(
-                      builder: (context, value, child) => SizedBox(
-                        height: 48,
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: ElevatedButton(
-                            onPressed: platformFileUrl.isNotEmpty ||
-                                    value.noteDetailClient.file.isNotEmpty
-                                ? () async {
-                                    try {
-                                      await value
-                                          .uploadFileClient(
-                                              id: value.noteDetailClient.id
-                                                  .toString(),
-                                              selectedFile: _fileUrl)
-                                          .then((value) =>
-                                              Fluttertoast.showToast(
-                                                  msg: 'Berhasil Upload File'))
-                                          .then((value) =>
-                                              Navigator.pop(context));
-                                    } catch (e) {
-                                      await Fluttertoast.showToast(
-                                          msg: e.toString());
-                                    }
-                                  }
-                                : null,
-                            style: ButtonStyle(
-                              padding: MaterialStatePropertyAll(
-                                EdgeInsets.symmetric(
-                                    horizontal: 100, vertical: 15),
-                              ),
-                              elevation: MaterialStatePropertyAll(0),
-                              backgroundColor: MaterialStatePropertyAll(
-                                  platformFileUrl.isNotEmpty ||
-                                          value.noteDetailClient.file.isNotEmpty
-                                      ? AppColor.activeColor
-                                      : AppColorNeutral.neutral2),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Simpan',
-                                style: platformFileUrl.isNotEmpty ||
-                                        value.noteDetailClient.file.isNotEmpty
-                                    ? AppFont.textFillButtonActive
-                                    : AppFont.hintTextField,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               );
@@ -271,6 +220,57 @@ class _NoteDetailClientState extends State<NoteDetailClient> {
             }
             return const SizedBox();
           },
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Consumer<NoteViewModel>(
+        builder: (context, value, child) => Container(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          height: 48,
+          child: ElevatedButton(
+            onPressed: value.noteDetailClient.status == 'late'
+                ? null
+                : platformFileUrl.isNotEmpty ||
+                        value.noteDetailClient.file.isNotEmpty
+                    ? () async {
+                        try {
+                          await value
+                              .uploadFileClient(
+                                  id: value.noteDetailClient.id.toString(),
+                                  selectedFile: _fileUrl)
+                              .then((value) => Fluttertoast.showToast(
+                                  msg: 'Berhasil Upload File'))
+                              .then((value) => Navigator.pop(context));
+                        } catch (e) {
+                          await Fluttertoast.showToast(msg: e.toString());
+                        }
+                      }
+                    : null,
+            style: ButtonStyle(
+              padding: MaterialStatePropertyAll(
+                EdgeInsets.symmetric(horizontal: 100, vertical: 15),
+              ),
+              elevation: MaterialStatePropertyAll(0),
+              backgroundColor: MaterialStatePropertyAll(
+                  value.noteDetailClient.status == 'late'
+                      ? AppColorNeutral.neutral2
+                      : platformFileUrl.isNotEmpty ||
+                              value.noteDetailClient.file.isNotEmpty
+                          ? AppColor.activeColor
+                          : AppColorNeutral.neutral2),
+            ),
+            child: Center(
+              child: Text(
+                'Simpan',
+                style: value.noteDetailClient.status == 'late'
+                    ? AppFont.hintTextField
+                    : platformFileUrl.isNotEmpty ||
+                            value.noteDetailClient.file.isNotEmpty
+                        ? AppFont.textFillButtonActive
+                        : AppFont.hintTextField,
+              ),
+            ),
+          ),
         ),
       ),
     );

@@ -61,7 +61,10 @@ class _CardMyNotesClientState extends State<CardMyNotesClient> {
                     id: widget.noteDetail.id,
                     status: widget.noteDetail.status,
                   ),
-                ));
+                )).then((value) {
+              note.filterUpcomingNote();
+              note.filterPassedNote();
+            });
             // try {
             //   ;
             // } catch (e) {
@@ -107,6 +110,8 @@ class _CardMyNotesClientState extends State<CardMyNotesClient> {
                                 child: Text(
                                   widget.noteDetail.subject,
                                   style: AppFont.semiBold16w500,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                               Container(
@@ -137,11 +142,14 @@ class _CardMyNotesClientState extends State<CardMyNotesClient> {
                             ],
                           ),
                           const SizedBox(height: 8.0),
-                          Text(
-                            widget.noteDetail.description,
-                            style: AppFont.regular12,
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
+                          SizedBox(
+                            height: 50,
+                            child: Text(
+                              widget.noteDetail.description,
+                              style: AppFont.regular12,
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ],
                       ),

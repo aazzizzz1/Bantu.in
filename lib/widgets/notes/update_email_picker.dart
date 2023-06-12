@@ -26,18 +26,18 @@ class UpdateEmailPicker extends StatefulWidget {
 }
 
 class _UpdateEmailPickerState extends State<UpdateEmailPicker> {
-  late List<String> _emails;
+  List<String> _emails = [];
   final TextEditingController _emailController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  List<String> dataApi = [];
 
   @override
   void initState() {
     // TODO: implement initState
-    List<String> data = [];
     for (var index = 0; index < widget.memberEmails.length; index++) {
-      data.add(widget.memberEmails[index].email);
+      dataApi.add(widget.memberEmails[index].email);
     }
-    _emails = data;
+    // _emails = dataApi;
     super.initState();
   }
 
@@ -81,7 +81,7 @@ class _UpdateEmailPickerState extends State<UpdateEmailPicker> {
       children: [
         Wrap(
           spacing: 8.0,
-          children: _emails.map((email) {
+          children: dataApi.map((email) {
             return Consumer<NoteViewModel>(
               builder: (context, note, child) {
                 return InputChip(
@@ -90,7 +90,7 @@ class _UpdateEmailPickerState extends State<UpdateEmailPicker> {
                     try {
                       await note
                           .removeMember(widget.noteDetail, email)
-                          .then((value) => _removeEmail(_emails.indexOf(email)))
+                          .then((value) => _removeEmail(dataApi.indexOf(email)))
                           .then((value) => Fluttertoast.showToast(
                               msg: 'Member berhasil di hapus'));
                     } catch (e) {
@@ -100,6 +100,15 @@ class _UpdateEmailPickerState extends State<UpdateEmailPicker> {
                   },
                 );
               },
+            );
+          }).toList(),
+        ),
+        Wrap(
+          spacing: 8.0,
+          children: _emails.map((email) {
+            return InputChip(
+              label: Text(email),
+              onDeleted: () => _removeEmail(_emails.indexOf(email)),
             );
           }).toList(),
         ),
