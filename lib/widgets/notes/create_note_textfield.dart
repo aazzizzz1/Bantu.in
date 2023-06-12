@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -26,14 +28,26 @@ class CreateNoteTextField extends StatefulWidget {
 }
 
 class _CreateNoteTextFieldState extends State<CreateNoteTextField> {
+  late var timer;
   @override
-  void initState() {
-    // TODO: implement initState
-    widget.controller.addListener(() {
-      setState(() {});
-    });
-    super.initState();
-  }
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   if (mounted) {
+  //     widget.controller.addListener(() {
+  //       // setState(() {});KU
+  //     });
+  //     // timer =
+  //     //     Timer.periodic(Duration(seconds: 60), (Timer t) => setState(() {}));
+  //   }
+  // }
+
+  @override
+  // void dispose() {
+  //   // timer.cancel();
+  //   // widget.controller.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {

@@ -76,8 +76,9 @@ class _UpdateDateTimePickerState extends State<UpdateDateTimePicker> {
             //     DateFormat('EEEE, dd MMM, yyyy').format(_selectedDateTime);
             // _dateController.text =
             //     DateFormat.yMEd('en_US').format(_selectedDateTime);
-            widget.controller.text = DateFormat('dd/MM/yyyy hh:mm', 'en_US')
-                .format(_selectedDateTime);
+            widget.controller.text =
+                DateFormat('EEEE dd/MM/yyyy HH:mm', 'id_ID')
+                    .format(_selectedDateTime);
           });
           widget.onChanged(_selectedDateTime);
           print(_selectedDateTime);
@@ -103,7 +104,7 @@ class _UpdateDateTimePickerState extends State<UpdateDateTimePicker> {
       keyboardType: TextInputType.multiline,
       style: AppFont.medium14,
       onTap: () {
-        initializeDateFormatting('en_US', null).then((_) => _selectDate());
+        initializeDateFormatting('id_ID', null).then((_) => _selectDate());
       },
       validator: (value) {
         if (value!.isEmpty) {

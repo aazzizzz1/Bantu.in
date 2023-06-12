@@ -14,27 +14,35 @@ import '../../constants/color/app_color.dart';
 import '../../constants/font/app_font.dart';
 import '../../models/user_note_model.dart';
 
-class EditDeleteNote extends StatelessWidget {
+class EditDeleteNote extends StatefulWidget {
   final NoteDetailModel note;
 
   const EditDeleteNote({super.key, required this.note});
 
   @override
+  State<EditDeleteNote> createState() => _EditDeleteNoteState();
+}
+
+class _EditDeleteNoteState extends State<EditDeleteNote> {
+  @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         InkWell(
-          onTap: note.status == 'completed'
+          onTap: widget.note.status == 'completed'
               ? null
               : () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => NoteUpdate(noteDetail: note)));
+                          builder: (context) =>
+                              NoteUpdate(noteDetail: widget.note))).then((_) {
+                    setState(() {});
+                  });
                 },
           child: Text(
             'Edit',
-            style: note.status == 'completed'
+            style: widget.note.status == 'completed'
                 ? AppFont.editDisable
                 : AppFont.textButtonActive,
           ),
@@ -50,7 +58,7 @@ class EditDeleteNote extends StatelessWidget {
                 context: context,
                 builder: (BuildContext context) {
                   return PopupDelete(
-                    noteDetail: note,
+                    noteDetail: widget.note,
                   );
                 },
               );
