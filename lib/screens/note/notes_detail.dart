@@ -24,10 +24,12 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
+import '../../components/popup_delete.dart';
 import '../../models/note_model.dart';
 import '../../utils/app_state.dart';
 import '../../widgets/detail_note/client_upload2.dart';
 import '../../widgets/shimmer_loading/shimmer_container.dart';
+import 'notes_update.dart';
 
 class NotesDetail extends StatefulWidget {
   final NoteDetailModel noteDetail;
@@ -56,11 +58,11 @@ class _NotesDetailState extends State<NotesDetail> {
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
     Future.microtask(() => Provider.of<NoteViewModel>(context, listen: false)
         .getDetailNoteAdmin(widget.noteDetail.id));
     Future.microtask(() => Provider.of<HistoryViewModel>(context, listen: false)
         .fetchHistory(widget.noteDetail));
+    super.initState();
   }
 
   // @override
@@ -155,7 +157,62 @@ class _NotesDetailState extends State<NotesDetail> {
                                 style: AppFont.textTitleScreen,
                               ),
                             ),
-                            EditDeleteNote(note: noteView.noteDetailAdmin)
+                            // EditDeleteNote(note: noteView.noteDetailAdmin)
+                            Row(
+                              children: [
+                                InkWell(
+                                  onTap: noteView.noteDetailAdmin.status ==
+                                          'completed'
+                                      ? null
+                                      : () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) => NoteUpdate(
+                                                      noteDetail: noteView
+                                                          .noteDetailAdmin))).then(
+                                              (value) {
+                                            setState(() {});
+                                          });
+                                        },
+                                  child: Text(
+                                    'Edit',
+                                    style: noteView.noteDetailAdmin.status ==
+                                            'completed'
+                                        ? AppFont.editDisable
+                                        : AppFont.textButtonActive,
+                                  ),
+                                ),
+                                SizedBox(width: 24),
+                                Consumer<NoteViewModel>(
+                                  builder: (context, value, child) => InkWell(
+                                    onTap: () {
+                                      // PopupDelete(noteDetail: note);
+                                      // note.notesType != 'personal'
+                                      showDialog(
+                                        barrierDismissible: false,
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return PopupDelete(
+                                            noteDetail:
+                                                noteView.noteDetailAdmin,
+                                          );
+                                        },
+                                      );
+                                      // : value
+                                      //     .deletePersonalNote(note)
+                                      //     .then((value) =>
+                                      //         Fluttertoast.showToast(msg: 'Note berhasil dihapus'))
+                                      //     .then((value) => Navigator.pop(context));
+                                    },
+                                    child: Text(
+                                      'Hapus',
+                                      style: AppFont.textButtonError,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                         SizedBox(height: 20.0),

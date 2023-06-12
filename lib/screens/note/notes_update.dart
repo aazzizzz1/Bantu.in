@@ -56,9 +56,9 @@ class _NoteUpdateState extends State<NoteUpdate> {
     // TODO: implement initState
     _subjectController.text = widget.noteDetail.subject;
     _descriptionController.text = widget.noteDetail.description;
-    _eventDateController.text = DateFormat('dd/MM/yyyy hh:mm', 'en_US')
+    _eventDateController.text = DateFormat('EEEE dd/MM/yyyy HH:mm', 'id_ID')
         .format(widget.noteDetail.eventDate);
-    _reminderController.text = DateFormat('dd/MM/yyyy hh:mm', 'en_US')
+    _reminderController.text = DateFormat('dd/MM/yyyy HH:mm', 'id_ID')
         .format(widget.noteDetail.reminder);
     _ringtoneController.text = widget.noteDetail.ringtone;
     _selectedRingtone = widget.noteDetail.ringtone;
@@ -362,14 +362,10 @@ class _NoteUpdateState extends State<NoteUpdate> {
                                   (value) => Fluttertoast.showToast(
                                           msg: 'Berhasil mengubah note')
                                       .then(
-                                    (value) => Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const NoteScreen()),
-                                    ),
+                                    (value) => Navigator.pop(context),
                                   ),
                                 );
+                            // setState(() {});
                           } catch (e) {
                             Fluttertoast.showToast(msg: e.toString());
                           }

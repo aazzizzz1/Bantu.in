@@ -24,17 +24,17 @@ class AdminMember extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: noteDetail.member.length * 35,
+              // height: noteDetail.member.length * 45,
               width: MediaQuery.of(context).size.width,
-              child: noteDetail.member.length > 3
-                  // If member more than 3
+              child: noteDetail.member.length > 2
+                  // If member more than 2
                   ? Column(
                       children: [
                         SizedBox(
-                          height: noteDetail.member.length * 30,
+                          height: noteDetail.member.length * 20,
                           child: ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
-                            itemCount: 3,
+                            itemCount: 2,
                             itemBuilder: (context, index) {
                               final data = noteDetail.member[index];
                               return Align(
@@ -59,7 +59,7 @@ class AdminMember extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              'dan ${noteDetail.member.length - 3} orang lagi.',
+                              'dan ${noteDetail.member.length - 2} orang lagi.',
                               style: AppFont.medium14,
                             ),
                             InkWell(
@@ -82,27 +82,30 @@ class AdminMember extends StatelessWidget {
                       ],
                     )
                   // If member less than 3
-                  : ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: noteDetail.member.length,
-                      itemBuilder: (context, index) {
-                        final data = noteDetail.member[index];
-                        return Align(
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: 40,
-                            width: data.username.characters.length * 11,
-                            // margin: EdgeInsets.only(
-                            //     right: data.username.characters.length * 10),
-                            decoration: BoxDecoration(
-                                color: AppColorPrimary.primary3,
-                                borderRadius: BorderRadius.circular(20)),
-                            child: Text(data.username,
-                                style: AppFont.textNameTimActive),
-                          ),
-                        );
-                      },
+                  : SizedBox(
+                      height: noteDetail.member.length * 50,
+                      child: ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: noteDetail.member.length,
+                        itemBuilder: (context, index) {
+                          final data = noteDetail.member[index];
+                          return Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: 40,
+                              width: data.username.characters.length * 11,
+                              // margin: EdgeInsets.only(
+                              //     right: data.username.characters.length * 10),
+                              decoration: BoxDecoration(
+                                  color: AppColorPrimary.primary3,
+                                  borderRadius: BorderRadius.circular(20)),
+                              child: Text(data.username,
+                                  style: AppFont.textNameTimActive),
+                            ),
+                          );
+                        },
+                      ),
                     ),
             ),
             const SizedBox(height: 12.0),
@@ -119,23 +122,25 @@ class AdminMember extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             SizedBox(
-              height:
-                  noteDetail.file.isEmpty ? 20 : noteDetail.file.length * 10,
+              // height:
+              //     noteDetail.file.isEmpty ? 20 : noteDetail.file.length * 20,
               child: noteDetail.file.isEmpty
                   ? SizedBox(
+                      height: 20,
                       child: Text(
                         'Belum ada file yang di upload',
                         style: AppFont.regular12,
                       ),
                     )
-                  : noteDetail.file.length > 3
+                  // File more than 2
+                  : noteDetail.file.length > 2
                       ? Column(
                           children: [
                             SizedBox(
                               height: 80,
                               child: ListView.builder(
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemCount: 3,
+                                itemCount: 2,
                                 itemBuilder: (context, index) {
                                   final data = noteDetail.file[index];
                                   return InkWell(
@@ -162,7 +167,7 @@ class AdminMember extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  'dan ${noteDetail.file.length - 3} file lagi.',
+                                  'dan ${noteDetail.file.length - 2} file lagi.',
                                   style: AppFont.medium14,
                                 ),
                                 InkWell(
@@ -185,8 +190,9 @@ class AdminMember extends StatelessWidget {
                             ),
                           ],
                         )
+                      // File less than 2
                       : SizedBox(
-                          height: 100,
+                          height: 30,
                           child: ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: noteDetail.file.length,
