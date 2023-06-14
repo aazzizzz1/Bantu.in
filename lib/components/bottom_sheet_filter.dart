@@ -82,10 +82,10 @@ class _BottomSheetFilterState extends State<BottomSheetFilter> {
                           if (filterList.length < 3) {
                             switch (filterList.indexOf(e)) {
                               case 0:
-                                await note.filterAscPassed();
+                                await note.filterDescPassed();
                                 break;
                               default:
-                                await note.filterDescPassed();
+                                await note.filterAscPassed();
                             }
                           } else {
                             switch (filterList.indexOf(e)) {

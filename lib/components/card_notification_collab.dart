@@ -117,9 +117,7 @@ class _CardNotificationCollabState extends State<CardNotificationCollab> {
                               : AppFont.textNotificationError,
                         ),
                         TextSpan(
-                          text: widget.notif.notifType == "collab"
-                              ? " catatan anda"
-                              : " undangan tim anda",
+                          text: " catatan anda",
                           style: AppFont.medium14,
                         ),
                         TextSpan(
@@ -135,24 +133,32 @@ class _CardNotificationCollabState extends State<CardNotificationCollab> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      widget.notif.notifType == "team"
-                          ? SvgPicture.asset(
-                              'lib/assets/icons/Team.svg',
-                              color: AppColorPrimary.primary6,
-                              height: 24,
-                            )
+                      widget.notif.placeName == 'null'
+                          ? const SizedBox()
                           : SvgPicture.asset(
                               'lib/assets/icons/Task 2.svg',
                               color: AppColorPrimary.primary6,
                               height: 24,
                             ),
+                      // widget.notif.notifType == "team"
+                      //     ? SvgPicture.asset(
+                      //         'lib/assets/icons/Team.svg',
+                      //         color: AppColorPrimary.primary6,
+                      //         height: 24,
+                      //       )
+                      //     : SvgPicture.asset(
+                      //         'lib/assets/icons/Task 2.svg',
+                      //         color: AppColorPrimary.primary6,
+                      //         height: 24,
+                      //       ),
                       SizedBox(
                         width: 8,
                       ),
                       Flexible(
                         child: Text(
-                          widget.notif.senderPlace == 0
-                              ? 'Team / Notes tidak ada'
+                          // widget.notif.placeName,
+                          widget.notif.placeName == 'null'
+                              ? ''
                               : widget.notif.placeName,
                           style: AppFont.textInvitation,
                           overflow: TextOverflow.ellipsis,

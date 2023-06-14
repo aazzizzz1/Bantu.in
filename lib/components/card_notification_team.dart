@@ -113,24 +113,29 @@ class _CardNotificationTeamState extends State<CardNotificationTeam> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      widget.notif.notifType == "team"
-                          ? SvgPicture.asset(
-                              'lib/assets/icons/Team.svg',
-                              color: AppColorPrimary.primary6,
-                              height: 24,
-                            )
-                          : SvgPicture.asset(
-                              'lib/assets/icons/Task 2.svg',
-                              color: AppColorPrimary.primary6,
-                              height: 24,
-                            ),
+                      SvgPicture.asset(
+                        'lib/assets/icons/Team.svg',
+                        color: AppColorPrimary.primary6,
+                        height: 24,
+                      ),
+                      // widget.notif.notifType == "team"
+                      //     ? SvgPicture.asset(
+                      //         'lib/assets/icons/Team.svg',
+                      //         color: AppColorPrimary.primary6,
+                      //         height: 24,
+                      //       )
+                      //     : SvgPicture.asset(
+                      //         'lib/assets/icons/Task 2.svg',
+                      //         color: AppColorPrimary.primary6,
+                      //         height: 24,
+                      //       ),
                       SizedBox(
                         width: 8,
                       ),
                       Flexible(
                         child: Text(
-                          widget.notif.senderPlace == 0
-                              ? "Tidak ada lokasi"
+                          widget.notif.placeName == 'null'
+                              ? "Tidak nama tim"
                               : widget.notif.placeName,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,

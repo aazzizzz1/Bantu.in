@@ -17,18 +17,29 @@ import 'package:bantuin/view_models/register_viewmodel.dart';
 import 'package:bantuin/view_models/ringtone_viewmodel.dart';
 import 'package:bantuin/view_models/user_viewmodel.dart';
 import 'package:bantuin/view_models/tim_view_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/auth/register_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+// import '';
 
 void main() async {
   runApp(const MyApp());
   await FlutterDownloader.initialize(debug: true);
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  FlutterExceptionHandler? originalOnError = FlutterError.onError;
+  FlutterError.onError = (FlutterErrorDetails errorDetails) async {
+    await FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
+    originalOnError!(errorDetails);
+  };
   await Alarm.init(showDebugLogs: true);
 }
 

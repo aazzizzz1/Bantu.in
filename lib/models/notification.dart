@@ -49,8 +49,8 @@ class DetailNotificationModel {
         sender: json['sender'] ?? 'null',
         photo: json['photo'] ??
             'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png',
-        senderPlace: json['sender_place'] ??
-            null, // Ubah menjadi 0 sebagai nilai default
+        senderPlace:
+            json['sender_place'] ?? 0, // Ubah menjadi 0 sebagai nilai default
         created: DateTime.parse(json['created'] ?? 'null'),
         send: json['send'] ?? 'null',
         placeName: json['place_name'] ?? 'null',
