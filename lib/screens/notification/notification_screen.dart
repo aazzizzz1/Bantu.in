@@ -68,23 +68,25 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           itemCount: notif.listOfNotif.length,
                           itemBuilder: (context, index) {
                             var data = notif.listOfNotif[index];
-
-                            return Column(
-                              children: [
-                                if (data.notifType == 'client')
-                                  CardNotificationClient(
-                                    notif: data,
-                                  ),
-                                if (data.notifType == 'team')
-                                  CardNotificationTeam(
-                                    notif: data,
-                                  ),
-                                if (data.notifType == 'collab')
-                                  CardNotificationCollab(
-                                    notif: data,
-                                  ),
-                              ],
-                            );
+                            if (data.notifType == 'client') {
+                              return CardNotificationClient(notif: data);
+                            }
+                            if (data.notifType == 'collab') {
+                              return CardNotificationCollab(notif: data);
+                            }
+                            if (data.notifType == 'team') {
+                              return CardNotificationTeam(notif: data);
+                            }
+                            // return Column(
+                            //   children: [
+                            //     if (data.notifType == 'client')
+                            //       CardNotificationClient(notif: data),
+                            //     if (data.notifType == 'team')
+                            //       CardNotificationTeam(notif: data),
+                            //     if (data.notifType == 'collab')
+                            //       CardNotificationCollab(notif: data),
+                            //   ],
+                            // );
                           },
                         ),
                       ),
