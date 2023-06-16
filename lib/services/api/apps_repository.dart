@@ -263,7 +263,8 @@ class AppsRepository {
   Future getDetailTeam(int id) async {
     try {
       final response = await _apiService.getRequest('/teams/$id');
-      return response;
+      TeamDetailModel team = TeamDetailModel.fromJson(response['data']);
+      return team;
     } catch (_) {
       rethrow;
     }

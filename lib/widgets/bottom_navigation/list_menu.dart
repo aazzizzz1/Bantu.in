@@ -3,7 +3,8 @@ import 'package:bantuin/screens/home/home_pages.dart';
 import 'package:bantuin/screens/invitation/invitation_screen.dart';
 import 'package:bantuin/screens/note/notes_screen.dart';
 import 'package:bantuin/screens/profile/profile_screen.dart';
-import 'package:bantuin/screens/tim/tim_screen.dart';
+import 'package:bantuin/screens/tim/coming_soon_screen.dart';
+import 'package:bantuin/screens/tim/list_team_screen.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../screens/profile/profile_screen2.dart';
@@ -19,7 +20,8 @@ class ListMenu {
     screens = [
       const HomePages(),
       const NoteScreen(),
-      const TimScreen(),
+      ComingSoonScreen(),
+      // const TimScreen(),
       const InvitationScreen(),
       ProfileScreen2(),
     ];

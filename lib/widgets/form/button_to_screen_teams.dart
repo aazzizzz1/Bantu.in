@@ -1,6 +1,6 @@
 import 'package:bantuin/constants/color/app_color.dart';
 import 'package:bantuin/constants/font/app_font.dart';
-import 'package:bantuin/screens/tim/tim_screen.dart';
+import 'package:bantuin/screens/tim/list_team_screen.dart';
 import 'package:flutter/material.dart';
 
 class ButtonScreenTim extends StatelessWidget {

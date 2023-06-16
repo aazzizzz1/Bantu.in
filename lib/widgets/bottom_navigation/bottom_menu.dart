@@ -7,6 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../constants/constant.dart';
+
 class BottomMenu extends StatefulWidget {
   BottomMenu({Key? key, required this.currentScreen, required this.currentTab})
       : super(key: key);
@@ -218,6 +220,25 @@ class _BottomMenuState extends State<BottomMenu> {
                       width: size.width * 0.2,
                       child: MaterialButton(
                         onPressed: () {
+                          // showDialog(
+                          //   context: context,
+                          //   builder: (context) => AlertDialog(
+                          //     title: Text(
+                          //       'Coming Soon',
+                          //       textAlign: TextAlign.center,
+                          //       style: AppFont.semiBold20,
+                          //     ),
+                          //     titlePadding: EdgeInsets.symmetric(
+                          //         horizontal: 50, vertical: 50),
+                          //     // content: Text(
+                          //     //   'Anda mendapatkan point sebesar 100. Semangat terus mengerjakan tugasnya.',
+                          //     //   textAlign: TextAlign.center,
+                          //     //   style: AppFont.textDescription,
+                          //     // ),
+                          //     actionsPadding: const EdgeInsets.only(
+                          //         left: 18, right: 18, bottom: 16),
+                          //   ),
+                          // );
                           setState(() {
                             statusLayar.currentTab = 2;
                             statusLayar.screens[2];

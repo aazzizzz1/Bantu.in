@@ -1,6 +1,8 @@
 import 'package:bantuin/models/user_models.dart';
 import 'package:bantuin/screens/tim/tim_add_member.dart';
+import 'package:bantuin/utils/app_state.dart';
 import 'package:bantuin/view_models/tim_view_model.dart';
+import 'package:bantuin/widgets/shimmer_loading/shimmer_container.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -11,6 +13,7 @@ import 'package:provider/provider.dart';
 
 import '../../constants/constant.dart';
 import '../../models/tim_model.dart';
+import '../../widgets/shimmer_loading/shimmer_card_widget.dart';
 
 class TimAllMember extends StatefulWidget {
   final TeamDetailModel timdetail;
@@ -56,6 +59,7 @@ class _TimAllMemberState extends State<TimAllMember> {
           style: AppFont.semiBold14,
         ),
         actions: [
+          Icon(Icons.menu),
           Container(
             margin: const EdgeInsets.only(right: 20),
             child: IconButton(
@@ -78,24 +82,36 @@ class _TimAllMemberState extends State<TimAllMember> {
         backgroundColor: Colors.white,
         elevation: 1,
       ),
-      body: participants.isEmpty
-          ? Container(
+      body: Consumer<TeamViewModel>(
+        builder: (context, teamMember, child) {
+          if (teamMember.appState == AppState.loading) {
+            return _loadingContainer();
+          }
+          if (teamMember.appState == AppState.loaded) {
+            // return _loadingContainer();
+            return Container(
+              margin: const EdgeInsets.all(16),
+              child: ListView.builder(
+                itemCount: teamMember.detailTeam.participant.length,
+                itemBuilder: (context, index) {
+                  var data = teamMember.detailTeam.participant[index];
+                  return cardParticipant(data);
+                },
+              ),
+            );
+          }
+          if (teamMember.appState == AppState.noData) {
+            return Container(
               alignment: Alignment.center,
               child: Text(
                 'Tidak ada anggota tim',
                 style: AppFont.textScreenEmpty,
               ),
-            )
-          : Container(
-              margin: const EdgeInsets.all(16),
-              child: ListView.builder(
-                itemCount: participants.length,
-                itemBuilder: (context, index) {
-                  var data = participants[index];
-                  return cardParticipant(data);
-                },
-              ),
-            ),
+            );
+          }
+          return const SizedBox();
+        },
+      ),
     );
   }
 
@@ -204,7 +220,9 @@ class _TimAllMemberState extends State<TimAllMember> {
                                                     msg:
                                                         'member berhasil dihapus'))
                                             .then((value) =>
-                                                Navigator.pop(context));
+                                                Navigator.pop(context))
+                                            .then((value) => team.getDetailTeam(
+                                                widget.timdetail));
                                       } catch (e) {
                                         await Fluttertoast.showToast(
                                             msg: e.toString());
@@ -232,6 +250,30 @@ class _TimAllMemberState extends State<TimAllMember> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _loadingContainer() {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.8,
+      padding: const EdgeInsets.all(16),
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: 4,
+        itemBuilder: (context, index) {
+          return Column(
+            children: [
+              ShimmerContainer.circular(
+                height: 70,
+                width: MediaQuery.of(context).size.width * 0.85,
+                shapeBorder: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+              ),
+              const SizedBox(height: 8),
+            ],
+          );
+        },
       ),
     );
   }

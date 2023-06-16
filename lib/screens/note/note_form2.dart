@@ -63,6 +63,7 @@ class _NoteForm2State extends State<NoteForm2> {
     final formKey = GlobalKey<FormState>();
     var ringtones = Provider.of<RingtoneViewModel>(context, listen: false);
     int? ringtoneId;
+    bool isClicked = false;
 
     return Scaffold(
       appBar: AppBar(
@@ -388,6 +389,9 @@ class _NoteForm2State extends State<NoteForm2> {
                       final isValidForm = formKey.currentState!.validate();
                       if (isValidForm) {
                         try {
+                          setState(() {
+                            isClicked = true;
+                          });
                           await note
                               .postPersonalNote(
                                 PostNoteModel(

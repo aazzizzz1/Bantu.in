@@ -1,13 +1,13 @@
 import 'package:bantuin/constants/font/app_font.dart';
 import 'package:bantuin/models/tim_model.dart';
-import 'package:bantuin/screens/tim/tim_card_screen.dart';
+import 'package:bantuin/screens/tim/team_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-class TimCardGroup extends StatelessWidget {
+class CardTeam extends StatelessWidget {
   final TeamDetailModel teamDetail;
 
-  const TimCardGroup({required this.teamDetail});
+  const CardTeam({required this.teamDetail});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class TimCardGroup extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => TimCardScreen(
+            builder: (context) => TeamScreen(
               teamDetail: teamDetail,
             ),
           ),

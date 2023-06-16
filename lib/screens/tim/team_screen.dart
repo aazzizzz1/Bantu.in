@@ -4,9 +4,12 @@ import 'package:bantuin/models/user_note_model.dart';
 import 'package:bantuin/screens/note/notes_form.dart';
 import 'package:bantuin/screens/tim/tim_all_member.dart';
 import 'package:bantuin/screens/tim/tim_detail_screen.dart';
-import 'package:bantuin/screens/tim/tim_screen.dart';
+import 'package:bantuin/screens/tim/list_team_screen.dart';
+import 'package:bantuin/utils/app_state.dart';
 import 'package:bantuin/view_models/note_viewmodel.dart';
+import 'package:bantuin/view_models/tim_view_model.dart';
 import 'package:bantuin/widgets/bottom_navigation/bottom_menu.dart';
+import 'package:bantuin/widgets/shimmer_loading/shimmer_container.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drag_and_drop_lists/drag_and_drop_item.dart';
 import 'package:drag_and_drop_lists/drag_and_drop_list.dart';
@@ -20,20 +23,25 @@ import 'package:provider/provider.dart';
 import '../../constants/color/app_color.dart';
 import '../../constants/font/app_font.dart';
 
-class TimCardScreen extends StatefulWidget {
+class TeamScreen extends StatefulWidget {
   final TeamDetailModel teamDetail;
-  const TimCardScreen({super.key, required this.teamDetail});
+  const TeamScreen({
+    super.key,
+    required this.teamDetail,
+  });
 
   @override
-  State<TimCardScreen> createState() => _TimCardScreenState();
+  State<TeamScreen> createState() => _TeamScreenState();
 }
 
-class _TimCardScreenState extends State<TimCardScreen> {
+class _TeamScreenState extends State<TeamScreen> {
   // late List<DragAndDropList> lists;
   late List<DragAndDropList> lists = listNoteTim.map(buildList).toList();
   @override
   void initState() {
     super.initState();
+    Future.microtask(() => Provider.of<TeamViewModel>(context, listen: false)
+        .getDetailTeam(widget.teamDetail));
     lists = listNoteTim.map(buildList).toList();
   }
 
@@ -46,25 +54,45 @@ class _TimCardScreenState extends State<TimCardScreen> {
         leadingWidth: 90,
         shadowColor: AppColorNeutral.neutral2,
         backgroundColor: Colors.white,
-        title: Row(
-          children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) =>
-                      TimDetailScreen(teamDetail: widget.teamDetail),
-                ));
-              },
-              child: SizedBox(
+        title: Consumer<TeamViewModel>(
+          builder: (context, teamAppbar, child) {
+            if (teamAppbar.appState == AppState.loading) {
+              return const ShimmerContainer.rectangle(height: 24, width: 50);
+            }
+            if (teamAppbar.appState == AppState.loaded) {
+              return Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            TimDetailScreen(teamDetail: teamAppbar.detailTeam),
+                      ));
+                    },
+                    child: SizedBox(
+                      width: 170,
+                      child: Text(
+                        teamAppbar.detailTeam.title,
+                        style: AppFont.textTitleScreen,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            }
+            if (teamAppbar.appState == AppState.noData) {
+              return SizedBox(
                 width: 170,
                 child: Text(
-                  widget.teamDetail.title,
+                  'Tanpa nama',
                   style: AppFont.textTitleScreen,
                   overflow: TextOverflow.ellipsis,
                 ),
-              ),
-            ),
-          ],
+              );
+            }
+            return const SizedBox();
+          },
         ),
         leading: Container(
           margin: EdgeInsets.only(left: 8),
@@ -99,20 +127,22 @@ class _TimCardScreenState extends State<TimCardScreen> {
           ),
         ),
         actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 20),
-            child: IconButton(
-              splashRadius: 20,
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) =>
-                      TimAllMember(timdetail: widget.teamDetail),
-                ));
-              },
-              icon: SvgPicture.asset(
-                'lib/assets/icons/Group.svg',
-                height: 30,
-                width: 30,
+          Consumer<TeamViewModel>(
+            builder: (context, teamAction, child) => Container(
+              margin: const EdgeInsets.only(right: 20),
+              child: IconButton(
+                splashRadius: 20,
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        TimAllMember(timdetail: teamAction.detailTeam),
+                  ));
+                },
+                icon: SvgPicture.asset(
+                  'lib/assets/icons/Group.svg',
+                  height: 30,
+                  width: 30,
+                ),
               ),
             ),
           ),
