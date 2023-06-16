@@ -323,12 +323,33 @@ class NoteViewModel with ChangeNotifier {
   }
 
   Future<void> setAlarm() async {
+    String audioAlarm = 'lib/assets/ringtones/telolet.mp3';
+
     for (int i = 0; i < listOfUpcomingNote.length; i++) {
+      switch (listOfUpcomingNote[i].ringtone) {
+        case 'Bulletin':
+          audioAlarm = 'lib/assets/ringtones/Bulletin.mp3';
+          break;
+        case 'Destiny':
+          audioAlarm = 'lib/assets/ringtones/Destiny.mp3';
+          break;
+        case 'Radar':
+          audioAlarm = 'lib/assets/ringtones/Radar.mp3';
+          break;
+        case 'Strangers':
+          audioAlarm = 'lib/assets/ringtones/Strangers.mp3';
+          break;
+        case 'Waves':
+          audioAlarm = 'lib/assets/ringtones/Waves.mp3';
+          break;
+        default:
+          audioAlarm = 'lib/assets/ringtones/telolet.mp3';
+      }
       if (listOfUpcomingNote[i].reminder.isAfter(DateTime.now())) {
         final alarmSetting = AlarmSettings(
           id: listOfUpcomingNote[i].id,
           dateTime: listOfUpcomingNote[i].reminder,
-          assetAudioPath: 'lib/assets/ringtones/telolet.mp3',
+          assetAudioPath: audioAlarm,
           // assetAudioPath: ringtones.listOfRingtone.,
           notificationTitle: listOfUpcomingNote[i].subject,
           notificationBody: listOfUpcomingNote[i].description,
@@ -336,6 +357,20 @@ class NoteViewModel with ChangeNotifier {
         await Alarm.set(alarmSettings: alarmSetting);
         print(
             'berhasil menambahkan ${_listOfUpcomingNote[i].subject} ${DateFormat.yMd().add_jm().format(listOfUpcomingNote[i].reminder)}');
+      }
+      if (listOfUpcomingNote[i].eventDate.isAfter(DateTime.now())) {
+        final alarmSetting = AlarmSettings(
+          id: listOfUpcomingNote[i].id,
+          dateTime: listOfUpcomingNote[i].eventDate,
+          assetAudioPath: audioAlarm,
+          // assetAudioPath: ringtones.listOfRingtone.,
+          notificationTitle: listOfUpcomingNote[i].subject,
+          notificationBody: listOfUpcomingNote[i].description,
+        );
+        await Alarm.set(alarmSettings: alarmSetting);
+        print(audioAlarm);
+        print(
+            'berhasil menambahkan acara ${_listOfUpcomingNote[i].subject} ${DateFormat.yMd().add_jm().format(listOfUpcomingNote[i].eventDate)}');
       }
       print('gagal $i');
     }

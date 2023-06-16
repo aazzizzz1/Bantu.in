@@ -22,8 +22,8 @@ class _TimDetailScreenState extends State<TimDetailScreen> {
   @override
   void initState() {
     // TODO: implement initState
-        Future.microtask(() =>
-        Provider.of<ColumnViewModel>(context, listen: false).fetchColumn());
+    // Future.microtask(() =>
+    // Provider.of<ColumnViewModel>(context, listen: false).fetchColumn());
     super.initState();
   }
 
@@ -49,9 +49,9 @@ class _TimDetailScreenState extends State<TimDetailScreen> {
               child: CachedNetworkImage(
                 imageUrl:
                     'https://docs.google.com/uc?id=1kB97Winf-__sP5M8sysWMZFwSxKKcD_0',
-                placeholder: (context, url) =>
-                    const CircularProgressIndicator(),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
+                // placeholder: (context, url) =>
+                //     const CircularProgressIndicator(),
+                // errorWidget: (context, url, error) => const Icon(Icons.error),
                 imageBuilder: (context, imageProvider) => CircleAvatar(
                   backgroundImage: imageProvider,
                   radius: 50.0,

@@ -1,6 +1,6 @@
 import 'package:bantuin/constants/color/app_color.dart';
 import 'package:bantuin/constants/font/app_font.dart';
-import 'package:bantuin/screens/tim/tim_screen.dart';
+import 'package:bantuin/screens/tim/list_team_screen.dart';
 import 'package:bantuin/widgets/notes/email_picker.dart';
 import 'package:bantuin/widgets/team/button_form_to_screen_tim.dart';
 import 'package:flutter/material.dart';

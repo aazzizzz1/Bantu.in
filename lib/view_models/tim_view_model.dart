@@ -11,6 +11,15 @@ class TeamViewModel with ChangeNotifier {
   List<TeamDetailModel> _listOfTeam = [];
   List<TeamDetailModel> get listOfTeam => _listOfTeam;
 
+  TeamDetailModel _detailTeam = TeamDetailModel(
+    id: 0,
+    title: 'null',
+    owner: [],
+    photo: 'null',
+    participant: [],
+  );
+  TeamDetailModel get detailTeam => _detailTeam;
+
   AppState _appState = AppState.loading;
   AppState get appState => _appState;
 
@@ -35,6 +44,22 @@ class TeamViewModel with ChangeNotifier {
       notifyListeners();
       changeAppState(AppState.loaded);
       if (_listOfTeam.isEmpty) {
+        changeAppState(AppState.noData);
+        notifyListeners();
+      }
+    } catch (_) {
+      changeAppState(AppState.failure);
+      rethrow;
+    }
+  }
+
+  Future<void> getDetailTeam(TeamDetailModel team) async {
+    try {
+      changeAppState(AppState.loading);
+      _detailTeam = await appsRepository.getDetailTeam(team.id);
+      notifyListeners();
+      changeAppState(AppState.loaded);
+      if (_detailTeam.id == 0) {
         changeAppState(AppState.noData);
         notifyListeners();
       }

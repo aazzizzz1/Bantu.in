@@ -1,7 +1,7 @@
 import 'package:bantuin/components/card_mynotes_admin.dart';
 import 'package:bantuin/components/card_mynotes_client.dart';
 import 'package:bantuin/components/card_mynotes_personal.dart';
-import 'package:bantuin/screens/tim/tim_card_group.dart';
+import 'package:bantuin/screens/tim/card_team.dart';
 import 'package:bantuin/utils/app_state.dart';
 import 'package:bantuin/view_models/tim_view_model.dart';
 import 'package:bantuin/widgets/shimmer_loading/shimmer_card_team.dart';
@@ -36,7 +36,7 @@ class _ListDaftarTimState extends State<ListDaftarTim> {
               itemCount: team.listOfTeam.length,
               itemBuilder: (context, index) {
                 var data = team.listOfTeam[index];
-                return TimCardGroup(teamDetail: data);
+                return CardTeam(teamDetail: data);
               },
             );
           }
