@@ -112,10 +112,9 @@ class _PopupDeleteState extends State<PopupDelete> {
                                             .deletePersonalNote(
                                                 widget.noteDetail,
                                                 _deleteController.text)
-                                            .then((value) =>
-                                                Fluttertoast.showToast(
-                                                    msg:
-                                                        'Note berhasil dihapus'))
+                                            .then((value) => Fluttertoast.showToast(
+                                                msg:
+                                                    'Catatan berhasil dihapus'))
                                             .then((value) =>
                                                 Navigator.pop(context))
                                             .then((value) =>
@@ -130,7 +129,7 @@ class _PopupDeleteState extends State<PopupDelete> {
                                   value
                                       .deletePersonalNote(widget.noteDetail, '')
                                       .then((value) => Fluttertoast.showToast(
-                                          msg: 'Note berhasil dihapus'))
+                                          msg: 'Catatan berhasil dihapus'))
                                       .then((value) => Navigator.pop(context))
                                       .then((value) => Navigator.pop(context));
                                 },

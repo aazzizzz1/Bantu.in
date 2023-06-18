@@ -235,7 +235,8 @@ class NoteViewModel with ChangeNotifier {
       _listOfUpcomingNote = await appsRepository.filterNote('?upcoming=yes');
       notifyListeners();
       changeAppState(AppState.loaded);
-      setAlarm();
+      setReminder();
+      setEventDate();
       if (_listOfUpcomingNote.isEmpty) {
         changeAppState(AppState.noData);
       }
@@ -322,7 +323,7 @@ class NoteViewModel with ChangeNotifier {
     }
   }
 
-  Future<void> setAlarm() async {
+  Future<void> setReminder() async {
     String audioAlarm = 'lib/assets/ringtones/telolet.mp3';
 
     for (int i = 0; i < listOfUpcomingNote.length; i++) {
@@ -355,8 +356,36 @@ class NoteViewModel with ChangeNotifier {
           notificationBody: listOfUpcomingNote[i].description,
         );
         await Alarm.set(alarmSettings: alarmSetting);
-        print(
-            'berhasil menambahkan ${_listOfUpcomingNote[i].subject} ${DateFormat.yMd().add_jm().format(listOfUpcomingNote[i].reminder)}');
+        // print(
+        //     'berhasil menambahkan ${_listOfUpcomingNote[i].subject} ${DateFormat.yMd().add_jm().format(listOfUpcomingNote[i].reminder)}');
+      }
+
+      // print('gagal $i');
+    }
+  }
+
+  Future<void> setEventDate() async {
+    String audioAlarm = 'lib/assets/ringtones/telolet.mp3';
+
+    for (int i = 0; i < listOfUpcomingNote.length; i++) {
+      switch (listOfUpcomingNote[i].ringtone) {
+        case 'Bulletin':
+          audioAlarm = 'lib/assets/ringtones/Bulletin.mp3';
+          break;
+        case 'Destiny':
+          audioAlarm = 'lib/assets/ringtones/Destiny.mp3';
+          break;
+        case 'Radar':
+          audioAlarm = 'lib/assets/ringtones/Radar.mp3';
+          break;
+        case 'Strangers':
+          audioAlarm = 'lib/assets/ringtones/Strangers.mp3';
+          break;
+        case 'Waves':
+          audioAlarm = 'lib/assets/ringtones/Waves.mp3';
+          break;
+        default:
+          audioAlarm = 'lib/assets/ringtones/telolet.mp3';
       }
       if (listOfUpcomingNote[i].eventDate.isAfter(DateTime.now())) {
         final alarmSetting = AlarmSettings(
@@ -368,11 +397,11 @@ class NoteViewModel with ChangeNotifier {
           notificationBody: listOfUpcomingNote[i].description,
         );
         await Alarm.set(alarmSettings: alarmSetting);
-        print(audioAlarm);
-        print(
-            'berhasil menambahkan acara ${_listOfUpcomingNote[i].subject} ${DateFormat.yMd().add_jm().format(listOfUpcomingNote[i].eventDate)}');
+        // print(audioAlarm);
+        // print(
+        //     'berhasil menambahkan acara ${_listOfUpcomingNote[i].subject} ${DateFormat.yMd().add_jm().format(listOfUpcomingNote[i].eventDate)}');
       }
-      print('gagal $i');
+      // print('gagal $i');
     }
   }
 

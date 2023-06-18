@@ -74,6 +74,13 @@ class _UpdateEmailPickerState extends State<UpdateEmailPicker> {
     });
   }
 
+  void _removeEmailApi(int index) {
+    setState(() {
+      dataApi.removeAt(index);
+      widget.onChanged(_emails); // Call the onChanged callback
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -81,22 +88,22 @@ class _UpdateEmailPickerState extends State<UpdateEmailPicker> {
       children: [
         Wrap(
           spacing: 8.0,
-          children: dataApi.map((email) {
+          children: dataApi.map((emailApi) {
             return Consumer<NoteViewModel>(
               builder: (context, note, child) {
                 return InputChip(
-                  label: Text(email),
+                  label: Text(emailApi),
                   onDeleted: () async {
                     try {
                       await note
-                          .removeMember(widget.noteDetail, email)
-                          .then((value) => _removeEmail(dataApi.indexOf(email)))
+                          .removeMember(widget.noteDetail, emailApi)
+                          .then((value) =>
+                              _removeEmailApi(dataApi.indexOf(emailApi)))
                           .then((value) => Fluttertoast.showToast(
-                              msg: 'Member berhasil di hapus'));
+                              msg: 'Anggota berhasil di hapus'));
                     } catch (e) {
                       await Fluttertoast.showToast(msg: e.toString());
                     }
-                    // _removeEmail(_emails.indexOf(email));
                   },
                 );
               },

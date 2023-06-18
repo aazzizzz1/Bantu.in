@@ -215,10 +215,9 @@ class _TimAllMemberState extends State<TimAllMember> {
                                         await team
                                             .kickMemberTeam(
                                                 widget.timdetail, user.email)
-                                            .then((value) =>
-                                                Fluttertoast.showToast(
-                                                    msg:
-                                                        'member berhasil dihapus'))
+                                            .then((value) => Fluttertoast.showToast(
+                                                msg:
+                                                    'anggota berhasil dihapus'))
                                             .then((value) =>
                                                 Navigator.pop(context))
                                             .then((value) => team.getDetailTeam(

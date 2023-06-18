@@ -294,7 +294,7 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                                     ),
                                   )
                                   .then((value) => Fluttertoast.showToast(
-                                        msg: "Berhasil Ubah Password",
+                                        msg: "Berhasil ubah kata sandi",
                                         toastLength: Toast.LENGTH_SHORT,
                                         gravity: ToastGravity.BOTTOM,
                                         timeInSecForIosWeb: 1,

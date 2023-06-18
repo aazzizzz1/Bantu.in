@@ -136,10 +136,9 @@ class _PopupUpdateState extends State<PopupUpdate> {
                                                 widget.postNotePersonal,
                                                 _updateController.text,
                                                 widget.noteDetail)
-                                            .then((value) =>
-                                                Fluttertoast.showToast(
-                                                    msg:
-                                                        'Berhasil mengubah note'))
+                                            .then((value) => Fluttertoast.showToast(
+                                                msg:
+                                                    'Berhasil mengubah catatan'))
                                             .then((value) =>
                                                 Navigator.pop(context))
                                             .then((value) =>
@@ -161,7 +160,7 @@ class _PopupUpdateState extends State<PopupUpdate> {
                                             widget.postNotePersonal,
                                             widget.noteDetail)
                                         .then((value) => Fluttertoast.showToast(
-                                            msg: 'Berhasil mengubah note'))
+                                            msg: 'Berhasil mengubah catatan'))
                                         .then((value) => Navigator.pop(context))
                                         .then(
                                             (value) => Navigator.pop(context));
