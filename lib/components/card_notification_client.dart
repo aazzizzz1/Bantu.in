@@ -45,9 +45,11 @@ class _CardNotificationClientState extends State<CardNotificationClient> {
 
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
-      height: pesan > 180
-          ? MediaQuery.of(context).size.height * 0.32
-          : MediaQuery.of(context).size.height * 0.22,
+      height: (pesan > 230 && pesan < 250)
+          ? MediaQuery.of(context).size.height * 0.35
+          : (pesan > 180)
+              ? MediaQuery.of(context).size.height * 0.32
+              : MediaQuery.of(context).size.height * 0.22,
       width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(

@@ -50,6 +50,7 @@ class _CardMyNotesClientState extends State<CardMyNotesClient> {
 
   @override
   Widget build(BuildContext context) {
+    final pesan = widget.noteDetail.description.length;
     return Consumer<NoteViewModel>(
       builder: (context, note, child) {
         return GestureDetector(
@@ -72,7 +73,11 @@ class _CardMyNotesClientState extends State<CardMyNotesClient> {
             // }
           },
           child: Container(
-            height: 135,
+            height: (pesan > 230 && pesan < 350)
+                ? MediaQuery.of(context).size.height * 0.21
+                : (pesan > 180 && pesan < 230)
+                    ? MediaQuery.of(context).size.height * 0.19
+                    : MediaQuery.of(context).size.height * 0.18,
             decoration: BoxDecoration(
               border: Border.all(color: Colors.grey),
               borderRadius: BorderRadius.circular(16.0),
