@@ -248,7 +248,7 @@ class _NoteFormState extends State<NoteForm> {
                               )
                               .then(
                                 (value) => Fluttertoast.showToast(
-                                        msg: 'Berhasil menambahkan note')
+                                        msg: 'Berhasil menambahkan catatan')
                                     .then(
                                   (value) => Navigator.pushReplacement(
                                     context,

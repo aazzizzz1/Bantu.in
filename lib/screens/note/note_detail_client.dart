@@ -54,6 +54,7 @@ class _NoteDetailClientState extends State<NoteDetailClient> {
         break;
       case 'completed':
         isCompleted = true;
+        // tambah kondisi
         break;
       case 'have_upload':
         isUpload = true;

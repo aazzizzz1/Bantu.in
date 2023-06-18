@@ -26,9 +26,9 @@ class ButtonScreenNotes extends StatelessWidget {
           if (isValidForm) {
             try {
               await note.postPersonalNote(noteModel).then(
-                    (value) =>
-                        Fluttertoast.showToast(msg: 'Berhasil menambahkan note')
-                            .then(
+                    (value) => Fluttertoast.showToast(
+                            msg: 'Berhasil menambahkan catatan')
+                        .then(
                       (value) => Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(

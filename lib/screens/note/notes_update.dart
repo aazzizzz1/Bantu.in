@@ -362,7 +362,7 @@ class _NoteUpdateState extends State<NoteUpdate> {
                                     widget.noteDetail)
                                 .then(
                                   (value) => Fluttertoast.showToast(
-                                          msg: 'Berhasil mengubah note')
+                                          msg: 'Berhasil mengubah catatan')
                                       .then(
                                     (value) => Navigator.pop(context),
                                   ),

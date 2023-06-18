@@ -389,9 +389,6 @@ class _NoteForm2State extends State<NoteForm2> {
                       final isValidForm = formKey.currentState!.validate();
                       if (isValidForm) {
                         try {
-                          setState(() {
-                            isClicked = true;
-                          });
                           await note
                               .postPersonalNote(
                                 PostNoteModel(
@@ -409,7 +406,7 @@ class _NoteForm2State extends State<NoteForm2> {
                               )
                               .then(
                                 (value) => Fluttertoast.showToast(
-                                        msg: 'Berhasil menambahkan note')
+                                        msg: 'Berhasil menambahkan catatan')
                                     .then(
                                   (value) => Navigator.pushReplacement(
                                     context,
