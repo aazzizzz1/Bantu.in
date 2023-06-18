@@ -122,9 +122,7 @@ class ApiServices {
           "Authorization": "Bearer $token"
         },
       );
-      // return returnResponse(response);
-      final responseBody = json.decode(response.body);
-      print(responseBody);
+      return returnResponse(response);
     } on SocketException {
       throw 'No Internet Connection';
     }

@@ -196,9 +196,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         if (value!.isEmpty) {
                           return 'Maaf anda belum memasukan kata sandi anda';
                         } else if (value.length < 8) {
-                          return 'Maaf kata sandi lama anda kurang dari 8 karakter';
+                          return 'Maaf kata sandi anda kurang dari 8 karakter';
                         } else if (value.length > 16) {
-                          return 'Maaf kata sandi lama anda lebih dari 16 karakter';
+                          return 'Maaf kata sandi anda lebih dari 16 karakter';
                         } else if (value.contains(' ')) {
                           return 'Maaf kata sandi anda tidak boleh mengandung spasi';
                         } else if (value.contains(RegExp(r'[A-Z]')) &&

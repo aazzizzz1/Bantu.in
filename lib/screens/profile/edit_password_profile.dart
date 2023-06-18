@@ -96,8 +96,17 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                           return 'Maaf anda belum memasukan kata sandi lama anda';
                         } else if (value.length < 8) {
                           return 'Maaf kata sandi lama anda kurang dari 8 karakter';
+                        } else if (value.length > 16) {
+                          return 'Maaf kata sandi lama anda lebih dari 16 karakter';
+                        } else if (value.contains(' ')) {
+                          return 'Maaf kata sandi anda tidak boleh mengandung spasi';
+                        } else if (value.contains(RegExp(r'[A-Z]')) &&
+                            value.contains(RegExp(r'[a-z]')) &&
+                            value.contains(RegExp(r'[0-9]'))) {
+                          return null;
+                        } else {
+                          return 'Maaf kata sandi anda harus mengandung huruf besar, huruf kecil, dan angka';
                         }
-                        return null;
                       },
                       decoration: InputDecoration(
                         filled: true,
@@ -164,8 +173,17 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                           return 'Maaf anda belum memasukan kata sandi baru anda';
                         } else if (value.length < 8) {
                           return 'Maaf kata sandi baru anda kurang dari 8 karakter';
+                        } else if (value.length > 16) {
+                          return 'Maaf kata sandi baru anda lebih dari 16 karakter';
+                        } else if (value.contains(' ')) {
+                          return 'Maaf kata sandi anda tidak boleh mengandung spasi';
+                        } else if (value.contains(RegExp(r'[A-Z]')) &&
+                            value.contains(RegExp(r'[a-z]')) &&
+                            value.contains(RegExp(r'[0-9]'))) {
+                          return null;
+                        } else {
+                          return 'Maaf kata sandi anda harus mengandung huruf besar, huruf kecil, dan angka';
                         }
-                        return null;
                       },
                       decoration: InputDecoration(
                         filled: true,
@@ -235,7 +253,17 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                         } else if (value.length < 8) {
                           return 'Maaf kata sandi baru anda kurang dari 8 karakter';
                         }
-                        return null;
+                        if (value.length > 16) {
+                          return 'Maaf kata sandi baru anda lebih dari 16 karakter';
+                        } else if (value.contains(' ')) {
+                          return 'Maaf kata sandi anda tidak boleh mengandung spasi';
+                        } else if (value.contains(RegExp(r'[A-Z]')) &&
+                            value.contains(RegExp(r'[a-z]')) &&
+                            value.contains(RegExp(r'[0-9]'))) {
+                          return null;
+                        } else {
+                          return 'Maaf kata sandi anda harus mengandung huruf besar, huruf kecil, dan angka';
+                        }
                       },
                       decoration: InputDecoration(
                         filled: true,
@@ -280,38 +308,36 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                       builder: (context, pass, _) => ElevatedButton(
                         onPressed: () async {
                           final isValidForm = _formKey.currentState!.validate();
-                          print('$isValidForm');
                           if (isValidForm) {
                             try {
-                              await pass
-                                  .updatePassword(
-                                    PostPasswordModel(
-                                      current_password:
-                                          _passwordOldController.text,
-                                      password: _passwordNewController.text,
-                                      password_confirmation:
-                                          _passwordConfirmationController.text,
-                                    ),
-                                  )
-                                  .then((value) => Fluttertoast.showToast(
-                                        msg: "Berhasil Ubah Password",
-                                        toastLength: Toast.LENGTH_SHORT,
-                                        gravity: ToastGravity.BOTTOM,
-                                        timeInSecForIosWeb: 1,
-                                        backgroundColor: Colors.green,
-                                        textColor: Colors.white,
-                                        fontSize: 16.0,
-                                      ))
-                                  .then((value) => Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => BottomMenu(
-                                                currentTab: 4,
-                                                currentScreen:
-                                                    const ProfileScreen2())),
-                                      ));
+                              await pass.updatePassword(
+                                PostPasswordModel(
+                                  current_password: _passwordOldController.text,
+                                  password: _passwordNewController.text,
+                                  password_confirmation:
+                                      _passwordConfirmationController.text,
+                                ),
+                              );
+                              Fluttertoast.showToast(
+                                msg: "Berhasil Mengubah password",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.green,
+                                textColor: Colors.white,
+                                fontSize: 16.0,
+                              );
+                              await Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BottomMenu(
+                                    currentTab: 4,
+                                    currentScreen: ProfileScreen2(),
+                                  ),
+                                ),
+                              );
                             } catch (e) {
-                              await showDialog(
+                              showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
                                   title: const Text('Update Password Gagal'),
@@ -328,12 +354,10 @@ class _EditPasswordProfileState extends State<EditPasswordProfile> {
                             }
                           }
                         },
-                        style: const ButtonStyle(
-                          padding:
-                              MaterialStatePropertyAll(EdgeInsets.all(16.0)),
-                          elevation: MaterialStatePropertyAll(0),
-                          backgroundColor:
-                              MaterialStatePropertyAll(AppColor.activeColor),
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.all(16.0),
+                          elevation: 0,
+                          backgroundColor: AppColor.activeColor,
                         ),
                         child: Center(
                           child: Text(
