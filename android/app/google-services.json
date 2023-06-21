@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "256795789754",
+    "project_id": "flutter-bantuin",
+    "storage_bucket": "flutter-bantuin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:256795789754:android:547655d675890ab310f583",
+        "android_client_info": {
+          "package_name": "com.qatros.bantuin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "256795789754-gnvncog64v6o21vtbqh2d96s36kpton9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyn1C4nUm3x55EgM9A-2izJkaG6xGzO2M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "256795789754-gnvncog64v6o21vtbqh2d96s36kpton9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
