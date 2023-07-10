@@ -101,14 +101,7 @@ class _HomePagesState extends State<HomePages> {
               //     child: Image.network(
               //       user.listOfUsers.photo,
               //       fit: BoxFit.cover,
-              //       height: 50,
-              //       width: 50,
-              //     ),
-              //   ),
-              // );
-            }
-            return const SizedBox();
-          },
+              //       heigh
         ),
         title: Consumer<UsersViewModel>(builder: (context, user, child) {
           if (user.appState == AppState.loading) {
@@ -128,13 +121,7 @@ class _HomePagesState extends State<HomePages> {
               children: [
                 Text(
                   user.listOfUsers.username,
-                  style: AppFont.semiBold14,
-                ),
-                Text(
-                  user.listOfUsers.job,
-                  style: AppFont.regular12,
-                ),
-              ],
+                  style: AppFont.s
             );
           }
           if (user.appState == AppState.noData) {
@@ -156,12 +143,6 @@ class _HomePagesState extends State<HomePages> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Pengguna',
-                  style: AppFont.semiBold14,
-                ),
-                Text(
-                  'Pekerjaan',
                   style: AppFont.regular12,
                 ),
               ],
@@ -193,8 +174,7 @@ class _HomePagesState extends State<HomePages> {
                   child: Container(
                     padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.rderRadius.circular(10),
                     ),
                     constraints: const BoxConstraints(
                       minWidth: 16,
