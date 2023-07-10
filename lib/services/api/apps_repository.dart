@@ -11,9 +11,6 @@ import 'package:bantuin/models/password_model.dart';
 import 'package:bantuin/models/post_forgot_password_model.dart';
 import 'package:bantuin/models/post_password_model.dart';
 import 'package:bantuin/models/post_user_model.dart';
-import 'package:bantuin/models/product_point_model.dart';
-import 'package:bantuin/models/tim_model.dart';
-import 'package:bantuin/models/user_models.dart';
 import 'package:bantuin/services/api/api_services.dart';
 import '../../models/login_model.dart';
 import '../../models/post_note_model.dart';
@@ -55,12 +52,7 @@ class AppsRepository {
 
   Future getPersonalNote() async {
     try {
-      final response = await _apiService.getRequest('/notes?upcoming=yes');
-      NoteModel ringtones = NoteModel.fromJson(response);
-      // print(response);
-      return ringtones.notes;
-    } catch (_) {
-      rethrow;
+      final resp
     }
   }
 
@@ -98,8 +90,6 @@ class AppsRepository {
 
   Future<void> deletePersonalNote(int id, String msg) async {
     try {
-      await _apiService.deleteRequest('/notes/$id', {"body": msg});
-    } catch (_) {
       rethrow;
     }
   }
@@ -122,8 +112,7 @@ class AppsRepository {
       {required String id, required List<File> selectedFile}) async {
     try {
       await _apiService.postMultipart(
-          '/attaches', selectedFile, {'note_id': id}, 'path[]');
-    } catch (_) {
+          '/attach
       rethrow;
     }
   }
